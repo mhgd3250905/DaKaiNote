@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--homeactivity-->
+    <item name="fl_home" type="id">fl_home</item>
+
+    <!--NoteListFragment-->
+    <item name="rv_note_list" type="id">rv_note_list</item>
+</resources>
