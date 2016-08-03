@@ -5,4 +5,6 @@
 
     <!--NoteListFragment-->
     <item name="rv_note_list" type="id">rv_note_list</item>
+    <item name="tv_test" type="id">tv_test</item>
+    <item name="ll_test" type="id">ll_test</item>
 </resources>
