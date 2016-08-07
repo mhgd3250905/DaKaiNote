@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MyNoteView">
+        <attr name="viewTitleDate" format="string"/>
+        <attr name="viewTitleTime" format="string"/>
+        <attr name="viewContent" format="string"/>
+        <attr name="imageIsExist" format="enum">
+            <enum name="exist" value="1"/>
+            <enum name="unExist" value="0"/>
+        </attr>
+    </declare-styleable>
+</resources>

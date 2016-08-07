@@ -1,21 +1,28 @@
 package skkk.gogogo.dakainote.Fragment;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import skkk.gogogo.dakainote.Activity.NoteDetailActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.Utils.RecyclerViewDecoration.SpacesItemDecoration;
 
@@ -28,14 +35,32 @@ import skkk.gogogo.dakainote.Utils.RecyclerViewDecoration.SpacesItemDecoration;
 public class NoteListFragment extends Fragment {
     View view;
     LayoutInflater inflater;
-    ArrayList<String> mData=new ArrayList<String>();
+    private List<Note> notes;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_note_list, container, false);
+        initDB();
         initUI(view);
         return view;
+    }
+
+    private void initDB() {
+        //获取db
+        SQLiteDatabase db= Connector.getDatabase();
+        //写入数据
+        Note note=new Note();
+        note.setDate("三天前");
+        note.setTime("2016年7月8日");
+        note.setContent("微博密码");
+        note.setImageIsExist(false);
+        note.setStar(true);
+        if(note.save()){
+            Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /*
@@ -43,22 +68,20 @@ public class NoteListFragment extends Fragment {
     * @时间 2016/8/1 22:01
     */
     private void initUI(View view) {
-        for(int i=0;i<30;i++){
-            mData.add("here is  "+i);
-        }
+
+        notes=new ArrayList<Note>();
+        notes = DataSupport.findAll(Note.class);
 
         //获取RecyclerView实例
         RecyclerView rvNoteList= (RecyclerView) view.findViewById(R.id.rv_note_list);
-
         //设置Adapter
-        final NoteListAdapter adapter = new NoteListAdapter(getContext(),mData);
+        final NoteListAdapter adapter = new NoteListAdapter(getContext(),notes);
         //设置布局管理器
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2
-                ,StaggeredGridLayoutManager.VERTICAL);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         //设置布局管理器
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         //设置间距
-        SpacesItemDecoration decoration=new SpacesItemDecoration(3);
+        SpacesItemDecoration decoration=new SpacesItemDecoration(5);
         //添加间距
         rvNoteList.addItemDecoration(decoration);
         //添加布局
@@ -71,8 +94,10 @@ public class NoteListFragment extends Fragment {
         adapter.setOnItemClickLitener(new RecyclerViewBaseAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                adapter.append(position,"aaa");
                 Toast.makeText(getContext(), ""+position, Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent();
+                intent.setClass(getContext(), NoteDetailActivity.class);
+                startActivity(intent);
             }
 
             @Override

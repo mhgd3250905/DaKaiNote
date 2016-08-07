@@ -9,10 +9,10 @@
     android:id="@id/cv_note"
     android:stateListAnimator="@anim/card_anim">
 
-<skkk.gogogo.dakainote.View.MyNoteView
-    android:id="@id/my_note_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    card_view:imageIsExist="exist"
-/>
+    <skkk.gogogo.dakainote.View.MyNoteView
+        android:id="@id/my_note_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        card_view:imageIsExist="exist"
+        />
 </android.support.v7.widget.CardView>

@@ -29,9 +29,9 @@ import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
 public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
         RecyclerView.Adapter<RecyclerViewHolderBase> {
 
-    protected ArrayList<ItemDataType> mItemDataList = new ArrayList<ItemDataType>();
+    protected List<ItemDataType> mItemDataList = new ArrayList<ItemDataType>();
 
-    public RecyclerViewBaseAdapter(ArrayList<ItemDataType> mItemDataList) {
+    public RecyclerViewBaseAdapter(List<ItemDataType> mItemDataList) {
         this.mItemDataList = mItemDataList;
     }
 

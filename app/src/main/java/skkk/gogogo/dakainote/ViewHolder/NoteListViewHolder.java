@@ -11,10 +11,9 @@ package skkk.gogogo.dakainote.ViewHolder;
 */
 
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.MyNoteView;
 
 /**
  * 主页横向RecyclerView的viewholder
@@ -24,18 +23,14 @@ import skkk.gogogo.dakainote.R;
  */
 public class NoteListViewHolder extends RecyclerViewHolderBase {
 
-    public TextView tvTest;
-    public LinearLayout llTest;
-
+    public MyNoteView myNoteView;
     /**
      * 在构造函数中进行findviewbyid
      * @param itemView item的view
      */
     public NoteListViewHolder(View itemView) {
         super(itemView);
-        tvTest= (TextView) itemView.findViewById(R.id.tv_test);
-        llTest= (LinearLayout) itemView.findViewById(R.id.ll_test);
-
+        myNoteView= (MyNoteView) itemView.findViewById(R.id.my_note_view);
     }
 
 }

@@ -14,11 +14,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.ViewHolder.NoteListViewHolder;
 import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
@@ -30,31 +29,26 @@ import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
  *
  */
 public class NoteListAdapter extends
-        RecyclerViewBaseAdapter<String> {
+        RecyclerViewBaseAdapter<Note> {
     private Context context;
     private LayoutInflater inflater;
-    private int[] mColors;
 
-    public NoteListAdapter(Context context, ArrayList<String> mItemDataList) {
+    public NoteListAdapter(Context context, List<Note> mItemDataList) {
         super(mItemDataList);
         this.context = context;
         inflater= LayoutInflater.from(context);
     }
 
     @Override
-    public void showData(RecyclerViewHolderBase viewHolder, int i, List<String> mItemDataList) {
+    public void showData(RecyclerViewHolderBase viewHolder, int position, List<Note> mItemDataList) {
         //向下转型为子类
        NoteListViewHolder holder= (NoteListViewHolder) viewHolder;
-        holder.tvTest.setText(mItemDataList.get(i));
-
-        
-        //动态设置高度
-        int newHeight= (int) (Math.random()*500+100);
-        ViewGroup.LayoutParams hereLayoutParams = holder.llTest.getLayoutParams();
-        LinearLayout.LayoutParams layoutParams =
-                new LinearLayout.LayoutParams(hereLayoutParams.width,newHeight);
-        holder.llTest.setLayoutParams(layoutParams);
+        holder.myNoteView.setViewContent(mItemDataList.get(position).getContent());
+        holder.myNoteView.setViewTitleTime(mItemDataList.get(position).getTime());
+        holder.myNoteView.setViewTitleDate(mItemDataList.get(position).getDate());
+        holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
     }
+
 
     @Override
     public View createView(ViewGroup viewGroup, int i) {
