@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <!--主 界 面-->
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.HomeActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

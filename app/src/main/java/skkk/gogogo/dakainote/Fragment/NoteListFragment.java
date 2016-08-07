@@ -49,18 +49,6 @@ public class NoteListFragment extends Fragment {
     private void initDB() {
         //获取db
         SQLiteDatabase db= Connector.getDatabase();
-        //写入数据
-        Note note=new Note();
-        note.setDate("三天前");
-        note.setTime("2016年7月8日");
-        note.setContent("微博密码");
-        note.setImageIsExist(false);
-        note.setStar(true);
-        if(note.save()){
-            Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
-        }
     }
 
     /*

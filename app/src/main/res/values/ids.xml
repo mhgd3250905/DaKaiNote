@@ -14,4 +14,5 @@
     <item name="iv_view_note_image" type="id">iv_view_note_image</item>
     <item name="my_note_view" type="id">my_note_view</item>
     <item name="tb_note_detail" type="id">tb_note_detail</item>
+    <item name="et_note_detail" type="id">et_note_detail</item>
 </resources>
