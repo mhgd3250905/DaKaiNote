@@ -20,10 +20,16 @@
             </intent-filter>
         </activity>
 
-        <!--note details 界面-->
+        <!--note details 编辑界面-->
         <activity
-            android:name=".Activity.NoteDetailActivity"
+            android:name=".Activity.NoteDetailEditActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!--note details 展示界面-->
+        <activity
+            android:name=".Activity.NoteDetailShowActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
+
 
 </manifest>

@@ -5,18 +5,30 @@
     android:orientation="vertical">
 
     <TextView
+        android:text="hello"
         android:gravity="center"
         android:layout_marginLeft="10dp"
         android:id="@id/tv_view_note_title_date"
         android:layout_width="wrap_content"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"/>
     <TextView
         android:gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:id="@id/tv_view_note_title_time"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_toLeftOf="@id/iv_view_note_title_star"
         android:layout_toRightOf="@id/tv_view_note_title_date" />
+    <ImageView
+        android:id="@id/iv_view_note_title_star"
+        android:layout_marginRight="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/star_off"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -31,11 +43,11 @@
             android:id="@id/tv_view_note_content"
             />
         <ImageView
+            android:layout_marginRight="10dp"
             android:id="@id/iv_view_note_image"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/iv_view_note"/>
     </LinearLayout>
 

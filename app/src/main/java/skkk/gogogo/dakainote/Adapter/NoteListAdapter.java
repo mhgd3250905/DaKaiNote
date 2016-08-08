@@ -47,6 +47,7 @@ public class NoteListAdapter extends
         holder.myNoteView.setViewTitleTime(mItemDataList.get(position).getTime());
         holder.myNoteView.setViewTitleDate(mItemDataList.get(position).getDate());
         holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
+        holder.myNoteView.setStarIsOn(mItemDataList.get(position).isStar());
     }
 
 

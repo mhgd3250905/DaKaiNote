@@ -20,11 +20,7 @@
             app:title="@string/app_name"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
-            <ImageView
-                android:onClick="addNote"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_launcher"/>
+            
 
         </android.support.v7.widget.Toolbar>
 

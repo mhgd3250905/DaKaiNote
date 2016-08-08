@@ -20,6 +20,7 @@ import skkk.gogogo.dakainote.R;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int REQUEST_CODE_1=1;
     private NoteListFragment noteListFragment;
 
     @Override
@@ -91,8 +92,8 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_add) {
+            startActivity(new Intent(this,NoteDetailEditActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -123,10 +124,15 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    /*
+    * @desc 获取返回的数据 这里理论上应该是一个note
+    * @时间 2016/8/8 23:21
+    */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==REQUEST_CODE_1){
 
-    public void addNote(View view){
-        Intent intent=new Intent();
-        intent.setClass(this, NoteDetailActivity.class);
-        startActivity(intent);
+        }
     }
 }

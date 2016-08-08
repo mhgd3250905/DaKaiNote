@@ -15,4 +15,11 @@
     <item name="my_note_view" type="id">my_note_view</item>
     <item name="tb_note_detail" type="id">tb_note_detail</item>
     <item name="et_note_detail" type="id">et_note_detail</item>
+    <item name="tv_view_note_save" type="id">tv_view_note_save</item>
+    <item name="action_share" type="id">action_share</item>
+    <item name="action_add" type="id">action_add</item>
+    <item name="action_save" type="id">action_save</item>
+    <item name="action_image" type="id">action_image</item>
+    <item name="action_delete" type="id">action_delete</item>
+    <item name="iv_view_note_title_star" type="id">iv_view_note_title_star</item>
 </resources>

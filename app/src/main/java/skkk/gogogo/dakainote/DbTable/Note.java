@@ -2,6 +2,8 @@ package skkk.gogogo.dakainote.DbTable;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.Serializable;
+
 /**
  * Created by admin on 2016/8/7.
  */
@@ -11,13 +13,14 @@ import org.litepal.crud.DataSupport;
 * 作    者：ksheng
 * 时    间：
 */
-public class Note extends DataSupport{
+public class Note extends DataSupport implements Serializable {
     private int id;
     private String date;
     private String time;
     private String content;
     private boolean imageIsExist;
     private boolean star;
+    //private String imagePath;
 
     public String getContent() {
         return content;
@@ -50,6 +53,14 @@ public class Note extends DataSupport{
     public void setImageIsExist(boolean imageIsExist) {
         this.imageIsExist = imageIsExist;
     }
+
+//    public String getImagePath() {
+//        return imagePath;
+//    }
+//
+//    public void setImagePath(String imagePath) {
+//        this.imagePath = imagePath;
+//    }
 
     public boolean isStar() {
         return star;
