@@ -22,6 +22,7 @@ import java.util.List;
 import skkk.gogogo.dakainote.Activity.NoteDetailShowActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
+import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.Utils.RecyclerViewDecoration.SpacesItemDecoration;
@@ -36,15 +37,25 @@ public class NoteListFragment extends Fragment {
     View view;
     LayoutInflater inflater;
     private List<Note> notes;
+    private List<Note> myNotes;
     private NoteListAdapter adapter;
+    private MyApplication app;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_note_list, container, false);
+        beforeStart();
         initDB();
         initUI(view);
         return view;
+    }
+
+    /*
+     * 写在初始化UI之前
+     * */
+    private void beforeStart() {
+        app= (MyApplication) getActivity().getApplication();
     }
 
     private void initDB() {
@@ -59,12 +70,22 @@ public class NoteListFragment extends Fragment {
     private void initUI(View view) {
 
         notes=new ArrayList<Note>();
+
+        myNotes=new ArrayList<Note>();
+
         notes = DataSupport.findAll(Note.class);
+
+        int j=0;
+        for (int i=notes.size()-1;i>=0;i--){
+            myNotes.add(j, notes.get(i));
+            j++;
+        }
+
 
         //获取RecyclerView实例
         RecyclerView rvNoteList= (RecyclerView) view.findViewById(R.id.rv_note_list);
         //设置Adapter
-        adapter = new NoteListAdapter(getContext(),notes);
+        adapter = new NoteListAdapter(getContext(),myNotes);
         //设置布局管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         //设置布局管理器
@@ -84,8 +105,7 @@ public class NoteListFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 //从数据库中查询第position+1行数据
-                Note note = DataSupport.find(Note.class, position + 1);
-
+                Note note = myNotes.get(position);
                 Log.d("SKKKKKKKK---------", "从数据库查询第" + position + "条信息");
                 //将查询之note类传给NOTE展示页面
                 Intent intent = new Intent();
@@ -108,4 +128,10 @@ public class NoteListFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
     }
+
+    public void updateList(int position,Note note){
+        adapter.append(position, note);
+        Log.d("SKKK_____","updateOK here is fragment");
+    }
+
 }

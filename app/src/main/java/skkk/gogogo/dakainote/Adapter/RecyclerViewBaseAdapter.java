@@ -14,9 +14,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
 
 /**
@@ -95,6 +98,7 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
      */
     public void remove(int position){
         mItemDataList.remove(position);
+        DataSupport.delete(Note.class,position);
         notifyItemRemoved(position);
     }
 
@@ -105,6 +109,15 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
         mItemDataList.clear();
         notifyDataSetChanged();
     }
+
+    /**
+     * 更新所有数据
+     */
+    public void updateAll(){
+        notifyDataSetChanged();
+    }
+
+
     @Override
     public int getItemCount() {
         return mItemDataList.size();

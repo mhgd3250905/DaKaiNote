@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -23,7 +22,15 @@ public class NoteDetailEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        beforeStart();
         initUI();
+    }
+
+    /*
+    * 写在初始化UI之前
+    * */
+    private void beforeStart() {
+
     }
 
     private void initUI() {
@@ -51,8 +58,16 @@ public class NoteDetailEditActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mSaveData();
-        Log.d("SKKK_____","保存数据条目成功");
+        //mSaveData();
+
+//        //数据是使用Intent返回
+//        Intent intent = new Intent();
+//        //把返回数据存入Intent
+//        intent.putExtra("note", note);
+//        //设置返回数据
+//        NoteDetailEditActivity.this.setResult(RESULT_OK, intent);
+//
+//        Log.d("SKKK_____", "保存数据条目成功");
     }
 
 
@@ -94,19 +109,15 @@ public class NoteDetailEditActivity extends AppCompatActivity {
                 //这里在关闭的时候对应前面的startActivityForResult()
                 // 返回一个note数据
                     if(!TextUtils.isEmpty(etNoteDetail.getText().toString())){
+                        mSaveData();
                         Intent intent=new Intent();
                         intent.putExtra("note_form_edit",note);
-                        setResult(RESULT_OK, intent);
+                        NoteDetailEditActivity.this.setResult(RESULT_OK, intent);
                         finish();
                     }
 
                     break;
             }
-
-            if(!msg.equals("")) {
-                Toast.makeText(NoteDetailEditActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-
             return true;
         }
     };

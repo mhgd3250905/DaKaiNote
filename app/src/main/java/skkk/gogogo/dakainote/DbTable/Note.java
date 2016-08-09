@@ -14,7 +14,7 @@ import java.io.Serializable;
 * 时    间：
 */
 public class Note extends DataSupport implements Serializable {
-    private int id;
+    //private int id;
     private String date;
     private String time;
     private String content;
@@ -38,13 +38,13 @@ public class Note extends DataSupport implements Serializable {
         this.date = date;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public boolean isImageIsExist() {
         return imageIsExist;

@@ -10,24 +10,37 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.litepal.crud.DataSupport;
+
+import skkk.gogogo.dakainote.Application.MyApplication;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.R;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int REQUEST_CODE_1=1;
     private NoteListFragment noteListFragment;
+    private MyApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        beforeStart();
         initUI();
 
+    }
+
+    /*
+     * 写在初始化UI之前
+     * */
+    private void beforeStart() {
+        app= (MyApplication) getApplication();
     }
 
     private void initUI() {
@@ -93,7 +106,7 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            startActivity(new Intent(this,NoteDetailEditActivity.class));
+            startActivityForResult(new Intent(this, NoteDetailEditActivity.class), app.getRequestCode_1());
         }
 
         return super.onOptionsItemSelected(item);
@@ -124,15 +137,17 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    /*
-    * @desc 获取返回的数据 这里理论上应该是一个note
-    * @时间 2016/8/8 23:21
-    */
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK&&requestCode==REQUEST_CODE_1){
-
+        if(requestCode==app.getRequestCode_1()&&resultCode==RESULT_OK){
+            Note noteFromEdit = (Note) data.getExtras().get("note_form_edit");
+            Log.d("SKKK_____",noteFromEdit.getContent());
+            NoteListFragment noteListFragment= (NoteListFragment) getSupportFragmentManager().
+                    findFragmentById(R.id.fl_home);
+            int count = DataSupport.count(Note.class);
+            noteListFragment.updateList(0,noteFromEdit);
         }
     }
 }
