@@ -1,4 +1,4 @@
-package skkk.gogogo.dakainote.Activity;
+package skkk.gogogo.dakainote.Activity.HomeActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -20,8 +19,9 @@ import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.Utils.RecyclerViewDecoration.PermissionUtils;
 
-public class HomeActivity extends AppCompatActivity
+public class HomeActivity extends BaseHomeActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private NoteListFragment noteListFragment;
@@ -40,7 +40,11 @@ public class HomeActivity extends AppCompatActivity
      * */
     private void beforeStart() {
         app= (MyApplication) getApplication();
-        
+        if(PermissionUtils.requestPermission(this)){
+            Log.d("SKKK_____","判断权限存在");
+        }else {
+            Log.d("SKKK_____","判断权限缺失");
+        }
     }
 
     private void initUI() {
@@ -106,7 +110,9 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            startActivityForResult(new Intent(this, BaseNoteEditActivity.class), app.getRequestCode_1());
+            Intent intent=new Intent();
+            intent.setClass(this, BaseNoteEditActivity.class);
+            startActivityForResult(intent, app.getRequestCode_1());
         }
 
         return super.onOptionsItemSelected(item);

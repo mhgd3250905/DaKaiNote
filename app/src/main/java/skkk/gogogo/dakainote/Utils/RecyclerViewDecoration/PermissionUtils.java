@@ -14,11 +14,12 @@ import android.content.pm.PackageManager;
 */
 public class PermissionUtils {
 
-    public static boolean requestPermission(Context context){
+    public static boolean requestPermission(Context context) {
         PackageManager pm = context.getPackageManager();
         boolean permission = (PackageManager.PERMISSION_GRANTED ==
                 pm.checkPermission("android.permission.CAMERA", "skkk.gogogo.dakainote"));
-        return true;
+        return permission;
     }
+
 
 }

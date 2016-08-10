@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">大开笔记</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">大开笔记</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -13,5 +13,9 @@
     <string name="action_save">保存</string>
     <string name="action_image">图片</string>
     <string name="action_delete">删除</string>
+    <string name="help">帮助</string>
+    <string name="string_help_text">当前应用缺少必要权限</string>
+    <string name="quit">退出</string>
+    <string name="settings">设置</string>
 
 </resources>
