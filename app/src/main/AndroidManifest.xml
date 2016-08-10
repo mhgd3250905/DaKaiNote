@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="skkk.gogogo.dakainote">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:name=".Application.MyApplication"
         android:allowBackup="true"
@@ -22,7 +24,7 @@
 
         <!--note details 编辑界面-->
         <activity
-            android:name=".Activity.NoteDetailEditActivity"
+            android:name=".Activity.NoteEditActivity.BaseNoteEditActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--note details 展示界面-->
         <activity

@@ -15,8 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.litepal.crud.DataSupport;
-
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.BaseNoteEditActivity;
 import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
@@ -41,6 +40,7 @@ public class HomeActivity extends AppCompatActivity
      * */
     private void beforeStart() {
         app= (MyApplication) getApplication();
+        
     }
 
     private void initUI() {
@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            startActivityForResult(new Intent(this, NoteDetailEditActivity.class), app.getRequestCode_1());
+            startActivityForResult(new Intent(this, BaseNoteEditActivity.class), app.getRequestCode_1());
         }
 
         return super.onOptionsItemSelected(item);
@@ -144,9 +144,9 @@ public class HomeActivity extends AppCompatActivity
         if(requestCode==app.getRequestCode_1()&&resultCode==RESULT_OK){
             Note noteFromEdit = (Note) data.getExtras().get("note_form_edit");
             Log.d("SKKK_____",noteFromEdit.getContent());
+            //获取当前fragment
             NoteListFragment noteListFragment= (NoteListFragment) getSupportFragmentManager().
                     findFragmentById(R.id.fl_home);
-            int count = DataSupport.count(Note.class);
             noteListFragment.updateList(0,noteFromEdit);
         }
     }

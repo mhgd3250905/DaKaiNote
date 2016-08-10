@@ -122,13 +122,6 @@ public class NoteListFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
-
-    }
-
     public void updateList(int position,Note note){
         adapter.append(position, note);
         Log.d("SKKK_____","updateOK here is fragment");
