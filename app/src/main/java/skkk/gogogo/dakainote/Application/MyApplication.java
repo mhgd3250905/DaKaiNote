@@ -12,12 +12,5 @@ import org.litepal.LitePalApplication;
 * 时    间：
 */
 public class MyApplication extends LitePalApplication {
-    private static final int REQUEST_CODE_1=1;
 
-    /*
-   * 获取REQUEST_CODE_1
-   * */
-    public int getRequestCode_1(){
-        return REQUEST_CODE_1;
-    }
 }

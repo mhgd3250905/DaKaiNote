@@ -14,7 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import skkk.gogogo.dakainote.R;
-import skkk.gogogo.dakainote.Utils.RecyclerViewDecoration.PermissionsChecker;
+import skkk.gogogo.dakainote.MyUtils.PermissionsChecker;
 
 /**
  * 权限获取页面

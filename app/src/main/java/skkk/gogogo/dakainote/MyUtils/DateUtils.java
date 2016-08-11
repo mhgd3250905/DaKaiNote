@@ -1,4 +1,4 @@
-package skkk.gogogo.dakainote.Utils.RecyclerViewDecoration;
+package skkk.gogogo.dakainote.MyUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

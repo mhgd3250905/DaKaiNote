@@ -1,7 +1,6 @@
 package skkk.gogogo.dakainote.Fragment;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,18 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.litepal.crud.DataSupport;
-import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import skkk.gogogo.dakainote.Activity.NoteDetailShowActivity;
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteShowActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
-import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.R;
-import skkk.gogogo.dakainote.Utils.RecyclerViewDecoration.SpacesItemDecoration;
+import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 
 /*
 * 
@@ -39,29 +36,16 @@ public class NoteListFragment extends Fragment {
     private List<Note> notes;
     private List<Note> myNotes;
     private NoteListAdapter adapter;
-    private MyApplication app;
+    private Note noteShow;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_note_list, container, false);
-        beforeStart();
-        initDB();
         initUI(view);
         return view;
     }
 
-    /*
-     * 写在初始化UI之前
-     * */
-    private void beforeStart() {
-        app= (MyApplication) getActivity().getApplication();
-    }
-
-    private void initDB() {
-        //获取db
-        SQLiteDatabase db= Connector.getDatabase();
-    }
 
     /*
     * @desc 这里需要实现recycler的瀑布流布局
@@ -101,27 +85,46 @@ public class NoteListFragment extends Fragment {
         //设置Adapter
         rvNoteList.setAdapter(adapter);
 
+
+        /*
+        * @方法 item单击事件
+        *
+        */
         adapter.setOnItemClickLitener(new RecyclerViewBaseAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                //从数据库中查询第position+1行数据
-                Note note = myNotes.get(position);
+                //从数据库中查询第position行数据
+                noteShow = myNotes.get(position);
                 Log.d("SKKKKKKKK---------", "从数据库查询第" + position + "条信息");
                 //将查询之note类传给NOTE展示页面
                 Intent intent = new Intent();
-                intent.putExtra("note", note);
-                intent.setClass(getContext(), NoteDetailShowActivity.class);
+                intent.putExtra("note", noteShow);
+                intent.setClass(getContext(), UINoteShowActivity.class);
                 startActivity(intent);
 
             }
 
+            /*
+            * @方法 item长按事件
+            *
+            */
             @Override
             public void onItemLongClick(View view, int position) {
+
+                //首先获取这个位置的note
+                Note noteDelete=myNotes.get(position);
+                //然后remove这个position的内容
                 adapter.remove(position);
+                Log.d("SKKK_____", noteDelete.toString());
+                noteDelete.delete();
             }
         });
     }
 
+    /*
+    * @方法 更新list
+    *
+    */
     public void updateList(int position,Note note){
         adapter.append(position, note);
         Log.d("SKKK_____","updateOK here is fragment");

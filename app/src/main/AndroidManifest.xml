@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="skkk.gogogo.dakainote">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".Application.MyApplication"
@@ -11,7 +12,7 @@
         android:theme="@style/AppTheme">
         <!--主 界 面-->
         <activity
-            android:name=".Activity.HomeActivity.HomeActivity"
+            android:name=".Activity.HomeActivity.FragmentUIHomeActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,14 +23,12 @@
 
         <!--note details 编辑界面-->
         <activity
-            android:name=".Activity.NoteEditActivity.BaseNoteEditActivity"
+            android:name=".Activity.NoteEditActivity.UINoteEditActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--note details 展示界面-->
         <activity
-            android:name=".Activity.NoteDetailShowActivity"
+            android:name=".Activity.NoteEditActivity.UINoteShowActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
         <activity
             android:name=".Activity.PermissionsActivity.PermissionsActivity"
             android:theme="@style/AppTheme.NoActionBar" />

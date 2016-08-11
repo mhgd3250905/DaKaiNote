@@ -1,40 +1,36 @@
-package skkk.gogogo.dakainote.Activity;
+package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.R;
 
-public class NoteDetailShowActivity extends AppCompatActivity {
-
-    private Toolbar tbNoteDetail;
-    private EditText etNoteDetail;
-    private Object dataBeforeStart;
-    private Note note;
-
+/*
+*
+* @描述 包含UI初始化 以及UI中包含的基础组件的点击事件
+* @作者 admin
+* @时间 2016/8/11 21:26
+*
+*/
+public class UINoteEditActivity extends BaseNoteActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getDataBeforeStart();
         initUI();
     }
-
-    private void initUI() {
+    //初始化UI
+    protected void initUI() {
         setContentView(R.layout.activity_note_detail);
         etNoteDetail= (EditText) findViewById(R.id.et_note_detail);
-
         //设置toolbar
         tbNoteDetail = (Toolbar) findViewById(R.id.tb_note_detail);
-
         //添加菜单
-        tbNoteDetail.inflateMenu(R.menu.menu_note_detail_show);
-
+        tbNoteDetail.inflateMenu(R.menu.menu_note_detail_edit);
         // Menu item click 的監聽事件一樣要設定在 setSupportActionBar 才有作用
         tbNoteDetail.setOnMenuItemClickListener(onMenuItemClick);
 
@@ -45,32 +41,35 @@ public class NoteDetailShowActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        etNoteDetail.setText(note.getContent());
     }
 
-
+    /*
+    * @方法 toolBar的右侧菜单的点击事件
+    * @描述 toolBar的右侧菜单的点击事件
+    *
+    */
     private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
-            String msg = "";
             switch (menuItem.getItemId()) {
-                case R.id.action_share:
-                    msg += "Click edit";
+                case R.id.action_image:
+                    //点击调用相机添加图片
+                    dispatchTakePictureIntent();
                     break;
                 case R.id.action_save:
-                    msg += "Click share";
+                    //这里在关闭的时候对应前面的startActivityForResult()
+                    // 返回一个note数据
+                    if(!TextUtils.isEmpty(etNoteDetail.getText().toString())){
+                        //保存到数据库
+                        mSaveData();
+                        Intent intent=new Intent();
+                        intent.putExtra("note_form_edit",note);
+                        UINoteEditActivity.this.setResult(RESULT_OK, intent);
+                        finish();
+                    }
                     break;
-            }
-
-            if(!msg.equals("")) {
-                Toast.makeText(NoteDetailShowActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
             return true;
         }
     };
-
-    public void getDataBeforeStart() {
-        note = (Note) getIntent().getSerializableExtra("note");
-    }
 }

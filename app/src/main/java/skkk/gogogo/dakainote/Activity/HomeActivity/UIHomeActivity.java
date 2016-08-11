@@ -14,38 +14,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.BaseNoteEditActivity;
-import skkk.gogogo.dakainote.Application.MyApplication;
+import org.litepal.crud.DataSupport;
+
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.R;
-import skkk.gogogo.dakainote.Utils.RecyclerViewDecoration.PermissionUtils;
 
-public class HomeActivity extends BaseHomeActivity
+/*
+*
+* 这里包含了所有的UI初始化
+* @作者 admin
+* @时间 2016/8/11 21:08
+*
+*/
+public class UIHomeActivity extends BaseHomeActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    private NoteListFragment noteListFragment;
-    private MyApplication app;
+    protected NoteListFragment noteListFragment;
+    protected static final int REQUEST_CODE_1=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        beforeStart();
         initUI();
-
     }
 
-    /*
-     * 写在初始化UI之前
-     * */
-    private void beforeStart() {
-        app= (MyApplication) getApplication();
-        if(PermissionUtils.requestPermission(this)){
-            Log.d("SKKK_____","判断权限存在");
-        }else {
-            Log.d("SKKK_____","判断权限缺失");
-        }
-    }
 
     private void initUI() {
         setContentView(R.layout.activity_main);
@@ -70,19 +63,9 @@ public class HomeActivity extends BaseHomeActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //加入默认的Fragment界面
-        addDefaultFragment();
     }
 
-    /*
-     * @desc 加入默认的Fragment界面
-     * @时间 2016/8/1 21:44
-     */
-    private void addDefaultFragment() {
-        noteListFragment = new NoteListFragment();
-        getSupportFragmentManager().beginTransaction().
-                add(R.id.fl_home, noteListFragment).commit();
-    }
+
 
     @Override
     public void onBackPressed() {
@@ -111,8 +94,8 @@ public class HomeActivity extends BaseHomeActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
             Intent intent=new Intent();
-            intent.setClass(this, BaseNoteEditActivity.class);
-            startActivityForResult(intent, app.getRequestCode_1());
+            intent.setClass(this, UINoteEditActivity.class);
+            startActivityForResult(intent,REQUEST_CODE_1);
         }
 
         return super.onOptionsItemSelected(item);
@@ -143,17 +126,24 @@ public class HomeActivity extends BaseHomeActivity
         return true;
     }
 
-
+    /*
+    * @方法 从editNote中获取返回的数据来刷新list
+    *
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==app.getRequestCode_1()&&resultCode==RESULT_OK){
+        if(requestCode==REQUEST_CODE_1&&resultCode==RESULT_OK){
             Note noteFromEdit = (Note) data.getExtras().get("note_form_edit");
-            Log.d("SKKK_____",noteFromEdit.getContent());
+            Log.d("SKKK_____", noteFromEdit.getContent());
             //获取当前fragment
             NoteListFragment noteListFragment= (NoteListFragment) getSupportFragmentManager().
                     findFragmentById(R.id.fl_home);
+            int count = DataSupport.count(Note.class);
             noteListFragment.updateList(0,noteFromEdit);
         }
     }
+
+
+
 }

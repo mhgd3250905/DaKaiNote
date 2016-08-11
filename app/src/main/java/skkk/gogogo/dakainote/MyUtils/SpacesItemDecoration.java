@@ -1,4 +1,4 @@
-package skkk.gogogo.dakainote.Utils.RecyclerViewDecoration;
+package skkk.gogogo.dakainote.MyUtils;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

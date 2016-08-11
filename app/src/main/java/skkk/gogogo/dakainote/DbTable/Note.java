@@ -22,6 +22,18 @@ public class Note extends DataSupport implements Serializable {
     private boolean star;
     //private String imagePath;
 
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "content='" + content + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", imageIsExist=" + imageIsExist +
+                ", star=" + star +
+                '}';
+    }
+
     public String getContent() {
         return content;
     }
