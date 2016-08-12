@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,10 +29,46 @@ public class CameraImageUtils {
     String mCurrentPhotePath;
 
 
-    public Bitmap getStorageBitmap(){
-        Bitmap storageBitmap= BitmapFactory.decodeFile(mCurrentPhotePath);
-        return storageBitmap;
+    public Bitmap decodeSampleBitmapFromResource(Context context, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+
+        options.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(mCurrentPhotePath, options);
+
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeFile(mCurrentPhotePath, options);
     }
+
+
+    /*
+    * @方法 获得图片的缩放比例
+    *
+    */
+    public int calculateInSampleSize(BitmapFactory.Options options,
+                                     int reqWidth, int reqHeight) {
+        //获取原始bitmap的宽高
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+
+        int inSampleSize = 1;//缩放比例
+
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = (int) (height /2);
+            final int halfWidth = (int) (width / 2);
+
+            while ((halfHeight / inSampleSize) > reqHeight &&
+                    (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        Log.d("SKKK_____", "缩放比例为" + inSampleSize);
+        return inSampleSize;
+    }
+
 
     /*
     * @方法 返回保存图片的位置文件
@@ -43,7 +80,7 @@ public class CameraImageUtils {
         File storageDir = Environment
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        mCurrentPhotePath = "file:" + image.getAbsolutePath();
+        mCurrentPhotePath = image.getAbsolutePath();
         return image;
     }
 
@@ -51,7 +88,7 @@ public class CameraImageUtils {
     * @方法 打开相机并把保存到指定目录
     *
     */
-    public void dispatchTakePictureIntent(Activity activity,int REQUEST_CODE) {
+    public void dispatchTakePictureIntent(Activity activity, int REQUEST_CODE) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
             File photeFile = null;

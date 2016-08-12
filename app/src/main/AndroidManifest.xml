@@ -24,7 +24,8 @@
         <!--note details 编辑界面-->
         <activity
             android:name=".Activity.NoteEditActivity.UINoteEditActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible"/>
         <!--note details 展示界面-->
         <activity
             android:name=".Activity.NoteEditActivity.UINoteShowActivity"

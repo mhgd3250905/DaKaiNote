@@ -1,9 +1,12 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -33,7 +36,6 @@ public class UINoteEditActivity extends BaseNoteActivity {
         tbNoteDetail.inflateMenu(R.menu.menu_note_detail_edit);
         // Menu item click 的監聽事件一樣要設定在 setSupportActionBar 才有作用
         tbNoteDetail.setOnMenuItemClickListener(onMenuItemClick);
-
         //为toolbar 添加返回按钮
         tbNoteDetail.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +56,7 @@ public class UINoteEditActivity extends BaseNoteActivity {
             switch (menuItem.getItemId()) {
                 case R.id.action_image:
                     //点击调用相机添加图片
-                    dispatchTakePictureIntent();
+                    takePicture(UINoteEditActivity.this);
                     break;
                 case R.id.action_save:
                     //这里在关闭的时候对应前面的startActivityForResult()
@@ -72,4 +74,26 @@ public class UINoteEditActivity extends BaseNoteActivity {
             return true;
         }
     };
+
+    /*
+     *onActivityResult
+     *获取返回数据
+     *这里是返回相机缩略图
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("SKKK_____", "requestCode:  " + requestCode);
+        if(requestCode==REQUEST_IMAGE_CAPTURE&&resultCode==RESULT_OK){
+            //Bundle bundle=data.getExtras();
+
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+            Bitmap imageBitmap= cameraImageUtils.decodeSampleBitmapFromResource(
+                    UINoteEditActivity.this,dm.heightPixels-100,dm.widthPixels-180);
+            //在editview中插入bitmap
+            displayBitmapOnText(imageBitmap);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,14 +45,9 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
     protected abstract void initUI();
 
     //使用相机应用进行拍照
-    protected void dispatchTakePictureIntent() {
-//        Intent takePictureIntent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        //在调用startActivity()之前我们先判断一下手机中是否有可以相应相机的应用
-//        if(takePictureIntent.resolveActivity(getPackageManager())!=null){
-//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-//        }
+    protected void takePicture(Activity activity) {
         cameraImageUtils=new CameraImageUtils();
-        cameraImageUtils.dispatchTakePictureIntent(this,REQUEST_IMAGE_CAPTURE);
+        cameraImageUtils.dispatchTakePictureIntent(activity,REQUEST_IMAGE_CAPTURE);
         cameraImageUtils.galleryAddPic(this);
     }
 
@@ -104,22 +100,22 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
         int start = etNoteDetail.getSelectionStart();
         //将最后一位1替换为图片
 
-        Log.d("SKKK_____",mSpan1.toString());
+        //Log.d("SKKK_____",mSpan1.toString());
 
         mSpan1.setSpan(new ImageSpan(thumbnailBitmap), 0, mSpan1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        Log.d("SKKK_____", mSpan1.toString());
+        //Log.d("SKKK_____", mSpan1.toString());
 
-        //mSpan1.toString();
         if(etNoteDetail != null) {
             Editable et = etNoteDetail.getText();
             et.insert(start, mSpan1);
 
-            Log.d("SKKK_____", et.toString());
+            //Log.d("SKKK_____", et.toString());
 
             etNoteDetail.setText(et);
             etNoteDetail.setSelection(start + mSpan1.length());
         }
+
         etNoteDetail.setLineSpacing(10f, 1f);
     }
 }
