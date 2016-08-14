@@ -9,4 +9,8 @@
             <enum name="unExist" value="0"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="NoteEditView">
+        <attr name="imageExist" format="boolean"/>
+    </declare-styleable>
 </resources>

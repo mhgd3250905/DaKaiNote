@@ -20,19 +20,17 @@ public class Note extends DataSupport implements Serializable {
     private String content;
     private boolean imageIsExist;
     private boolean star;
-    //private String imagePath;
+    private String imagePath;
+    private int start;
 
-
-    @Override
-    public String toString() {
-        return "Note{" +
-                "content='" + content + '\'' +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", imageIsExist=" + imageIsExist +
-                ", star=" + star +
-                '}';
+    public int getStart() {
+        return start;
     }
+
+    public void setStart(int start) {
+        this.start = start;
+    }
+
 
     public String getContent() {
         return content;
@@ -66,13 +64,13 @@ public class Note extends DataSupport implements Serializable {
         this.imageIsExist = imageIsExist;
     }
 
-//    public String getImagePath() {
-//        return imagePath;
-//    }
-//
-//    public void setImagePath(String imagePath) {
-//        this.imagePath = imagePath;
-//    }
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
     public boolean isStar() {
         return star;
@@ -88,5 +86,19 @@ public class Note extends DataSupport implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "content='" + content + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", imageIsExist=" + imageIsExist +
+                ", star=" + star +
+                ", imagePath='" + imagePath + '\'' +
+                ", start=" + start +
+                '}';
     }
 }

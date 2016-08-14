@@ -22,4 +22,5 @@
     <item name="action_image" type="id">action_image</item>
     <item name="action_delete" type="id">action_delete</item>
     <item name="iv_view_note_title_star" type="id">iv_view_note_title_star</item>
+    <item name="nev_edit" type="id">nev_edit</item>
 </resources>

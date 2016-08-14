@@ -1,22 +1,16 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.style.ImageSpan;
-import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
+import skkk.gogogo.dakainote.View.NoteEditView;
 
 /*
 * 包含基础的数据库设置
@@ -26,15 +20,15 @@ import skkk.gogogo.dakainote.MyUtils.DateUtils;
 */
 public abstract class BaseNoteActivity extends AppCompatActivity {
 
-    protected Toolbar tbNoteDetail;
-    protected EditText etNoteDetail;
-    protected Note note;
-    protected CameraImageUtils cameraImageUtils;
-
-    protected static final int REQUEST_IMAGE_CAPTURE=111;
-
+    protected Toolbar tbNoteDetail;//toolbar
+    protected Note note;//笔记类
+    //protected CameraImageUtils cameraImageUtils;//照片工具类
+    protected static final int REQUEST_IMAGE_CAPTURE=111;//拍照请求码
     protected SpannableString mSpan1;
-
+    protected Boolean isImageExist=false;//照片是否存在
+    protected String imagePath;//照片路径
+    protected int start;//图片插入的位置
+    NoteEditView noteEditView;
 
 
     @Override
@@ -46,9 +40,9 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
 
     //使用相机应用进行拍照
     protected void takePicture(Activity activity) {
-        cameraImageUtils=new CameraImageUtils();
-        cameraImageUtils.dispatchTakePictureIntent(activity,REQUEST_IMAGE_CAPTURE);
-        cameraImageUtils.galleryAddPic(this);
+        imagePath=CameraImageUtils.getImagePath();
+        CameraImageUtils.dispatchTakePictureIntent(activity,imagePath,REQUEST_IMAGE_CAPTURE);
+        CameraImageUtils.galleryAddPic(this);
     }
 
 
@@ -61,8 +55,13 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
         note = new Note();
         note.setDate("hello");
         note.setTime(DateUtils.getTime());
-        note.setContent(etNoteDetail.getText().toString());
-        note.setImageIsExist(false);
+        note.setContent(noteEditView.getText().toString());
+        note.setImageIsExist(isImageExist);
+        //如果图片存在就设置路径
+        if(isImageExist){
+            note.setImagePath(imagePath);
+            note.setStart(start);
+        }
         note.setStar(false);
         if(note.save()){
             Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
@@ -88,16 +87,15 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
   * 在EditView中插入图片
   *
   * */
-  protected void displayBitmapOnText(Bitmap thumbnailBitmap) {
-        if(!TextUtils.isEmpty(etNoteDetail.getText().toString())){
-        mSpan1 = new SpannableString(etNoteDetail.getText().toString()+1);
+  /*protected void displayBitmapOnText(Bitmap thumbnailBitmap,int mStart) {
+        if(!TextUtils.isEmpty(noteEditView.getText().toString())){
+        mSpan1 = new SpannableString(noteEditView.getText().toString()+1);
         }else{
             mSpan1 = new SpannableString("1");
         }
         if(thumbnailBitmap == null)
             return;
-        //获取edit开始的位置
-        int start = etNoteDetail.getSelectionStart();
+
         //将最后一位1替换为图片
 
         //Log.d("SKKK_____",mSpan1.toString());
@@ -106,16 +104,16 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
 
         //Log.d("SKKK_____", mSpan1.toString());
 
-        if(etNoteDetail != null) {
-            Editable et = etNoteDetail.getText();
-            et.insert(start, mSpan1);
+        if(noteEditView != null) {
+            Editable et = noteEditView.getText();
+            et.insert(mStart, mSpan1);
 
             //Log.d("SKKK_____", et.toString());
 
-            etNoteDetail.setText(et);
-            etNoteDetail.setSelection(start + mSpan1.length());
+            noteEditView.setText(et);
+            noteEditView.setSelection(mStart + mSpan1.length());
         }
 
-        etNoteDetail.setLineSpacing(10f, 1f);
-    }
+      noteEditView.setLineSpacing(10f, 1f);
+    }*/
 }

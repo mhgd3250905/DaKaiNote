@@ -1,7 +1,6 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -9,9 +8,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.NoteEditView;
 
 /*
 *
@@ -21,6 +20,8 @@ import skkk.gogogo.dakainote.R;
 *
 */
 public class UINoteEditActivity extends BaseNoteActivity {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +29,12 @@ public class UINoteEditActivity extends BaseNoteActivity {
     }
     //初始化UI
     protected void initUI() {
+
         setContentView(R.layout.activity_note_detail);
-        etNoteDetail= (EditText) findViewById(R.id.et_note_detail);
+
+        noteEditView= (NoteEditView) findViewById(R.id.nev_edit);
+
+        //etNoteDetail= (EditText) findViewById(R.id.et_note_detail);
         //设置toolbar
         tbNoteDetail = (Toolbar) findViewById(R.id.tb_note_detail);
         //添加菜单
@@ -61,7 +66,7 @@ public class UINoteEditActivity extends BaseNoteActivity {
                 case R.id.action_save:
                     //这里在关闭的时候对应前面的startActivityForResult()
                     // 返回一个note数据
-                    if(!TextUtils.isEmpty(etNoteDetail.getText().toString())){
+                    if(!TextUtils.isEmpty(noteEditView.getText().toString())){
                         //保存到数据库
                         mSaveData();
                         Intent intent=new Intent();
@@ -85,15 +90,24 @@ public class UINoteEditActivity extends BaseNoteActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("SKKK_____", "requestCode:  " + requestCode);
         if(requestCode==REQUEST_IMAGE_CAPTURE&&resultCode==RESULT_OK){
-            //Bundle bundle=data.getExtras();
 
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-            Bitmap imageBitmap= cameraImageUtils.decodeSampleBitmapFromResource(
-                    UINoteEditActivity.this,dm.heightPixels-100,dm.widthPixels-180);
+            //Bitmap imageBitmap= CameraImageUtils.decodeSampleBitmapFromResource(
+                    //UINoteEditActivity.this,imagePath,dm.heightPixels-100,dm.widthPixels-180);
+
             //在editview中插入bitmap
-            displayBitmapOnText(imageBitmap);
+
+            //将照片是否存在设置为true
+            isImageExist=true;
+
+            //获取edit开始的位置
+            //start = etNoteDetail.getSelectionStart();
+
+            noteEditView.insertDrawable(imagePath);
+
+            //displayBitmapOnText(imageBitmap,start);
         }
     }
 }
