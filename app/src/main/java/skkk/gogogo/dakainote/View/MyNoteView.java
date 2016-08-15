@@ -21,7 +21,7 @@ import skkk.gogogo.dakainote.R;
 public class MyNoteView extends RelativeLayout{
 
 
-    private TextView tvViewTitleDate;
+    private TextView tvViewTitle;
     private TextView tvViewTitleTime;
     private TextView tvViewContent;
     private ImageView ivViewNote;
@@ -48,19 +48,23 @@ public class MyNoteView extends RelativeLayout{
     private void initView() {
         //将定义好的布局文件设置给当前的view
         View.inflate(getContext(), R.layout.view_note_design,this);
-        tvViewTitleDate = (TextView) findViewById(R.id.tv_view_note_title_date);
+        tvViewTitle = (TextView) findViewById(R.id.tv_view_note_title);
         tvViewTitleTime = (TextView) findViewById(R.id.tv_view_note_title_time);
         tvViewContent = (TextView) findViewById(R.id.tv_view_note_content);
         ivViewNote = (ImageView) findViewById(R.id.iv_view_note_image);
-        ivViewNoteTitleStar= (ImageView) findViewById(R.id.iv_view_note_title_star);
-        setViewTitleDate("几天前");
+        //setViewTitleDate("几天前");
         setViewTitleTime("具体时间");
         setViewContent("具体内容");
     }
 
     //修改标题天数
-    public void setViewTitleDate(String date){
-        tvViewTitleDate.setText(date);
+//    public void setViewTitleDate(String date){
+//        tvViewTitleDate.setText(date);
+//    }
+
+    //修改标题
+    public void setViewTitle(String time){
+        tvViewTitle.setText(time);
     }
 
     //修改标题日期时间
@@ -88,21 +92,5 @@ public class MyNoteView extends RelativeLayout{
             ivViewNote.setVisibility(INVISIBLE);
         }
     }
-
-    //获取是否点赞
-    public boolean getStarIsOn(){
-        return starIsOn;
-    }
-
-    //设置是否点赞
-    public void setStarIsOn(boolean on){
-        if(on){
-            ivViewNoteTitleStar.setImageResource(R.drawable.star_on);
-        }else{
-            ivViewNoteTitleStar.setImageResource(R.drawable.star_off);
-        }
-    }
-
-
 
 }

@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
     <TextView
-        android:text="hello"
-        android:gravity="center"
-        android:layout_marginLeft="10dp"
-        android:id="@id/tv_view_note_title_date"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"/>
-    <TextView
-        android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:id="@id/tv_view_note_title_time"
+        android:text="20dp"
+        android:layout_marginTop="5dp"
+        android:id="@id/tv_view_note_title"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_toLeftOf="@id/iv_view_note_title_star"
-        android:layout_toRightOf="@id/tv_view_note_title_date" />
-    <ImageView
-        android:id="@id/iv_view_note_title_star"
-        android:layout_marginRight="10dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/star_off"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true" />
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@id/tv_view_note_title_date"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_view_note_title"
         android:orientation="horizontal">
+
         <TextView
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:layout_weight="7"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:id="@id/tv_view_note_content"
-            />
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.99"
+            android:gravity="center_vertical" />
+
         <ImageView
-            android:layout_marginRight="10dp"
             android:id="@id/iv_view_note_image"
-            android:layout_gravity="right|center_vertical"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/iv_view_note"/>
+            android:layout_marginRight="10dp"
+            android:src="@drawable/iv_view_note" />
     </LinearLayout>
+
+    <TextView
+        android:textColor="@color/colorGray"
+        android:id="@id/tv_view_note_title_time"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linearLayout"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="0.99"
+        android:gravity="center_vertical" />
+
 
 </RelativeLayout>

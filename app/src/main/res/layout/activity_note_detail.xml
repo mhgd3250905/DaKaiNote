@@ -28,17 +28,37 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <skkk.gogogo.dakainote.View.NoteEditView
-            android:id="@id/nev_edit"
+        <android.support.design.widget.TextInputLayout
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="left|top"
-            android:inputType="textMultiLine"
-            android:padding="20dp"
-            app:imageExist="true" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@id/et_note_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="标题"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <skkk.gogogo.dakainote.View.NoteEditView
+                android:hint="内容"
+                android:layout_marginLeft="10dp"
+                android:id="@id/nev_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
+                app:imageExist="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
 
     </LinearLayout>
 

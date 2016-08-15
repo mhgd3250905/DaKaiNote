@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
+import android.text.TextUtils;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import skkk.gogogo.dakainote.DbTable.Note;
@@ -28,7 +30,8 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
     protected Boolean isImageExist=false;//照片是否存在
     protected String imagePath;//照片路径
     protected int start;//图片插入的位置
-    NoteEditView noteEditView;
+    protected NoteEditView noteEditView;
+    protected EditText etNoteTitle;
 
 
     @Override
@@ -53,7 +56,7 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
     protected void mSaveData() {
         //写入数据
         note = new Note();
-        note.setDate("hello");
+        note.setTitle(TextUtils.isEmpty(etNoteTitle.getText().toString())?"未设置标题":etNoteTitle.getText().toString());
         note.setTime(DateUtils.getTime());
         note.setContent(noteEditView.getText().toString());
         note.setImageIsExist(isImageExist);
@@ -62,7 +65,6 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
             note.setImagePath(imagePath);
             note.setStart(start);
         }
-        note.setStar(false);
         if(note.save()){
             Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
         }else{
@@ -82,38 +84,5 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
 
 
 
-  /*
-  *
-  * 在EditView中插入图片
-  *
-  * */
-  /*protected void displayBitmapOnText(Bitmap thumbnailBitmap,int mStart) {
-        if(!TextUtils.isEmpty(noteEditView.getText().toString())){
-        mSpan1 = new SpannableString(noteEditView.getText().toString()+1);
-        }else{
-            mSpan1 = new SpannableString("1");
-        }
-        if(thumbnailBitmap == null)
-            return;
 
-        //将最后一位1替换为图片
-
-        //Log.d("SKKK_____",mSpan1.toString());
-
-        mSpan1.setSpan(new ImageSpan(thumbnailBitmap), 0, mSpan1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        //Log.d("SKKK_____", mSpan1.toString());
-
-        if(noteEditView != null) {
-            Editable et = noteEditView.getText();
-            et.insert(mStart, mSpan1);
-
-            //Log.d("SKKK_____", et.toString());
-
-            noteEditView.setText(et);
-            noteEditView.setSelection(mStart + mSpan1.length());
-        }
-
-      noteEditView.setLineSpacing(10f, 1f);
-    }*/
 }

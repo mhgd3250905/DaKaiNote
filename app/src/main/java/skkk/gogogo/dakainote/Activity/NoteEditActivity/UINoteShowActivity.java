@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
@@ -21,7 +22,7 @@ import skkk.gogogo.dakainote.View.NoteEditView;
 * 作    者：ksheng
 * 时    间：2016/8/11$ 21:31$.
 */
-public class UINoteShowActivity  extends BaseNoteActivity{
+public class UINoteShowActivity extends BaseNoteActivity {
 
     private SpannableString spanString;
     private ImageSpan span;
@@ -36,6 +37,9 @@ public class UINoteShowActivity  extends BaseNoteActivity{
     @Override
     protected void initUI() {
         setContentView(R.layout.activity_note_detail);
+
+        etNoteTitle= (EditText) findViewById(R.id.et_note_title);
+
         noteEditView = (NoteEditView) findViewById(R.id.nev_edit);
         //设置toolbar
         tbNoteDetail = (Toolbar) findViewById(R.id.tb_note_detail);
@@ -51,28 +55,28 @@ public class UINoteShowActivity  extends BaseNoteActivity{
             }
         });
 
-            imagePath=note.getImagePath();
-//            Bitmap showImageBitmap= CameraImageUtils.decodeSampleBitmapFromResource(
-//                    UINoteShowActivity.this, imagePath, dm.heightPixels - 100, dm.widthPixels - 180);
-//            start=note.getStart();
-            //displayBitmapOnText(showImageBitmap,start);
+        imagePath = note.getImagePath();
+        //设置标题
+        etNoteTitle.setText(note.getTitle());
+        //设置文字内容
         noteEditView.setText(note.getContent());
 
-        if(!TextUtils.isEmpty(imagePath)){
-
+        if (!TextUtils.isEmpty(imagePath)) {
+            //如果图片路径不为空那么加载图片
             spanString = new SpannableString(" ");
 
             //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
 
-            span = new ImageSpan(this,CameraImageUtils.getPreciselyBitmap(imagePath));
+            span = new ImageSpan(this, CameraImageUtils.getPreciselyBitmap(imagePath));
 
             spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             noteEditView.addImageSpan(spanString);
 
             noteEditView.setFocusable(false);
+            etNoteTitle.setFocusable(false);
         }
-        }
+    }
 
     /*
     * @方法 toolbar菜单点击事件

@@ -43,11 +43,10 @@ public class NoteListAdapter extends
     public void showData(RecyclerViewHolderBase viewHolder, int position, List<Note> mItemDataList) {
         //向下转型为子类
        NoteListViewHolder holder= (NoteListViewHolder) viewHolder;
+        holder.myNoteView.setViewTitle(mItemDataList.get(position).getTitle());
         holder.myNoteView.setViewContent(mItemDataList.get(position).getContent());
         holder.myNoteView.setViewTitleTime(mItemDataList.get(position).getTime());
-        holder.myNoteView.setViewTitleDate(mItemDataList.get(position).getDate());
         holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
-        holder.myNoteView.setStarIsOn(mItemDataList.get(position).isStar());
     }
 
 

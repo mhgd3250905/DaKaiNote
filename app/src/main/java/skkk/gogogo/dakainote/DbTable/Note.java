@@ -15,13 +15,20 @@ import java.io.Serializable;
 */
 public class Note extends DataSupport implements Serializable {
     //private int id;
-    private String date;
+    private String title;
     private String time;
     private String content;
     private boolean imageIsExist;
-    private boolean star;
     private String imagePath;
     private int start;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getStart() {
         return start;
@@ -40,21 +47,7 @@ public class Note extends DataSupport implements Serializable {
         this.content = content;
     }
 
-    public String getDate() {
-        return date;
-    }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
 
     public boolean isImageIsExist() {
         return imageIsExist;
@@ -72,13 +65,6 @@ public class Note extends DataSupport implements Serializable {
         this.imagePath = imagePath;
     }
 
-    public boolean isStar() {
-        return star;
-    }
-
-    public void setStar(boolean star) {
-        this.star = star;
-    }
 
     public String getTime() {
         return time;
@@ -93,10 +79,8 @@ public class Note extends DataSupport implements Serializable {
     public String toString() {
         return "Note{" +
                 "content='" + content + '\'' +
-                ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", imageIsExist=" + imageIsExist +
-                ", star=" + star +
                 ", imagePath='" + imagePath + '\'' +
                 ", start=" + start +
                 '}';

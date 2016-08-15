@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.R;
@@ -40,6 +41,7 @@ public class UINoteEditActivity extends BaseNoteActivity {
 
         setContentView(R.layout.activity_note_detail);
 
+        etNoteTitle= (EditText) findViewById(R.id.et_note_title);
         noteEditView= (NoteEditView) findViewById(R.id.nev_edit);
 
         //etNoteDetail= (EditText) findViewById(R.id.et_note_detail);
