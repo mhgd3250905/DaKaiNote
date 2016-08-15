@@ -2,11 +2,15 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.view.MenuItem;
 import android.view.View;
 
 import skkk.gogogo.dakainote.DbTable.Note;
+import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.NoteEditView;
 
@@ -18,6 +22,9 @@ import skkk.gogogo.dakainote.View.NoteEditView;
 * 时    间：2016/8/11$ 21:31$.
 */
 public class UINoteShowActivity  extends BaseNoteActivity{
+
+    private SpannableString spanString;
+    private ImageSpan span;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +57,20 @@ public class UINoteShowActivity  extends BaseNoteActivity{
 //            start=note.getStart();
             //displayBitmapOnText(showImageBitmap,start);
         noteEditView.setText(note.getContent());
+
         if(!TextUtils.isEmpty(imagePath)){
-            noteEditView.insertDrawable(imagePath);
+
+            spanString = new SpannableString(" ");
+
+            //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
+
+            span = new ImageSpan(this,CameraImageUtils.getPreciselyBitmap(imagePath));
+
+            spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            noteEditView.addImageSpan(spanString);
+
+            noteEditView.setFocusable(false);
         }
         }
 

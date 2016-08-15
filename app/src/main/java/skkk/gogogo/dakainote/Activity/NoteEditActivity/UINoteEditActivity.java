@@ -3,12 +3,16 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.NoteEditView;
 
@@ -21,6 +25,10 @@ import skkk.gogogo.dakainote.View.NoteEditView;
 */
 public class UINoteEditActivity extends BaseNoteActivity {
 
+
+    private int multiple;
+    private ImageSpan span;
+    private SpannableString spanString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,21 +101,25 @@ public class UINoteEditActivity extends BaseNoteActivity {
 
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-            //Bitmap imageBitmap= CameraImageUtils.decodeSampleBitmapFromResource(
-                    //UINoteEditActivity.this,imagePath,dm.heightPixels-100,dm.widthPixels-180);
-
-            //在editview中插入bitmap
-
-            //将照片是否存在设置为true
+            //设置图片存在
             isImageExist=true;
 
-            //获取edit开始的位置
-            //start = etNoteDetail.getSelectionStart();
+            if(!TextUtils.isEmpty(noteEditView.getText())){
+                noteEditView.append("\n");
+            }
 
-            noteEditView.insertDrawable(imagePath);
+            spanString = new SpannableString(" ");
+
+            //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
+
+            span = new ImageSpan(this,CameraImageUtils.getPreciselyBitmap(imagePath));
+
+            spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            noteEditView.addImageSpan(spanString);
 
             //displayBitmapOnText(imageBitmap,start);
         }
     }
+
 }

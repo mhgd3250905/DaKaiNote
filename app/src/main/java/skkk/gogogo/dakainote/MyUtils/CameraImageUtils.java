@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -94,6 +95,14 @@ public class CameraImageUtils {
         }
         //Log.d("SKKK_____", "缩放比例为" + inSampleSize);
         return inSampleSize;
+    }
+
+
+    public static Bitmap getPreciselyBitmap(String imagePath){
+        return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imagePath),
+                800,
+                600,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
 
 

@@ -33,6 +33,7 @@ public class NoteEditView extends EditText{
     private int textHeight;
     private Rect bounds = new Rect();;
     private SpannableString mSpan;
+    private int lineIndex;
 
     public NoteEditView(Context context) {
         this(context, null);
@@ -80,7 +81,6 @@ public class NoteEditView extends EditText{
 
         //Log.d("SKKK_____", mSpan1.toString());
 
-
         int mStart=getSelectionStart();
 
         Editable et = getText();
@@ -90,11 +90,18 @@ public class NoteEditView extends EditText{
 
         setText(et);
 
-        Log.d("SKKK_____",et.toString());
+        Log.d("SKKK_____", et.toString());
 
         setSelection(mStart + mSpan.length());
 
-        invalidate();
+    }
+
+    /**
+     * 图片
+     */
+    public void addImageSpan(SpannableString spanString) {
+        append(spanString);
+        append("\n");
     }
 
     /*
@@ -104,6 +111,8 @@ public class NoteEditView extends EditText{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        Log.d("SKKK_____","onDraw");
     }
 
     private int calculateTextHeight(String text) {
