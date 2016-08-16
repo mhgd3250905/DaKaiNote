@@ -1,6 +1,7 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -26,6 +27,8 @@ public class UINoteShowActivity extends BaseNoteActivity {
 
     private SpannableString spanString;
     private ImageSpan span;
+    private TextInputLayout tilTitle;
+    private TextInputLayout tilContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +40,17 @@ public class UINoteShowActivity extends BaseNoteActivity {
     @Override
     protected void initUI() {
         setContentView(R.layout.activity_note_detail);
-
+        //标题et
         etNoteTitle= (EditText) findViewById(R.id.et_note_title);
-
+        //标题TextInputLayout
+        tilTitle = (TextInputLayout) findViewById(R.id.til_title);
+        //内容et
         noteEditView = (NoteEditView) findViewById(R.id.nev_edit);
+
         //设置toolbar
         tbNoteDetail = (Toolbar) findViewById(R.id.tb_note_detail);
+
+
         //添加菜单
         tbNoteDetail.inflateMenu(R.menu.menu_note_detail_show);
         // Menu item click 的監聽事件一樣要設定在 setSupportActionBar 才有作用
@@ -56,9 +64,15 @@ public class UINoteShowActivity extends BaseNoteActivity {
         });
 
         imagePath = note.getImagePath();
+
         //设置标题
+        if(!TextUtils.isEmpty(note.getTitle())){
+            tilTitle.setHintEnabled(false);
+        }
+        etNoteTitle.setFocusable(false);
         etNoteTitle.setText(note.getTitle());
-        //设置文字内容
+
+        noteEditView.setFocusable(false);
         noteEditView.setText(note.getContent());
 
         if (!TextUtils.isEmpty(imagePath)) {

@@ -8,6 +8,8 @@
     tools:context=".Activity.NoteEditActivity.BaseNoteActivity">
 
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -23,41 +25,41 @@
                 android:background="@color/colorPrimaryDark"
                 app:navigationIcon="@drawable/back"
                 app:title="大开笔记"
-                app:titleTextColor="@color/colorWhite">
+                app:titleTextColor="@color/colorWhite"
+                android:elevation="10dp">
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_margin="10dp"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@id/et_note_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="标题"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <skkk.gogogo.dakainote.View.NoteEditView
-                android:hint="内容"
-                android:layout_marginLeft="10dp"
+                android:layout_below="@id/til_title"
                 android:id="@id/nev_edit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:layout_gravity="center_horizontal|bottom"
                 android:gravity="left|top"
-                android:inputType="textMultiLine"
-                app:imageExist="true" />
+                style="@style/NoteEditContentStyle"
+                android:elevation="10dp"/>
 
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@id/til_title"
+                android:layout_gravity="center_horizontal|top"
+                app:hintTextAppearance="@style/hintStyle"
+                style="@style/NoteTextInputLayoutStyle"
+                android:elevation="20dp">
+
+                <EditText
+                    android:id="@id/et_note_title"
+                    android:hint="@string/noteTitleStr"
+                    style="@style/NoteEditTitleStyle" />
+            </android.support.design.widget.TextInputLayout>
+        </FrameLayout>
+
+
+
+
 
 
     </LinearLayout>

@@ -26,4 +26,6 @@
     <item name="iv_view_note_title" type="id">iv_view_note_title</item>
     <item name="tv_view_note_title" type="id">tv_view_note_title</item>
     <item name="et_note_title" type="id">et_note_title</item>
+    <item name="til_title" type="id">til_title</item>
+    <item name="til_content" type="id">til_content</item>
 </resources>
