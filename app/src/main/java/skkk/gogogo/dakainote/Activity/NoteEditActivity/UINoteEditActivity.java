@@ -26,8 +26,6 @@ import skkk.gogogo.dakainote.View.NoteEditView;
 */
 public class UINoteEditActivity extends BaseNoteActivity {
 
-
-    private int multiple;
     private ImageSpan span;
     private SpannableString spanString;
 
@@ -113,14 +111,13 @@ public class UINoteEditActivity extends BaseNoteActivity {
             spanString = new SpannableString(" ");
 
             //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
-
-            span = new ImageSpan(this,CameraImageUtils.getPreciselyBitmap(imagePath));
+            //获取当前noteEditView的宽
+            span = new ImageSpan(this,CameraImageUtils.getPreciselyBitmap(imagePath,500));
 
             spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             noteEditView.addImageSpan(spanString);
 
-            //displayBitmapOnText(imageBitmap,start);
         }
     }
 

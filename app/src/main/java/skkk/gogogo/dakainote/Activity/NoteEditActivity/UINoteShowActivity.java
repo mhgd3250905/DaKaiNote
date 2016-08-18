@@ -81,7 +81,8 @@ public class UINoteShowActivity extends BaseNoteActivity {
 
             //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
 
-            span = new ImageSpan(this, CameraImageUtils.getPreciselyBitmap(imagePath));
+
+            span = new ImageSpan(this, CameraImageUtils.getPreciselyBitmap(imagePath,500));
 
             spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -92,10 +93,16 @@ public class UINoteShowActivity extends BaseNoteActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     /*
-    * @方法 toolbar菜单点击事件
-    *
-    */
+        * @方法 toolbar菜单点击事件
+        *
+        */
     private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {

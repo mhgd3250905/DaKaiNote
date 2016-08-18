@@ -9,6 +9,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class CameraImageUtils {
     //返回按比例缩放之后的bitmap
     public static Bitmap decodeSampleBitmapFromResource(Context context, String path, int reqWidth, int reqHeight) {
 
-        final BitmapFactory.Options options = new BitmapFactory.Options();
+        BitmapFactory.Options options = new BitmapFactory.Options();
 
         options.inJustDecodeBounds = true;
 
@@ -98,10 +99,17 @@ public class CameraImageUtils {
     }
 
 
-    public static Bitmap getPreciselyBitmap(String imagePath){
+    public static Bitmap getPreciselyBitmap(String imagePath,int reqWidth){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, options);
+        int imageWidth=options.outWidth;
+
+        int reqHeight=options.outHeight/(imageWidth/(reqWidth-20));
+        Log.d("SKKK_____","图片宽为"+reqWidth+"图片高为"+reqHeight);
         return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imagePath),
-                800,
-                600,
+                reqWidth-20,
+                reqHeight,
                 ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
 
