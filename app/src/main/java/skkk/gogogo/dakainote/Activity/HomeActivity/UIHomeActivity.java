@@ -2,9 +2,7 @@ package skkk.gogogo.dakainote.Activity.HomeActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -20,6 +19,7 @@ import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.ArcMenuView;
 
 /*
 *
@@ -43,16 +43,18 @@ public class UIHomeActivity extends BaseHomeActivity
     private void initUI() {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        arcMenuView= (ArcMenuView) findViewById(R.id.arc_menu_view);
+
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,7 +65,17 @@ public class UIHomeActivity extends BaseHomeActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //设置卫星菜单点击事件
+        arcMenuView.setmMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
+            @Override
+            public void onClick(View view, int pos) {
+                Toast.makeText(UIHomeActivity.this, pos + ":" + view.getTag(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
+
 
 
 

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import skkk.gogogo.dakainote.Activity.PermissionsActivity.PermissionsActivity;
 import skkk.gogogo.dakainote.MyUtils.PermissionsChecker;
+import skkk.gogogo.dakainote.View.ArcMenuView;
 
 /*
 *
@@ -18,6 +19,7 @@ import skkk.gogogo.dakainote.MyUtils.PermissionsChecker;
 public class BaseHomeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0; // 请求码
+    protected ArcMenuView arcMenuView;
 
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
@@ -25,7 +27,15 @@ public class BaseHomeActivity extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    //使用ArcMenuView的Toggle方法
+    public void useArcMenuToggle(int duration){
+        arcMenuView.toggleMenu(duration);
+    }
 
+    //返回ArcMenuView状态
+    public boolean getArcMenuStatus(){
+        return arcMenuView.isOpen();
+    }
 
     private PermissionsChecker mPermissionsChecker; // 权限检测器
 

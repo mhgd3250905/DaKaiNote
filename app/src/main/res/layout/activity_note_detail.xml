@@ -55,13 +55,59 @@
                     android:hint="@string/noteTitleStr"
                     style="@style/NoteEditTitleStyle" />
             </android.support.design.widget.TextInputLayout>
+
         </FrameLayout>
-
-
-
-
-
-
     </LinearLayout>
+
+    <!--弹射菜单-->
+    <skkk.gogogo.dakainote.View.ArcMenuView
+        android:layout_margin="10dp"
+        android:id="@id/arc_menu_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:position="right_bottom"
+        app:radius="200dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/menu"
+            android:id="@id/arc_menu"/>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_edit"
+            android:id="@id/arc_item_1"
+            android:tag="item_1"/>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_camera"
+            android:id="@id/arc_item_2"
+            android:tag="item_2"/>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_pin"
+            android:id="@id/arc_item_3"
+            android:tag="item_3"/>
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_search"
+            android:id="@id/arc_item_4"
+            android:tag="item_4"/>
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_recycle"
+            android:id="@id/arc_item_5"
+            android:tag="item_5"/>
+
+    </skkk.gogogo.dakainote.View.ArcMenuView>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -17,12 +17,14 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import skkk.gogogo.dakainote.Activity.HomeActivity.BaseHomeActivity;
+import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteShowActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.Note;
-import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
+import skkk.gogogo.dakainote.R;
 
 /*
 * 
@@ -37,12 +39,14 @@ public class NoteListFragment extends Fragment {
     private List<Note> myNotes;
     private NoteListAdapter adapter;
     private Note noteShow;
+    private RecyclerView rvNoteList;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_note_list, container, false);
         initUI(view);
+        initEvent();
         return view;
     }
 
@@ -67,7 +71,7 @@ public class NoteListFragment extends Fragment {
 
 
         //获取RecyclerView实例
-        RecyclerView rvNoteList= (RecyclerView) view.findViewById(R.id.rv_note_list);
+        rvNoteList = (RecyclerView) view.findViewById(R.id.rv_note_list);
         //设置Adapter
         adapter = new NoteListAdapter(getContext(),myNotes);
         //设置布局管理器
@@ -117,6 +121,28 @@ public class NoteListFragment extends Fragment {
                 adapter.remove(position);
                 Log.d("SKKK_____", noteDelete.toString());
                 noteDelete.delete();
+            }
+        });
+    }
+
+
+    /*
+    * @方法 设置所有的触发事件
+    *
+    */
+    private void initEvent() {
+        rvNoteList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            BaseHomeActivity activity= (UIHomeActivity) getActivity();
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if(activity.getArcMenuStatus()){
+                    activity.useArcMenuToggle(200);
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
             }
         });
     }

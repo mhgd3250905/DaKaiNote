@@ -34,4 +34,5 @@
     <item name="arc_item_3" type="id">第三个弹出按钮</item>
     <item name="arc_item_4" type="id">第四个弹射菜单</item>
     <item name="arc_item_5" type="id">第五个弹射菜单</item>
+    <item name="arc_menu_view" type="id">卫星菜单</item>
 </resources>

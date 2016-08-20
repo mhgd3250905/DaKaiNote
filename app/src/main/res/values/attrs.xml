@@ -6,7 +6,10 @@
         <enum name="right_top" value="2"/>
         <enum name="right_bottom" value="3"/>
     </attr>
-
+    <attr name="arcMode">
+        <enum name="circle" value="100"/>
+        <enum name="line" value="101"/>
+    </attr>
     <attr name="radius" format="dimension"/>
 
 
@@ -27,6 +30,7 @@
     <declare-styleable name="ArcMenuView">
         <attr name="position"/>
         <attr name="radius"/>
+        <attr name="arcMode"/>
     </declare-styleable>
 
 
