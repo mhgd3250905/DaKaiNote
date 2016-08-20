@@ -32,10 +32,16 @@
 
         <ImageView
             android:id="@id/iv_view_note_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/image" />
+
+        <ImageView
+            android:id="@id/iv_view_note_pin"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/iv_view_note" />
+            android:src="@drawable/item_pin" />
     </LinearLayout>
 
     <TextView

@@ -11,10 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
+import skkk.gogogo.dakainote.Activity.MyTestActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
@@ -39,22 +39,12 @@ public class UIHomeActivity extends BaseHomeActivity
         initUI();
     }
 
-
     private void initUI() {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         arcMenuView= (ArcMenuView) findViewById(R.id.arc_menu_view);
 
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -69,7 +59,22 @@ public class UIHomeActivity extends BaseHomeActivity
         arcMenuView.setmMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
             @Override
             public void onClick(View view, int pos) {
-                Toast.makeText(UIHomeActivity.this, pos + ":" + view.getTag(), Toast.LENGTH_SHORT).show();
+                switch (pos){
+                    case 1:
+                        Intent intent=new Intent();
+                        intent.setClass(UIHomeActivity.this, UINoteEditActivity.class);
+                        startActivityForResult(intent,REQUEST_CODE_1);
+                        break;
+                    case 2:
+                        startActivity(new Intent(UIHomeActivity.this, MyTestActivity.class));
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                }
             }
         });
 
@@ -108,8 +113,8 @@ public class UIHomeActivity extends BaseHomeActivity
             Intent intent=new Intent();
             intent.setClass(this, UINoteEditActivity.class);
             startActivityForResult(intent,REQUEST_CODE_1);
-        }
 
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -12,6 +12,11 @@
     </attr>
     <attr name="radius" format="dimension"/>
 
+    <attr name="noteStatus">
+        <enum name="titleShow" value="200"/>
+        <enum name="titleHide" value="201"/>
+    </attr>
+
 
     <declare-styleable name="MyNoteView">
         <attr name="viewTitleDate" format="string"/>
@@ -23,8 +28,8 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="NoteEditView">
-        <attr name="imageExist" format="boolean"/>
+    <declare-styleable name="NoteBoxView">
+        <attr name="noteStatus"/>
     </declare-styleable>
 
     <declare-styleable name="ArcMenuView">

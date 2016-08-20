@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="skkk.gogogo.dakainote.Activity.MyTestActivity">
+
+    <skkk.gogogo.dakainote.View.NoteBoxView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <skkk.gogogo.dakainote.View.NoteEditView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@id/til_title"
+            style="@style/NoteTextInputLayoutStyle"
+            android:layout_gravity="center_horizontal|top"
+            android:elevation="2dp"
+            app:hintTextAppearance="@style/hintStyle">
+            <EditText
+                android:id="@id/et_note_title"
+                style="@style/NoteEditTitleStyle"
+                android:hint="@string/noteTitleStr" />
+        </android.support.design.widget.TextInputLayout>
+
+    </skkk.gogogo.dakainote.View.NoteBoxView>
+</RelativeLayout>

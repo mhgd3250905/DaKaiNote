@@ -26,12 +26,14 @@ public class NoteEditView extends EditText {
     private Layout layout;
     private int off;
 
+
+
     public NoteEditView(Context context) {
         this(context, null);
     }
 
     public NoteEditView(Context context, AttributeSet attrs) {
-        super(context, attrs, 0);
+        this(context, attrs, 0);
 
     }
 
@@ -39,6 +41,10 @@ public class NoteEditView extends EditText {
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 
     //设计触摸事件
     @Override

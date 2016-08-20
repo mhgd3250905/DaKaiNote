@@ -25,9 +25,9 @@ public class MyNoteView extends RelativeLayout{
     private TextView tvViewTitleTime;
     private TextView tvViewContent;
     private ImageView ivViewNote;
-    private ImageView ivViewNoteTitleStar;
-    private boolean imageIsExist;
-    private boolean starIsOn;
+    private ImageView ivViewPin;
+
+
 
 
     public MyNoteView(Context context) {
@@ -52,6 +52,7 @@ public class MyNoteView extends RelativeLayout{
         tvViewTitleTime = (TextView) findViewById(R.id.tv_view_note_title_time);
         tvViewContent = (TextView) findViewById(R.id.tv_view_note_content);
         ivViewNote = (ImageView) findViewById(R.id.iv_view_note_image);
+        ivViewPin= (ImageView) findViewById(R.id.iv_view_note_pin);
         //setViewTitleDate("几天前");
         setViewTitleTime("具体时间");
         setViewContent("具体内容");
@@ -77,18 +78,21 @@ public class MyNoteView extends RelativeLayout{
         tvViewContent.setText(content);
     }
 
-    //获取是否存在图片
-    public boolean getImageIsExist(){
-        return imageIsExist;
+
+    //设置pin是否存在
+    public void setPinIsExist(boolean pinIsExist) {
+        if (pinIsExist){
+            ivViewPin.setVisibility(VISIBLE);
+        }else {
+            ivViewPin.setVisibility(INVISIBLE);
+        }
     }
 
     //设置图片标签是否显示
     public void setImageIsExist(boolean exist){
         if (exist){
-            imageIsExist=exist;
             ivViewNote.setVisibility(VISIBLE);
         }else {
-            imageIsExist=exist;
             ivViewNote.setVisibility(INVISIBLE);
         }
     }

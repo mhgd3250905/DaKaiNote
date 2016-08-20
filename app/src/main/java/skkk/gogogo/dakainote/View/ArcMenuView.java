@@ -83,8 +83,10 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
 
     public ArcMenuView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        //设置默认值
         mRadius = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 100, getResources().getDisplayMetrics());
+
         //获取自定义属性的值
 
         TypedArray a = context.getTheme()
@@ -145,7 +147,6 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
         if (changed) {
             layoutCButton();
             int count = getChildCount();
-
             for (int i = 0; i < count - 1; i++) {
                 View child = getChildAt(i + 1);
                 child.setVisibility(GONE);
@@ -277,7 +278,6 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
                 }
                 tranAnim.setDuration(duration);
                 tranAnim.setFillAfter(true);
-
 
                 tranAnim.setAnimationListener(new Animation.AnimationListener() {
                     @Override

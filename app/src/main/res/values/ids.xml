@@ -35,4 +35,5 @@
     <item name="arc_item_4" type="id">第四个弹射菜单</item>
     <item name="arc_item_5" type="id">第五个弹射菜单</item>
     <item name="arc_menu_view" type="id">卫星菜单</item>
+    <item name="iv_view_note_pin" type="id">pin 标签</item>
 </resources>

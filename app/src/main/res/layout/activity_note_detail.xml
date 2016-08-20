@@ -5,108 +5,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/colorWhite"
     tools:context=".Activity.NoteEditActivity.BaseNoteActivity">
 
     <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <android.support.v7.widget.Toolbar
                 android:id="@id/tb_note_detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimaryDark"
+                android:elevation="10dp"
                 app:navigationIcon="@drawable/back"
                 app:title="大开笔记"
-                app:titleTextColor="@color/colorWhite"
-                android:elevation="10dp">
-            </android.support.v7.widget.Toolbar>
+                app:titleTextColor="@color/colorWhite"></android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
+        <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!-- -->
+
+        <!--</FrameLayout>-->
+
+        <skkk.gogogo.dakainote.View.NoteBoxView
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <skkk.gogogo.dakainote.View.NoteEditView
-                android:layout_below="@id/til_title"
                 android:id="@id/nev_edit"
-                android:layout_gravity="center_horizontal|bottom"
-                android:gravity="left|top"
                 style="@style/NoteEditContentStyle"
-                android:elevation="10dp"/>
+                android:layout_below="@id/til_title"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="left|top">
+
+            </skkk.gogogo.dakainote.View.NoteEditView>
 
             <android.support.design.widget.TextInputLayout
+                android:layout_margin="10dp"
                 android:id="@id/til_title"
-                android:layout_gravity="center_horizontal|top"
-                app:hintTextAppearance="@style/hintStyle"
                 style="@style/NoteTextInputLayoutStyle"
-                android:elevation="20dp">
-
+                android:layout_gravity="center_horizontal|top"
+                app:hintTextAppearance="@style/hintStyle">
                 <EditText
                     android:id="@id/et_note_title"
-                    android:hint="@string/noteTitleStr"
-                    style="@style/NoteEditTitleStyle" />
+                    style="@style/NoteEditTitleStyle"
+                    android:hint="@string/noteTitleStr" />
             </android.support.design.widget.TextInputLayout>
 
-        </FrameLayout>
+        </skkk.gogogo.dakainote.View.NoteBoxView>
     </LinearLayout>
 
     <!--弹射菜单-->
     <skkk.gogogo.dakainote.View.ArcMenuView
-        android:layout_margin="10dp"
         android:id="@id/arc_menu_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         app:position="right_bottom"
         app:radius="200dp">
 
         <ImageView
+            android:id="@id/arc_menu"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/menu"
-            android:id="@id/arc_menu"/>
+            android:src="@drawable/menu" />
 
         <ImageView
+            android:id="@id/arc_item_1"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/item_edit"
-            android:id="@id/arc_item_1"
-            android:tag="item_1"/>
+            android:tag="item_1" />
 
         <ImageView
+            android:id="@id/arc_item_2"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/item_camera"
-            android:id="@id/arc_item_2"
-            android:tag="item_2"/>
+            android:tag="item_2" />
 
         <ImageView
+            android:id="@id/arc_item_3"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/item_pin"
-            android:id="@id/arc_item_3"
-            android:tag="item_3"/>
+            android:tag="item_3" />
 
         <ImageView
+            android:id="@id/arc_item_4"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/item_search"
-            android:id="@id/arc_item_4"
-            android:tag="item_4"/>
+            android:tag="item_4" />
+
         <ImageView
+            android:id="@id/arc_item_5"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/item_recycle"
-            android:id="@id/arc_item_5"
-            android:tag="item_5"/>
+            android:tag="item_5" />
 
     </skkk.gogogo.dakainote.View.ArcMenuView>
 

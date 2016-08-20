@@ -23,13 +23,9 @@
     </style>
 
     <style name="NoteEditContentStyle">
-        <item name="android:layout_marginTop">50dp</item>
         <item name="android:paddingTop">70dp</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_marginRight">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">20dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -40,13 +36,12 @@
     </style>
 
     <style name="NoteTextInputLayoutStyle">
-        <item name="android:paddingTop">10dp</item>
+        <!--<item name="android:paddingTop">10dp</item>-->
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:background">@color/colorPrimary</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginLeft">25dp</item>
-        <item name="android:layout_marginRight">25dp</item>
+        <!--<item name="android:layout_marginLeft">25dp</item>-->
+        <!--<item name="android:layout_marginRight">25dp</item>-->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">100dp</item>
     </style>
@@ -55,7 +50,6 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textColorHint">@color/colorWhite</item>
-        <item name="android:layout_margin">10dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
