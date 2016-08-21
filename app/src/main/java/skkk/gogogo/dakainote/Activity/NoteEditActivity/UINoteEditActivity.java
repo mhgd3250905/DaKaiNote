@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -13,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
+import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.ArcMenuView;
 import skkk.gogogo.dakainote.View.NoteEditView;
@@ -29,11 +32,16 @@ public class UINoteEditActivity extends BaseNoteActivity {
 
     private ImageSpan span;
     private SpannableString spanString;
+    private int notePos;
+    private Note inetntNote;
+    private TextInputLayout tilTitle;
     private ArcMenuView arcMenuView;
+    private Note note = new Note();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getDataBeforeStart();
         initUI();
         initEvent();
     }
@@ -50,17 +58,50 @@ public class UINoteEditActivity extends BaseNoteActivity {
                 onBackPressed();
             }
         });
+        arcMenuView.setmMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
+            @Override
+            public void onClick(View view, int pos) {
+                switch (pos) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        if (note == null) {
+                            return;
+                        }
+                        Log.d("SKKK_____", "PIN:  " + note.isPinIsExist());
+                        if (note.isPinIsExist()) {
+                            note.setPinIsExist(false);
+                            Log.d("SKKK_____", "set pin false");
+
+                        } else {
+                            note.setPinIsExist(true);
+
+//                            Note updateNote = new Note();
+//                            updateNote.setPinIsExist(true);
+//                            updateNote.updateAll("time=? and content=?",
+//                                    note.getTime(), note.getContent());
+                            Log.d("SKKK_____", "set pin true");
+                        }
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                }
+            }
+        });
     }
 
     //初始化UI
     protected void initUI() {
-
         setContentView(R.layout.activity_note_detail);
-
-        etNoteTitle= (EditText) findViewById(R.id.et_note_title);
-        noteEditView= (NoteEditView) findViewById(R.id.nev_edit);
-        arcMenuView= (ArcMenuView) findViewById(R.id.arc_menu_view_note);
-
+        etNoteTitle = (EditText) findViewById(R.id.et_note_title);
+        noteEditView = (NoteEditView) findViewById(R.id.nev_edit);
+        arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_note);
+        //标题TextInputLayout
+        tilTitle = (TextInputLayout) findViewById(R.id.til_title);
 
         //etNoteDetail= (EditText) findViewById(R.id.et_note_detail);
         //设置toolbar
@@ -69,7 +110,26 @@ public class UINoteEditActivity extends BaseNoteActivity {
         tbNoteDetail.inflateMenu(R.menu.menu_note_detail_edit);
         // Menu item click 的監聽事件一樣要設定在 setSupportActionBar 才有作用
         tbNoteDetail.setOnMenuItemClickListener(onMenuItemClick);
+        if (inetntNote != null) {
+            imagePath = inetntNote.getImagePath();
+            //设置标题
+            if (!TextUtils.isEmpty(inetntNote.getTitle())) {
+                tilTitle.setHintEnabled(false);
+            }
+            etNoteTitle.setText(inetntNote.getTitle());
+            noteEditView.setText(inetntNote.getContent());
+            if (!TextUtils.isEmpty(imagePath)) {
+                //如果图片路径不为空那么加载图片
+                spanString = new SpannableString(" ");
+                //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
+                span = new ImageSpan(this, CameraImageUtils.getPreciselyBitmap(imagePath, 500));
+                spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                noteEditView.addImageSpan(spanString);
+                noteEditView.setFocusable(false);
+                etNoteTitle.setFocusable(false);
+            }
 
+        }
     }
 
     /*
@@ -88,15 +148,49 @@ public class UINoteEditActivity extends BaseNoteActivity {
                 case R.id.action_save:
                     //这里在关闭的时候对应前面的startActivityForResult()
                     // 返回一个note数据
-                    if(!TextUtils.isEmpty(noteEditView.getText().toString())){
-
+                    if (!TextUtils.isEmpty(noteEditView.getText().toString())) {
                         //保存到数据库
-                        mSaveData();
-                        Intent intent=new Intent();
-                        intent.putExtra("note_form_edit",note);
+                        //写入数据
+                        if(inetntNote!=null){
+                            note.setTitle(TextUtils.isEmpty(etNoteTitle.getText().toString()) ? "未设置标题" : etNoteTitle.getText().toString());
+                            note.setTime(DateUtils.getTime());
+                            note.setContent(noteEditView.getText().toString());
+                            note.setImageIsExist(isImageExist);
+                            note.setKeyNum(System.currentTimeMillis());
+
+                            //如果图片存在就设置路径
+                            if (isImageExist) {
+                                note.setImagePath(imagePath);
+                                note.setStart(start);
+                            }
+                            if (note.isPinIsExist()) {
+                                note.setPinIsExist(true);
+                            }
+                            Log.d("SKKK_____",note.toString());
+                            note.updateAll("keynum=?", String.valueOf(inetntNote.getKeyNum()));
+                        }else{
+                            note.setTitle(TextUtils.isEmpty(etNoteTitle.getText().toString()) ? "未设置标题" : etNoteTitle.getText().toString());
+                            note.setTime(DateUtils.getTime());
+                            note.setContent(noteEditView.getText().toString());
+                            note.setImageIsExist(isImageExist);
+                            note.setKeyNum(System.currentTimeMillis());
+
+                            //如果图片存在就设置路径
+                            if (isImageExist) {
+                                note.setImagePath(imagePath);
+                                note.setStart(start);
+                            }
+                            if (note.isPinIsExist()) {
+                                note.setPinIsExist(true);
+                            }
+                            Log.d("SKKK_____",note.toString());
+                            mSaveData(note);
+                        }
+                        Intent intent = new Intent();
+                        intent.putExtra("note_form_edit", note);
+                        intent.putExtra("pos",notePos);
                         UINoteEditActivity.this.setResult(RESULT_OK, intent);
                         finish();
-
                     }
                     break;
             }
@@ -113,28 +207,35 @@ public class UINoteEditActivity extends BaseNoteActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("SKKK_____", "requestCode:  " + requestCode);
-        if(requestCode==REQUEST_IMAGE_CAPTURE&&resultCode==RESULT_OK){
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             //设置图片存在
-            isImageExist=true;
+            isImageExist = true;
 
-            if(!TextUtils.isEmpty(noteEditView.getText())){
+            if (!TextUtils.isEmpty(noteEditView.getText())) {
                 noteEditView.append("\n");
             }
-
             spanString = new SpannableString(" ");
-
             //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
             //获取当前noteEditView的宽
-            span = new ImageSpan(this,CameraImageUtils.getPreciselyBitmap(imagePath,500));
-
+            span = new ImageSpan(this, CameraImageUtils.getPreciselyBitmap(imagePath, 500));
             spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
             noteEditView.addImageSpan(spanString);
-
         }
+    }
+
+    /*
+     * @方法 获取传递来的intent
+     *
+     */
+    public void getDataBeforeStart() {
+        inetntNote = (Note) getIntent().getSerializableExtra("note");
+        if (inetntNote == null) {
+            return;
+        }
+        notePos = getIntent().getIntExtra("pos", 1);
     }
 
 }

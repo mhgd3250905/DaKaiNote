@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
-import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.View.NoteEditView;
 
 /*
@@ -53,21 +51,7 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
     * @desc 保存数据
     * @时间 2016/8/7 23:09
     */
-    protected void mSaveData() {
-        //写入数据
-        note = new Note();
-        note.setTitle(TextUtils.isEmpty(etNoteTitle.getText().toString())?"未设置标题":etNoteTitle.getText().toString());
-        note.setTime(DateUtils.getTime());
-        note.setContent(noteEditView.getText().toString());
-        note.setImageIsExist(isImageExist);
-        //如果图片存在就设置路径
-        if(isImageExist){
-            note.setImagePath(imagePath);
-            note.setStart(start);
-        }
-        if(note.isPinIsExist()){
-            note.setPinIsExist(true);
-        }
+    protected void mSaveData(Note note) {
         if(note.save()){
             Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
         }else{

@@ -22,6 +22,15 @@ public class Note extends DataSupport implements Serializable {
     private boolean pinIsExist;
     private String imagePath;
     private int start;
+    private long keyNum;
+
+    public long getKeyNum() {
+        return keyNum;
+    }
+
+    public void setKeyNum(long keyNum) {
+        this.keyNum = keyNum;
+    }
 
     public boolean isPinIsExist() {
         return pinIsExist;

@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-import org.litepal.crud.DataSupport;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import skkk.gogogo.dakainote.Activity.MyTestActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
@@ -32,6 +34,7 @@ public class UIHomeActivity extends BaseHomeActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     protected NoteListFragment noteListFragment;
     protected static final int REQUEST_CODE_1=1;
+    protected static final int REQUEST_CODE_2=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +62,11 @@ public class UIHomeActivity extends BaseHomeActivity
         arcMenuView.setmMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
             @Override
             public void onClick(View view, int pos) {
-                switch (pos){
+                switch (pos) {
                     case 1:
-                        Intent intent=new Intent();
+                        Intent intent = new Intent();
                         intent.setClass(UIHomeActivity.this, UINoteEditActivity.class);
-                        startActivityForResult(intent,REQUEST_CODE_1);
+                        startActivityForResult(intent, REQUEST_CODE_1);
                         break;
                     case 2:
                         startActivity(new Intent(UIHomeActivity.this, MyTestActivity.class));
@@ -90,9 +93,39 @@ public class UIHomeActivity extends BaseHomeActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            exitBy2Click();
         }
     }
+
+    /**
+     * 双击退出函数
+     */
+    private static Boolean isExit = false;
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true; // 准备退出
+            //获取当前fragment
+            NoteListFragment noteListFragment= (NoteListFragment) getSupportFragmentManager().
+                    findFragmentById(R.id.fl_home);
+            noteListFragment.smoothScrollToTop();
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false; // 取消退出
+                }
+            }, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务
+
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,7 +189,7 @@ public class UIHomeActivity extends BaseHomeActivity
             //获取当前fragment
             NoteListFragment noteListFragment= (NoteListFragment) getSupportFragmentManager().
                     findFragmentById(R.id.fl_home);
-            int count = DataSupport.count(Note.class);
+            noteListFragment.smoothScrollToTop();
             noteListFragment.updateList(0,noteFromEdit);
         }
     }

@@ -78,7 +78,6 @@ public class UINoteShowActivity extends BaseNoteActivity {
                             Log.d("SKKK_____", "set pin false");
 
                         } else {
-
                             note.setPinIsExist(true);
                             Note updateNote=new Note();
                             updateNote.setPinIsExist(true);
@@ -116,8 +115,9 @@ public class UINoteShowActivity extends BaseNoteActivity {
         // Menu item click 的監聽事件一樣要設定在 setSupportActionBar 才有作用
         tbNoteDetail.setOnMenuItemClickListener(onMenuItemClick);
 
-        imagePath = note.getImagePath();
 
+
+        imagePath = note.getImagePath();
         //设置标题
         if (!TextUtils.isEmpty(note.getTitle())) {
             tilTitle.setHintEnabled(false);
@@ -131,16 +131,10 @@ public class UINoteShowActivity extends BaseNoteActivity {
         if (!TextUtils.isEmpty(imagePath)) {
             //如果图片路径不为空那么加载图片
             spanString = new SpannableString(" ");
-
             //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
-
-
             span = new ImageSpan(this, CameraImageUtils.getPreciselyBitmap(imagePath, 500));
-
             spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
             noteEditView.addImageSpan(spanString);
-
             noteEditView.setFocusable(false);
             etNoteTitle.setFocusable(false);
         }

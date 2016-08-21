@@ -1,5 +1,7 @@
 package skkk.gogogo.dakainote.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +21,7 @@ import java.util.List;
 
 import skkk.gogogo.dakainote.Activity.HomeActivity.BaseHomeActivity;
 import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteShowActivity;
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.Note;
@@ -33,13 +35,14 @@ import skkk.gogogo.dakainote.R;
 * 时    间：
 */
 public class NoteListFragment extends Fragment {
+    protected int REQUEST_CODE_2=2;
     View view;
     LayoutInflater inflater;
-    private List<Note> notes;
-    private List<Note> myNotes;
-    private NoteListAdapter adapter;
-    private Note noteShow;
-    private RecyclerView rvNoteList;
+    protected List<Note> notes;
+    protected List<Note> myNotes;
+    protected NoteListAdapter adapter;
+    protected Note noteShow;
+    protected RecyclerView rvNoteList;
 
     @Nullable
     @Override
@@ -91,9 +94,8 @@ public class NoteListFragment extends Fragment {
         rvNoteList.setLayoutManager(layoutManager);
         //设置基本动画
         rvNoteList.setItemAnimator(new DefaultItemAnimator());
-        //设置Adapter
+        //rvNoteList
         rvNoteList.setAdapter(adapter);
-
 
         /*
         * @方法 item单击事件
@@ -108,10 +110,10 @@ public class NoteListFragment extends Fragment {
                 //将查询之note类传给NOTE展示页面
                 Intent intent = new Intent();
                 intent.putExtra("note", noteShow);
-                intent.putExtra("pos",position);
-                intent.setClass(getContext(), UINoteShowActivity.class);
-                startActivity(intent);
-
+                intent.putExtra("pos", position);
+                intent.setClass(getContext(), UINoteEditActivity.class);
+                //getActivity().startActivityForResult(intent, REQUEST_CODE_2);
+                getActivity().startActivity(intent);
             }
 
             /*
@@ -119,14 +121,20 @@ public class NoteListFragment extends Fragment {
             *
             */
             @Override
-            public void onItemLongClick(View view, int position) {
-
-                //首先获取这个位置的note
-                Note noteDelete=myNotes.get(position);
-                //然后remove这个position的内容
-                adapter.remove(position);
-                Log.d("SKKK_____", noteDelete.toString());
-                noteDelete.delete();
+            public void onItemLongClick(View view, final int position) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                builder.setTitle("提醒");
+                builder.setIcon(R.drawable.item_recycle);
+                builder.setMessage("您将删除这条Note...");
+                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteItemPos(position);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
             }
         });
     }
@@ -159,8 +167,22 @@ public class NoteListFragment extends Fragment {
     */
     public void updateList(int position,Note note){
         adapter.append(position, note);
-        Log.d("SKKK_____","updateOK here is fragment");
+        Log.d("SKKK_____", "updateOK here is fragment");
     }
 
+    public void smoothScrollToTop(){
+        rvNoteList.smoothScrollToPosition(0);
+    }
+
+    public void deleteItemPos(int pos){
+        //首先获取这个位置的note
+        Note noteDelete = myNotes.get(pos);
+        //然后remove这个position的内容
+        adapter.remove(pos);
+        Log.d("SKKK_____", noteDelete.toString());
+        noteDelete.delete();
+    }
 
 }
+
+
