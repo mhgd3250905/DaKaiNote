@@ -65,12 +65,16 @@ public abstract class BaseNoteActivity extends AppCompatActivity {
             note.setImagePath(imagePath);
             note.setStart(start);
         }
+        if(note.isPinIsExist()){
+            note.setPinIsExist(true);
+        }
         if(note.save()){
             Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this, "Fail", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
     /*

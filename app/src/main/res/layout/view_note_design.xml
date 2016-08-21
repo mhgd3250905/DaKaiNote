@@ -6,12 +6,12 @@
 
 
     <TextView
-        android:text="20dp"
-        android:layout_marginTop="5dp"
         android:id="@id/tv_view_note_title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="20dp"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
 
@@ -23,17 +23,21 @@
         android:orientation="horizontal">
 
         <TextView
+            android:layout_gravity="center_vertical"
             android:id="@id/tv_view_note_content"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:layout_weight="0.99"
-            android:gravity="center_vertical" />
+            android:layout_weight="1"
+            android:maxLines="3"
+            android:gravity="center_vertical"
+            android:textSize="20dp" />
 
         <ImageView
             android:id="@id/iv_view_note_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/image" />
 
         <ImageView
@@ -45,14 +49,14 @@
     </LinearLayout>
 
     <TextView
-        android:textColor="@color/colorGray"
         android:id="@id/tv_view_note_title_time"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:text="aaa"
+        android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout"
         android:layout_marginLeft="10dp"
-        android:layout_weight="0.99"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:textColor="@color/colorGray" />
 
 
 </RelativeLayout>

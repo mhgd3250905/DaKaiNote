@@ -42,7 +42,7 @@ public class UIHomeActivity extends BaseHomeActivity
     private void initUI() {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        arcMenuView= (ArcMenuView) findViewById(R.id.arc_menu_view);
+        arcMenuView= (ArcMenuView) findViewById(R.id.arc_menu_view_home);
 
         setSupportActionBar(toolbar);
 

@@ -50,11 +50,16 @@ public class NoteListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("SKKK_____", "here run onResume");
+    }
 
     /*
-    * @desc 这里需要实现recycler的瀑布流布局
-    * @时间 2016/8/1 22:01
-    */
+        * @desc 这里需要实现recycler的瀑布流布局
+        * @时间 2016/8/1 22:01
+        */
     private void initUI(View view) {
 
         notes=new ArrayList<Note>();
@@ -103,6 +108,7 @@ public class NoteListFragment extends Fragment {
                 //将查询之note类传给NOTE展示页面
                 Intent intent = new Intent();
                 intent.putExtra("note", noteShow);
+                intent.putExtra("pos",position);
                 intent.setClass(getContext(), UINoteShowActivity.class);
                 startActivity(intent);
 
@@ -155,5 +161,6 @@ public class NoteListFragment extends Fragment {
         adapter.append(position, note);
         Log.d("SKKK_____","updateOK here is fragment");
     }
+
 
 }

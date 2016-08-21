@@ -51,7 +51,7 @@ public class NoteBoxView extends ViewGroup implements View.OnClickListener {
                         defStyleAttr,
                         0);
 
-        int status = a.getInt(R.styleable.NoteBoxView_noteStatus,200);
+        int status = a.getInt(R.styleable.NoteBoxView_noteStatus, 200);
         switch (status){
             case STATUS_TITLE_SHOW:
                 mNoteStatus=NoteStatus.TITLE_SHOW;
@@ -109,15 +109,17 @@ public class NoteBoxView extends ViewGroup implements View.OnClickListener {
     *
     */
     private void layoutContent() {
-        mNoteContent=getChildAt(0);
+        mNoteContent = getChildAt(0);
         mNoteContent.setFocusable(true);
         mNoteContent.setOnClickListener(this);
+
         int l = 0;
         int t = 0;
-
         int width = mNoteContent.getMeasuredWidth();
         int height = mNoteContent.getMeasuredHeight();
-
+        if(mNoteStatus==NoteStatus.TITLE_SHOW){
+            t=getChildAt(1).getMeasuredHeight();
+        }
         mNoteContent.layout(l, t, l + width, t + height);
     }
 
@@ -173,6 +175,9 @@ public class NoteBoxView extends ViewGroup implements View.OnClickListener {
 
         //切换菜单状态
         changeStatus();
+
+        //重新定位layout布局
+        layoutContent();
     }
 
     /*

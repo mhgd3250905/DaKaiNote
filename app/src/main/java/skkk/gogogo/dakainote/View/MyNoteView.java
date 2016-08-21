@@ -84,7 +84,7 @@ public class MyNoteView extends RelativeLayout{
         if (pinIsExist){
             ivViewPin.setVisibility(VISIBLE);
         }else {
-            ivViewPin.setVisibility(INVISIBLE);
+            ivViewPin.setVisibility(GONE);
         }
     }
 
@@ -93,7 +93,7 @@ public class MyNoteView extends RelativeLayout{
         if (exist){
             ivViewNote.setVisibility(VISIBLE);
         }else {
-            ivViewNote.setVisibility(INVISIBLE);
+            ivViewNote.setVisibility(GONE);
         }
     }
 

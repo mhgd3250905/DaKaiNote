@@ -19,8 +19,17 @@ public class Note extends DataSupport implements Serializable {
     private String time;
     private String content;
     private boolean imageIsExist;
+    private boolean pinIsExist;
     private String imagePath;
     private int start;
+
+    public boolean isPinIsExist() {
+        return pinIsExist;
+    }
+
+    public void setPinIsExist(boolean pinIsExist) {
+        this.pinIsExist = pinIsExist;
+    }
 
     public String getTitle() {
         return title;

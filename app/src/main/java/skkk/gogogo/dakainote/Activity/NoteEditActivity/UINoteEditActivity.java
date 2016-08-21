@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.ArcMenuView;
 import skkk.gogogo.dakainote.View.NoteEditView;
 
 /*
@@ -28,12 +29,29 @@ public class UINoteEditActivity extends BaseNoteActivity {
 
     private ImageSpan span;
     private SpannableString spanString;
+    private ArcMenuView arcMenuView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
+        initEvent();
     }
+
+    /*
+    * @方法 所有监听事件
+    *
+    */
+    private void initEvent() {
+        //为toolbar 添加返回按钮
+        tbNoteDetail.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
     //初始化UI
     protected void initUI() {
 
@@ -41,6 +59,8 @@ public class UINoteEditActivity extends BaseNoteActivity {
 
         etNoteTitle= (EditText) findViewById(R.id.et_note_title);
         noteEditView= (NoteEditView) findViewById(R.id.nev_edit);
+        arcMenuView= (ArcMenuView) findViewById(R.id.arc_menu_view_note);
+
 
         //etNoteDetail= (EditText) findViewById(R.id.et_note_detail);
         //设置toolbar
@@ -49,13 +69,7 @@ public class UINoteEditActivity extends BaseNoteActivity {
         tbNoteDetail.inflateMenu(R.menu.menu_note_detail_edit);
         // Menu item click 的監聽事件一樣要設定在 setSupportActionBar 才有作用
         tbNoteDetail.setOnMenuItemClickListener(onMenuItemClick);
-        //为toolbar 添加返回按钮
-        tbNoteDetail.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
     }
 
     /*
@@ -75,12 +89,14 @@ public class UINoteEditActivity extends BaseNoteActivity {
                     //这里在关闭的时候对应前面的startActivityForResult()
                     // 返回一个note数据
                     if(!TextUtils.isEmpty(noteEditView.getText().toString())){
+
                         //保存到数据库
                         mSaveData();
                         Intent intent=new Intent();
                         intent.putExtra("note_form_edit",note);
                         UINoteEditActivity.this.setResult(RESULT_OK, intent);
                         finish();
+
                     }
                     break;
             }

@@ -117,6 +117,13 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
         notifyDataSetChanged();
     }
 
+    /**
+     * 更新pos数据
+     */
+    public void update(int pos){
+        notifyItemChanged(pos);
+    }
+
 
     @Override
     public int getItemCount() {
