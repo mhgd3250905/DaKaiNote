@@ -34,6 +34,10 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
 
     protected List<ItemDataType> mItemDataList = new ArrayList<ItemDataType>();
 
+    public void setmItemDataList(List<ItemDataType> mItemDataList) {
+        this.mItemDataList = mItemDataList;
+    }
+
     public RecyclerViewBaseAdapter(List<ItemDataType> mItemDataList) {
         this.mItemDataList = mItemDataList;
     }
@@ -48,6 +52,7 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
             notifyItemInserted(position);
         }
     }
+
 
     /*
      * @desc 设置点击事件
@@ -110,12 +115,7 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
         notifyDataSetChanged();
     }
 
-    /**
-     * 更新所有数据
-     */
-    public void updateAll(){
-        notifyDataSetChanged();
-    }
+
 
     /**
      * 更新pos数据

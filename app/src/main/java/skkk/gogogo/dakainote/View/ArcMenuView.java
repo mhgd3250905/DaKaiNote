@@ -398,7 +398,6 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
         }
         //切换菜单状态
         changeStatus();
-
     }
 
     /*

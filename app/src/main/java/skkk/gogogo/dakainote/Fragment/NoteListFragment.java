@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.litepal.crud.DataSupport;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +23,7 @@ import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.Note;
+import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 import skkk.gogogo.dakainote.R;
 
@@ -37,7 +36,6 @@ import skkk.gogogo.dakainote.R;
 public class NoteListFragment extends Fragment {
     protected int REQUEST_CODE_2=2;
     View view;
-    LayoutInflater inflater;
     protected List<Note> notes;
     protected List<Note> myNotes;
     protected NoteListAdapter adapter;
@@ -53,11 +51,6 @@ public class NoteListFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("SKKK_____", "here run onResume");
-    }
 
     /*
         * @desc 这里需要实现recycler的瀑布流布局
@@ -65,18 +58,9 @@ public class NoteListFragment extends Fragment {
         */
     private void initUI(View view) {
 
-        notes=new ArrayList<Note>();
-
         myNotes=new ArrayList<Note>();
 
-        notes = DataSupport.findAll(Note.class);
-
-        int j=0;
-        for (int i=notes.size()-1;i>=0;i--){
-            myNotes.add(j, notes.get(i));
-            j++;
-        }
-
+        myNotes= SQLUtils.getNoteList();
 
         //获取RecyclerView实例
         rvNoteList = (RecyclerView) view.findViewById(R.id.rv_note_list);
@@ -96,7 +80,7 @@ public class NoteListFragment extends Fragment {
         rvNoteList.setItemAnimator(new DefaultItemAnimator());
         //rvNoteList
         rvNoteList.setAdapter(adapter);
-
+        rvNoteList.setHasFixedSize(true);
         /*
         * @方法 item单击事件
         *
@@ -146,10 +130,11 @@ public class NoteListFragment extends Fragment {
     */
     private void initEvent() {
         rvNoteList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            BaseHomeActivity activity= (UIHomeActivity) getActivity();
+            BaseHomeActivity activity = (UIHomeActivity) getActivity();
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if(activity.getArcMenuStatus()){
+                if (activity.getArcMenuStatus()) {
                     activity.useArcMenuToggle(200);
                 }
             }
@@ -161,14 +146,32 @@ public class NoteListFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        myNotes=SQLUtils.getNoteList();
+        updateAll(myNotes);
+    }
+
     /*
-    * @方法 更新list
-    *
-    */
-    public void updateList(int position,Note note){
+        * @方法 更新指定位置list
+        *
+        */
+    public void updatePos(int position,Note note){
         adapter.append(position, note);
         Log.d("SKKK_____", "updateOK here is fragment");
     }
+
+    /*
+    * @方法 原来一切都出在这个基类之上
+    *
+    */
+    public void updateAll(List<Note> noteList){
+        adapter.setmItemDataList(noteList);
+        adapter.notifyDataSetChanged();
+    }
+
+
 
     public void smoothScrollToTop(){
         rvNoteList.smoothScrollToPosition(0);
@@ -181,6 +184,10 @@ public class NoteListFragment extends Fragment {
         adapter.remove(pos);
         Log.d("SKKK_____", noteDelete.toString());
         noteDelete.delete();
+    }
+
+    public void reGetNoteList(){
+        myNotes=SQLUtils.getNoteList();
     }
 
 }

@@ -13,13 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import skkk.gogogo.dakainote.Activity.MyTestActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
+import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.ArcMenuView;
 
@@ -35,11 +37,21 @@ public class UIHomeActivity extends BaseHomeActivity
     protected NoteListFragment noteListFragment;
     protected static final int REQUEST_CODE_1=1;
     protected static final int REQUEST_CODE_2=2;
+    private List<Note> myNotes;
+    private NoteListFragment noteListFragment1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
+        initData();
+    }
+
+    private void initData() {
+        myNotes = new ArrayList<Note>();
+        //获取当前fragment
+        noteListFragment = (NoteListFragment) getSupportFragmentManager().
+                findFragmentById(R.id.fl_home);
     }
 
     private void initUI() {
@@ -69,11 +81,16 @@ public class UIHomeActivity extends BaseHomeActivity
                         startActivityForResult(intent, REQUEST_CODE_1);
                         break;
                     case 2:
-                        startActivity(new Intent(UIHomeActivity.this, MyTestActivity.class));
+                        myNotes=SQLUtils.getImageNoteList();
+                        noteListFragment.updateAll(myNotes);
                         break;
                     case 3:
+                        myNotes=SQLUtils.getPinNoteList();
+                        noteListFragment.updateAll(myNotes);
                         break;
                     case 4:
+//                        myNotes=SQLUtils.getkeyNoteList("sh");
+//                        noteListFragment.updateAll(myNotes);
                         break;
                     case 5:
                         break;
@@ -187,13 +204,9 @@ public class UIHomeActivity extends BaseHomeActivity
             Note noteFromEdit = (Note) data.getExtras().get("note_form_edit");
             Log.d("SKKK_____", noteFromEdit.getContent());
             //获取当前fragment
-            NoteListFragment noteListFragment= (NoteListFragment) getSupportFragmentManager().
-                    findFragmentById(R.id.fl_home);
             noteListFragment.smoothScrollToTop();
-            noteListFragment.updateList(0,noteFromEdit);
+            noteListFragment.updatePos(0,noteFromEdit);
         }
     }
-
-
 
 }
