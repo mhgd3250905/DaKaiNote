@@ -97,10 +97,13 @@ public class Note extends DataSupport implements Serializable {
     public String toString() {
         return "Note{" +
                 "content='" + content + '\'' +
+                ", title='" + title + '\'' +
                 ", time='" + time + '\'' +
                 ", imageIsExist=" + imageIsExist +
+                ", pinIsExist=" + pinIsExist +
                 ", imagePath='" + imagePath + '\'' +
                 ", start=" + start +
+                ", keyNum=" + keyNum +
                 '}';
     }
 }

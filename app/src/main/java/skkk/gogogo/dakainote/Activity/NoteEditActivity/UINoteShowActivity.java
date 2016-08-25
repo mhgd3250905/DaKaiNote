@@ -134,7 +134,7 @@ public class UINoteShowActivity extends BaseNoteActivity {
             //获取一个压缩过的指定大小的的bitmap并加入到SpannableString中
             span = new ImageSpan(this, CameraImageUtils.getPreciselyBitmap(imagePath, 500));
             spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            noteEditView.addImageSpan(spanString);
+            //noteEditView.addImageSpan(spanString);
             noteEditView.setFocusable(false);
             etNoteTitle.setFocusable(false);
         }

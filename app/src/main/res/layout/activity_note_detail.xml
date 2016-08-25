@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/colorWhite"
+    android:id="@+id/ll_test"
     tools:context=".Activity.NoteEditActivity.BaseNoteActivity">
 
     <LinearLayout
@@ -38,23 +39,22 @@
         <!--</FrameLayout>-->
 
         <skkk.gogogo.dakainote.View.NoteBoxView
+            android:id="@id/nbv_edit"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <skkk.gogogo.dakainote.View.NoteEditView
-
+                android:padding="30dp"
                 android:id="@id/nev_edit"
                 style="@style/NoteEditContentStyle"
                 android:layout_below="@id/til_title"
                 android:layout_gravity="center_horizontal|bottom"
-                android:gravity="left|top">
+                android:gravity="top">
 
             </skkk.gogogo.dakainote.View.NoteEditView>
 
             <android.support.design.widget.TextInputLayout
-                android:layout_margin="10dp"
                 android:id="@id/til_title"
                 style="@style/NoteTextInputLayoutStyle"
                 android:layout_gravity="center_horizontal|top"
@@ -64,6 +64,13 @@
                     style="@style/NoteEditTitleStyle"
                     android:hint="@string/noteTitleStr" />
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:textSize="28dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2016年8月25日 22:41"
+                android:textColor="@color/colorGray"/>
 
         </skkk.gogogo.dakainote.View.NoteBoxView>
     </LinearLayout>
@@ -77,10 +84,11 @@
         app:position="right_bottom"
         app:radius="200dp">
 
+
         <ImageView
             android:id="@id/arc_menu"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/menu" />
 
         <ImageView

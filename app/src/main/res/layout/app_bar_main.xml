@@ -46,8 +46,8 @@
         app:radius="200dp">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/menu"
             android:id="@id/arc_menu"/>
 

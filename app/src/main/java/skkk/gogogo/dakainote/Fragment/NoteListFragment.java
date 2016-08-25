@@ -90,7 +90,7 @@ public class NoteListFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 //从数据库中查询第position行数据
                 noteShow = myNotes.get(position);
-                Log.d("SKKKKKKKK---------", "从数据库查询第" + position + "条信息");
+                Log.d("SKKKKKKKK---------", noteShow.toString());
                 //将查询之note类传给NOTE展示页面
                 Intent intent = new Intent();
                 intent.putExtra("note", noteShow);
