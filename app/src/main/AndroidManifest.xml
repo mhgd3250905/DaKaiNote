@@ -30,12 +30,15 @@
             android:windowSoftInputMode="stateVisible" />
         <!-- note details 展示界面 -->
         <activity
-            android:name=".Activity.NoteEditActivity.UINoteShowActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Activity.PermissionsActivity.PermissionsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.MyTestActivity"></activity>
+
+        <activity android:name=".Activity.NoteEditActivity.ArcNewNoteActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
+
+
 
 </manifest>

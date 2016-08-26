@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.ArcNewNoteActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
@@ -89,8 +90,7 @@ public class UIHomeActivity extends BaseHomeActivity
                         noteListFragment.updateAll(myNotes);
                         break;
                     case 4:
-//                        myNotes=SQLUtils.getkeyNoteList("sh");
-//                        noteListFragment.updateAll(myNotes);
+                        startActivity(new Intent(UIHomeActivity.this, ArcNewNoteActivity.class));
                         break;
                     case 5:
                         break;

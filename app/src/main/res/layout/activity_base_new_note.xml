@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@id/ll_note_detail"
+            android:orientation="vertical">
+
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.Toolbar
+                    android:id="@id/tb_note_new_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:elevation="10dp"
+                    app:navigationIcon="@drawable/back"
+                    app:title="大开笔记"
+                    app:titleTextColor="@color/colorWhite"></android.support.v7.widget.Toolbar>
+
+            </android.support.design.widget.AppBarLayout>
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <!--弹射菜单-->
+    <skkk.gogogo.dakainote.View.ArcMenuView
+        android:id="@id/arc_menu_view_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:position="right_bottom"
+        app:radius="200dp">
+
+
+        <ImageView
+            android:id="@id/arc_menu"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/menu" />
+
+        <ImageView
+            android:id="@id/arc_item_1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_edit"
+            android:tag="item_1" />
+
+        <ImageView
+            android:id="@id/arc_item_2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_camera"
+            android:tag="item_2" />
+
+        <ImageView
+            android:id="@id/arc_item_3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_pin"
+            android:tag="item_3" />
+
+        <ImageView
+            android:id="@id/arc_item_4"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_search"
+            android:tag="item_4" />
+
+        <ImageView
+            android:id="@id/arc_item_5"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/item_recycle"
+            android:tag="item_5" />
+
+    </skkk.gogogo.dakainote.View.ArcMenuView>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

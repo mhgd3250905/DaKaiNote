@@ -3,6 +3,14 @@
     <!--homeactivity-->
     <item name="fl_home" type="id">fl_home</item>
 
+    <!--弹射菜单中的id-->
+    <item name="arc_menu" type="id">弹射菜主按钮</item>
+    <item name="arc_item_1" type="id">第一个弹出按钮</item>
+    <item name="arc_item_2" type="id">第二个弹出按钮</item>
+    <item name="arc_item_3" type="id">第三个弹出按钮</item>
+    <item name="arc_item_4" type="id">第四个弹射菜单</item>
+    <item name="arc_item_5" type="id">第五个弹射菜单</item>
+
     <!--NoteListFragment-->
     <item name="rv_note_list" type="id">rv_note_list</item>
     <item name="tv_test" type="id">tv_test</item>
@@ -28,14 +36,15 @@
     <item name="et_note_title" type="id">et_note_title</item>
     <item name="til_title" type="id">til_title</item>
     <item name="til_content" type="id">til_content</item>
-    <item name="arc_menu" type="id">弹射菜主按钮</item>
-    <item name="arc_item_1" type="id">第一个弹出按钮</item>
-    <item name="arc_item_2" type="id">第二个弹出按钮</item>
-    <item name="arc_item_3" type="id">第三个弹出按钮</item>
-    <item name="arc_item_4" type="id">第四个弹射菜单</item>
-    <item name="arc_item_5" type="id">第五个弹射菜单</item>
     <item name="arc_menu_view_home" type="id">卫星菜单</item>
     <item name="iv_view_note_pin" type="id">pin 标签</item>
     <item name="arc_menu_view_note" type="id">arc_menu_view_note</item>
     <item name="nbv_edit" type="id">noteBoxView</item>
+    <item name="rv_note_detail" type="id">note显示界面的recyclerView</item>
+    <item name="et_note_text" type="id">note的detail中text编辑部分</item>
+    <item name="ll_note_detail" type="id">note编辑界面的布局框架</item>
+    <item name="tb_note_new_detail" type="id">tb_note_new_detail</item>
+    <item name="iv_note_image" type="id" />
+
+
 </resources>
