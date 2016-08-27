@@ -45,6 +45,8 @@
     <item name="ll_note_detail" type="id">note编辑界面的布局框架</item>
     <item name="tb_note_new_detail" type="id">tb_note_new_detail</item>
     <item name="iv_note_image" type="id" />
+    <item name="tv_note_detail_time" type="id">tv_note_detail_time</item>
+    <item name="iv_note_detail_pin" type="id">iv_note_detail_pin</item>
 
 
 </resources>

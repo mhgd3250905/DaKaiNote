@@ -3,10 +3,11 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.EditText;
 
+import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.MyImageView;
 
 /**
  * Created by admin on 2016/8/26.
@@ -17,29 +18,43 @@ import skkk.gogogo.dakainote.R;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 22:18$.
 */
-public class UINewNoteActivity extends BaseNewNoteActivity{
-    ViewGroup.LayoutParams lp;
-    private static int NUM=1;
+public class UINewNoteActivity extends BaseNewNoteActivity {
+    protected static int NUM = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        note = new NoteNew();
     }
 
-    protected void addEditTextItem(){
-        lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    protected void addEditTextItem() {
         LayoutInflater li = LayoutInflater.from(this);
-        View view= li.inflate(R.layout.item_note_text,null);
-        llNoteDetail.addView(view,NUM,lp);
+        View view_text = li.inflate(R.layout.item_note_text, null);
+        EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
+        llNoteDetail.addView(view_text, NUM);
+        etText.setFocusable(true);
+        etText.setFocusableInTouchMode(true);
+        etText.requestFocus();
         NUM++;
     }
 
-    protected void addImageItem(){
+    protected void addEditTextItem(String text) {
         LayoutInflater li = LayoutInflater.from(this);
-        View view= li.inflate(R.layout.item_note_image, null);
-        ImageView ivInsert= (ImageView) view.findViewById(R.id.iv_note_image);
-        ivInsert.setImageResource(R.drawable.item_camera);
-        llNoteDetail.addView(view,NUM);
+        View view_text = li.inflate(R.layout.item_note_text, null);
+        EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
+        etText.setText(text);
+        llNoteDetail.addView(view_text, NUM);
         NUM++;
     }
+
+
+    protected void addImageItem(String imagePath) {
+        LayoutInflater li = LayoutInflater.from(this);
+        View view_image = li.inflate(R.layout.item_note_image, null);
+        MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
+        ivInsert.setBitmapFromPath(imagePath);
+        llNoteDetail.addView(view_image, NUM);
+        NUM++;
+    }
+
 }

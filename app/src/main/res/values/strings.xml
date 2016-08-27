@@ -18,5 +18,8 @@
     <string name="quit">退出</string>
     <string name="settings">设置</string>
     <string name="noteTitleStr">标题</string>
+    <string name="note_hint_item">请输入内容</string>
+    <string name="note_image_tag">NOTE_IMAGE_TAG</string>
+    <string name="note_text_tag">NOTE_TEXT_TAG</string>
 
 </resources>

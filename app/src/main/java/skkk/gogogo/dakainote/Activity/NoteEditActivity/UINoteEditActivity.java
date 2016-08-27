@@ -171,7 +171,6 @@ public class UINoteEditActivity extends BaseNoteActivity {
                         //保存到数据库
                         //写入数据
                         if (inetntNote != null) {
-
                             note.setTitle(TextUtils.isEmpty(etNoteTitle.getText().toString()) ? "未设置标题" : etNoteTitle.getText().toString());
                             note.setTime(DateUtils.getTime());
                             note.setContent(noteEditView.getText().toString());
@@ -185,7 +184,6 @@ public class UINoteEditActivity extends BaseNoteActivity {
                             }
                             Log.d("SKKK_____", note.toString());
                             note.updateAll("keynum=?", String.valueOf(inetntNote.getKeyNum()));
-
                         } else {
                             note.setTitle(TextUtils.isEmpty(etNoteTitle.getText().toString()) ? "未设置标题" : etNoteTitle.getText().toString());
                             note.setTime(DateUtils.getTime());

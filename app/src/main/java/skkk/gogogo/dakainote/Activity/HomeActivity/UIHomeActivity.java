@@ -7,7 +7,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,7 @@ import java.util.TimerTask;
 
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.ArcNewNoteActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
-import skkk.gogogo.dakainote.DbTable.Note;
+import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
@@ -38,7 +37,7 @@ public class UIHomeActivity extends BaseHomeActivity
     protected NoteListFragment noteListFragment;
     protected static final int REQUEST_CODE_1=1;
     protected static final int REQUEST_CODE_2=2;
-    private List<Note> myNotes;
+    private List<NoteNew> myNotes;
     private NoteListFragment noteListFragment1;
 
     @Override
@@ -49,7 +48,7 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
     private void initData() {
-        myNotes = new ArrayList<Note>();
+        myNotes = new ArrayList<NoteNew>();
         //获取当前fragment
         noteListFragment = (NoteListFragment) getSupportFragmentManager().
                 findFragmentById(R.id.fl_home);
@@ -77,8 +76,9 @@ public class UIHomeActivity extends BaseHomeActivity
             public void onClick(View view, int pos) {
                 switch (pos) {
                     case 1:
+                        //进入到编辑页面
                         Intent intent = new Intent();
-                        intent.setClass(UIHomeActivity.this, UINoteEditActivity.class);
+                        intent.setClass(UIHomeActivity.this, ArcNewNoteActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_1);
                         break;
                     case 2:
@@ -90,7 +90,7 @@ public class UIHomeActivity extends BaseHomeActivity
                         noteListFragment.updateAll(myNotes);
                         break;
                     case 4:
-                        startActivity(new Intent(UIHomeActivity.this, ArcNewNoteActivity.class));
+
                         break;
                     case 5:
                         break;
@@ -201,8 +201,7 @@ public class UIHomeActivity extends BaseHomeActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_CODE_1&&resultCode==RESULT_OK){
-            Note noteFromEdit = (Note) data.getExtras().get("note_form_edit");
-            Log.d("SKKK_____", noteFromEdit.getContent());
+            NoteNew noteFromEdit = (NoteNew) data.getExtras().get("note_form_edit");
             //获取当前fragment
             noteListFragment.smoothScrollToTop();
             noteListFragment.updatePos(0,noteFromEdit);

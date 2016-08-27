@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingTop="2dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:tag="@string/note_text_tag"
+    android:textSize="25dp"
+    android:id="@id/et_note_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="textMultiLine"
+    android:background="@color/colorWhite">
 
-    <EditText
-        android:id="@id/et_note_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:background="@color/colorWhite"
-        />
-
-</LinearLayout>
+</EditText>

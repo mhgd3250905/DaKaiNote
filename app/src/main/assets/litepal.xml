@@ -4,5 +4,8 @@
     <version value="1"></version>
     <list>
         <mapping class="skkk.gogogo.dakainote.DbTable.Note"></mapping>
+        <mapping class="skkk.gogogo.dakainote.DbTable.NoteNew"></mapping>
+        <mapping class="skkk.gogogo.dakainote.DbTable.ContentText"></mapping>
+        <mapping class="skkk.gogogo.dakainote.DbTable.Image"></mapping>
     </list>
 </litepal>

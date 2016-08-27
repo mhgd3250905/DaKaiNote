@@ -19,10 +19,10 @@ import java.util.List;
 
 import skkk.gogogo.dakainote.Activity.HomeActivity.BaseHomeActivity;
 import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.UINoteEditActivity;
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.ArcNewNoteActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
-import skkk.gogogo.dakainote.DbTable.Note;
+import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 import skkk.gogogo.dakainote.R;
@@ -36,19 +36,30 @@ import skkk.gogogo.dakainote.R;
 public class NoteListFragment extends Fragment {
     protected int REQUEST_CODE_2=2;
     View view;
-    protected List<Note> notes;
-    protected List<Note> myNotes;
+    protected List<NoteNew> notes;
+    protected List<NoteNew> myNotes;
     protected NoteListAdapter adapter;
-    protected Note noteShow;
+    protected NoteNew noteShow;
     protected RecyclerView rvNoteList;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_note_list, container, false);
+        beforeStart();
         initUI(view);
         initEvent();
         return view;
+    }
+
+    /*
+    * @方法 从数据库中获取数据
+    *
+    */
+    private void beforeStart() {
+        myNotes=new ArrayList<NoteNew>();
+        myNotes= SQLUtils.getNoteList();
+        //List<ContentText> contentTextList = myNotes.get(0).getContentTextList();
     }
 
 
@@ -57,11 +68,6 @@ public class NoteListFragment extends Fragment {
         * @时间 2016/8/1 22:01
         */
     private void initUI(View view) {
-
-        myNotes=new ArrayList<Note>();
-
-        myNotes= SQLUtils.getNoteList();
-
         //获取RecyclerView实例
         rvNoteList = (RecyclerView) view.findViewById(R.id.rv_note_list);
         //设置Adapter
@@ -95,7 +101,7 @@ public class NoteListFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.putExtra("note", noteShow);
                 intent.putExtra("pos", position);
-                intent.setClass(getContext(), UINoteEditActivity.class);
+                intent.setClass(getContext(), ArcNewNoteActivity.class);
                 //getActivity().startActivityForResult(intent, REQUEST_CODE_2);
                 getActivity().startActivity(intent);
             }
@@ -146,18 +152,12 @@ public class NoteListFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        myNotes=SQLUtils.getNoteList();
-        updateAll(myNotes);
-    }
 
     /*
         * @方法 更新指定位置list
         *
         */
-    public void updatePos(int position,Note note){
+    public void updatePos(int position,NoteNew note){
         adapter.append(position, note);
         Log.d("SKKK_____", "updateOK here is fragment");
     }
@@ -166,12 +166,17 @@ public class NoteListFragment extends Fragment {
     * @方法 原来一切都出在这个基类之上
     *
     */
-    public void updateAll(List<Note> noteList){
+    public void updateAll(List<NoteNew> noteList){
         adapter.setmItemDataList(noteList);
         adapter.notifyDataSetChanged();
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        reGetNoteList();
+        updateAll(myNotes);
+    }
 
     public void smoothScrollToTop(){
         rvNoteList.smoothScrollToPosition(0);
@@ -179,7 +184,7 @@ public class NoteListFragment extends Fragment {
 
     public void deleteItemPos(int pos){
         //首先获取这个位置的note
-        Note noteDelete = myNotes.get(pos);
+        NoteNew noteDelete = myNotes.get(pos);
         //然后remove这个position的内容
         adapter.remove(pos);
         Log.d("SKKK_____", noteDelete.toString());

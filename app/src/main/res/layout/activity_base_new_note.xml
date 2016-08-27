@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/colorWhite">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -13,7 +14,6 @@
             android:layout_height="match_parent"
             android:id="@id/ll_note_detail"
             android:orientation="vertical">
-
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -25,12 +25,28 @@
                     android:elevation="10dp"
                     app:navigationIcon="@drawable/back"
                     app:title="大开笔记"
-                    app:titleTextColor="@color/colorWhite"></android.support.v7.widget.Toolbar>
-
+                    app:titleTextColor="@color/colorWhite">
+                </android.support.v7.widget.Toolbar>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@id/tv_note_detail_time"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorGray"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" />
+                    <ImageView
+                        android:id="@id/iv_note_detail_pin"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/item_pin"/>
+                </LinearLayout>
             </android.support.design.widget.AppBarLayout>
         </LinearLayout>
-
-
     </android.support.v4.widget.NestedScrollView>
 
     <!--弹射菜单-->
@@ -79,9 +95,9 @@
 
         <ImageView
             android:id="@id/arc_item_5"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_recycle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/item_save"
             android:tag="item_5" />
 
     </skkk.gogogo.dakainote.View.ArcMenuView>

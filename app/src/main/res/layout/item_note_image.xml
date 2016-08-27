@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@id/iv_note_image"
-        android:layout_width="500dp"
-        android:layout_height="500dp"
-        android:layout_gravity="center"
-        />
-
-</LinearLayout>
+<skkk.gogogo.dakainote.View.MyImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingTop="2dp"
+    android:tag="@string/note_image_tag"
+    android:id="@id/iv_note_image"
+    android:layout_width="600dp"
+    android:layout_height="600dp"
+    android:layout_gravity="center">
+</skkk.gogogo.dakainote.View.MyImageView>
