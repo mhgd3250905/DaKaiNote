@@ -1,19 +1,17 @@
 <resources>>
-
     <style name="AppTheme.NoActionBar">
         <!--透明状态栏-->
         <item name="android:windowTranslucentStatus">true</item>
         <!-- 溢出菜单图标颜色-->
         <item name="colorControlNormal">@color/colorWhite</item>
         <!-- 左边箭头 -->
-        <!--<item name="drawerArrowStyle">@color/white</item>-->
-        <!--透明导航栏-->
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <!--<item name="drawerArrowStyle">@color/colorWhite</item>-->
+        <!--&lt;!&ndash;透明导航栏&ndash;&gt;-->
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <!--使状态栏，导航栏可绘制-->
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-
     </style>
 </resources>

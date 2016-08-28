@@ -47,6 +47,8 @@
     <item name="iv_note_image" type="id" />
     <item name="tv_note_detail_time" type="id">tv_note_detail_time</item>
     <item name="iv_note_detail_pin" type="id">iv_note_detail_pin</item>
+    <item name="et_note_detail_title" type="id">编辑界面中toolbar中的标题输入</item>
+    <item name="nsv_note_detail" type="id">note_detail的滑动控件</item>
 
 
 </resources>

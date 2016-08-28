@@ -46,8 +46,8 @@
         app:radius="200dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/menu"
             android:id="@id/arc_menu"/>
 
@@ -75,17 +75,15 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/item_search"
+            android:src="@drawable/item_list"
             android:id="@id/arc_item_4"
             android:tag="item_4"/>
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/item_recycle"
+            android:src="@drawable/item_search"
             android:id="@id/arc_item_5"
             android:tag="item_5"/>
-
-
     </skkk.gogogo.dakainote.View.ArcMenuView>
 
 </android.support.design.widget.CoordinatorLayout>

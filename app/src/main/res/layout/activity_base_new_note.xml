@@ -7,6 +7,7 @@
     android:background="@color/colorWhite">
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@id/nsv_note_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -26,26 +27,43 @@
                     app:navigationIcon="@drawable/back"
                     app:title="大开笔记"
                     app:titleTextColor="@color/colorWhite">
-                </android.support.v7.widget.Toolbar>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@id/tv_note_detail_time"
-                        android:gravity="center_vertical"
-                        android:layout_weight="1"
+
+                    <EditText
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/colorWhite"
                         android:textSize="20dp"
-                        android:textColor="@color/colorGray"
+                        android:id="@id/et_note_detail_title"
+                        android:background="@color/colorPrimaryDark"
+                        android:textColorHint="@color/colorWhite55"
+                        android:hint="请输入标题"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp" />
-                    <ImageView
-                        android:id="@id/iv_note_detail_pin"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/item_pin"/>
-                </LinearLayout>
+                        android:layout_height="wrap_content" />
+
+                </android.support.v7.widget.Toolbar>
+
             </android.support.design.widget.AppBarLayout>
+
+            <LinearLayout
+                android:background="@color/colorWhite"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:paddingLeft="10dp"
+                    android:text="2016-8-28 11:16:00"
+                    android:id="@id/tv_note_detail_time"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorGray"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+                <ImageView
+                    android:id="@id/iv_note_detail_pin"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/item_pin"/>
+            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -61,8 +79,8 @@
 
         <ImageView
             android:id="@id/arc_menu"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@drawable/menu" />
 
         <ImageView
@@ -90,7 +108,7 @@
             android:id="@id/arc_item_4"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/item_search"
+            android:src="@drawable/item_voice"
             android:tag="item_4" />
 
         <ImageView

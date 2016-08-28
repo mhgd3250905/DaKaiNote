@@ -5,7 +5,7 @@
     android:paddingTop="2dp"
     android:tag="@string/note_image_tag"
     android:id="@id/iv_note_image"
-    android:layout_width="600dp"
-    android:layout_height="600dp"
+    android:layout_width="800dp"
+    android:layout_height="800dp"
     android:layout_gravity="center">
 </skkk.gogogo.dakainote.View.MyImageView>

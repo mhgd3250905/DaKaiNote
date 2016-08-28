@@ -35,7 +35,7 @@ public class MyImageView extends ImageView {
 
     public void setBitmapFromPath(String imagePath) {
         this.imagePath=imagePath;
-        Bitmap preciselyBitmap = CameraImageUtils.getPreciselyBitmap(imagePath, 500);
+        Bitmap preciselyBitmap = CameraImageUtils.getPreciselyBitmap(imagePath, 800);
         setImageBitmap(preciselyBitmap);
     }
 

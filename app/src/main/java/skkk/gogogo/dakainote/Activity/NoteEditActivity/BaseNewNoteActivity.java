@@ -2,10 +2,14 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,11 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected List<Image> imageList=new ArrayList<Image>();//笔记图片类
     protected List<ContentText> contentTextList;//笔记内容类
     protected static final int REQUEST_IMAGE_CAPTURE=111;//拍照请求码
+    protected TextView tvNoteDetailTime;
+    protected EditText etNoteDetailTitle;
+    protected ImageView ivPin;//pin图标
+    protected boolean isPin=false;//是否pin
+    protected NestedScrollView nsvNoteDetail;//note滑动控件
 
 
     @Override
@@ -52,9 +61,22 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     */
     private void initUI() {
         setContentView(R.layout.activity_base_new_note);
+
+        //设置框架
         llNoteDetail= (LinearLayout) findViewById(R.id.ll_note_detail);
         //设置toolbar
         tbNoteDetail = (Toolbar) findViewById(R.id.tb_note_new_detail);
+        setSupportActionBar(tbNoteDetail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //设置时间提示
+        tvNoteDetailTime= (TextView) findViewById(R.id.tv_note_detail_time);
+        //设置标题
+        etNoteDetailTitle= (EditText) findViewById(R.id.et_note_detail_title);
+        //设置pin图标
+        ivPin= (ImageView) findViewById(R.id.iv_note_detail_pin);
+        ivPin.setVisibility(View.INVISIBLE);
+        //设置NestedScrollView
+        nsvNoteDetail= (NestedScrollView) findViewById(R.id.nsv_note_detail);
     }
 
     /*

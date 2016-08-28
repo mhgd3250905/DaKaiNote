@@ -19,7 +19,7 @@ import skkk.gogogo.dakainote.View.MyImageView;
 * 时    间：2016/8/26$ 22:18$.
 */
 public class UINewNoteActivity extends BaseNewNoteActivity {
-    protected static int NUM = 1;
+    protected static int NUM = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

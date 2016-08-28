@@ -307,7 +307,7 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
 
                 animationSet.addAnimation(rotateAnim);
                 animationSet.addAnimation(tranAnim);
-                animationSet.setStartOffset((i * 50) / count);
+                animationSet.setStartOffset((i * 100) / count);
                 childView.startAnimation(animationSet);
             }else if(mArcMode==ArcMode.LINE){
                 //动画判断 如果弹射模式为线性
@@ -376,9 +376,8 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
 
                 animationSet.addAnimation(rotateAnim);
                 animationSet.addAnimation(tranAnim);
-                animationSet.setStartOffset((i * 50) / count);
+                animationSet.setStartOffset((i * 100) / count);
                 childView.startAnimation(animationSet);
-
 
             }
 

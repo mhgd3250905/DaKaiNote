@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -53,67 +54,72 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
     */
     protected void initArcEvent() {
         arcMenuView.setmMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
-            @Override
-            public void onClick(View view, int pos) {
-                switch (pos) {
-                    case 1:
-                        break;
-                    case 2:
-                        /*
-                        * @方法 点击调用相机拍照
-                        *
-                        */
-                        takePicture(ArcNewNoteActivity.this);
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        /*
-                        * 保存的时候
-                        * 0 判断是否是SHOW状态：
-                        *       如果是SHOW那么就需要保存以后刷新/如果仅仅是编辑状态就保存就可以了
-                        *
-                        * 1 判断是否有文字：有文字就需要保存在ContentText中
-                        *   a 如果没有文字就不用保存
-                        *   b 如果有文字那么就要进行保存操作
-                        *
-                        * 2 判断是否有pin：有pin就需要保存在note中
-                        *
-                        * 4 判断是否有image：有image就需要将imagePath保存在image中
-                        *
-                        * 5 判断是否有存储：有则保存/否则就提示
-                        *
-                        * 这里的操作应该是遍历ViewGroup中所有的child 判断类型然后做出对应的判断
-                        *
-                        * */
-                        if(isShow){
-                            //先删除
-                            DataSupport.delete(NoteNew.class,inetntNote.getId());
-                            //再重新保存
-                            saveNoteData();
-                        }else {
-                            //保存内容
-                            saveNoteData();
-                        }
-                        //判断是否有记录任何内容
-                        if (isShow){
-                            //设置返回所携带的note对象
-                            Intent intent = new Intent();
-                            intent.putExtra("note_form_edit", note);
-                            ArcNewNoteActivity.this.setResult(RESULT_OK, intent);
-                            finish();
-                        }else {
-                            Toast.makeText(ArcNewNoteActivity.this, "您未记录任何内容...", Toast.LENGTH_SHORT).show();
-                        }
-
-            }
-        }
+                                                  @Override
+                                                  public void onClick(View view, int pos) {
+                                                      switch (pos) {
+                                                          case 1:
+                                                              break;
+                                                          case 2:
+                                                            /*
+                                                            * @方法 点击调用相机拍照
+                                                            *
+                                                            */
+                                                              takePicture(ArcNewNoteActivity.this);
+                                                              break;
+                                                          case 3:
+                                                              if (isPin) {
+                                                                  isPin=false;
+                                                                  ivPin.setVisibility(View.INVISIBLE);
+                                                              } else {
+                                                                  isPin=true;
+                                                                  ivPin.setVisibility(View.VISIBLE);
+                                                              }
+                                                              break;
+                                                          case 4:
+                                                              break;
+                                                          case 5:
+                                                            /*
+                                                            * 保存的时候
+                                                            * 0 判断是否是SHOW状态：
+                                                            *       如果是SHOW那么就需要保存以后刷新/如果仅仅是编辑状态就保存就可以了
+                                                            *
+                                                            * 1 判断是否有文字：有文字就需要保存在ContentText中
+                                                            *   a 如果没有文字就不用保存
+                                                            *   b 如果有文字那么就要进行保存操作
+                                                            *
+                                                            * 2 判断是否有pin：有pin就需要保存在note中
+                                                            *
+                                                            * 4 判断是否有image：有image就需要将imagePath保存在image中
+                                                            *
+                                                            * 5 判断是否有存储：有则保存/否则就提示
+                                                            *
+                                                            * 这里的操作应该是遍历ViewGroup中所有的child 判断类型然后做出对应的判断
+                                                            *
+                                                            * */
+                                                              if (isShow) {
+                                                                  //先删除
+                                                                  DataSupport.delete(NoteNew.class, inetntNote.getId());
+                                                                  //再重新保存
+                                                                  saveNoteData();
+                                                              } else {
+                                                                  //保存内容
+                                                                  saveNoteData();
+                                                              }
+                                                              //判断是否有记录任何内容
+                                                              if (isStore) {
+                                                                  //设置返回所携带的note对象
+                                                                  Intent intent = new Intent();
+                                                                  intent.putExtra("note_form_edit", note);
+                                                                  ArcNewNoteActivity.this.setResult(RESULT_OK, intent);
+                                                                  finish();
+                                                              } else {
+                                                                  Toast.makeText(ArcNewNoteActivity.this, "您未记录任何内容...", Toast.LENGTH_SHORT).show();
+                                                              }
+                                                      }
+                                                  }
+                                              }
+        );
     }
-
-    );
-}
 
     /*
     * @方法 保存Note 内容
@@ -121,41 +127,47 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
     */
     private void saveNoteData() {
         int detailCount = llNoteDetail.getChildCount();
+
+        LogUtils.Log("目前ll中包含控件数量为 " + detailCount);
+
         LogUtils.Log("NoteDetail中child数量" + detailCount);
         if (detailCount == 0) {
             return;
         }
 
         //将note数据保存起来
-        note.setTitle("test");//保存标题
+        note.setTitle(TextUtils.isEmpty(etNoteDetailTitle.getText().toString()) ?
+                "无题" :
+                etNoteDetailTitle.getText().toString());//保存标题
+
         note.setTime(DateUtils.getTime());//保存时间
         note.setKeyNum(System.currentTimeMillis());//保存标识
         note.setImageIsExist(false);//初始化图片为不存在
-
+        note.setPinIsExist(isPin);//设置pin属性
         //遍历整个ViewGroup
         for (int i = 0; i < detailCount; i++) {
             View child = llNoteDetail.getChildAt(i);
             //如果子view为EditText或其子类
             if (child instanceof EditText) {
                 //初始化一个contentText bean
-                ContentText contentText=new ContentText();
+                ContentText contentText = new ContentText();
                 contentText.setContentText(((EditText) child).getText().toString());//保存文字内容
                 //保存bean
                 contentText.save();
                 //加入到note的contentTextList中
                 note.getContentTextList().add(contentText);
-                isStore=true;
-            } else if (child instanceof MyImageView){
+                isStore = true;
+            } else if (child instanceof MyImageView) {
                 //设置note中image存在
                 note.setImageIsExist(true);
                 //初始化ImageBean
-                Image image=new Image();
+                Image image = new Image();
                 image.setImagePath(((MyImageView) child).getImagePath());
                 //保存bean
                 image.save();
                 //添加到note的imageList中
                 note.getImageList().add(image);
-                isStore=true;
+                isStore = true;
             }
         }
         //保存Note
@@ -176,6 +188,5 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
             addImageItem(imagePath);
             addEditTextItem();
         }
-
     }
 }
