@@ -105,7 +105,7 @@ public class CameraImageUtils {
         BitmapFactory.decodeFile(imagePath, options);
         int imageWidth=options.outWidth;
 
-        int reqHeight=options.outHeight/(imageWidth/(reqWidth-20));
+        int reqHeight=options.outHeight/((imageWidth/(reqWidth-20))<1?1:(imageWidth/(reqWidth-20)));
         Log.d("SKKK_____","图片宽为"+reqWidth+"图片高为"+reqHeight);
         return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imagePath),
                 reqWidth-20,

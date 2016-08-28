@@ -77,7 +77,7 @@ public class UIHomeActivity extends BaseHomeActivity
                         //进入到编辑页面
                         Intent intent = new Intent();
                         intent.setClass(UIHomeActivity.this, ArcNewNoteActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE_1);
+                        startActivity(intent);
                         break;
                     case 2:
                         myNotes=SQLUtils.getImageNoteList();
@@ -88,8 +88,7 @@ public class UIHomeActivity extends BaseHomeActivity
                         noteListFragment.updateAll(myNotes);
                         break;
                     case 4:
-                        myNotes=SQLUtils.getNoteList();
-                        noteListFragment.updateAll(myNotes);
+
                         break;
                     case 5:
                         break;
@@ -142,7 +141,6 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -168,19 +166,5 @@ public class UIHomeActivity extends BaseHomeActivity
         return true;
     }
 
-    /*
-    * @方法 从editNote中获取返回的数据来刷新list
-    *
-    */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_CODE_1&&resultCode==RESULT_OK){
-            NoteNew noteFromEdit = (NoteNew) data.getExtras().get("note_form_edit");
-            //获取当前fragment
-            noteListFragment.smoothScrollToTop();
-            noteListFragment.updatePos(0,noteFromEdit);
-        }
-    }
 
 }

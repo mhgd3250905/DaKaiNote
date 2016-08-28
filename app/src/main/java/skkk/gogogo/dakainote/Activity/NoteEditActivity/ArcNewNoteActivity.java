@@ -68,53 +68,19 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
                                                               break;
                                                           case 3:
                                                               if (isPin) {
-                                                                  isPin=false;
+                                                                  isPin = false;
                                                                   ivPin.setVisibility(View.INVISIBLE);
                                                               } else {
-                                                                  isPin=true;
+                                                                  isPin = true;
                                                                   ivPin.setVisibility(View.VISIBLE);
                                                               }
                                                               break;
                                                           case 4:
                                                               break;
                                                           case 5:
-                                                            /*
-                                                            * 保存的时候
-                                                            * 0 判断是否是SHOW状态：
-                                                            *       如果是SHOW那么就需要保存以后刷新/如果仅仅是编辑状态就保存就可以了
-                                                            *
-                                                            * 1 判断是否有文字：有文字就需要保存在ContentText中
-                                                            *   a 如果没有文字就不用保存
-                                                            *   b 如果有文字那么就要进行保存操作
-                                                            *
-                                                            * 2 判断是否有pin：有pin就需要保存在note中
-                                                            *
-                                                            * 4 判断是否有image：有image就需要将imagePath保存在image中
-                                                            *
-                                                            * 5 判断是否有存储：有则保存/否则就提示
-                                                            *
-                                                            * 这里的操作应该是遍历ViewGroup中所有的child 判断类型然后做出对应的判断
-                                                            *
-                                                            * */
-                                                              if (isShow) {
-                                                                  //先删除
-                                                                  DataSupport.delete(NoteNew.class, inetntNote.getId());
-                                                                  //再重新保存
-                                                                  saveNoteData();
-                                                              } else {
-                                                                  //保存内容
-                                                                  saveNoteData();
-                                                              }
-                                                              //判断是否有记录任何内容
-                                                              if (isStore) {
-                                                                  //设置返回所携带的note对象
-                                                                  Intent intent = new Intent();
-                                                                  intent.putExtra("note_form_edit", note);
-                                                                  ArcNewNoteActivity.this.setResult(RESULT_OK, intent);
-                                                                  finish();
-                                                              } else {
-                                                                  Toast.makeText(ArcNewNoteActivity.this, "您未记录任何内容...", Toast.LENGTH_SHORT).show();
-                                                              }
+                                                              //直接finish()是为了触发onPause中的保存
+                                                              finish();
+                                                              break;
                                                       }
                                                   }
                                               }
@@ -174,6 +140,7 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
         note.save();
     }
 
+
     /*
     * @方法 针对相机非返回值处理
     *
@@ -189,4 +156,49 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
             addEditTextItem();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveAndCallBack();
+    }
+
+    /*
+    * @方法 保存数据而且返回响应的note
+    *
+    * 保存的时候
+    * 0 判断是否是SHOW状态：
+    *       如果是SHOW那么就需要保存以后刷新/如果仅仅是编辑状态就保存就可以了
+    *
+    * 1 判断是否有文字：有文字就需要保存在ContentText中
+    *   a 如果没有文字就不用保存
+    *   b 如果有文字那么就要进行保存操作
+    *
+    * 2 判断是否有pin：有pin就需要保存在note中
+    *
+    * 4 判断是否有image：有image就需要将imagePath保存在image中
+    *
+    * 5 判断是否有存储：有则保存/否则就提示
+    *
+    * 这里的操作应该是遍历ViewGroup中所有的child 判断类型然后做出对应的判断
+    *
+    *
+    *
+    */
+    private void saveAndCallBack() {
+        if (isShow) {
+            //先删除
+            DataSupport.delete(NoteNew.class, inetntNote.getId());
+            //再重新保存
+            saveNoteData();
+        } else {
+            //保存内容
+            saveNoteData();
+        }
+        //判断是否有记录任何内容
+        if (!isStore) {
+            Toast.makeText(ArcNewNoteActivity.this, "您未记录任何内容...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

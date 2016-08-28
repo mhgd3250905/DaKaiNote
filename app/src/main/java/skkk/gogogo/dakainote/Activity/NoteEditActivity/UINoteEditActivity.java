@@ -123,8 +123,6 @@ public class UINoteEditActivity extends BaseNoteActivity {
         //etNoteDetail= (EditText) findViewById(R.id.et_note_detail);
         //设置toolbar
         tbNoteDetail = (Toolbar) findViewById(R.id.tb_note_detail);
-        //添加菜单
-        tbNoteDetail.inflateMenu(R.menu.menu_note_detail_edit);
         // Menu item click 的監聽事件一樣要設定在 setSupportActionBar 才有作用
         tbNoteDetail.setOnMenuItemClickListener(onMenuItemClick);
         if (inetntNote != null) {

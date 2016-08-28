@@ -5,11 +5,11 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">笔记设置</string>
     <string name="str_note_detail_right">str_note_detail_right</string>
     <string name="str_note_tb_detail_right">保存</string>
     <string name="action_share">分享</string>
-    <string name="action_add">新增</string>
+    <string name="action_add">卡片风格</string>
     <string name="action_save">保存</string>
     <string name="action_image">图片</string>
     <string name="action_delete">删除</string>
@@ -21,5 +21,7 @@
     <string name="note_hint_item">请输入内容</string>
     <string name="note_image_tag">NOTE_IMAGE_TAG</string>
     <string name="note_text_tag">NOTE_TEXT_TAG</string>
+    <string name="app_address">https://github.com/mhgd3250905/DaKaiNote</string>
+    <string name="app_desc">记录生活，记录简单...</string>
 
 </resources>

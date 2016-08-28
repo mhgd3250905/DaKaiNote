@@ -25,7 +25,7 @@
     <item name="et_note_detail" type="id">et_note_detail</item>
     <item name="tv_view_note_save" type="id">tv_view_note_save</item>
     <item name="action_share" type="id">action_share</item>
-    <item name="action_add" type="id">action_add</item>
+    <item name="action_style" type="id">action_style</item>
     <item name="action_save" type="id">action_save</item>
     <item name="action_image" type="id">action_image</item>
     <item name="action_delete" type="id">action_delete</item>
@@ -49,6 +49,8 @@
     <item name="iv_note_detail_pin" type="id">iv_note_detail_pin</item>
     <item name="et_note_detail_title" type="id">编辑界面中toolbar中的标题输入</item>
     <item name="nsv_note_detail" type="id">note_detail的滑动控件</item>
+    <item name="menu_tb_right" type="id">toolbar右边的菜单按钮</item>
+    <item name="action_setting" type="id">toobar 右边菜单中 设置按钮</item>
 
 
 </resources>
