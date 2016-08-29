@@ -3,7 +3,9 @@
     package="skkk.gogogo.dakainote">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Application.MyApplication"
@@ -24,21 +26,15 @@
         </activity>
 
         <!-- note details 编辑界面 -->
-        <activity
-            android:name=".Activity.NoteEditActivity.UINoteEditActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible" />
         <!-- note details 展示界面 -->
         <activity
             android:name=".Activity.PermissionsActivity.PermissionsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.MyTestActivity"></activity>
-
-        <activity android:name=".Activity.NoteEditActivity.ArcNewNoteActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+        <activity android:name=".Activity.MyTestActivity" />
+        <activity
+            android:name=".Activity.NoteEditActivity.ArcNewNoteActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activity.Main2Activity"></activity>
     </application>
-
-
 
 </manifest>

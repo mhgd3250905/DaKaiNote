@@ -38,7 +38,6 @@
                         android:hint="请输入标题"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.AppBarLayout>

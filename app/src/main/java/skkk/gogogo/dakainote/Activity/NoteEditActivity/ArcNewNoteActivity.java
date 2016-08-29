@@ -76,6 +76,7 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
                                                               }
                                                               break;
                                                           case 4:
+
                                                               break;
                                                           case 5:
                                                               //直接finish()是为了触发onPause中的保存
