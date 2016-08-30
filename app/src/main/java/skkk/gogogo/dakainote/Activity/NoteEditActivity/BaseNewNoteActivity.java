@@ -19,6 +19,7 @@ import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.RecordButton;
 
 /**
  * Created by admin on 2016/8/26.
@@ -45,6 +46,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected ImageView ivPin;//pin图标
     protected boolean isPin=false;//是否pin
     protected NestedScrollView nsvNoteDetail;//note滑动控件
+    protected RecordButton rbVoice;//录音按钮
 
 
     @Override
@@ -75,8 +77,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         //设置pin图标
         ivPin= (ImageView) findViewById(R.id.iv_note_detail_pin);
         ivPin.setVisibility(View.INVISIBLE);
-        //设置NestedScrollView
-        nsvNoteDetail= (NestedScrollView) findViewById(R.id.nsv_note_detail);
+
     }
 
     /*

@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.AudioButton;
 import skkk.gogogo.dakainote.View.MyImageView;
 
 /**
@@ -54,6 +55,15 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
         ivInsert.setBitmapFromPath(imagePath);
         llNoteDetail.addView(view_image, NUM);
+        NUM++;
+    }
+
+    protected void addVoiceItem(String voicePath) {
+        LayoutInflater li = LayoutInflater.from(this);
+        View view_voice = li.inflate(R.layout.item_note_voice, null);
+        AudioButton abVoice = (AudioButton) view_voice.findViewById(R.id.ab_note_voice);
+        abVoice.setVoicePath(voicePath);
+        llNoteDetail.addView(view_voice, NUM);
         NUM++;
     }
 

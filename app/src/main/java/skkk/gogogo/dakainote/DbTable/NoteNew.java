@@ -33,7 +33,20 @@ public class NoteNew extends DataSupport implements Serializable {
 
     private List<Image> imageList=new ArrayList<Image>();
     private List<ContentText> contentTextList=new ArrayList<ContentText>();
+    private List<Voice> voiceList=new ArrayList<Voice>();
 
+    /*
+    *
+    * @方法 获取我说需要的串联表Voice中的内容
+    *
+    */
+    public List<Voice> getVoiceList() {
+        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Voice.class);
+    }
+
+    public void setVoiceList(List<Voice> voiceList) {
+        this.voiceList = voiceList;
+    }
 
     public List<ContentText> getContentTextList() {
         return contentTextList;
@@ -63,6 +76,8 @@ public class NoteNew extends DataSupport implements Serializable {
     public List<Image> getImageList() {
         return imageList ;
     }
+
+
 
     /*
     * @方法 获取我所需要的串联表Image中的内容

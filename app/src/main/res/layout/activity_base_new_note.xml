@@ -64,7 +64,20 @@
                     android:src="@drawable/item_pin"/>
             </LinearLayout>
         </LinearLayout>
+
     </android.support.v4.widget.NestedScrollView>
+
+    <skkk.gogogo.dakainote.View.RecordButton
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+        android:textSize="25dp"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/record_btn_bg"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:id="@id/rb_voice"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
 
     <!--弹射菜单-->
     <skkk.gogogo.dakainote.View.ArcMenuView
@@ -118,7 +131,6 @@
             android:tag="item_5" />
 
     </skkk.gogogo.dakainote.View.ArcMenuView>
-
 
 
 </android.support.design.widget.CoordinatorLayout>

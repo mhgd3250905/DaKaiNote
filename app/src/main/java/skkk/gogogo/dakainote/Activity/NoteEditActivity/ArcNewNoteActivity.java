@@ -28,7 +28,7 @@ import skkk.gogogo.dakainote.View.MyImageView;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 23:02$.
 */
-public class ArcNewNoteActivity extends ShowNewNoteActivity {
+public class ArcNewNoteActivity extends VoiceNewNoteActivity {
 
     private ArcMenuView arcMenuView;
 
@@ -76,7 +76,11 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
                                                               }
                                                               break;
                                                           case 4:
-
+                                                              if(rbVoice.getVisibility()==View.VISIBLE){
+                                                                  rbVoice.setVisibility(View.GONE);
+                                                              }else {
+                                                                  rbVoice.setVisibility(View.VISIBLE);
+                                                              }
                                                               break;
                                                           case 5:
                                                               //直接finish()是为了触发onPause中的保存

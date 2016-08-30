@@ -52,6 +52,8 @@
     <item name="menu_tb_right" type="id">toolbar右边的菜单按钮</item>
     <item name="action_setting" type="id">toobar 右边菜单中 设置按钮</item>
     <item name="rb_voice" type="id">录音按钮~</item>
+    <item name="ab_voice" type="id">播放音乐之按钮</item>
+    <item name="ab_note_voice" type="id">note中的录音播放按钮</item>
 
 
 </resources>
