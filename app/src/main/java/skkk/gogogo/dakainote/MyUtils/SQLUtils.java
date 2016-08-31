@@ -61,6 +61,20 @@ public class SQLUtils {
     }
 
     /*
+   * @方法 获取数据库中所有Voice的
+   *
+   */
+    public static List<NoteNew> getVoiceNoteList(){
+        List<NoteNew> noteList=new ArrayList<NoteNew>();
+        int j=0;
+        for (int i= DataSupport.where("pinisexist = ?","1").find(NoteNew.class).size()-1;i>=0;i--){
+            noteList.add(j, DataSupport.where("pinisexist = ?","1").find(NoteNew.class).get(i));
+            j++;
+        }
+        return noteList;
+    }
+
+    /*
     * @方法 获取数据库中所有包含关键字的
     *
     */

@@ -187,6 +187,8 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
         }
     }
 
+
+
     /*
     * @方法 定位主菜单
     *
@@ -227,11 +229,11 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
     *
     */
     @Override
-    public void onClick(View v) {
-        rotateCButton(v, 0f, 720f, 200);
+    public void onClick(View view) {
+        rotateCButton(view, 0f, 720f, 200);
         toggleMenu(200);
-
     }
+
     /*
     * @方法 切换菜单动画
     *

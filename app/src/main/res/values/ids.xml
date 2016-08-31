@@ -54,6 +54,7 @@
     <item name="rb_voice" type="id">录音按钮~</item>
     <item name="ab_voice" type="id">播放音乐之按钮</item>
     <item name="ab_note_voice" type="id">note中的录音播放按钮</item>
+    <item name="iv_view_note_voice" type="id">note中录音标签</item>
 
 
 </resources>

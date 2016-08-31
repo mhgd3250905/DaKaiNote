@@ -26,6 +26,8 @@ public class MyNoteView extends RelativeLayout{
     private TextView tvViewContent;
     private ImageView ivViewNote;
     private ImageView ivViewPin;
+    private ImageView ivViewVoice;
+    private ImageView ivViewVideo;
 
 
 
@@ -53,6 +55,7 @@ public class MyNoteView extends RelativeLayout{
         tvViewContent = (TextView) findViewById(R.id.tv_view_note_content);
         ivViewNote = (ImageView) findViewById(R.id.iv_view_note_image);
         ivViewPin= (ImageView) findViewById(R.id.iv_view_note_pin);
+        ivViewVoice= (ImageView) findViewById(R.id.iv_view_note_voice);
         //setViewTitleDate("几天前");
         setViewTitleTime("具体时间");
         setViewContent("具体内容");
@@ -94,6 +97,15 @@ public class MyNoteView extends RelativeLayout{
             ivViewNote.setVisibility(VISIBLE);
         }else {
             ivViewNote.setVisibility(GONE);
+        }
+    }
+
+    //设置录音标签是否显示
+    public void setVoiceIsExist(boolean exist){
+        if (exist){
+            ivViewVoice.setVisibility(VISIBLE);
+        }else {
+            ivViewVoice.setVisibility(GONE);
         }
     }
 

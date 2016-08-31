@@ -86,8 +86,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:position="right_bottom"
+        app:arcMode="circle"
         app:radius="200dp">
-
 
         <ImageView
             android:id="@id/arc_menu"

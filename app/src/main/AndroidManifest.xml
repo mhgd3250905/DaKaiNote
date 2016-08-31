@@ -34,7 +34,6 @@
         <activity
             android:name=".Activity.NoteEditActivity.ArcNewNoteActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.Main2Activity"></activity>
     </application>
 
 </manifest>

@@ -13,10 +13,12 @@ import org.litepal.crud.DataSupport;
 import skkk.gogogo.dakainote.DbTable.ContentText;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.ArcMenuView;
+import skkk.gogogo.dakainote.View.AudioButton;
 import skkk.gogogo.dakainote.View.MyImageView;
 
 /**
@@ -29,7 +31,6 @@ import skkk.gogogo.dakainote.View.MyImageView;
 * 时    间：2016/8/26$ 23:02$.
 */
 public class ArcNewNoteActivity extends VoiceNewNoteActivity {
-
     private ArcMenuView arcMenuView;
 
     @Override
@@ -76,9 +77,9 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               }
                                                               break;
                                                           case 4:
-                                                              if(rbVoice.getVisibility()==View.VISIBLE){
+                                                              if (rbVoice.getVisibility() == View.VISIBLE) {
                                                                   rbVoice.setVisibility(View.GONE);
-                                                              }else {
+                                                              } else {
                                                                   rbVoice.setVisibility(View.VISIBLE);
                                                               }
                                                               break;
@@ -110,15 +111,19 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         note.setTitle(TextUtils.isEmpty(etNoteDetailTitle.getText().toString()) ?
                 "无题" :
                 etNoteDetailTitle.getText().toString());//保存标题
-
         note.setTime(DateUtils.getTime());//保存时间
         note.setKeyNum(System.currentTimeMillis());//保存标识
         note.setImageIsExist(false);//初始化图片为不存在
+        note.setVoiceExist(false);//初始化录音为不存在
         note.setPinIsExist(isPin);//设置pin属性
         //遍历整个ViewGroup
         for (int i = 0; i < detailCount; i++) {
             View child = llNoteDetail.getChildAt(i);
             //如果子view为EditText或其子类
+            /*
+            * @方法 判断是否为contentText并保存
+            *
+            */
             if (child instanceof EditText) {
                 //初始化一个contentText bean
                 ContentText contentText = new ContentText();
@@ -127,7 +132,13 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 contentText.save();
                 //加入到note的contentTextList中
                 note.getContentTextList().add(contentText);
-                isStore = true;
+                if (!TextUtils.isEmpty(((EditText) child).getText())) {
+                    isStore = true;
+                }
+                /*
+                * @方法 判断是否为image并保存
+                *
+                */
             } else if (child instanceof MyImageView) {
                 //设置note中image存在
                 note.setImageIsExist(true);
@@ -139,6 +150,18 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 //添加到note的imageList中
                 note.getImageList().add(image);
                 isStore = true;
+                /*
+                * @方法 判断是否为voice并保存
+                *
+                */
+            }else if (child instanceof AudioButton){
+                note.setVoiceExist(true);
+                //初始化Voice
+                Voice voice=new Voice();
+                voice.setVoicePath(((AudioButton) child).getVoicePath());
+                voice.save();
+                note.getVoiceList().add(voice);
+                isStore=true;
             }
         }
         //保存Note
@@ -156,7 +179,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         Log.d("SKKK_____", "requestCode:  " + requestCode);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             //设置图片存在
-            isImageExist = true;
             addImageItem(imagePath);
             addEditTextItem();
         }
@@ -169,27 +191,27 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     }
 
     /*
-    * @方法 保存数据而且返回响应的note
-    *
-    * 保存的时候
-    * 0 判断是否是SHOW状态：
-    *       如果是SHOW那么就需要保存以后刷新/如果仅仅是编辑状态就保存就可以了
-    *
-    * 1 判断是否有文字：有文字就需要保存在ContentText中
-    *   a 如果没有文字就不用保存
-    *   b 如果有文字那么就要进行保存操作
-    *
-    * 2 判断是否有pin：有pin就需要保存在note中
-    *
-    * 4 判断是否有image：有image就需要将imagePath保存在image中
-    *
-    * 5 判断是否有存储：有则保存/否则就提示
-    *
-    * 这里的操作应该是遍历ViewGroup中所有的child 判断类型然后做出对应的判断
-    *
-    *
-    *
-    */
+        * @方法 保存数据而且返回响应的note
+        *
+        * 保存的时候
+        * 0 判断是否是SHOW状态：
+        *       如果是SHOW那么就需要保存以后刷新/如果仅仅是编辑状态就保存就可以了
+        *
+        * 1 判断是否有文字：有文字就需要保存在ContentText中
+        *   a 如果没有文字就不用保存
+        *   b 如果有文字那么就要进行保存操作
+        *
+        * 2 判断是否有pin：有pin就需要保存在note中
+        *
+        * 4 判断是否有image：有image就需要将imagePath保存在image中
+        *
+        * 5 判断是否有存储：有则保存/否则就提示
+        *
+        * 这里的操作应该是遍历ViewGroup中所有的child 判断类型然后做出对应的判断
+        *
+        *
+        *
+        */
     private void saveAndCallBack() {
         if (isShow) {
             //先删除
@@ -205,5 +227,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             Toast.makeText(ArcNewNoteActivity.this, "您未记录任何内容...", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 }

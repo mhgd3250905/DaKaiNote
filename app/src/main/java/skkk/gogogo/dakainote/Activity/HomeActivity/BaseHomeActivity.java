@@ -24,7 +24,9 @@ public class BaseHomeActivity extends AppCompatActivity {
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
             Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO
+
     };
 
     //使用ArcMenuView的Toggle方法
@@ -64,4 +66,6 @@ public class BaseHomeActivity extends AppCompatActivity {
             finish();
         }
     }
+
+
 }

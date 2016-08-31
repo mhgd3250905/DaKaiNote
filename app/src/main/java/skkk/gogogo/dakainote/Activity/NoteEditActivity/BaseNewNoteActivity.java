@@ -36,7 +36,11 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected LinearLayout llNoteDetail;
     protected Toolbar tbNoteDetail;
     protected String imagePath;//照片路径
+
     protected Boolean isImageExist=false;//照片是否存在
+    protected boolean isPin=false;//是否pin
+    protected boolean isVoice=false;//是否有录音
+
     protected NoteNew note;//笔记类
     protected List<Image> imageList=new ArrayList<Image>();//笔记图片类
     protected List<ContentText> contentTextList;//笔记内容类
@@ -44,7 +48,6 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected TextView tvNoteDetailTime;
     protected EditText etNoteDetailTitle;
     protected ImageView ivPin;//pin图标
-    protected boolean isPin=false;//是否pin
     protected NestedScrollView nsvNoteDetail;//note滑动控件
     protected RecordButton rbVoice;//录音按钮
 
@@ -62,8 +65,8 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     *
     */
     private void initUI() {
-        setContentView(R.layout.activity_base_new_note);
 
+        setContentView(R.layout.activity_base_new_note);
         //设置框架
         llNoteDetail= (LinearLayout) findViewById(R.id.ll_note_detail);
         //设置toolbar
@@ -101,5 +104,8 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         CameraImageUtils.dispatchTakePictureIntent(activity, imagePath, REQUEST_IMAGE_CAPTURE);
         CameraImageUtils.galleryAddPic(this);
     }
+
+
+
 
 }

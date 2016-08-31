@@ -7,5 +7,6 @@
         <mapping class="skkk.gogogo.dakainote.DbTable.NoteNew"></mapping>
         <mapping class="skkk.gogogo.dakainote.DbTable.ContentText"></mapping>
         <mapping class="skkk.gogogo.dakainote.DbTable.Image"></mapping>
+        <mapping class="skkk.gogogo.dakainote.DbTable.Voice"></mapping>
     </list>
 </litepal>

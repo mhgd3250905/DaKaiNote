@@ -8,6 +8,7 @@ import java.util.List;
 import skkk.gogogo.dakainote.DbTable.ContentText;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 
@@ -64,11 +65,17 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         List<ContentText> contentTextList = inetntNote.getMyContentTextList();
         //获取图片列表
         List<Image> imageList = inetntNote.getMyImageList();
+        //获取录音列表
+        List<Voice> voiceList=inetntNote.getMyVoiceList();
+
         for (int i = 0; i < contentTextList.size(); i++) {
             addEditTextItem(contentTextList.get(i).getContentText());
         }
         for (int i = 0; i < imageList.size(); i++) {
             addImageItem(imageList.get(i).getImagePath());
+        }
+        for (int i=0;i<voiceList.size();i++){
+            addVoiceItem(voiceList.get(i).getVoicePath());
         }
     }
 

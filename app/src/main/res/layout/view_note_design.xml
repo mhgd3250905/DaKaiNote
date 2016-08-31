@@ -35,17 +35,24 @@
             android:textSize="20dp" />
 
         <ImageView
+            android:id="@id/iv_view_note_voice"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="2dp"
+            android:src="@drawable/item_voice" />
+
+        <ImageView
             android:id="@id/iv_view_note_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="2dp"
             android:src="@drawable/item_camera" />
 
         <ImageView
             android:id="@id/iv_view_note_pin"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:src="@drawable/item_pin" />
     </LinearLayout>
 

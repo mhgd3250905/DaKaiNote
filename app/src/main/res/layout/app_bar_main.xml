@@ -75,13 +75,14 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/item_list"
+            android:src="@drawable/item_voice"
             android:id="@id/arc_item_4"
             android:tag="item_4"/>
+
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/item_search"
+            android:src="@drawable/item_list"
             android:id="@id/arc_item_5"
             android:tag="item_5"/>
     </skkk.gogogo.dakainote.View.ArcMenuView>

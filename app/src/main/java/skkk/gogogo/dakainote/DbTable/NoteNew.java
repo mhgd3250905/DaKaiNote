@@ -21,7 +21,16 @@ public class NoteNew extends DataSupport implements Serializable {
     private String time;
     private boolean imageIsExist;
     private boolean pinIsExist;
+    private boolean voiceExist;
     private long keyNum;
+
+    public boolean isVoiceExist() {
+        return voiceExist;
+    }
+
+    public void setVoiceExist(boolean voiceExist) {
+        this.voiceExist = voiceExist;
+    }
 
     public int getId() {
         return id;
@@ -31,17 +40,21 @@ public class NoteNew extends DataSupport implements Serializable {
         this.id = id;
     }
 
-    private List<Image> imageList=new ArrayList<Image>();
-    private List<ContentText> contentTextList=new ArrayList<ContentText>();
-    private List<Voice> voiceList=new ArrayList<Voice>();
+    private List<Image> imageList = new ArrayList<Image>();
+    private List<ContentText> contentTextList = new ArrayList<ContentText>();
+    private List<Voice> voiceList = new ArrayList<Voice>();
 
     /*
     *
     * @方法 获取我说需要的串联表Voice中的内容
     *
     */
-    public List<Voice> getVoiceList() {
+    public List<Voice> getMyVoiceList() {
         return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Voice.class);
+    }
+
+    public List<Voice> getVoiceList() {
+        return voiceList;
     }
 
     public void setVoiceList(List<Voice> voiceList) {
@@ -74,9 +87,8 @@ public class NoteNew extends DataSupport implements Serializable {
     }
 
     public List<Image> getImageList() {
-        return imageList ;
+        return imageList;
     }
-
 
 
     /*

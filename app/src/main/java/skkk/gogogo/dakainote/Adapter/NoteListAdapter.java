@@ -55,6 +55,7 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
         holder.myNoteView.setViewTitleTime(mItemDataList.get(position).getTime());
         holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
         holder.myNoteView.setPinIsExist(mItemDataList.get(position).isPinIsExist());
+        holder.myNoteView.setVoiceIsExist(mItemDataList.get(position).isVoiceExist());
     }
 
 
