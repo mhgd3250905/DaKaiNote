@@ -17,6 +17,15 @@ public class Image extends DataSupport implements Serializable {
     private int id;
     private NoteNew noteNew;
     private String imagePath;
+    private int num;
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
 
     public int getId() {
         return id;

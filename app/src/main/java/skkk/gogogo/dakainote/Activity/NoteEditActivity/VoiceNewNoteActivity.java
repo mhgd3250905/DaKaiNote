@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
+import android.view.View;
 
 import skkk.gogogo.dakainote.MyUtils.AudioRecorder;
 import skkk.gogogo.dakainote.R;
@@ -31,7 +32,9 @@ public class VoiceNewNoteActivity extends ShowNewNoteActivity {
             public void recordEnd(String filePath) {
                 addVoiceItem(filePath);
                 addEditTextItem();
+                rbVoice.setVisibility(View.GONE);
             }
         });
     }
+
 }

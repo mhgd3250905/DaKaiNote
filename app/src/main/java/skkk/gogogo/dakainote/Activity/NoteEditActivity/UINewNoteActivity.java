@@ -32,11 +32,10 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         LayoutInflater li = LayoutInflater.from(this);
         View view_text = li.inflate(R.layout.item_note_text, null);
         EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
-        llNoteDetail.addView(view_text, NUM);
+        llNoteDetail.addView(view_text);
         etText.setFocusable(true);
         etText.setFocusableInTouchMode(true);
-        etText.requestFocus();
-        NUM++;
+        etText.requestFocus();;
     }
 
     protected void addEditTextItem(String text) {
@@ -44,8 +43,7 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         View view_text = li.inflate(R.layout.item_note_text, null);
         EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
         etText.setText(text);
-        llNoteDetail.addView(view_text, NUM);
-        NUM++;
+        llNoteDetail.addView(view_text);
     }
 
 
@@ -54,8 +52,8 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         View view_image = li.inflate(R.layout.item_note_image, null);
         MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
         ivInsert.setBitmapFromPath(imagePath);
-        llNoteDetail.addView(view_image, NUM);
-        NUM++;
+        llNoteDetail.addView(view_image);
+
     }
 
     protected void addVoiceItem(String voicePath) {
@@ -63,8 +61,7 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         View view_voice = li.inflate(R.layout.item_note_voice, null);
         AudioButton abVoice = (AudioButton) view_voice.findViewById(R.id.ab_note_voice);
         abVoice.setVoicePath(voicePath);
-        llNoteDetail.addView(view_voice, NUM);
-        NUM++;
+        llNoteDetail.addView(view_voice);
     }
 
 }

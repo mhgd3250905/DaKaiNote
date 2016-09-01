@@ -19,7 +19,7 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import skkk.gogogo.dakainote.DbTable.Note;
+import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
 
 /**
@@ -103,7 +103,7 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
      */
     public void remove(int position){
         mItemDataList.remove(position);
-        DataSupport.delete(Note.class,position);
+        DataSupport.delete(NoteNew.class,position);
         notifyItemRemoved(position);
     }
 

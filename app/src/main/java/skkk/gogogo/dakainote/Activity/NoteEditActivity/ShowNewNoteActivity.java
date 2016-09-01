@@ -28,16 +28,16 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         beforeStart();
-        if(isShow){
+        if (isShow) {
             //如果是展示页面
             initShowUI();
             llNoteDetail.setFocusable(true);
             llNoteDetail.setFocusableInTouchMode(true);
-        }else {
+        } else {
             //如果是编辑界面
             addEditTextItem();
             tvNoteDetailTime.setText(DateUtils.getTime());
-            LogUtils.Log("编辑界面时间显示为"+DateUtils.getTime());
+            LogUtils.Log("编辑界面时间显示为" + DateUtils.getTime());
         }
     }
 
@@ -55,10 +55,10 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         //设置时间
         tvNoteDetailTime.setText(inetntNote.getTime());
         //判断并设置pin
-        isPin=inetntNote.isPinIsExist();
-        if(isPin){
+        isPin = inetntNote.isPinIsExist();
+        if (isPin) {
             ivPin.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             ivPin.setVisibility(View.INVISIBLE);
         }
         //获取内容列表
@@ -66,17 +66,30 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         //获取图片列表
         List<Image> imageList = inetntNote.getMyImageList();
         //获取录音列表
-        List<Voice> voiceList=inetntNote.getMyVoiceList();
+        List<Voice> voiceList = inetntNote.getMyVoiceList();
+        for (int i = 0; i < 10; i++) {
 
-        for (int i = 0; i < contentTextList.size(); i++) {
-            addEditTextItem(contentTextList.get(i).getContentText());
+            for (int j = 0; j < contentTextList.size(); j++) {
+                if (contentTextList.get(j).getNum() == i) {
+                    addEditTextItem(contentTextList.get(j).getContentText());
+                }
+            }
+
+            for (int j = 0; j < imageList.size(); j++) {
+                if (imageList.get(j).getNum() == i) {
+                    addImageItem(imageList.get(j).getImagePath());
+                }
+            }
+
+            for (int j = 0; j < voiceList.size(); j++) {
+                if (voiceList.get(j).getNum() == i) {
+                    addVoiceItem(voiceList.get(j).getVoicePath());
+                }
+            }
+
         }
-        for (int i = 0; i < imageList.size(); i++) {
-            addImageItem(imageList.get(i).getImagePath());
-        }
-        for (int i=0;i<voiceList.size();i++){
-            addVoiceItem(voiceList.get(i).getVoicePath());
-        }
+
+
     }
 
     /*
@@ -88,7 +101,7 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         inetntNote = (NoteNew) getIntent().getSerializableExtra("note");
         if (inetntNote != null) {
             //如果传入note不是空的那么就说明是展示页面
-            isShow=true;
+            isShow = true;
         }
     }
 
@@ -99,6 +112,6 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NUM=2;
+        NUM = 2;
     }
 }

@@ -51,7 +51,12 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
         //向下转型为子类
         NoteListViewHolder holder= (NoteListViewHolder) viewHolder;
         holder.myNoteView.setViewTitle(mItemDataList.get(position).getTitle());
-        holder.myNoteView.setViewContent(mItemDataList.get(position).getMyContentTextList().get(0).getContentText());
+        try {
+            holder.myNoteView.setViewContent(mItemDataList.get(position).getMyContentTextList().get(0).getContentText());
+        }catch (Exception e){
+            holder.myNoteView.setViewContent("");
+        }
+
         holder.myNoteView.setViewTitleTime(mItemDataList.get(position).getTime());
         holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
         holder.myNoteView.setPinIsExist(mItemDataList.get(position).isPinIsExist());

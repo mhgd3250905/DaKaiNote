@@ -116,6 +116,8 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         note.setImageIsExist(false);//初始化图片为不存在
         note.setVoiceExist(false);//初始化录音为不存在
         note.setPinIsExist(isPin);//设置pin属性
+
+        int num = 0;
         //遍历整个ViewGroup
         for (int i = 0; i < detailCount; i++) {
             View child = llNoteDetail.getChildAt(i);
@@ -124,17 +126,17 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             * @方法 判断是否为contentText并保存
             *
             */
-            if (child instanceof EditText) {
+            if (child instanceof EditText && !TextUtils.isEmpty(((EditText) child).getText())) {
                 //初始化一个contentText bean
                 ContentText contentText = new ContentText();
                 contentText.setContentText(((EditText) child).getText().toString());//保存文字内容
+                contentText.setNum(num);//设置座位
                 //保存bean
                 contentText.save();
                 //加入到note的contentTextList中
                 note.getContentTextList().add(contentText);
-                if (!TextUtils.isEmpty(((EditText) child).getText())) {
-                    isStore = true;
-                }
+                isStore = true;
+                num++;
                 /*
                 * @方法 判断是否为image并保存
                 *
@@ -145,23 +147,27 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 //初始化ImageBean
                 Image image = new Image();
                 image.setImagePath(((MyImageView) child).getImagePath());
+                image.setNum(num);//设置座位
                 //保存bean
                 image.save();
                 //添加到note的imageList中
                 note.getImageList().add(image);
                 isStore = true;
+                num++;
                 /*
                 * @方法 判断是否为voice并保存
                 *
                 */
-            }else if (child instanceof AudioButton){
+            } else if (child instanceof AudioButton) {
                 note.setVoiceExist(true);
                 //初始化Voice
-                Voice voice=new Voice();
+                Voice voice = new Voice();
                 voice.setVoicePath(((AudioButton) child).getVoicePath());
+                voice.setNum(num);//设置座位
                 voice.save();
                 note.getVoiceList().add(voice);
-                isStore=true;
+                isStore = true;
+                num++;
             }
         }
         //保存Note
@@ -227,7 +233,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             Toast.makeText(ArcNewNoteActivity.this, "您未记录任何内容...", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
 }

@@ -17,27 +17,28 @@ public class Voice extends DataSupport implements Serializable {
     private int id;
     private NoteNew noteNew;
     private String voicePath;
-
+    private int num;
+    public int getNum() {
+        return num;
+    }
+    public void setNum(int num) {
+        this.num = num;
+    }
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public NoteNew getNoteNew() {
         return noteNew;
     }
-
     public void setNoteNew(NoteNew noteNew) {
         this.noteNew = noteNew;
     }
-
     public String getVoicePath() {
         return voicePath;
     }
-
     public void setVoicePath(String voicePath) {
         this.voicePath = voicePath;
     }

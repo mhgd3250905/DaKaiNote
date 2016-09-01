@@ -2,16 +2,14 @@
 <skkk.gogogo.dakainote.View.AudioButton
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingTop="2dp"
+    android:layout_margin="20dp"
     android:tag="@string/note_voice_tag"
-    android:background="@drawable/record_btn_bg"
     android:text="@string/item_voice_str"
     android:textSize="20dp"
-    android:textColor="@color/colorWhite"
+    android:textColor="@color/colorPrimary"
     android:gravity="center"
     android:id="@id/ab_note_voice"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_width="match_parent"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
 </skkk.gogogo.dakainote.View.AudioButton>
