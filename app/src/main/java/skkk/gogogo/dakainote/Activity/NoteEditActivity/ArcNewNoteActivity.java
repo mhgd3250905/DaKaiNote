@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -85,6 +84,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               break;
                                                           case 5:
                                                               //直接finish()是为了触发onPause中的保存
+                                                              saveAndCallBack();
                                                               finish();
                                                               break;
                                                       }
@@ -197,7 +197,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        saveAndCallBack();
     }
 
     /*
@@ -224,19 +223,19 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         */
     private void saveAndCallBack() {
         //判断是否有记录任何内容
-        if (isStore) {
             if (isShow) {
                 //先删除
-                DataSupport.delete(NoteNew.class, inetntNote.getId());
+                int delete = DataSupport.delete(NoteNew.class, inetntNote.getId());
+                LogUtils.Log("这里是保存事件定位的note，id为"+inetntNote.getId());
                 //再重新保存
                 saveNoteData();
             } else {
                 //保存内容
                 saveNoteData();
             }
-        }else {
-            Toast.makeText(ArcNewNoteActivity.this,getResources().getString(R.string.not_save_anything), Toast.LENGTH_SHORT).show();
-        }
+//        }else {
+//            Toast.makeText(ArcNewNoteActivity.this,getResources().getString(R.string.not_save_anything), Toast.LENGTH_SHORT).show();
+//        }
     }
 
 

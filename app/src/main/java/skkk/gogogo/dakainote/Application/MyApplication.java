@@ -1,5 +1,7 @@
 package skkk.gogogo.dakainote.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import org.litepal.LitePalApplication;
 
 /**
@@ -12,5 +14,9 @@ import org.litepal.LitePalApplication;
 * 时    间：
 */
 public class MyApplication extends LitePalApplication {
-
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Fresco.initialize(this);
+    }
 }

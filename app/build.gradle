@@ -19,6 +19,11 @@ android {
     }
 }
 
+//Fresco图片框架
+dependencies {
+    // 其他依赖
+    compile 'com.facebook.fresco:fresco:0.12.0'
+}
 
 
 dependencies {

@@ -1,19 +1,23 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity;
 
 import android.content.Intent;
+import android.graphics.PointF;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
+import com.facebook.drawee.view.SimpleDraweeView;
+
+import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
 
 public class NoteImageActivity extends AppCompatActivity {
-    protected ImageView ivNoteItemImage;
+    protected SimpleDraweeView ivNoteItemImage;
     protected Button btnNoteImageDelete,btnNoteImageSave;
-    private String image_click_path;
-    private Intent intentGet;
+    protected String image_click_path;
+    protected Intent intentGet;
+    protected PointF focusPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +41,11 @@ public class NoteImageActivity extends AppCompatActivity {
     */
     private void initUI() {
         setContentView(R.layout.activity_note_image);
-        ivNoteItemImage= (ImageView) findViewById(R.id.iv_note_item_image);
+        ivNoteItemImage= (SimpleDraweeView) findViewById(R.id.iv_note_item_image);
         btnNoteImageDelete= (Button) findViewById(R.id.btn_note_image_delete);
         btnNoteImageSave= (Button) findViewById(R.id.btn_note_image_save);
-        ivNoteItemImage.setImageBitmap(CameraImageUtils.getPreciselyBitmap(image_click_path, 800));
+        Uri uri = Uri.parse("file://" + image_click_path);
+        LogUtils.Log("file://" + image_click_path);
+        ivNoteItemImage.setImageURI(uri);
     }
 }

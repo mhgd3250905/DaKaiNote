@@ -21,10 +21,10 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@id/tb_note_new_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:background="@color/colorPrimaryDark"
                     android:elevation="10dp"
-                    app:navigationIcon="@drawable/back"
+                    app:navigationIcon="@drawable/vector_drawable_back"
                     app:title="大开笔记"
                     app:titleTextColor="@color/colorWhite">
 

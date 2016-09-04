@@ -1,11 +1,10 @@
 package skkk.gogogo.dakainote.View;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * Created by admin on 2016/8/27.
@@ -16,7 +15,7 @@ import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 * 作    者：ksheng
 * 时    间：2016/8/27$ 21:31$.
 */
-public class MyImageView extends ImageView {
+public class MyImageView extends SimpleDraweeView {
 
     private String imagePath;
 
@@ -34,16 +33,13 @@ public class MyImageView extends ImageView {
 
 
     public void setBitmapFromPath(String imagePath) {
-        this.imagePath=imagePath;
-        Bitmap preciselyBitmap = CameraImageUtils.getPreciselyBitmap(imagePath, 800);
-        setImageBitmap(preciselyBitmap);
+        this.imagePath = imagePath;
+        Uri uri = Uri.parse("file://" + imagePath);
+        setImageURI(uri);
     }
 
     public String getImagePath() {
         return imagePath;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
 }

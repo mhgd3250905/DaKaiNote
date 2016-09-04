@@ -21,6 +21,7 @@ import skkk.gogogo.dakainote.Activity.NoteEditActivity.ArcNewNoteActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 import skkk.gogogo.dakainote.R;
@@ -100,6 +101,7 @@ public class NoteListFragment extends Fragment {
                 intent.putExtra("note", noteShow);
                 intent.putExtra("pos", position);
                 intent.setClass(getContext(), ArcNewNoteActivity.class);
+                LogUtils.Log("这里是点击事件定位的note，id为"+noteShow.getId());
                 //getActivity().startActivityForResult(intent, REQUEST_CODE_2);
                 getActivity().startActivity(intent);
             }
