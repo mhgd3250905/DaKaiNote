@@ -99,19 +99,23 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     */
     private void saveNoteData() {
         int detailCount = llNoteDetail.getChildCount();
-
         LogUtils.Log("目前ll中包含控件数量为 " + detailCount);
-
         LogUtils.Log("NoteDetail中child数量" + detailCount);
         if (detailCount == 0) {
             return;
         }
-
         //将note数据保存起来
         note.setTitle(TextUtils.isEmpty(etNoteDetailTitle.getText().toString()) ?
                 "无题" :
                 etNoteDetailTitle.getText().toString());//保存标题
-        note.setTime(DateUtils.getTime());//保存时间
+
+        if (inetntNote==null) {
+            note.setTime(DateUtils.getTime());//保存时间
+        } else {
+            //展示状态保留原来时间
+            note.setTime(inetntNote.getTime());
+        }
+
         note.setKeyNum(System.currentTimeMillis());//保存标识
         note.setImageIsExist(false);//初始化图片为不存在
         note.setVoiceExist(false);//初始化录音为不存在
@@ -219,18 +223,19 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         *
         */
     private void saveAndCallBack() {
-        if (isShow) {
-            //先删除
-            DataSupport.delete(NoteNew.class, inetntNote.getId());
-            //再重新保存
-            saveNoteData();
-        } else {
-            //保存内容
-            saveNoteData();
-        }
         //判断是否有记录任何内容
-        if (!isStore) {
-            Toast.makeText(ArcNewNoteActivity.this, "您未记录任何内容...", Toast.LENGTH_SHORT).show();
+        if (isStore) {
+            if (isShow) {
+                //先删除
+                DataSupport.delete(NoteNew.class, inetntNote.getId());
+                //再重新保存
+                saveNoteData();
+            } else {
+                //保存内容
+                saveNoteData();
+            }
+        }else {
+            Toast.makeText(ArcNewNoteActivity.this,getResources().getString(R.string.not_save_anything), Toast.LENGTH_SHORT).show();
         }
     }
 

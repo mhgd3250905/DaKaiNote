@@ -26,65 +26,65 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
-    <!--悬浮按钮-->
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@android:drawable/ic_dialog_email" />-->
 
-    <!--弹射菜单-->
-    <skkk.gogogo.dakainote.View.ArcMenuView
-        android:layout_margin="10dp"
-        android:id="@id/arc_menu_view_home"
+    <!--悬浮按钮-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:position="right_bottom"
-        app:arcMode="line"
-        app:radius="200dp">
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/vector_drawable_pen" />
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/menu"
-            android:id="@id/arc_menu"/>
+    <!--&lt;!&ndash;弹射菜单&ndash;&gt;-->
+    <!--<skkk.gogogo.dakainote.View.ArcMenuView-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:id="@id/arc_menu_view_home"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:position="right_bottom"-->
+        <!--app:arcMode="line"-->
+        <!--app:radius="200dp">-->
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_edit"
-            android:id="@id/arc_item_1"
-            android:tag="item_1"/>
+        <!--<ImageView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:src="@drawable/menu"-->
+            <!--android:id="@id/arc_menu"/>-->
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_camera"
-            android:id="@id/arc_item_2"
-            android:tag="item_2"/>
+        <!--<ImageView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:src="@drawable/item_edit"-->
+            <!--android:id="@id/arc_item_1"-->
+            <!--android:tag="item_1"/>-->
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_pin"
-            android:id="@id/arc_item_3"
-            android:tag="item_3"/>
+        <!--<ImageView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:src="@drawable/item_camera"-->
+            <!--android:id="@id/arc_item_2"-->
+            <!--android:tag="item_2"/>-->
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_voice"
-            android:id="@id/arc_item_4"
-            android:tag="item_4"/>
+        <!--<ImageView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:src="@drawable/item_pin"-->
+            <!--android:id="@id/arc_item_3"-->
+            <!--android:tag="item_3"/>-->
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_list"
-            android:id="@id/arc_item_5"
-            android:tag="item_5"/>
-    </skkk.gogogo.dakainote.View.ArcMenuView>
+        <!--<ImageView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:src="@drawable/item_voice"-->
+            <!--android:id="@id/arc_item_4"-->
+            <!--android:tag="item_4"/>-->
 
+        <!--<ImageView-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--android:src="@drawable/item_list"-->
+            <!--android:id="@id/arc_item_5"-->
+            <!--android:tag="item_5"/>-->
+    <!--</skkk.gogogo.dakainote.View.ArcMenuView>-->
 </android.support.design.widget.CoordinatorLayout>

@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.HomeActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -33,17 +34,19 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 public class UIHomeActivity extends BaseHomeActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     protected NoteListFragment noteListFragment;
-    protected static final int REQUEST_CODE_1=1;
-    protected static final int REQUEST_CODE_2=2;
+    protected static final int REQUEST_CODE_1 = 1;
+    protected static final int REQUEST_CODE_2 = 2;
     private List<NoteNew> myNotes;
-    private NoteListFragment noteListFragment1;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
         initData();
+        initEvent();
     }
+
 
     private void initData() {
         myNotes = new ArrayList<NoteNew>();
@@ -55,7 +58,7 @@ public class UIHomeActivity extends BaseHomeActivity
     private void initUI() {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        arcMenuView= (ArcMenuView) findViewById(R.id.arc_menu_view_home);
+        arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_home);
 
         setSupportActionBar(toolbar);
 
@@ -68,43 +71,30 @@ public class UIHomeActivity extends BaseHomeActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //设置卫星菜单点击事件
-        arcMenuView.setmMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+    }
+
+    /*
+    * @方法 初始化监听事件
+    *
+    */
+    private void initEvent() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view, int pos) {
-                switch (pos) {
-                    case 1:
-                        //进入到编辑页面
-                        Intent intent = new Intent();
-                        intent.setClass(UIHomeActivity.this, ArcNewNoteActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
-                        myNotes=SQLUtils.getImageNoteList();
-                        noteListFragment.updateAll(myNotes);
-                        break;
-                    case 3:
-                        myNotes=SQLUtils.getPinNoteList();
-                        noteListFragment.updateAll(myNotes);
-                        break;
-                    case 4:
-                        myNotes=SQLUtils.getVoiceNoteList();
-                        noteListFragment.updateAll(myNotes);
-                        break;
-                    case 5:
-                        myNotes=SQLUtils.getNoteList();
-                        noteListFragment.updateAll(myNotes);
-                        break;
-            }
+            public void onClick(View view) {
+                //进入到编辑页面
+                Intent intent = new Intent();
+                intent.setClass(UIHomeActivity.this, ArcNewNoteActivity.class);
+                startActivity(intent);
             }
         });
-
     }
 
 
-
-
-
+    /*
+    * @方法 重写返回方法双击退出
+    *
+    */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -125,7 +115,7 @@ public class UIHomeActivity extends BaseHomeActivity
         if (isExit == false) {
             isExit = true; // 准备退出
             //获取当前fragment
-            NoteListFragment noteListFragment= (NoteListFragment) getSupportFragmentManager().
+            NoteListFragment noteListFragment = (NoteListFragment) getSupportFragmentManager().
                     findFragmentById(R.id.fl_home);
             noteListFragment.smoothScrollToTop();
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
@@ -144,23 +134,31 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
 
+    /*
+    * @方法 侧滑菜单点击事件
+    *
+    */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
+        myNotes = SQLUtils.getNoteList();
+        noteListFragment.updateAll(myNotes);
+        if (id == R.id.nav_list) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_pin) {
+            myNotes = SQLUtils.getPinNoteList();
+            noteListFragment.updateAll(myNotes);
+        } else if (id == R.id.nav_image) {
+            myNotes = SQLUtils.getImageNoteList();
+            noteListFragment.updateAll(myNotes);
+        } else if (id == R.id.nav_voice) {
+            myNotes = SQLUtils.getVoiceNoteList();
+            noteListFragment.updateAll(myNotes);
+        } else if (id == R.id.nav_setting) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_author) {
 
         }
 
@@ -171,3 +169,4 @@ public class UIHomeActivity extends BaseHomeActivity
 
 
 }
+

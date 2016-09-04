@@ -1,10 +1,12 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.AudioButton;
@@ -35,7 +37,7 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         llNoteDetail.addView(view_text);
         etText.setFocusable(true);
         etText.setFocusableInTouchMode(true);
-        etText.requestFocus();;
+        etText.requestFocus();
     }
 
     protected void addEditTextItem(String text) {
@@ -50,8 +52,17 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
     protected void addImageItem(String imagePath) {
         LayoutInflater li = LayoutInflater.from(this);
         View view_image = li.inflate(R.layout.item_note_image, null);
-        MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
+        final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
         ivInsert.setBitmapFromPath(imagePath);
+        ivInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.putExtra("image_click",ivInsert.getImagePath());
+                intent.setClass(UINewNoteActivity.this, NoteImageActivity.class);
+                startActivity(intent);
+            }
+        });
         llNoteDetail.addView(view_image);
 
     }

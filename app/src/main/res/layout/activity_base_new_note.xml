@@ -57,6 +57,8 @@
                     android:textColor="@color/colorGray"
                     android:layout_width="match_parent"
                     android:layout_height="50dp" />
+
+
                 <ImageView
                     android:id="@id/iv_note_detail_pin"
                     android:layout_width="50dp"

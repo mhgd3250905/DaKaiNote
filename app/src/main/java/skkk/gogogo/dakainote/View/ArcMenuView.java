@@ -230,7 +230,7 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
     */
     @Override
     public void onClick(View view) {
-        rotateCButton(view, 0f, 720f, 200);
+        rotateCButton(view, 0f,360f, 200);
         toggleMenu(200);
     }
 

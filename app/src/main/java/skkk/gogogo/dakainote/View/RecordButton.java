@@ -17,9 +17,7 @@ import android.widget.Toast;
 import skkk.gogogo.dakainote.MyUtils.AudioRecorder;
 import skkk.gogogo.dakainote.R;
 
-/**
- * Created by admin on 2016/8/29.
- */
+
 /*
 * 
 * 描    述：仿微信录音自定义按钮

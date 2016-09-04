@@ -29,15 +29,6 @@ public class BaseHomeActivity extends AppCompatActivity {
 
     };
 
-    //使用ArcMenuView的Toggle方法
-    public void useArcMenuToggle(int duration){
-        arcMenuView.toggleMenu(duration);
-    }
-
-    //返回ArcMenuView状态
-    public boolean getArcMenuStatus(){
-        return arcMenuView.isOpen();
-    }
 
     private PermissionsChecker mPermissionsChecker; // 权限检测器
 

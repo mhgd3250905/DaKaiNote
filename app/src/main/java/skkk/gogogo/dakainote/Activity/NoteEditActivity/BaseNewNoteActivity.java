@@ -65,7 +65,6 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     *
     */
     private void initUI() {
-
         setContentView(R.layout.activity_base_new_note);
         //设置框架
         llNoteDetail= (LinearLayout) findViewById(R.id.ll_note_detail);
@@ -80,9 +79,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         //设置pin图标
         ivPin= (ImageView) findViewById(R.id.iv_note_detail_pin);
         ivPin.setVisibility(View.INVISIBLE);
-
     }
-
     /*
 * @方法 设置监听事件
 *
@@ -96,16 +93,10 @@ public class BaseNewNoteActivity extends AppCompatActivity{
             }
         });
     }
-
-
     //使用相机应用进行拍照
     protected void takePicture(Activity activity) {
         imagePath= CameraImageUtils.getImagePath();
         CameraImageUtils.dispatchTakePictureIntent(activity, imagePath, REQUEST_IMAGE_CAPTURE);
         CameraImageUtils.galleryAddPic(this);
     }
-
-
-
-
 }

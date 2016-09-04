@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import skkk.gogogo.dakainote.Activity.HomeActivity.BaseHomeActivity;
-import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.ArcNewNoteActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
@@ -135,21 +133,6 @@ public class NoteListFragment extends Fragment {
     *
     */
     private void initEvent() {
-        rvNoteList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            BaseHomeActivity activity = (UIHomeActivity) getActivity();
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (activity.getArcMenuStatus()) {
-                    activity.useArcMenuToggle(200);
-                }
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
-            }
-        });
     }
 
 

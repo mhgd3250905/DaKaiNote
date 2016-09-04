@@ -55,6 +55,9 @@
     <item name="ab_voice" type="id">播放音乐之按钮</item>
     <item name="ab_note_voice" type="id">note中的录音播放按钮</item>
     <item name="iv_view_note_voice" type="id">note中录音标签</item>
+    <item name="iv_note_item_image" type="id">note中图片的点击事件</item>
+    <item name="btn_note_image_save" type="id">note item image btn save</item>
+    <item name="btn_note_image_delete" type="id">btn_note_image_delete</item>
 
 
 </resources>

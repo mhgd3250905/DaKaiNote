@@ -3,33 +3,33 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_list"
+            android:icon="@drawable/vector_drawable_list"
+            android:title="所有" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_pin"
+            android:icon="@drawable/vector_drawable_pin"
+            android:title="标记" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_image"
+            android:icon="@drawable/vector_drawable_picture"
+            android:title="图片" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_voice"
+            android:icon="@drawable/vector_drawable_voice"
+            android:title="录音" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="关于">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/vector_drawable_setting"
+                android:title="设置" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_author"
+                android:icon="@drawable/vector_drawable_author"
+                android:title="作者" />
         </menu>
     </item>
 
