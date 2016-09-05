@@ -24,6 +24,22 @@ public class NoteNew extends DataSupport implements Serializable {
     private boolean voiceExist;
     private long keyNum;
 
+    @Override
+    public String toString() {
+        return "NoteNew{" +
+                "contentTextList=" + contentTextList +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", time='" + time + '\'' +
+                ", imageIsExist=" + imageIsExist +
+                ", pinIsExist=" + pinIsExist +
+                ", voiceExist=" + voiceExist +
+                ", keyNum=" + keyNum +
+                ", imageList=" + imageList +
+                ", voiceList=" + voiceList +
+                '}';
+    }
+
     public boolean isVoiceExist() {
         return voiceExist;
     }

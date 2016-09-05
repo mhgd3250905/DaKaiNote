@@ -101,7 +101,8 @@ public class NoteListFragment extends Fragment {
                 intent.putExtra("note", noteShow);
                 intent.putExtra("pos", position);
                 intent.setClass(getContext(), ArcNewNoteActivity.class);
-                LogUtils.Log("这里是点击事件定位的note，id为"+noteShow.getId());
+                LogUtils.Log("这里是点击事件定位的note，id为" + noteShow.getId());
+                LogUtils.Log("note: "+noteShow.toString());
                 //getActivity().startActivityForResult(intent, REQUEST_CODE_2);
                 getActivity().startActivity(intent);
             }

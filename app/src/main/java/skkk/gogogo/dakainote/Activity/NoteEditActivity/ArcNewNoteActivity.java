@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import org.litepal.crud.DataSupport;
 
@@ -145,12 +146,12 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 * @方法 判断是否为image并保存
                 *
                 */
-            } else if (child instanceof MyImageView) {
+            } else if (child instanceof RelativeLayout) {
                 //设置note中image存在
                 note.setImageIsExist(true);
                 //初始化ImageBean
                 Image image = new Image();
-                image.setImagePath(((MyImageView) child).getImagePath());
+                image.setImagePath(((MyImageView) ((RelativeLayout) child).getChildAt(0)).getImagePath());
                 image.setNum(num);//设置座位
                 //保存bean
                 image.save();

@@ -8,13 +8,13 @@
     tools:context="skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@id/iv_note_item_image"
-        android:layout_above="@+id/linearLayout2"
-        fresco:placeholderImage="@drawable/vector_drawable_image"
-        fresco:actualImageScaleType="centerInside"
-        />
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@id/iv_note_item_image"
+    android:layout_above="@+id/linearLayout2"
+    fresco:placeholderImage="@drawable/vector_drawable_image"
+    fresco:actualImageScaleType="centerInside"
+    />
 
     <LinearLayout
         android:layout_alignParentBottom="true"

@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import skkk.gogogo.dakainote.MyUtils.LogUtils;
+
 /**
  * Created by admin on 2016/8/27.
  */
@@ -35,6 +37,7 @@ public class MyImageView extends SimpleDraweeView {
     public void setBitmapFromPath(String imagePath) {
         this.imagePath = imagePath;
         Uri uri = Uri.parse("file://" + imagePath);
+        LogUtils.Log("setBitmaoFromPath的路径为 file://" + imagePath);
         setImageURI(uri);
     }
 

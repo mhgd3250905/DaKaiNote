@@ -63,6 +63,7 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
                 startActivity(intent);
             }
         });
+
         llNoteDetail.addView(view_image);
 
     }
