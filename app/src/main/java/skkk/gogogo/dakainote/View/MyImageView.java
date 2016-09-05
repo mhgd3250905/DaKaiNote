@@ -20,6 +20,10 @@ import skkk.gogogo.dakainote.MyUtils.LogUtils;
 public class MyImageView extends SimpleDraweeView {
 
     private String imagePath;
+    private int imageId;
+
+
+
 
     public MyImageView(Context context) {
         super(context);
@@ -43,6 +47,14 @@ public class MyImageView extends SimpleDraweeView {
 
     public String getImagePath() {
         return imagePath;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
 }

@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.AudioButton;
 import skkk.gogogo.dakainote.View.MyImageView;
@@ -23,6 +24,7 @@ import skkk.gogogo.dakainote.View.MyImageView;
 */
 public class UINewNoteActivity extends BaseNewNoteActivity {
     protected static int NUM = 2;
+    protected static int REQUEST_NOTE_IMAGE_DELETE=13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +51,47 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
     }
 
 
-    protected void addImageItem(String imagePath) {
+    protected void addImageItem(String imagePath,int imageId) {
         LayoutInflater li = LayoutInflater.from(this);
-        View view_image = li.inflate(R.layout.item_note_image, null);
+        final View view_image = li.inflate(R.layout.item_note_image, null);
         final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
         ivInsert.setBitmapFromPath(imagePath);
+        ivInsert.setImageId(imageId);
+        LogUtils.Log("设置image位置为" + llNoteDetail.getChildCount());
         ivInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.putExtra("image_click",ivInsert.getImagePath());
+                Intent intent = new Intent();
+                testView = view_image;
+                intent.putExtra("image_click", ivInsert.getImagePath());
                 intent.setClass(UINewNoteActivity.this, NoteImageActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
             }
         });
-
         llNoteDetail.addView(view_image);
-
     }
+
+
+    protected void addImageItem(String imagePath) {
+        LayoutInflater li = LayoutInflater.from(this);
+        final View view_image = li.inflate(R.layout.item_note_image, null);
+        final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
+        ivInsert.setBitmapFromPath(imagePath);
+        LogUtils.Log("设置image位置为" + llNoteDetail.getChildCount());
+
+        ivInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                testView = view_image;
+                intent.putExtra("image_click", ivInsert.getImagePath());
+                intent.setClass(UINewNoteActivity.this, NoteImageActivity.class);
+                startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
+            }
+        });
+        llNoteDetail.addView(view_image);
+    }
+
 
     protected void addVoiceItem(String voicePath) {
         LayoutInflater li = LayoutInflater.from(this);

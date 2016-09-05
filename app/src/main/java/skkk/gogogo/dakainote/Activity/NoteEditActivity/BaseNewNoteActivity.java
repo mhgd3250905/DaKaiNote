@@ -32,6 +32,7 @@ import skkk.gogogo.dakainote.View.RecordButton;
 * 时    间：2016/8/26$ 21:47$.
 */
 public class BaseNewNoteActivity extends AppCompatActivity{
+
     protected boolean isStore=false;//是否有存储
     protected boolean isShow=false;//是否是展示页面
     protected LinearLayout llNoteDetail;
@@ -51,6 +52,8 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected ImageView ivPin;//pin图标
     protected NestedScrollView nsvNoteDetail;//note滑动控件
     protected RecordButton rbVoice;//录音按钮
+
+    protected View testView=null;
 
 
     @Override
@@ -82,9 +85,9 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         ivPin.setVisibility(View.INVISIBLE);
     }
     /*
-* @方法 设置监听事件
-*
-*/
+     * @方法 设置监听事件
+     *
+     */
     private void initEvent() {
         //为toolbar 添加返回按钮
         tbNoteDetail.setNavigationOnClickListener(new View.OnClickListener() {
@@ -94,7 +97,11 @@ public class BaseNewNoteActivity extends AppCompatActivity{
             }
         });
     }
-    //使用相机应用进行拍照
+
+    /*
+    * @方法 使用相机应用进行拍照
+    *
+    */
     protected void takePicture(Activity activity) {
         try {
             imagePath= CameraImageUtils.getImagePath();

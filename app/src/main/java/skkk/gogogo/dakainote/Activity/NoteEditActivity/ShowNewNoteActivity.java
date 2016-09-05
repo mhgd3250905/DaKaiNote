@@ -77,7 +77,7 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
 
             for (int j = 0; j < imageList.size(); j++) {
                 if (imageList.get(j).getNum() == i) {
-                    addImageItem(imageList.get(j).getImagePath());
+                    addImageItem(imageList.get(j).getImagePath(),imageList.get(j).getId());
                 }
             }
 

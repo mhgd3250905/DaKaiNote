@@ -192,6 +192,19 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             //设置图片存在
             addImageItem(imagePath);
             addEditTextItem();
+
+        }else if(requestCode==REQUEST_NOTE_IMAGE_DELETE&&resultCode==RESULT_OK){
+            //说明在图片编辑界面删除了图片
+            LogUtils.Log("你选择了删除图片");
+            llNoteDetail.removeView(testView);
+
+            //删除数据库中内容
+            if(isShow){
+                int deleteImage=DataSupport.delete(Image.class,testView.getId());
+                LogUtils.Log("image表中删除行数为 "+deleteImage);
+            }
+
+            testView=null;
         }
     }
 

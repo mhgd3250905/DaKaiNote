@@ -1,39 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
     tools:context="skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity">
 
     <com.facebook.drawee.view.SimpleDraweeView
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:id="@id/iv_note_item_image"
-    android:layout_above="@+id/linearLayout2"
-    fresco:placeholderImage="@drawable/vector_drawable_image"
-    fresco:actualImageScaleType="centerInside"
-    />
+        android:id="@id/iv_note_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_note_image_delete"
+        fresco:actualImageScaleType="centerInside"
+        fresco:placeholderImage="@drawable/vector_drawable_image" />
 
-    <LinearLayout
-        android:layout_alignParentBottom="true"
+    <Button
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/colorWhite"
+        android:id="@id/btn_note_image_delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout2">
-        <Button
-            android:id="@id/btn_note_image_save"
-            android:text="@string/note_image_save"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-        <Button
-            android:id="@id/btn_note_image_delete"
-            android:text="@string/note_image_delete"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        android:layout_alignParentBottom="true"
+        android:textSize="20dp"
+        android:text="点击删除" />
 
-    </LinearLayout>
 </RelativeLayout>
