@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,8 +96,13 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     }
     //使用相机应用进行拍照
     protected void takePicture(Activity activity) {
-        imagePath= CameraImageUtils.getImagePath();
-        CameraImageUtils.dispatchTakePictureIntent(activity, imagePath, REQUEST_IMAGE_CAPTURE);
-        CameraImageUtils.galleryAddPic(this);
+        try {
+            imagePath= CameraImageUtils.getImagePath();
+            CameraImageUtils.dispatchTakePictureIntent(activity, imagePath, REQUEST_IMAGE_CAPTURE);
+            CameraImageUtils.galleryAddPic(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

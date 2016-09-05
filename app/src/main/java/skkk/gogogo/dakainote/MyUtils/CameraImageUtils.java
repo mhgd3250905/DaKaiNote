@@ -27,32 +27,7 @@ import java.util.Date;
 */
 public class CameraImageUtils {
 
-    /*
-    * @方法获得image绝对路径
-    *
-    */
-    public static String getImagePath() {
-        String mCurrentImagePath=null;
-        try {
-            mCurrentImagePath = createImageFile().getAbsolutePath();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return mCurrentImagePath;
-    }
 
-    /*
-     * @方法 返回保存图片的位置文件
-     *
-     */
-    public static File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        return image;
-    }
 
 
     //返回按比例缩放之后的bitmap
@@ -108,10 +83,40 @@ public class CameraImageUtils {
         int reqHeight=options.outHeight/((imageWidth/(reqWidth-20))<1?1:(imageWidth/(reqWidth-20)));
         Log.d("SKKK_____","图片宽为"+reqWidth+"图片高为"+reqHeight);
         return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imagePath),
-                reqWidth-20,
+                reqWidth - 20,
                 reqHeight,
                 ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
+
+    /*
+      * @方法获得image绝对路径
+      *
+      */
+    public static String getImagePath() throws IOException {
+        String mCurrentImagePath=null;
+        String timeStamp = new SimpleDateFormat("yyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        mCurrentImagePath=image.getAbsolutePath();
+        image.delete();
+        return mCurrentImagePath;
+    }
+
+
+//    /*
+//     * @方法 返回保存图片的位置文件
+//     *
+//     */
+//    public static File createImageFile() throws IOException {
+//        String timeStamp = new SimpleDateFormat("yyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = Environment
+//                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+//        return image;
+//    }
 
 
     /*
@@ -130,11 +135,13 @@ public class CameraImageUtils {
         }
     }
 
+
+
     /*
     * @方法 将照片添加到相机之中
     *       触发系统MediaScanner
     */
-    public static void galleryAddPic(Context context) {
+    public static void galleryAddPic(Context context) throws IOException {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(getImagePath());
         Uri contentUri = Uri.fromFile(f);
