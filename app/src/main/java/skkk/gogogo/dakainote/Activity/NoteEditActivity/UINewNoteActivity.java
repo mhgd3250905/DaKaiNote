@@ -24,7 +24,8 @@ import skkk.gogogo.dakainote.View.MyImageView;
 */
 public class UINewNoteActivity extends BaseNewNoteActivity {
     protected static int NUM = 2;
-    protected static int REQUEST_NOTE_IMAGE_DELETE=13;
+    protected static int REQUEST_NOTE_IMAGE_DELETE = 13;
+    protected int childNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +33,28 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         note = new NoteNew();
     }
 
+    /*
+    * @方法 增加EditTextitem
+    *
+    */
     protected void addEditTextItem() {
         LayoutInflater li = LayoutInflater.from(this);
-        View view_text = li.inflate(R.layout.item_note_text, null);
-        EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
+        final View view_text = li.inflate(R.layout.item_note_text, null);
+        final EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
+        //添加view
         llNoteDetail.addView(view_text);
         etText.setFocusable(true);
         etText.setFocusableInTouchMode(true);
         etText.requestFocus();
+
+        //添加之后计算目前的child数量
+        childNum=llNoteDetail.getChildCount();
     }
 
+    /*
+    * @方法 增加EditTextitem
+    *
+    */
     protected void addEditTextItem(String text) {
         LayoutInflater li = LayoutInflater.from(this);
         View view_text = li.inflate(R.layout.item_note_text, null);
@@ -51,7 +64,11 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
     }
 
 
-    protected void addImageItem(String imagePath,int imageId) {
+    /*
+    * @方法 在show界面使用的 增加图片item
+    *
+    */
+    protected void addImageItem(String imagePath, int imageId) {
         LayoutInflater li = LayoutInflater.from(this);
         final View view_image = li.inflate(R.layout.item_note_image, null);
         final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
@@ -72,13 +89,16 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
     }
 
 
+    /*
+    * @方法 在编辑界面使用的 增加图片item
+    *
+    */
     protected void addImageItem(String imagePath) {
         LayoutInflater li = LayoutInflater.from(this);
         final View view_image = li.inflate(R.layout.item_note_image, null);
         final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
         ivInsert.setBitmapFromPath(imagePath);
         LogUtils.Log("设置image位置为" + llNoteDetail.getChildCount());
-
         ivInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +113,10 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
     }
 
 
+    /*
+    * @方法 增加录音item
+    *
+    */
     protected void addVoiceItem(String voicePath) {
         LayoutInflater li = LayoutInflater.from(this);
         View view_voice = li.inflate(R.layout.item_note_voice, null);

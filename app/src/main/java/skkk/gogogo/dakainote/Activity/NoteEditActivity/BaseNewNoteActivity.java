@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +53,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected ImageView ivPin;//pin图标
     protected NestedScrollView nsvNoteDetail;//note滑动控件
     protected RecordButton rbVoice;//录音按钮
+    protected CoordinatorLayout clNoteDetails;//编辑界面的框架
 
     protected View testView=null;
 
@@ -83,6 +85,8 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         //设置pin图标
         ivPin= (ImageView) findViewById(R.id.iv_note_detail_pin);
         ivPin.setVisibility(View.INVISIBLE);
+
+        clNoteDetails= (CoordinatorLayout) findViewById(R.id.cl_note_detail);
     }
     /*
      * @方法 设置监听事件

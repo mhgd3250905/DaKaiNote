@@ -29,5 +29,6 @@
     <string name="not_save_anything">您未保存任何内容...</string>
     <string name="note_image_save">保存</string>
     <string name="note_image_delete">删除</string>
+    <string name="blank_tip">点击按钮新增笔记</string>
 
 </resources>

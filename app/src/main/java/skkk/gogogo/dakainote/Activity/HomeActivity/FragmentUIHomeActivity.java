@@ -13,7 +13,6 @@ import skkk.gogogo.dakainote.R;
 *
 */
 public class FragmentUIHomeActivity extends UIHomeActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

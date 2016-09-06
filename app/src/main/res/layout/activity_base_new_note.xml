@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
+    android:id="@id/cl_note_detail"
     android:background="@color/colorWhite">
 
     <android.support.v4.widget.NestedScrollView
@@ -84,6 +85,15 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
+    <!--&lt;!&ndash;悬浮按钮&ndash;&gt;-->
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@id/fab_note_detail"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--android:src="@drawable/vector_drawable_pen" />-->
+
     <!--弹射菜单-->
     <skkk.gogogo.dakainote.View.ArcMenuView
         android:id="@id/arc_menu_view_note"
@@ -99,13 +109,6 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/menu" />
-
-        <ImageView
-            android:id="@id/arc_item_1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_edit"
-            android:tag="item_1" />
 
         <ImageView
             android:id="@id/arc_item_2"

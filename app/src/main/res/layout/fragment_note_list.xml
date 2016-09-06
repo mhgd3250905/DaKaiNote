@@ -5,9 +5,20 @@
     android:orientation="vertical"
     android:background="@color/colorWhite">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@id/rv_note_list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/rv_note_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <include
+            layout="@layout/view_blank_tip"
+            android:id="@id/ll_blank_tip"/>
+    </FrameLayout>
+
+
 
 </LinearLayout>

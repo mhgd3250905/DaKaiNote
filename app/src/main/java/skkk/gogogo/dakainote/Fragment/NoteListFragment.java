@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class NoteListFragment extends Fragment {
     protected NoteListAdapter adapter;
     protected NoteNew noteShow;
     protected RecyclerView rvNoteList;
+    protected LinearLayout llBlankTip;
 
     @Nullable
     @Override
@@ -69,6 +71,10 @@ public class NoteListFragment extends Fragment {
     private void initUI(View view) {
         //获取RecyclerView实例
         rvNoteList = (RecyclerView) view.findViewById(R.id.rv_note_list);
+        //获取提示布局
+        llBlankTip= (LinearLayout) view.findViewById(R.id.ll_blank_tip);
+
+
         //设置Adapter
         adapter = new NoteListAdapter(getContext(),myNotes);
         //设置布局管理器
@@ -162,6 +168,16 @@ public class NoteListFragment extends Fragment {
         super.onResume();
         reGetNoteList();
         updateAll(myNotes);
+        showBlankTip();
+    }
+
+    public void showBlankTip(){
+        reGetNoteList();
+        if (myNotes.size()==0){
+            llBlankTip.setVisibility(View.VISIBLE);
+        }else {
+            llBlankTip.setVisibility(View.GONE);
+        }
     }
 
     public void smoothScrollToTop(){
@@ -175,6 +191,7 @@ public class NoteListFragment extends Fragment {
         adapter.remove(pos);
         Log.d("SKKK_____", noteDelete.toString());
         noteDelete.delete();
+        showBlankTip();
     }
 
     public void reGetNoteList(){

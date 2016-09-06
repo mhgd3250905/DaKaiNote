@@ -57,6 +57,11 @@
     <item name="iv_view_note_voice" type="id">note中录音标签</item>
     <item name="iv_note_item_image" type="id">note中图片的点击事件</item>
     <item name="btn_note_image_delete" type="id">btn_note_image_delete</item>
+    <item name="tb_note_new_detial_image" type="id">图片编辑界面的toolbar</item>
+    <item name="iv_note_image_delete" type="id">iv_note_image_delete</item>
+    <item name="cl_note_detail" type="id">cl_note_detail</item>
+    <item name="ll_blank_tip" type="id">ll_blank_tip</item>
+    <item name="fab_note_detail" type="id">fab_note_detail</item>
 
 
 </resources>

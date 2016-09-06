@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,6 +20,7 @@ public class NoteImageActivity extends AppCompatActivity implements View.OnClick
     protected Button btnNoteImageDelete;
     protected String image_click_path;
     protected Intent intentGet;
+    protected Toolbar tbNoteNewDetailImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,6 @@ public class NoteImageActivity extends AppCompatActivity implements View.OnClick
         initUI();
         initData();
         initEvent();
-
     }
 
 
@@ -48,6 +49,9 @@ public class NoteImageActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_note_image);
         ivNoteItemImage= (SimpleDraweeView) findViewById(R.id.iv_note_item_image);
         btnNoteImageDelete= (Button) findViewById(R.id.btn_note_image_delete);
+        tbNoteNewDetailImage= (Toolbar) findViewById(R.id.tb_note_new_detial_image);
+        setSupportActionBar(tbNoteNewDetailImage);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     /*
@@ -67,6 +71,13 @@ public class NoteImageActivity extends AppCompatActivity implements View.OnClick
     */
     private void initEvent() {
         btnNoteImageDelete.setOnClickListener(this);
+        //为toolbar 添加返回按钮
+        tbNoteNewDetailImage.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     /*

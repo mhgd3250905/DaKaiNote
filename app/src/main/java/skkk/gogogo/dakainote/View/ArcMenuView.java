@@ -234,6 +234,11 @@ public class ArcMenuView extends ViewGroup implements View.OnClickListener {
         toggleMenu(200);
     }
 
+    public void likeClick(){
+        rotateCButton(getChildAt(0), 0f,360f, 200);
+        toggleMenu(200);
+    }
+
     /*
     * @方法 切换菜单动画
     *

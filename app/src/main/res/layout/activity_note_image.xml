@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorPrimaryDark"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@id/iv_note_item_image"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_note_image_delete"
-        fresco:actualImageScaleType="centerInside"
-        fresco:placeholderImage="@drawable/vector_drawable_image" />
+        android:orientation="vertical">
 
-    <Button
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/colorWhite"
-        android:id="@id/btn_note_image_delete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:textSize="20dp"
-        android:text="点击删除" />
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:id="@id/tb_note_new_detial_image"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/colorPrimaryDark"
+                android:elevation="10dp"
+                app:navigationIcon="@drawable/vector_drawable_back"
+                app:title="图片编辑"
+                app:titleTextColor="@color/colorWhite">
 
-</RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@id/iv_note_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/btn_note_image_delete"
+            fresco:actualImageScaleType="centerInside"
+            fresco:placeholderImage="@drawable/vector_drawable_image" />
+
+        <Button
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorWhite"
+            android:id="@id/btn_note_image_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="点击删除" />
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

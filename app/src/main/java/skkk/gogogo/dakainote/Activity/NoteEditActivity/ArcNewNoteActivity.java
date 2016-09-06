@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -31,14 +32,31 @@ import skkk.gogogo.dakainote.View.MyImageView;
 * 时    间：2016/8/26$ 23:02$.
 */
 public class ArcNewNoteActivity extends VoiceNewNoteActivity {
-    private ArcMenuView arcMenuView;
+    protected ArcMenuView arcMenuView;
+    protected FloatingActionButton fabNoteDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initArcUI();
         initArcEvent();
+        //initFabUI();
+
     }
+
+//    /*
+//    * @方法 初始化Fab
+//    *
+//    */
+//    private void initFabUI() {
+//        fabNoteDetail= (FloatingActionButton) findViewById(R.id.fab_note_detail);
+//        fabNoteDetail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                arcMenuView.likeClick();
+//            }
+//        });
+//    }
 
     /*
     * @方法 初始化弹射菜单UI
@@ -59,15 +77,13 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                   public void onClick(View view, int pos) {
                                                       switch (pos) {
                                                           case 1:
-                                                              break;
-                                                          case 2:
-                                                            /*
+                                                              /*
                                                             * @方法 点击调用相机拍照
                                                             *
                                                             */
                                                               takePicture(ArcNewNoteActivity.this);
                                                               break;
-                                                          case 3:
+                                                          case 2:
                                                               if (isPin) {
                                                                   isPin = false;
                                                                   ivPin.setVisibility(View.INVISIBLE);
@@ -76,14 +92,14 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                                   ivPin.setVisibility(View.VISIBLE);
                                                               }
                                                               break;
-                                                          case 4:
+                                                          case 3:
                                                               if (rbVoice.getVisibility() == View.VISIBLE) {
                                                                   rbVoice.setVisibility(View.GONE);
                                                               } else {
                                                                   rbVoice.setVisibility(View.VISIBLE);
                                                               }
                                                               break;
-                                                          case 5:
+                                                          case 4:
                                                               //直接finish()是为了触发onPause中的保存
                                                               saveAndCallBack();
                                                               finish();

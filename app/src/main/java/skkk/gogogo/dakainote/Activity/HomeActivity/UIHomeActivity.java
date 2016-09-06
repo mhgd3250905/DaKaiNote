@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,10 +36,9 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 public class UIHomeActivity extends BaseHomeActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     protected NoteListFragment noteListFragment;
-    protected static final int REQUEST_CODE_1 = 1;
-    protected static final int REQUEST_CODE_2 = 2;
     private List<NoteNew> myNotes;
     private FloatingActionButton fab;
+    protected FrameLayout flHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,9 @@ public class UIHomeActivity extends BaseHomeActivity
 
     private void initUI() {
         setContentView(R.layout.activity_main);
+
+        flHome= (FrameLayout) findViewById(R.id.fl_home);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_home);
 
@@ -144,18 +148,35 @@ public class UIHomeActivity extends BaseHomeActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         myNotes = SQLUtils.getNoteList();
-        noteListFragment.updateAll(myNotes);
+        if (myNotes.size()==0){
+            Snackbar.make(flHome,"没有笔记...",Snackbar.LENGTH_SHORT).show();
+        }else{
+            noteListFragment.updateAll(myNotes);
+        }
+
         if (id == R.id.nav_list) {
             // Handle the camera action
         } else if (id == R.id.nav_pin) {
             myNotes = SQLUtils.getPinNoteList();
-            noteListFragment.updateAll(myNotes);
+            if (myNotes.size()==0){
+                Snackbar.make(flHome,"没有pin笔记...",Snackbar.LENGTH_SHORT).show();
+            }else {
+                noteListFragment.updateAll(myNotes);
+            }
         } else if (id == R.id.nav_image) {
             myNotes = SQLUtils.getImageNoteList();
-            noteListFragment.updateAll(myNotes);
+            if (myNotes.size()==0){
+                Snackbar.make(flHome,"没有图片笔记...",Snackbar.LENGTH_SHORT).show();
+            }else {
+                noteListFragment.updateAll(myNotes);
+            }
         } else if (id == R.id.nav_voice) {
             myNotes = SQLUtils.getVoiceNoteList();
-            noteListFragment.updateAll(myNotes);
+            if (myNotes.size()==0){
+                Snackbar.make(flHome,"没有录音笔记...",Snackbar.LENGTH_SHORT).show();
+            }else {
+                noteListFragment.updateAll(myNotes);
+            }
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_author) {

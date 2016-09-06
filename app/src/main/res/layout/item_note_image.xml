@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="360dp"
     android:paddingTop="2dp">
+
+
     <skkk.gogogo.dakainote.View.MyImageView
         android:id="@id/iv_note_image"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_centerInParent="true"
         fresco:actualImageScaleType="centerInside"
-        fresco:placeholderImage="@drawable/vector_drawable_image" />
+        fresco:placeholderImage="@drawable/vector_drawable_image"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:visibility="gone"
+        android:padding="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:id="@id/iv_note_image_delete"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:src="@drawable/vector_drawable_delete"
+        android:layout_below="@id/iv_note_image"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
