@@ -62,6 +62,9 @@
     <item name="cl_note_detail" type="id">cl_note_detail</item>
     <item name="ll_blank_tip" type="id">ll_blank_tip</item>
     <item name="fab_note_detail" type="id">fab_note_detail</item>
+    <item name="rb_note_delete_check" type="id">rb_note_delete_check</item>
+    <item name="cb_view_note_title_time" type="id">cb_view_note_title_time</item>
+    <item name="cb_note_delete_check" type="id">cb_note_delete_check</item>
 
 
 </resources>

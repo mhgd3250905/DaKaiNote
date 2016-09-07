@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import skkk.gogogo.dakainote.R;
 
-/**
- * Created by admin on 2016/8/7.
- */
 /*
 * 
 * 描    述：自定义noteview
@@ -27,13 +24,10 @@ public class MyNoteView extends RelativeLayout{
     private ImageView ivViewNote;
     private ImageView ivViewPin;
     private ImageView ivViewVoice;
-    private ImageView ivViewVideo;
-
-
 
 
     public MyNoteView(Context context) {
-        super(context, null);
+        super(context);
         initView();
     }
 
@@ -47,6 +41,7 @@ public class MyNoteView extends RelativeLayout{
         initView();
     }
 
+
     private void initView() {
         //将定义好的布局文件设置给当前的view
         View.inflate(getContext(), R.layout.view_note_design,this);
@@ -56,9 +51,11 @@ public class MyNoteView extends RelativeLayout{
         ivViewNote = (ImageView) findViewById(R.id.iv_view_note_image);
         ivViewPin= (ImageView) findViewById(R.id.iv_view_note_pin);
         ivViewVoice= (ImageView) findViewById(R.id.iv_view_note_voice);
+
         //setViewTitleDate("几天前");
         setViewTitleTime("具体时间");
         setViewContent("具体内容");
+
     }
 
     //修改标题天数
@@ -108,5 +105,7 @@ public class MyNoteView extends RelativeLayout{
             ivViewVoice.setVisibility(GONE);
         }
     }
+
+
 
 }

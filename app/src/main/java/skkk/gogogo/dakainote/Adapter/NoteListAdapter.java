@@ -72,7 +72,7 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
     public View createView(ViewGroup viewGroup, int i) {
         context = viewGroup.getContext();
         //加载item的布局
-        View view = inflater.inflate(R.layout.item_note_card, viewGroup, false);
+        View view = inflater.inflate(R.layout.item_note_card, viewGroup,false);
         return view;
     }
 

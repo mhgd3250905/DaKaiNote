@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:clickable="true"
+    android:id="@id/cv_note"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
+    android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardCornerRadius="3dp"
-    android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:id="@id/cv_note"
-    android:stateListAnimator="@anim/card_anim">
+    android:stateListAnimator="@anim/card_anim"
+    card_view:cardCornerRadius="3dp">
 
-<skkk.gogogo.dakainote.View.MyNoteView
-    android:id="@id/my_note_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    card_view:imageIsExist="exist"
-/>
+    <skkk.gogogo.dakainote.View.MyNoteView
+        android:id="@id/my_note_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </skkk.gogogo.dakainote.View.MyNoteView>
 
 </android.support.v7.widget.CardView>
