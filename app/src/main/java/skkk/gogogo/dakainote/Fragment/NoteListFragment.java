@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.MyNoteView;
 
 /*
 * 
@@ -34,14 +36,16 @@ import skkk.gogogo.dakainote.R;
 */
 public class NoteListFragment extends Fragment {
     protected int REQUEST_CODE_2=2;
-    View view;
+    protected View view;
     protected List<NoteNew> notes;
     protected List<NoteNew> myNotes;
     protected NoteListAdapter adapter;
     protected NoteNew noteShow;
     protected RecyclerView rvNoteList;
     protected LinearLayout llBlankTip;
-    private UIHomeActivity mUiHomeActivity;
+    protected UIHomeActivity mUiHomeActivity;
+    private LinearLayoutManager mLayoutManager;
+    private SpacesItemDecoration mDecoration;
 
     @Nullable
     @Override
@@ -78,15 +82,15 @@ public class NoteListFragment extends Fragment {
         //设置Adapter
         adapter = new NoteListAdapter(getContext(),myNotes);
         //设置布局管理器
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager = new LinearLayoutManager(getContext());
         //设置布局管理器
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         //设置间距
-        SpacesItemDecoration decoration=new SpacesItemDecoration(5);
+        mDecoration = new SpacesItemDecoration(5);
         //添加间距
-        rvNoteList.addItemDecoration(decoration);
+        rvNoteList.addItemDecoration(mDecoration);
         //添加布局
-        rvNoteList.setLayoutManager(layoutManager);
+        rvNoteList.setLayoutManager(mLayoutManager);
         //设置基本动画
         rvNoteList.setItemAnimator(new DefaultItemAnimator());
         //rvNoteList
@@ -119,24 +123,42 @@ public class NoteListFragment extends Fragment {
             */
             @Override
             public void onItemLongClick(View view, final int position) {
-//                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
-//                builder.setTitle("提醒");
-//                builder.setIcon(R.drawable.item_recycle);
-//                builder.setMessage("您将删除这条Note...");
-//                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        deleteItemPos(position);
-//                        dialog.dismiss();
-//                    }
-//                });
-//                builder.setNegativeButton("取消", null);
-//                builder.show();
+                /*AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                builder.setTitle("提醒");
+                builder.setIcon(R.drawable.item_recycle);
+                builder.setMessage("您将删除这条Note...");
+                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteItemPos(position);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();*/
                 adapter.showCheckBox(true);
                 mUiHomeActivity.changeFabSrc(2);
             }
         });
     }
+
+    /*
+    * @方法 判断recyclerView中每一个View是否需要删除
+    *
+    */
+    public void deleteSelectedItem() {
+        for (int i=myNotes.size()-1;i>=0;i--) {
+            View positionView = mLayoutManager.findViewByPosition(i);
+            if (positionView instanceof CardView){
+                MyNoteView myNoteViewPos= (MyNoteView) ((CardView) positionView).getChildAt(0);
+                if(myNoteViewPos.isDeleteChecked()){
+                    deleteItemPos(i);
+                }
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
 
     /*
     * @方法 改变所有的item的checkbox状态
@@ -193,6 +215,10 @@ public class NoteListFragment extends Fragment {
         rvNoteList.smoothScrollToPosition(0);
     }
 
+    /*
+    * @方法 删除指定pos的item
+    *
+    */
     public void deleteItemPos(int pos){
         //首先获取这个位置的note
         NoteNew noteDelete = myNotes.get(pos);
@@ -203,6 +229,10 @@ public class NoteListFragment extends Fragment {
         showBlankTip();
     }
 
+    /*
+    * @方法 重新获取NoteList
+    *
+    */
     public void reGetNoteList(){
         myNotes=SQLUtils.getNoteList();
     }

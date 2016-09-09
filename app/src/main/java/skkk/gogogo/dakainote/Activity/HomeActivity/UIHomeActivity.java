@@ -39,7 +39,7 @@ public class UIHomeActivity extends BaseHomeActivity
     private List<NoteNew> myNotes;
     private FloatingActionButton fab;
     protected FrameLayout flHome;
-    private int FabFlagInActivity;
+    private int fabFlagInActivity=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,6 @@ public class UIHomeActivity extends BaseHomeActivity
         initData();
         initEvent();
     }
-
 
     private void initData() {
         myNotes = new ArrayList<NoteNew>();
@@ -87,16 +86,33 @@ public class UIHomeActivity extends BaseHomeActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //进入到编辑页面
-                Intent intent = new Intent();
-                intent.setClass(UIHomeActivity.this, ArcNewNoteActivity.class);
-                startActivity(intent);
+                /* @描述 如果fab标签是1说明为编辑状态 */
+                if (fabFlagInActivity==1) {
+                    //进入到编辑页面
+                    Intent intent = new Intent();
+                    intent.setClass(UIHomeActivity.this, ArcNewNoteActivity.class);
+                    startActivity(intent);
+                }else if (fabFlagInActivity==2){
+                    /* @描述 如果fab标签是2说明为删除状态 */
+
+                    noteListFragment.deleteSelectedItem();
+                    changeFabSrc(1);
+                    noteListFragment.hideCheckBox();
+                }
             }
         });
     }
 
+
+
+
+    /*
+    * @方法 变更Fab背景图片
+    *       fab编辑状态和删除状态的切换
+    *
+    */
     public void changeFabSrc(int flag){
-        FabFlagInActivity=flag;
+        fabFlagInActivity=flag;
         if (flag==1){
             fab.setImageResource(R.drawable.vector_drawable_pen);
         }else{
@@ -114,7 +130,7 @@ public class UIHomeActivity extends BaseHomeActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if(FabFlagInActivity==2){
+        } else if(fabFlagInActivity==2){
             changeFabSrc(1);
             noteListFragment.hideCheckBox();
         }else{
@@ -122,9 +138,10 @@ public class UIHomeActivity extends BaseHomeActivity
         }
     }
 
-    /**
-     * 双击退出函数
-     */
+    /*
+    * @方法 双击退出函数
+    *
+    */
     private static Boolean isExit = false;
 
     private void exitBy2Click() {
