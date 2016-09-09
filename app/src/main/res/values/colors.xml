@@ -8,5 +8,6 @@
     <color name="colorWhite">#fff</color>
     <color name="colorWhite55">#55ffffff</color>
     <color name="colorGray">#44000000</color>
+    <color name="colorTransPrimaryDark">#5528788c</color>
 
 </resources>
