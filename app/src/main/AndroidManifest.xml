@@ -25,15 +25,20 @@
             </intent-filter>
         </activity>
 
-        <!-- note details 编辑界面 -->
-        <!-- note details 展示界面 -->
+        <!-- 权限请求获取页面-->
         <activity
             android:name=".Activity.PermissionsActivity.PermissionsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activity.MyTestActivity"/>
+
+        <!-- note details 编辑界面 -->
+        <!-- note details 展示界面 -->
         <activity
             android:name=".Activity.NoteEditActivity.ArcNewNoteActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateUnspecified|adjustResize"/>
+
+        <!-- 点击图片显示页面-->
         <activity
             android:name=".Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity"
             android:theme="@style/AppTheme.NoActionBar"/>

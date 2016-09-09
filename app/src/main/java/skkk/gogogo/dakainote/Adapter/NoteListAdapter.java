@@ -31,6 +31,7 @@ import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
 public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
     private Context context;
     private LayoutInflater inflater;
+    private Boolean showCheckbox=false;
 
     /*
     * @方法 1 构造方法
@@ -61,6 +62,8 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
         holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
         holder.myNoteView.setPinIsExist(mItemDataList.get(position).isPinIsExist());
         holder.myNoteView.setVoiceIsExist(mItemDataList.get(position).isVoiceExist());
+        //是否显示Checkbox
+        holder.myNoteView.setCheckBoxShow(showCheckbox);
     }
 
 
@@ -85,6 +88,16 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
     public RecyclerViewHolderBase createViewHolder(View view) {
         //直接返回viewholder对象
         return new NoteListViewHolder(view);
+    }
+
+    /*
+    * @方法 修改showChecked flag
+    *       显示或隐藏所有的item checkbox
+    *
+    */
+    public void showCheckBox(boolean show){
+        this.showCheckbox=show;
+        notifyDataSetChanged();
     }
 
 }

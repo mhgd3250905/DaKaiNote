@@ -54,7 +54,7 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         //添加之后计算目前的child数量
         childNum=llNoteDetail.getChildCount();
 
-
+         /* @描述 view_image 软键盘按键监听事件 */
         etText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -70,16 +70,12 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
                             //当按下的是del按键以及此child已经大于第三个了
                             if (TextUtils.isEmpty(editStr)) {
                                 //当edit的内容已经是空的
-                                llNoteDetail.getChildAt(childNum-2).setFocusable(true);
-                                llNoteDetail.getChildAt(childNum-2).setFocusableInTouchMode(true);
-                                llNoteDetail.getChildAt(childNum-2).requestFocus();
-                                llNoteDetail.getChildAt(childNum-2).requestFocusFromTouch();
+                                getFocuse(llNoteDetail.getChildAt(childNum-2));
                                 return true;
                             }
                             break;
                     }
                 }
-                LogUtils.Log("1111111111");
                 return false;
             }
         });
@@ -95,7 +91,6 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
         EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
         etText.setText(text);
         llNoteDetail.addView(view_text);
-
     }
 
 
@@ -170,6 +165,8 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
                 if (keyCode==KeyEvent.KEYCODE_DEL&&event.getAction()==KeyEvent.ACTION_UP){
                     //如果是del按键那么将iamge_view除移
                     llNoteDetail.removeView(llNoteDetail.getChildAt(childNum - 2));
+                    //移除之后为下一个控件获取焦点
+                    getFocuse(llNoteDetail.getChildAt(llNoteDetail.getChildCount() - 1));
                 }
                 return true;
             }
@@ -184,9 +181,39 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
     protected void addVoiceItem(String voicePath) {
         LayoutInflater li = LayoutInflater.from(this);
         View view_voice = li.inflate(R.layout.item_note_voice, null);
-        AudioButton abVoice = (AudioButton) view_voice.findViewById(R.id.ab_note_voice);
+        final AudioButton abVoice = (AudioButton) view_voice.findViewById(R.id.ab_note_voice);
         abVoice.setVoicePath(voicePath);
         llNoteDetail.addView(view_voice);
+
+          /* @描述 view_image的焦点监听事件 */
+        view_voice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                LogUtils.Log("image_item是否被选中——————>" + hasFocus);
+                if (hasFocus) {
+                    //如果获取到了焦点 那么就显示删除按钮
+                    abVoice.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                } else {
+                    //如果没有获取的焦点 那么就不显示焦点
+                    abVoice.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                }
+            }
+        });
+
+        /* @描述 view_image 软键盘按键监听事件 */
+        view_voice.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_UP) {
+                    //如果是del按键那么将iamge_view除移
+                    llNoteDetail.removeView(llNoteDetail.getChildAt(childNum - 2));
+                    //移除之后为下一个控件获取焦点
+                    getFocuse(llNoteDetail.getChildAt(llNoteDetail.getChildCount()-1));
+
+                }
+                return true;
+            }
+        });
     }
 
 }

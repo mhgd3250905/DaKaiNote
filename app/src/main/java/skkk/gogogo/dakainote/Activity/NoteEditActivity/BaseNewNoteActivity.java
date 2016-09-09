@@ -116,4 +116,15 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         }
 
     }
+
+    /*
+    * @方法 为控件获取焦点
+    *
+    */
+    protected void getFocuse(View view){
+        view.setFocusable(true);
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.requestFocusFromTouch();
+    }
 }

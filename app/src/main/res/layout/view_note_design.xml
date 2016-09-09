@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="95dp">
+                android:layout_height="100dp">
 
     <TextView
         android:id="@id/tv_view_note_title"
@@ -54,9 +54,21 @@
             android:layout_marginRight="5dp"
             android:src="@drawable/item_pin"/>
 
+        <CheckBox
+            android:visibility="visible"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:button="@drawable/select_checkbox_for_item_delete"
+            android:id="@id/cb_note_delete_check"
+            />
+
     </LinearLayout>
 
     <TextView
+        android:paddingBottom="10dp"
         android:id="@id/tv_view_note_title_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,6 +77,7 @@
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
         android:text="aaa"
+        android:textSize="15dp"
         android:textColor="@color/colorGray"/>
 
 </RelativeLayout>

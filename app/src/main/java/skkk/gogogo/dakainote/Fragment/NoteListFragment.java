@@ -1,7 +1,5 @@
 package skkk.gogogo.dakainote.Fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +16,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.ArcNewNoteActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
@@ -42,6 +41,7 @@ public class NoteListFragment extends Fragment {
     protected NoteNew noteShow;
     protected RecyclerView rvNoteList;
     protected LinearLayout llBlankTip;
+    private UIHomeActivity mUiHomeActivity;
 
     @Nullable
     @Override
@@ -60,6 +60,7 @@ public class NoteListFragment extends Fragment {
     private void beforeStart() {
         myNotes=new ArrayList<NoteNew>();
         myNotes= SQLUtils.getNoteList();
+        mUiHomeActivity = (UIHomeActivity) getActivity();
         //List<ContentText> contentTextList = myNotes.get(0).getContentTextList();
     }
 
@@ -73,7 +74,6 @@ public class NoteListFragment extends Fragment {
         rvNoteList = (RecyclerView) view.findViewById(R.id.rv_note_list);
         //获取提示布局
         llBlankTip= (LinearLayout) view.findViewById(R.id.ll_blank_tip);
-
 
         //设置Adapter
         adapter = new NoteListAdapter(getContext(),myNotes);
@@ -119,23 +119,32 @@ public class NoteListFragment extends Fragment {
             */
             @Override
             public void onItemLongClick(View view, final int position) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
-                builder.setTitle("提醒");
-                builder.setIcon(R.drawable.item_recycle);
-                builder.setMessage("您将删除这条Note...");
-                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteItemPos(position);
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton("取消", null);
-                builder.show();
+//                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+//                builder.setTitle("提醒");
+//                builder.setIcon(R.drawable.item_recycle);
+//                builder.setMessage("您将删除这条Note...");
+//                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        deleteItemPos(position);
+//                        dialog.dismiss();
+//                    }
+//                });
+//                builder.setNegativeButton("取消", null);
+//                builder.show();
+                adapter.showCheckBox(true);
+                mUiHomeActivity.changeFabSrc(2);
             }
         });
     }
 
+    /*
+    * @方法 改变所有的item的checkbox状态
+    *
+    */
+    public void hideCheckBox(){
+        adapter.showCheckBox(false);
+    }
 
     /*
     * @方法 设置所有的触发事件

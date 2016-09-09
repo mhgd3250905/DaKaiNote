@@ -39,6 +39,7 @@ public class UIHomeActivity extends BaseHomeActivity
     private List<NoteNew> myNotes;
     private FloatingActionButton fab;
     protected FrameLayout flHome;
+    private int FabFlagInActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,15 @@ public class UIHomeActivity extends BaseHomeActivity
         });
     }
 
+    public void changeFabSrc(int flag){
+        FabFlagInActivity=flag;
+        if (flag==1){
+            fab.setImageResource(R.drawable.vector_drawable_pen);
+        }else{
+            fab.setImageResource(R.drawable.vector_drawable_delete);
+        }
+    }
+
 
     /*
     * @方法 重写返回方法双击退出
@@ -104,7 +114,10 @@ public class UIHomeActivity extends BaseHomeActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if(FabFlagInActivity==2){
+            changeFabSrc(1);
+            noteListFragment.hideCheckBox();
+        }else{
             exitBy2Click();
         }
     }
