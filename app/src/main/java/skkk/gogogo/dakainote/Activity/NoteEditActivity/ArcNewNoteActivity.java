@@ -6,21 +6,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 import org.litepal.crud.DataSupport;
 
-import skkk.gogogo.dakainote.DbTable.ContentText;
 import skkk.gogogo.dakainote.DbTable.Image;
+import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
-import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.ArcMenuView;
-import skkk.gogogo.dakainote.View.AudioButton;
-import skkk.gogogo.dakainote.View.MyImageView;
 
 /**
  * Created by admin on 2016/8/26.
@@ -31,7 +26,7 @@ import skkk.gogogo.dakainote.View.MyImageView;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 23:02$.
 */
-public class ArcNewNoteActivity extends VoiceNewNoteActivity {
+public class ArcNewNoteActivity extends ImageNewNoteActivity {
     protected ArcMenuView arcMenuView;
     protected FloatingActionButton fabNoteDetail;
 
@@ -44,19 +39,9 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
 
     }
 
-//    /*
-//    * @方法 初始化Fab
-//    *
-//    */
-//    private void initFabUI() {
-//        fabNoteDetail= (FloatingActionButton) findViewById(R.id.fab_note_detail);
-//        fabNoteDetail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                arcMenuView.likeClick();
-//            }
-//        });
-//    }
+
+
+
 
     /*
     * @方法 初始化弹射菜单UI
@@ -115,17 +100,19 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     *
     */
     private void saveNoteData() {
-        int detailCount = llNoteDetail.getChildCount();
-        LogUtils.Log("目前ll中包含控件数量为 " + detailCount);
-        LogUtils.Log("NoteDetail中child数量" + detailCount);
-        if (detailCount == 0) {
-            return;
-        }
-        //将note数据保存起来
+
+        /* @描述 保存标题 */
         note.setTitle(TextUtils.isEmpty(etNoteDetailTitle.getText().toString()) ?
                 "无题" :
                 etNoteDetailTitle.getText().toString());//保存标题
 
+        /* @描述 保存et内容 */
+        if (!TextUtils.isEmpty(etNewNoteDetail.getText().toString())) {
+           note.setContent(etNewNoteDetail.getText().toString());
+            isStore=true;
+        }
+
+        /* @描述 保存时间 */
         if (inetntNote==null) {
             note.setTime(DateUtils.getTime());//保存时间
         } else {
@@ -133,65 +120,18 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             note.setTime(inetntNote.getTime());
         }
 
-        note.setKeyNum(System.currentTimeMillis());//保存标识
+
+        /* @描述 初始化无图片存在 */
         note.setImageIsExist(false);//初始化图片为不存在
+        /* @描述 初始化无录音存在 */
         note.setVoiceExist(false);//初始化录音为不存在
+        /* @描述 保存pin属性 */
         note.setPinIsExist(isPin);//设置pin属性
 
-        int num = 0;
-        //遍历整个ViewGroup
-        for (int i = 0; i < detailCount; i++) {
-            View child = llNoteDetail.getChildAt(i);
-            //如果子view为EditText或其子类
-            /*
-            * @方法 判断是否为contentText并保存
-            *
-            */
-            if (child instanceof EditText && !TextUtils.isEmpty(((EditText) child).getText())) {
-                //初始化一个contentText bean
-                ContentText contentText = new ContentText();
-                contentText.setContentText(((EditText) child).getText().toString());//保存文字内容
-                contentText.setNum(num);//设置座位
-                //保存bean
-                contentText.save();
-                //加入到note的contentTextList中
-                note.getContentTextList().add(contentText);
-                isStore = true;
-                num++;
-                /*
-                * @方法 判断是否为image并保存
-                *
-                */
-            } else if (child instanceof RelativeLayout) {
-                //设置note中image存在
-                note.setImageIsExist(true);
-                //初始化ImageBean
-                Image image = new Image();
-                image.setImagePath(((MyImageView) ((RelativeLayout) child).getChildAt(0)).getImagePath());
-                image.setNum(num);//设置座位
-                //保存bean
-                image.save();
-                //添加到note的imageList中
-                note.getImageList().add(image);
-                isStore = true;
-                num++;
-                /*
-                * @方法 判断是否为voice并保存
-                *
-                */
-            } else if (child instanceof AudioButton) {
-                note.setVoiceExist(true);
-                //初始化Voice
-                Voice voice = new Voice();
-                voice.setVoicePath(((AudioButton) child).getVoicePath());
-                voice.setNum(num);//设置座位
-                voice.save();
-                note.getVoiceList().add(voice);
-                isStore = true;
-                num++;
-            }
-        }
-        //保存Note
+        /* @描述 保存图片 */
+
+
+        /* @描述 保存note */
         note.save();
     }
 
@@ -206,8 +146,12 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         Log.d("SKKK_____", "requestCode:  " + requestCode);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             //设置图片存在
-            addImageItem(imagePath);
-            addEditTextItem();
+            ImageCache imageCache=new ImageCache();
+            imageCache.setNoteKey(noteKey);
+            imageCache.setImagePath(imagePath);
+            imageCache.save();
+            //获取当前fragment
+            mImageNewNoteFragment.insertImage(noteKey);
 
         }else if(requestCode==REQUEST_NOTE_IMAGE_DELETE&&resultCode==RESULT_OK){
             //说明在图片编辑界面删除了图片

@@ -10,7 +10,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -74,19 +77,55 @@ public class CameraImageUtils {
     }
 
 
+    /*
+    * @方法 返回缩略图
+    *
+    */
     public static Bitmap getPreciselyBitmap(String imagePath,int reqWidth){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imagePath, options);
         int imageWidth=options.outWidth;
-
         int reqHeight=options.outHeight/((imageWidth/(reqWidth-20))<1?1:(imageWidth/(reqWidth-20)));
-        Log.d("SKKK_____","图片宽为"+reqWidth+"图片高为"+reqHeight);
+
+        Log.d("SKKK_____", "图片宽为" + reqWidth + "图片高为" + reqHeight);
         return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imagePath),
                 reqWidth - 20,
                 reqHeight,
                 ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
+
+
+    /*
+    * @方法 图片质量压缩办法
+    *
+    */
+    public static Bitmap compressImage(Context context,String imagePath) {
+        Bitmap image=getPreciselyBitmap(imagePath,300);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        int options = 10;
+        //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+        while ( baos.toByteArray().length / 1024>100) {
+            baos.reset();//重置baos即清空baos
+            //这里压缩options%，把压缩后的数据存放到baos中
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);
+            //每次都减少10
+            //options -= 10;
+            if (options==0){
+                Toast.makeText(context, "000", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        //把压缩后的数据baos存放到ByteArrayInputStream中
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+        //把ByteArrayInputStream数据生成图片
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
+        return bitmap;
+    }
+
 
     /*
       * @方法获得image绝对路径
@@ -148,4 +187,5 @@ public class CameraImageUtils {
         mediaScanIntent.setData(contentUri);
         context.sendBroadcast(mediaScanIntent);
     }
+
 }

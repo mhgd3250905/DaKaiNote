@@ -7,10 +7,7 @@
     android:id="@id/cl_note_detail"
     android:background="@color/colorWhite">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@id/nsv_note_detail"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -59,7 +56,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp" />
 
-
                 <ImageView
                     android:id="@id/iv_note_detail_pin"
                     android:layout_width="50dp"
@@ -67,9 +63,26 @@
                     android:src="@drawable/item_pin"/>
             </LinearLayout>
 
-        </LinearLayout>
+            <FrameLayout
+                android:id="@id/fl_note_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+            </FrameLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+            <EditText
+                android:layout_weight="1"
+                android:id="@id/et_new_note_detail_new"
+                android:background="@null"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+
+        </LinearLayout>
 
     <skkk.gogogo.dakainote.View.RecordButton
         android:elevation="10dp"
@@ -85,14 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
-    <!--&lt;!&ndash;悬浮按钮&ndash;&gt;-->
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@id/fab_note_detail"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@drawable/vector_drawable_pen" />-->
+
 
     <!--弹射菜单-->
     <skkk.gogogo.dakainote.View.ArcMenuView
@@ -137,8 +143,9 @@
             android:layout_height="50dp"
             android:src="@drawable/item_save"
             android:tag="item_5" />
-
     </skkk.gogogo.dakainote.View.ArcMenuView>
+
+
 
 
 </android.support.design.widget.CoordinatorLayout>

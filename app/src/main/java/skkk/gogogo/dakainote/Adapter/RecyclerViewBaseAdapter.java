@@ -49,7 +49,7 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
     public void append(int position,ItemDataType itemDataType){
         if (itemDataType!=null) {
             mItemDataList.add(position,itemDataType);
-            notifyItemInserted(position);
+            notifyDataSetChanged();
         }
     }
 

@@ -2,15 +2,12 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity;
-import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.AudioButton;
@@ -34,64 +31,9 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        note = new NoteNew();
     }
 
-    /*
-    * @方法 增加EditTextitem
-    *
-    */
-    protected void addEditTextItem() {
-        LayoutInflater li = LayoutInflater.from(this);
-        final View view_text = li.inflate(R.layout.item_note_text, null);
-        final EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
-        //添加view
-        llNoteDetail.addView(view_text);
-        etText.setFocusable(true);
-        etText.setFocusableInTouchMode(true);
-        etText.requestFocus();
 
-        //添加之后计算目前的child数量
-        childNum=llNoteDetail.getChildCount();
-
-         /* @描述 view_image 软键盘按键监听事件 */
-        etText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL && childNum > 3) {
-                    String editStr=etText.getText().toString();
-
-                    switch (event.getAction()){
-
-                        case KeyEvent.ACTION_DOWN:
-
-                            break;
-                        case KeyEvent.ACTION_UP:
-                            //当按下的是del按键以及此child已经大于第三个了
-                            if (TextUtils.isEmpty(editStr)) {
-                                //当edit的内容已经是空的
-                                getFocuse(llNoteDetail.getChildAt(childNum-2));
-                                return true;
-                            }
-                            break;
-                    }
-                }
-                return false;
-            }
-        });
-    }
-
-    /*
-    * @方法 增加EditTextitem
-    *
-    */
-    protected void addEditTextItem(String text) {
-        LayoutInflater li = LayoutInflater.from(this);
-        View view_text = li.inflate(R.layout.item_note_text, null);
-        EditText etText = (EditText) view_text.findViewById(R.id.et_note_text);
-        etText.setText(text);
-        llNoteDetail.addView(view_text);
-    }
 
 
     /*

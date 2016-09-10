@@ -3,12 +3,7 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.List;
-
-import skkk.gogogo.dakainote.DbTable.ContentText;
-import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
-import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 
@@ -35,7 +30,6 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
             llNoteDetail.setFocusableInTouchMode(true);
         } else {
             //如果是编辑界面
-            addEditTextItem();
             tvNoteDetailTime.setText(DateUtils.getTime());
             LogUtils.Log("编辑界面时间显示为" + DateUtils.getTime());
         }
@@ -48,46 +42,47 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
     *
     */
     private void initShowUI() {
-        //设置标题
+        /* @描述 设置标题 */
         etNoteDetailTitle.setText(inetntNote.getTitle());
-        //设置et控件失去焦点
+        /* @描述 设置editView失去焦点 */
         llNoteDetail.setFocusable(true);
-        //设置时间
+        /* @描述 设置时间 */
         tvNoteDetailTime.setText(inetntNote.getTime());
-        //判断并设置pin
+        /* @描述 判断并设置pin */
         isPin = inetntNote.isPinIsExist();
         if (isPin) {
             ivPin.setVisibility(View.VISIBLE);
         } else {
             ivPin.setVisibility(View.INVISIBLE);
         }
-        //获取内容列表
-        List<ContentText> contentTextList = inetntNote.getMyContentTextList();
-        //获取图片列表
-        List<Image> imageList = inetntNote.getMyImageList();
-        //获取录音列表
-        List<Voice> voiceList = inetntNote.getMyVoiceList();
-        for (int i = 0; i < 10; i++) {
+        /* @描述 设置内容 */
+        etNewNoteDetail.setText(inetntNote.getContent());
 
-            for (int j = 0; j < contentTextList.size(); j++) {
-                if (contentTextList.get(j).getNum() == i) {
-                    addEditTextItem(contentTextList.get(j).getContentText());
-                }
-            }
-
-            for (int j = 0; j < imageList.size(); j++) {
-                if (imageList.get(j).getNum() == i) {
-                    addImageItem(imageList.get(j).getImagePath(),imageList.get(j).getId());
-                }
-            }
-
-            for (int j = 0; j < voiceList.size(); j++) {
-                if (voiceList.get(j).getNum() == i) {
-                    addVoiceItem(voiceList.get(j).getVoicePath());
-                }
-            }
-
-        }
+//        //获取图片列表
+//        List<Image> imageList = inetntNote.getMyImageList();
+//        //获取录音列表
+//        List<Voice> voiceList = inetntNote.getMyVoiceList();
+//        for (int i = 0; i < 10; i++) {
+//
+//            for (int j = 0; j < contentTextList.size(); j++) {
+//                if (contentTextList.get(j).getNum() == i) {
+//                    addEditTextItem(contentTextList.get(j).getContentText());
+//                }
+//            }
+//
+//            for (int j = 0; j < imageList.size(); j++) {
+//                if (imageList.get(j).getNum() == i) {
+//                    addImageItem(imageList.get(j).getImagePath(),imageList.get(j).getId());
+//                }
+//            }
+//
+//            for (int j = 0; j < voiceList.size(); j++) {
+//                if (voiceList.get(j).getNum() == i) {
+//                    addVoiceItem(voiceList.get(j).getVoicePath());
+//                }
+//            }
+//
+//        }
 
 
     }
@@ -112,6 +107,5 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NUM = 2;
     }
 }

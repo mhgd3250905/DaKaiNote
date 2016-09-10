@@ -5,6 +5,7 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 
 /**
@@ -74,18 +75,15 @@ public class SQLUtils {
         return noteList;
     }
 
+
     /*
-    * @方法 获取数据库中所有包含关键字的
+    * @方法 获取数据库中所有的图片信息
     *
     */
-    public static List<NoteNew> getkeyNoteList(String key){
-        List<NoteNew> noteList=new ArrayList<NoteNew>();
-        int j=0;
-        for (int i= DataSupport.where("title like ?","_" + key + "%").find(NoteNew.class).size()-1;i>=0;i--){
-            noteList.add(j, DataSupport.where("title like ?","_" + key + "%").find(NoteNew.class).get(i));
-            j++;
-        }
-        return noteList;
+    public static List<ImageCache> getImageInItem(long notekey){
+        List<ImageCache> images=new ArrayList<ImageCache>();
+        images= DataSupport.where("noteKey=?", notekey + "").find(ImageCache.class);
+        return images;
     }
 
 

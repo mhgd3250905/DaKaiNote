@@ -19,25 +19,22 @@ public class NoteNew extends DataSupport implements Serializable {
     private int id;
     private String title;
     private String time;
+    private String content;
     private boolean imageIsExist;
     private boolean pinIsExist;
     private boolean voiceExist;
     private long keyNum;
 
-    @Override
-    public String toString() {
-        return "NoteNew{" +
-                "contentTextList=" + contentTextList +
-                ", id=" + id +
-                ", title='" + title + '\'' +
-                ", time='" + time + '\'' +
-                ", imageIsExist=" + imageIsExist +
-                ", pinIsExist=" + pinIsExist +
-                ", voiceExist=" + voiceExist +
-                ", keyNum=" + keyNum +
-                ", imageList=" + imageList +
-                ", voiceList=" + voiceList +
-                '}';
+    private List<Image> imageList = new ArrayList<Image>();
+    private List<Voice> voiceList = new ArrayList<Voice>();
+
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public boolean isVoiceExist() {
@@ -56,9 +53,6 @@ public class NoteNew extends DataSupport implements Serializable {
         this.id = id;
     }
 
-    private List<Image> imageList = new ArrayList<Image>();
-    private List<ContentText> contentTextList = new ArrayList<ContentText>();
-    private List<Voice> voiceList = new ArrayList<Voice>();
 
     /*
     *
@@ -75,23 +69,6 @@ public class NoteNew extends DataSupport implements Serializable {
 
     public void setVoiceList(List<Voice> voiceList) {
         this.voiceList = voiceList;
-    }
-
-    public List<ContentText> getContentTextList() {
-        return contentTextList;
-    }
-
-    /*
-    * @方法 获取我说需要的串联表ContentText中的内容
-    *
-    */
-    public List<ContentText> getMyContentTextList() {
-        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(ContentText.class);
-    }
-
-
-    public void setContentTextList(List<ContentText> contentTextList) {
-        this.contentTextList = contentTextList;
     }
 
     public boolean isImageIsExist() {
@@ -149,5 +126,20 @@ public class NoteNew extends DataSupport implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "NoteNew{" +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", time='" + time + '\'' +
+                ", imageIsExist=" + imageIsExist +
+                ", pinIsExist=" + pinIsExist +
+                ", voiceExist=" + voiceExist +
+                ", keyNum=" + keyNum +
+                ", imageList=" + imageList +
+                ", voiceList=" + voiceList +
+                '}';
     }
 }

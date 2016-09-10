@@ -31,7 +31,6 @@ public class VoiceNewNoteActivity extends ShowNewNoteActivity {
             @Override
             public void recordEnd(String filePath) {
                 addVoiceItem(filePath);
-                addEditTextItem();
                 rbVoice.setVisibility(View.GONE);
             }
         });

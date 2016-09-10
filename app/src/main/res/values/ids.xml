@@ -65,6 +65,11 @@
     <item name="rb_note_delete_check" type="id">rb_note_delete_check</item>
     <item name="cb_view_note_title_time" type="id">cb_view_note_title_time</item>
     <item name="cb_note_delete_check" type="id">cb_note_delete_check</item>
+    <item name="et_new_note_detail_new" type="id">新的note界面的内容显示et</item>
+    <item name="fl_note_image" type="id">note中的fl用来装fragment显示图片</item>
+    <item name="rv_note_image_list" type="id">rv_note_image_list</item>
+    <item name="item_note_image_list" type="id">item_note_image_list</item>
+    <item name="sdv_note_image_item" type="id">sdv_note_image_item</item>
 
 
 </resources>
