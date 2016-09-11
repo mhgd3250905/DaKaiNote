@@ -34,19 +34,9 @@
             android:id="@id/iv_note_item_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/btn_note_image_delete"
             fresco:actualImageScaleType="centerInside"
             fresco:placeholderImage="@drawable/vector_drawable_image" />
 
-        <Button
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/colorWhite"
-            android:id="@id/btn_note_image_delete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="点击删除" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

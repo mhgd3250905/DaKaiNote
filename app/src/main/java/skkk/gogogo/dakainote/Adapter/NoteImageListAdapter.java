@@ -54,8 +54,6 @@ public class NoteImageListAdapter extends RecyclerViewBaseAdapter<ImageCache> {
         NoteImageViewHolder holder= (NoteImageViewHolder) viewHolder;
         holder.mSimpleDraweeView.setImageBitmap(
                 CameraImageUtils.compressImage(context,mItemDataList.get(position).getImagePath()));
-
-
     }
 
 

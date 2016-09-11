@@ -70,6 +70,7 @@
     <item name="rv_note_image_list" type="id">rv_note_image_list</item>
     <item name="item_note_image_list" type="id">item_note_image_list</item>
     <item name="sdv_note_image_item" type="id">sdv_note_image_item</item>
+    <item name="menu_tb_image_detail_delete" type="id">照片详情页面的删除按钮</item>
 
 
 </resources>

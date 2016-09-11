@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity;
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.ShowNewNoteActivity;
 import skkk.gogogo.dakainote.Adapter.NoteImageListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
@@ -53,8 +54,6 @@ public class ImageNewNoteFragment extends Fragment {
     };
 
 
-    public ImageNewNoteFragment() {
-    }
 
     public ImageNewNoteFragment(long noteKey) {
         this.noteKey = noteKey;
@@ -123,10 +122,16 @@ public class ImageNewNoteFragment extends Fragment {
         adapter.setOnItemClickLitener(new RecyclerViewBaseAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
+                /* @描述 在点击进入note详情之前先清空缓存数据库 */
+                ShowNewNoteActivity activity= (ShowNewNoteActivity) getActivity();
+                activity.setIsDelete(false);
+
                 Intent intent = new Intent();
+                reGetImageList(noteKey);
                 intent.putExtra("image_click", myImages.get(position).getImagePath());
+                intent.putExtra("image_notekey", myImages.get(position).getNoteKey());
                 intent.setClass(getActivity(), NoteImageActivity.class);
-                startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
+                getActivity().startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
             }
 
             @Override

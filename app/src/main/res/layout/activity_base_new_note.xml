@@ -64,12 +64,15 @@
             </LinearLayout>
 
             <FrameLayout
+                android:visibility="gone"
                 android:id="@id/fl_note_image"
                 android:layout_width="match_parent"
                 android:layout_height="150dp">
             </FrameLayout>
 
             <EditText
+                android:textSize="25dp"
+                android:paddingTop="10dp"
                 android:layout_weight="1"
                 android:id="@id/et_new_note_detail_new"
                 android:background="@null"

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -32,6 +33,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     protected ArcMenuView arcMenuView;
     protected FloatingActionButton fabNoteDetail;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +42,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         //initFabUI();
 
     }
-
-
-
-
 
     /*
     * @方法 初始化弹射菜单UI
@@ -68,6 +66,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                             * @方法 点击调用相机拍照
                                                             *
                                                             */
+                                                              isDelete=false;
                                                               takePicture(ArcNewNoteActivity.this);
                                                               break;
                                                           case 2:
@@ -88,7 +87,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               break;
                                                           case 4:
                                                               //直接finish()是为了触发onPause中的保存
-                                                              saveAndCallBack();
                                                               finish();
                                                               break;
                                                       }
@@ -102,11 +100,19 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     *
     */
     private void saveNoteData() {
-
+        isStore=false;
         /* @描述 保存标题 */
-        note.setTitle(TextUtils.isEmpty(etNoteDetailTitle.getText().toString()) ?
-                "无题" :
-                etNoteDetailTitle.getText().toString());//保存标题
+        if (isShow) {
+            if (!TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
+                note.setTitle(etNoteDetailTitle.getText().toString());
+            }else {
+                note.setTitle("无题");
+            }
+        }else {
+            if (TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
+                note.setTitle("无题");
+            }
+        }
 
         /* @描述 保存et内容 */
         if (!TextUtils.isEmpty(etNewNoteDetail.getText().toString())) {
@@ -121,15 +127,14 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             //展示状态保留原来时间
             note.setTime(inetntNote.getTime());
         }
-
-
+        /* @描述 设置noteKey */
+        note.setKeyNum(noteKey);
         /* @描述 初始化无图片存在 */
         note.setImageIsExist(false);//初始化图片为不存在
         /* @描述 初始化无录音存在 */
         note.setVoiceExist(false);//初始化录音为不存在
         /* @描述 保存pin属性 */
         note.setPinIsExist(isPin);//设置pin属性
-
         /* @描述 保存图片 */
         //获取到缓存中的图片
         List<ImageCache> imageCaches = DataSupport
@@ -143,12 +148,32 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 image.save();
                 note.getImageList().add(image);
                 note.setImageIsExist(true);
+                isStore=true;
             }
         }
-
-
         /* @描述 保存note */
-        note.save();
+        if (isStore) {
+            note.save();
+        }else {
+            note=null;
+            Toast.makeText(ArcNewNoteActivity.this, "您未保存任何内容...", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isDelete){
+            saveAndCallBack();
+        }
+        LogUtils.Log("这里是onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        isDelete=true;
+        super.onResume();
+        LogUtils.Log("这里是onResume");
     }
 
     @Override
@@ -167,6 +192,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("SKKK_____", "requestCode:  " + requestCode);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            fl_note_iamge.setVisibility(View.VISIBLE);
             //设置图片存在
             ImageCache imageCache=new ImageCache();
             imageCache.setNoteKey(noteKey);
@@ -174,24 +200,9 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             imageCache.save();
             //获取当前fragment
             mImageNewNoteFragment.insertImage(noteKey);
-
-        }else if(requestCode==REQUEST_NOTE_IMAGE_DELETE&&resultCode==RESULT_OK){
-            //说明在图片编辑界面删除了图片
-            LogUtils.Log("你选择了删除图片");
-            llNoteDetail.removeView(testView);
-
-            //删除数据库中内容
-            if(isShow){
-                int deleteImage=DataSupport.delete(Image.class,testView.getId());
-                LogUtils.Log("image表中删除行数为 "+deleteImage);
-            }
-            testView=null;
+            LogUtils.Log("这里是onActivityResult");
+            isDelete=true;
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     /*
@@ -232,6 +243,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
 //            Toast.makeText(ArcNewNoteActivity.this,getResources().getString(R.string.not_save_anything), Toast.LENGTH_SHORT).show();
 //        }
     }
+
 
 
 }

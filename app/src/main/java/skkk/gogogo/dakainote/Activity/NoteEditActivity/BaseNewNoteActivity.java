@@ -61,6 +61,8 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected FrameLayout fl_note_iamge;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,17 +1,13 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.AudioButton;
-import skkk.gogogo.dakainote.View.MyImageView;
 
 /**
  * Created by admin on 2016/8/26.
@@ -36,84 +32,84 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
 
 
 
-    /*
-    * @方法 在show界面使用的 增加图片item
-    *
-    */
-    protected void addImageItem(String imagePath, int imageId) {
-        LayoutInflater li = LayoutInflater.from(this);
-        final View view_image = li.inflate(R.layout.item_note_image, null);
-        final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
-        ivInsert.setBitmapFromPath(imagePath);
-        ivInsert.setImageId(imageId);
-        LogUtils.Log("设置image位置为" + llNoteDetail.getChildCount());
-        ivInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                testView = view_image;
-                intent.putExtra("image_click", ivInsert.getImagePath());
-                intent.setClass(UINewNoteActivity.this, NoteImageActivity.class);
-                startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
-            }
-        });
-        llNoteDetail.addView(view_image);
-    }
-
-
-    /*
-    * @方法 在编辑界面使用的 增加图片item
-    *
-    */
-    protected void addImageItem(String imagePath) {
-        LayoutInflater li = LayoutInflater.from(this);
-        final View view_image = li.inflate(R.layout.item_note_image, null);
-        final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
-        final ImageView ivNoteImageDelete = (ImageView) view_image.findViewById(R.id.iv_note_image_delete);
-
-        ivInsert.setBitmapFromPath(imagePath);
-        LogUtils.Log("设置image位置为" + llNoteDetail.getChildCount());
-        ivInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                testView = view_image;
-                intent.putExtra("image_click", ivInsert.getImagePath());
-                intent.setClass(UINewNoteActivity.this, NoteImageActivity.class);
-                startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
-            }
-        });
-        llNoteDetail.addView(view_image);
-
-        /* @描述 view_image的焦点监听事件 */
-        view_image.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                LogUtils.Log("image_item是否被选中——————>" + hasFocus);
-                if (hasFocus){
-                    //如果获取到了焦点 那么就显示删除按钮
-                    ivNoteImageDelete.setVisibility(View.VISIBLE);
-                }else{
-                    //如果没有获取的焦点 那么就不显示焦点
-                    ivNoteImageDelete.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        /* @描述 view_image 软键盘按键监听事件 */
-        view_image.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode==KeyEvent.KEYCODE_DEL&&event.getAction()==KeyEvent.ACTION_UP){
-                    //如果是del按键那么将iamge_view除移
-                    llNoteDetail.removeView(llNoteDetail.getChildAt(childNum - 2));
-                    //移除之后为下一个控件获取焦点
-                    getFocuse(llNoteDetail.getChildAt(llNoteDetail.getChildCount() - 1));
-                }
-                return true;
-            }
-        });
-    }
+//    /*
+//    * @方法 在show界面使用的 增加图片item
+//    *
+//    */
+//    protected void addImageItem(String imagePath, int imageId) {
+//        LayoutInflater li = LayoutInflater.from(this);
+//        final View view_image = li.inflate(R.layout.item_note_image, null);
+//        final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
+//        ivInsert.setBitmapFromPath(imagePath);
+//        ivInsert.setImageId(imageId);
+//        LogUtils.Log("设置image位置为" + llNoteDetail.getChildCount());
+//        ivInsert.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                testView = view_image;
+//                intent.putExtra("image_click", ivInsert.getImagePath());
+//                intent.setClass(UINewNoteActivity.this, NoteImageActivity.class);
+//                startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
+//            }
+//        });
+//        llNoteDetail.addView(view_image);
+//    }
+//
+//
+//    /*
+//    * @方法 在编辑界面使用的 增加图片item
+//    *
+//    */
+//    protected void addImageItem(String imagePath) {
+//        LayoutInflater li = LayoutInflater.from(this);
+//        final View view_image = li.inflate(R.layout.item_note_image, null);
+//        final MyImageView ivInsert = (MyImageView) view_image.findViewById(R.id.iv_note_image);
+//        final ImageView ivNoteImageDelete = (ImageView) view_image.findViewById(R.id.iv_note_image_delete);
+//
+//        ivInsert.setBitmapFromPath(imagePath);
+//        LogUtils.Log("设置image位置为" + llNoteDetail.getChildCount());
+//        ivInsert.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                testView = view_image;
+//                intent.putExtra("image_click", ivInsert.getImagePath());
+//                intent.setClass(UINewNoteActivity.this, NoteImageActivity.class);
+//                startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
+//            }
+//        });
+//        llNoteDetail.addView(view_image);
+//
+//        /* @描述 view_image的焦点监听事件 */
+//        view_image.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                LogUtils.Log("image_item是否被选中——————>" + hasFocus);
+//                if (hasFocus){
+//                    //如果获取到了焦点 那么就显示删除按钮
+//                    ivNoteImageDelete.setVisibility(View.VISIBLE);
+//                }else{
+//                    //如果没有获取的焦点 那么就不显示焦点
+//                    ivNoteImageDelete.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//
+//        /* @描述 view_image 软键盘按键监听事件 */
+//        view_image.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (keyCode==KeyEvent.KEYCODE_DEL&&event.getAction()==KeyEvent.ACTION_UP){
+//                    //如果是del按键那么将iamge_view除移
+//                    llNoteDetail.removeView(llNoteDetail.getChildAt(childNum - 2));
+//                    //移除之后为下一个控件获取焦点
+//                    getFocuse(llNoteDetail.getChildAt(llNoteDetail.getChildCount() - 1));
+//                }
+//                return true;
+//            }
+//        });
+//    }
 
 
     /*

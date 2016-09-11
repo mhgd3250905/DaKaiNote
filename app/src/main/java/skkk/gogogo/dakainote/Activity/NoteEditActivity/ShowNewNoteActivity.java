@@ -1,8 +1,12 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
@@ -12,6 +16,7 @@ import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
+import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
 
 /**
@@ -29,34 +34,53 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
     protected long noteKey;
     MyImageThread myImageThread;
 
+    protected boolean isDelete=true;
+    /* @描述 用来设置isDelete */
+    public void setIsDelete(boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        beforeStart();
+        beforeStart();//获取传入的数据
 
+        /* @描述 如果是展示页面 */
+        note = new NoteNew();//这里必须要初始化note
         if (isShow) {
-            //如果是展示页面
             noteKey=inetntNote.getKeyNum();
             initShowUI();
+            //使edit失去焦点
             llNoteDetail.setFocusable(true);
             llNoteDetail.setFocusableInTouchMode(true);
-
         } else {
-            //如果是编辑界面
+            /* @描述 如果是编辑界面 */
             tvNoteDetailTime.setText(DateUtils.getTime());
             LogUtils.Log("编辑界面时间显示为" + DateUtils.getTime());
             initNote();
             addDefaultFragment();
         }
+    }
 
+
+    /*
+     * @方法 获取传入的
+     *
+     */
+    private void beforeStart() {
+        //获取传入的intent中包含的note数据
+        inetntNote = (NoteNew) getIntent().getSerializableExtra("note");
+        if (inetntNote != null) {
+            //如果传入note不是空的那么就说明是展示页面
+            isShow = true;
+        }
     }
 
     /*
- * @方法 初始化note
- *
- */
+     * @方法 初始化note
+     *
+     */
     private void initNote() {
-        note = new NoteNew();
         /* @描述 保存唯一标识码 */
         noteKey=System.currentTimeMillis();
         note.setKeyNum(noteKey);//保存标识
@@ -81,8 +105,6 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
     private void initShowUI() {
         /* @描述 设置标题 */
         etNoteDetailTitle.setText(inetntNote.getTitle());
-        /* @描述 设置editView失去焦点 */
-        llNoteDetail.setFocusable(true);
         /* @描述 设置时间 */
         tvNoteDetailTime.setText(inetntNote.getTime());
         /* @描述 判断并设置pin */
@@ -94,15 +116,20 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         }
         /* @描述 设置内容 */
         etNewNoteDetail.setText(inetntNote.getContent());
+
         /* @描述 载入图片 */
         if (inetntNote.isImageIsExist()){
+            fl_note_iamge.setVisibility(View.VISIBLE);
             //说明存在图片
             //获取图片列表
-            myImageThread=new MyImageThread();
-            myImageThread.start();
-            mImageNewNoteFragment = new ImageNewNoteFragment();
+
+            mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);
             getSupportFragmentManager().beginTransaction().
                     add(R.id.fl_note_image,mImageNewNoteFragment).commit();
+
+            myImageThread=new MyImageThread();
+            myImageThread.start();
+
         }
     }
 
@@ -113,6 +140,7 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
             super.run();
             List<Image> imageList = inetntNote.getMyImageList();
             for (int i = 0; i < imageList.size(); i++) {
+                DataSupport.deleteAll(ImageCache.class);
                 ImageCache imageCache=new ImageCache();
                 imageCache.setImagePath(imageList.get(i).getImagePath());
                 imageCache.setNoteKey(inetntNote.getKeyNum());
@@ -127,25 +155,54 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
     }
 
 
-    /*
-    * @方法 获取传入的
-    *
-    */
-    private void beforeStart() {
-        //获取传入的intent中包含的note数据
-        inetntNote = (NoteNew) getIntent().getSerializableExtra("note");
-        if (inetntNote != null) {
-            //如果传入note不是空的那么就说明是展示页面
-            isShow = true;
-        }
-    }
+
 
     /*
-    * @方法 在页面关闭之前重置NUM
+    * @方法 在页面关闭之前关闭线程
     *
     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (myImageThread!=null) {
+            myImageThread.interrupt();
+            myImageThread = null;
+        }
+    }
+
+
+    /*
+     * @方法 针对删除note中图片进行返回值处理
+     *
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("SKKK_____", "requestCode:  " + requestCode);
+        if(requestCode==REQUEST_NOTE_IMAGE_DELETE&&resultCode==RESULT_OK){
+            LogUtils.Log("你选择了删除图片");
+            /* @描述 在图片详情界面选择了删除图片*/
+
+            /* @描述 获取图片的路径以及notekey */
+            String image_detail_path = (String) data.getExtras().get("image_detail_path");
+            //long image_detail_notekey = (long) data.getExtras().get("image_detail_notekey");
+
+            /* @描述 删除缓存数据库中的对应图片 */
+            if(isShow){
+                int deleteImage= DataSupport.deleteAll(ImageCache.class, "imagepath=?", image_detail_path);
+                DataSupport.deleteAll(Image.class,"imagepath=?",image_detail_path);
+
+                LogUtils.Log("image表中删除行数为 "+deleteImage);
+            }else {
+                int deleteImage= DataSupport.deleteAll(ImageCache.class, "imagepath=?", image_detail_path);
+                LogUtils.Log("image表中删除行数为 "+deleteImage);
+            }
+            /* @描述 刷新fragment */
+            List<ImageCache> imageInItem = SQLUtils.getImageInItem(noteKey);
+            mImageNewNoteFragment.updateAll(imageInItem);
+            if (imageInItem.size()==0){
+                fl_note_iamge.setVisibility(View.GONE);
+            }
+        }
     }
 }
