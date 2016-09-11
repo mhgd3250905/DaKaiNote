@@ -117,16 +117,16 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         /* @描述 设置内容 */
         etNewNoteDetail.setText(inetntNote.getContent());
 
+        /* @描述 先把fragment搁好 */
+        mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fl_note_image,mImageNewNoteFragment).commit();
+
         /* @描述 载入图片 */
         if (inetntNote.isImageIsExist()){
             fl_note_iamge.setVisibility(View.VISIBLE);
             //说明存在图片
             //获取图片列表
-
-            mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);
-            getSupportFragmentManager().beginTransaction().
-                    add(R.id.fl_note_image,mImageNewNoteFragment).commit();
-
             myImageThread=new MyImageThread();
             myImageThread.start();
 
@@ -138,19 +138,23 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         @Override
         public void run() {
             super.run();
+            //第一步清空缓存
+            DataSupport.deleteAll(ImageCache.class);
+            //第二步获取对应note中包含的图片
             List<Image> imageList = inetntNote.getMyImageList();
+            //第三步进行遍历把图片都保存到缓存数据库中
             for (int i = 0; i < imageList.size(); i++) {
-                DataSupport.deleteAll(ImageCache.class);
                 ImageCache imageCache=new ImageCache();
                 imageCache.setImagePath(imageList.get(i).getImagePath());
                 imageCache.setNoteKey(inetntNote.getKeyNum());
                 imageCache.save();
-                Message msg=new Message();
-                Bundle bundle=new Bundle();
-                bundle.putLong("notekey",noteKey);
-                msg.setData(bundle);
-                mImageNewNoteFragment.handler.sendMessage(msg);
             }
+            //发送消息让fragment从缓存数据库刷新数据
+            Message msg=new Message();
+            Bundle bundle=new Bundle();
+            bundle.putLong("notekey", noteKey);
+            msg.setData(bundle);
+            mImageNewNoteFragment.handler.sendMessage(msg);
         }
     }
 

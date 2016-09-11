@@ -15,6 +15,7 @@ import java.util.List;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
@@ -39,8 +40,13 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         super.onCreate(savedInstanceState);
         initArcUI();
         initArcEvent();
-        //initFabUI();
+        //initFragment();
 
+    }
+
+    private void initFragment() {
+        mImageNewNoteFragment = (ImageNewNoteFragment) getSupportFragmentManager().
+                findFragmentById(R.id.fl_note_image);
     }
 
     /*
@@ -66,7 +72,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                             * @方法 点击调用相机拍照
                                                             *
                                                             */
-                                                              isDelete=false;
+                                                              isDelete = false;
                                                               takePicture(ArcNewNoteActivity.this);
                                                               break;
                                                           case 2:
@@ -100,33 +106,28 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     *
     */
     private void saveNoteData() {
-        isStore=false;
+        isStore = false;
         /* @描述 保存标题 */
-        if (isShow) {
-            if (!TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
-                note.setTitle(etNoteDetailTitle.getText().toString());
-            }else {
-                note.setTitle("无题");
-            }
-        }else {
-            if (TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
-                note.setTitle("无题");
-            }
+        if (!TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
+            note.setTitle(etNoteDetailTitle.getText().toString());
+        } else {
+            note.setTitle("无题");
         }
 
         /* @描述 保存et内容 */
         if (!TextUtils.isEmpty(etNewNoteDetail.getText().toString())) {
-           note.setContent(etNewNoteDetail.getText().toString());
-            isStore=true;
+            note.setContent(etNewNoteDetail.getText().toString());
+            isStore = true;
         }
 
         /* @描述 保存时间 */
-        if (inetntNote==null) {
+        if (inetntNote == null) {
             note.setTime(DateUtils.getTime());//保存时间
         } else {
             //展示状态保留原来时间
             note.setTime(inetntNote.getTime());
         }
+
         /* @描述 设置noteKey */
         note.setKeyNum(noteKey);
         /* @描述 初始化无图片存在 */
@@ -141,37 +142,36 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 .where("notekey=?", String.valueOf(noteKey))
                 .find(ImageCache.class);
         //判断缓存图片是否存在
-        if (imageCaches.size()!=0){
+        if (imageCaches.size() != 0) {
             for (int i = 0; i < imageCaches.size(); i++) {
-                Image image=new Image();
+                Image image = new Image();
                 image.setImagePath(imageCaches.get(i).getImagePath());
                 image.save();
                 note.getImageList().add(image);
                 note.setImageIsExist(true);
-                isStore=true;
+                isStore = true;
             }
         }
         /* @描述 保存note */
         if (isStore) {
             note.save();
-        }else {
-            note=null;
+        } else {
+            note = null;
             Toast.makeText(ArcNewNoteActivity.this, "您未保存任何内容...", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        if (isDelete){
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (isDelete) {
             saveAndCallBack();
         }
-        LogUtils.Log("这里是onPause");
     }
 
     @Override
     protected void onResume() {
-        isDelete=true;
+        isDelete = true;
         super.onResume();
         LogUtils.Log("这里是onResume");
     }
@@ -194,14 +194,15 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             fl_note_iamge.setVisibility(View.VISIBLE);
             //设置图片存在
-            ImageCache imageCache=new ImageCache();
+            ImageCache imageCache = new ImageCache();
             imageCache.setNoteKey(noteKey);
             imageCache.setImagePath(imagePath);
             imageCache.save();
             //获取当前fragment
+
             mImageNewNoteFragment.insertImage(noteKey);
             LogUtils.Log("这里是onActivityResult");
-            isDelete=true;
+            isDelete = true;
         }
     }
 
@@ -229,21 +230,20 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         */
     private void saveAndCallBack() {
         //判断是否有记录任何内容
-            if (isShow) {
-                //先删除
-                int delete = DataSupport.delete(NoteNew.class, inetntNote.getId());
-                LogUtils.Log("这里是保存事件定位的note，id为"+inetntNote.getId());
-                //再重新保存
-                saveNoteData();
-            } else {
-                //保存内容
-                saveNoteData();
-            }
+        if (isShow) {
+            //先删除
+            int delete = DataSupport.delete(NoteNew.class, inetntNote.getId());
+            LogUtils.Log("这里是保存事件定位的note，id为" + inetntNote.getId());
+            //再重新保存
+            saveNoteData();
+        } else {
+            //保存内容
+            saveNoteData();
+        }
 //        }else {
 //            Toast.makeText(ArcNewNoteActivity.this,getResources().getString(R.string.not_save_anything), Toast.LENGTH_SHORT).show();
 //        }
     }
-
 
 
 }
