@@ -1,11 +1,18 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 
+import java.util.List;
+
+import skkk.gogogo.dakainote.DbTable.Image;
+import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
+import skkk.gogogo.dakainote.R;
 
 /**
  * Created by admin on 2016/8/27.
@@ -18,21 +25,51 @@ import skkk.gogogo.dakainote.MyUtils.LogUtils;
 */
 public class ShowNewNoteActivity extends UINewNoteActivity {
     protected NoteNew inetntNote;
+    protected ImageNewNoteFragment mImageNewNoteFragment;
+    protected long noteKey;
+    MyImageThread myImageThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         beforeStart();
+
         if (isShow) {
             //如果是展示页面
+            noteKey=inetntNote.getKeyNum();
             initShowUI();
             llNoteDetail.setFocusable(true);
             llNoteDetail.setFocusableInTouchMode(true);
+
         } else {
             //如果是编辑界面
             tvNoteDetailTime.setText(DateUtils.getTime());
             LogUtils.Log("编辑界面时间显示为" + DateUtils.getTime());
+            initNote();
+            addDefaultFragment();
         }
+
+    }
+
+    /*
+ * @方法 初始化note
+ *
+ */
+    private void initNote() {
+        note = new NoteNew();
+        /* @描述 保存唯一标识码 */
+        noteKey=System.currentTimeMillis();
+        note.setKeyNum(noteKey);//保存标识
+    }
+
+    /*
+     * @desc 加入默认的Fragment界面
+     * @时间 2016/8/1 21:44
+     */
+    private void addDefaultFragment() {
+        mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fl_note_image,mImageNewNoteFragment).commit();
     }
 
     /*
@@ -57,35 +94,38 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         }
         /* @描述 设置内容 */
         etNewNoteDetail.setText(inetntNote.getContent());
-
-//        //获取图片列表
-//        List<Image> imageList = inetntNote.getMyImageList();
-//        //获取录音列表
-//        List<Voice> voiceList = inetntNote.getMyVoiceList();
-//        for (int i = 0; i < 10; i++) {
-//
-//            for (int j = 0; j < contentTextList.size(); j++) {
-//                if (contentTextList.get(j).getNum() == i) {
-//                    addEditTextItem(contentTextList.get(j).getContentText());
-//                }
-//            }
-//
-//            for (int j = 0; j < imageList.size(); j++) {
-//                if (imageList.get(j).getNum() == i) {
-//                    addImageItem(imageList.get(j).getImagePath(),imageList.get(j).getId());
-//                }
-//            }
-//
-//            for (int j = 0; j < voiceList.size(); j++) {
-//                if (voiceList.get(j).getNum() == i) {
-//                    addVoiceItem(voiceList.get(j).getVoicePath());
-//                }
-//            }
-//
-//        }
-
-
+        /* @描述 载入图片 */
+        if (inetntNote.isImageIsExist()){
+            //说明存在图片
+            //获取图片列表
+            myImageThread=new MyImageThread();
+            myImageThread.start();
+            mImageNewNoteFragment = new ImageNewNoteFragment();
+            getSupportFragmentManager().beginTransaction().
+                    add(R.id.fl_note_image,mImageNewNoteFragment).commit();
+        }
     }
+
+    /* @描述 用来转存图片的线程 */
+    class MyImageThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            List<Image> imageList = inetntNote.getMyImageList();
+            for (int i = 0; i < imageList.size(); i++) {
+                ImageCache imageCache=new ImageCache();
+                imageCache.setImagePath(imageList.get(i).getImagePath());
+                imageCache.setNoteKey(inetntNote.getKeyNum());
+                imageCache.save();
+                Message msg=new Message();
+                Bundle bundle=new Bundle();
+                bundle.putLong("notekey",noteKey);
+                msg.setData(bundle);
+                mImageNewNoteFragment.handler.sendMessage(msg);
+            }
+        }
+    }
+
 
     /*
     * @方法 获取传入的

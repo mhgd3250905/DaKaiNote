@@ -2,6 +2,8 @@ package skkk.gogogo.dakainote.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -35,13 +37,24 @@ public class ImageNewNoteFragment extends Fragment {
 
     private View view;
     private List<ImageCache> myImages;
-    private long noteKey;
+    private long noteKey = 0;
     private RecyclerView rvNoteImageList;
     private NoteImageListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
     private SpacesItemDecoration mDecoration;
     private int REQUEST_NOTE_IMAGE_DELETE = 13;
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle data = msg.getData();
+            long myNoteKey = (long) data.get("notekey");
+            insertImage(myNoteKey);
+        }
+    };
 
+
+    public ImageNewNoteFragment() {
+    }
 
     public ImageNewNoteFragment(long noteKey) {
         this.noteKey = noteKey;
@@ -51,7 +64,7 @@ public class ImageNewNoteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_note_image, container, false);
-        beforeStart();
+        initData();
         initUI(view);
         return view;
     }
@@ -60,9 +73,12 @@ public class ImageNewNoteFragment extends Fragment {
     * @方法 从数据库中获取数据
     *
     */
-    private void beforeStart() {
-        myImages=new ArrayList<ImageCache>();
-        myImages= SQLUtils.getImageInItem(noteKey);
+    private void initData() {
+        myImages = new ArrayList<ImageCache>();
+        if (noteKey != 0) {
+            myImages = SQLUtils.getImageInItem(noteKey);
+        }
+
     }
 
 
@@ -70,12 +86,10 @@ public class ImageNewNoteFragment extends Fragment {
     * @方法 增加一个图片
     *
     */
-    public void insertImage(long noteKey){
+    public void insertImage(long noteKey) {
         reGetImageList(noteKey);
         updateAll(myImages);
     }
-
-
 
 
     /*
@@ -86,7 +100,7 @@ public class ImageNewNoteFragment extends Fragment {
         //获取RecyclerView实例
         rvNoteImageList = (RecyclerView) view.findViewById(R.id.rv_note_image_list);
         //设置Adapter
-        adapter = new NoteImageListAdapter(getContext(),myImages);
+        adapter = new NoteImageListAdapter(getContext(), myImages);
         //设置布局管理器
         mLayoutManager = new LinearLayoutManager(getContext());
         //设置布局管理器
@@ -110,7 +124,7 @@ public class ImageNewNoteFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent();
-                intent.putExtra("image_click",myImages.get(position).getImagePath());
+                intent.putExtra("image_click", myImages.get(position).getImagePath());
                 intent.setClass(getActivity(), NoteImageActivity.class);
                 startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
             }
@@ -126,15 +140,16 @@ public class ImageNewNoteFragment extends Fragment {
     * @方法 重新获取ImageList
     *
     */
-    public void reGetImageList(long noteKey){
-        myImages=SQLUtils.getImageInItem(noteKey);
+    public void reGetImageList(long noteKey) {
+        myImages = SQLUtils.getImageInItem(noteKey);
     }
+
 
     /*
     * @方法 原来一切都出在这个基类之上
     *
     */
-    public void updateAll(List<ImageCache> noteList){
+    public void updateAll(List<ImageCache> noteList) {
         adapter.setmItemDataList(noteList);
         adapter.notifyDataSetChanged();
     }

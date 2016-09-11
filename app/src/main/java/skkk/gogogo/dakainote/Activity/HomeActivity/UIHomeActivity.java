@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -76,12 +78,25 @@ public class UIHomeActivity extends BaseHomeActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ScaleAnimation scaleAnimation=new ScaleAnimation(0f,1f,0f,1f,
+                Animation.RELATIVE_TO_SELF,0.5f,
+                Animation.RELATIVE_TO_SELF,0.5f);
+        scaleAnimation.setDuration(300);
+        scaleAnimation.setStartOffset(200);
+        fab.startAnimation(scaleAnimation);
     }
 
     /*
-    * @方法 初始化监听事件
-    *
-    */
+        * @方法 初始化监听事件
+        *
+        */
     private void initEvent() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

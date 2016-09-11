@@ -9,6 +9,8 @@ import android.view.View;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.List;
+
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
@@ -26,7 +28,7 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 23:02$.
 */
-public class ArcNewNoteActivity extends ImageNewNoteActivity {
+public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     protected ArcMenuView arcMenuView;
     protected FloatingActionButton fabNoteDetail;
 
@@ -129,17 +131,37 @@ public class ArcNewNoteActivity extends ImageNewNoteActivity {
         note.setPinIsExist(isPin);//设置pin属性
 
         /* @描述 保存图片 */
+        //获取到缓存中的图片
+        List<ImageCache> imageCaches = DataSupport
+                .where("notekey=?", String.valueOf(noteKey))
+                .find(ImageCache.class);
+        //判断缓存图片是否存在
+        if (imageCaches.size()!=0){
+            for (int i = 0; i < imageCaches.size(); i++) {
+                Image image=new Image();
+                image.setImagePath(imageCaches.get(i).getImagePath());
+                image.save();
+                note.getImageList().add(image);
+                note.setImageIsExist(true);
+            }
+        }
 
 
         /* @描述 保存note */
         note.save();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /* @描述 删除缓存中的图片内容 */
+        DataSupport.deleteAll(ImageCache.class);
+    }
 
     /*
-    * @方法 针对相机非返回值处理
-    *
-    */
+        * @方法 针对相机非返回值处理
+        *
+        */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -163,7 +185,6 @@ public class ArcNewNoteActivity extends ImageNewNoteActivity {
                 int deleteImage=DataSupport.delete(Image.class,testView.getId());
                 LogUtils.Log("image表中删除行数为 "+deleteImage);
             }
-
             testView=null;
         }
     }
