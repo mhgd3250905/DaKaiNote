@@ -8,5 +8,6 @@
         <mapping class="skkk.gogogo.dakainote.DbTable.Image"></mapping>
         <mapping class="skkk.gogogo.dakainote.DbTable.Voice"></mapping>
         <mapping class="skkk.gogogo.dakainote.DbTable.ImageCache"></mapping>
+        <mapping class="skkk.gogogo.dakainote.DbTable.VoiceCache"></mapping>
     </list>
 </litepal>

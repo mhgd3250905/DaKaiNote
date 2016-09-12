@@ -70,6 +70,13 @@
                 android:layout_height="150dp">
             </FrameLayout>
 
+            <FrameLayout
+                android:visibility="gone"
+                android:id="@id/fl_note_voice"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+            </FrameLayout>
+
             <EditText
                 android:textSize="25dp"
                 android:paddingTop="10dp"
@@ -82,9 +89,6 @@
                 android:inputType="textMultiLine"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
-
-
         </LinearLayout>
 
     <skkk.gogogo.dakainote.View.RecordButton

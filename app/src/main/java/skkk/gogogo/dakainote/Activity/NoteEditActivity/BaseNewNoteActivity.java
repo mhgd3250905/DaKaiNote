@@ -43,7 +43,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
 
     protected Boolean isImageExist=false;//照片是否存在
     protected boolean isPin=false;//是否pin
-    protected boolean isVoice=false;//是否有录音
+    protected boolean isVoiceExist=false;//是否有录音
 
     protected NoteNew note;//笔记类
     protected List<Image> imageList=new ArrayList<Image>();//笔记图片类
@@ -59,8 +59,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
 
     protected View testView=null;
     protected FrameLayout fl_note_iamge;
-
-
+    protected FrameLayout fl_note_voice;
 
 
     @Override
@@ -96,6 +95,8 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         etNewNoteDetail= (EditText) findViewById(R.id.et_new_note_detail_new);
         //设置note中用来显示image的fl
         fl_note_iamge= (FrameLayout) findViewById(R.id.fl_note_image);
+        //设置note中用来显示Voicede1fl
+        fl_note_voice= (FrameLayout) findViewById(R.id.fl_note_voice);
     }
     /*
      * @方法 设置监听事件

@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 
+import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.MyUtils.AudioRecorder;
+import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.RecordButton;
 
@@ -30,7 +32,20 @@ public class VoiceNewNoteActivity extends ShowNewNoteActivity {
         rbVoice.setRecordListener(new RecordButton.RecordListener() {
             @Override
             public void recordEnd(String filePath) {
-                addVoiceItem(filePath);
+                fl_note_voice.setVisibility(View.VISIBLE);
+
+                //设置图片存在
+                isVoiceExist=true;
+                VoiceCache voiceCache = new VoiceCache();
+                voiceCache.setNoteKey(noteKey);
+                voiceCache.setVoicePath(filePath);
+                voiceCache.save();
+                //获取当前fragment
+
+                mVoiceNewNoteFragment.insertVoice(noteKey);
+                LogUtils.Log("这里是onActivityResult");
+                isDelete = true;
+
                 rbVoice.setVisibility(View.GONE);
             }
         });

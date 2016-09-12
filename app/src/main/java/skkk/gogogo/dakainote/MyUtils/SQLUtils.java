@@ -7,6 +7,7 @@ import java.util.List;
 
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.VoiceCache;
 
 /**
  * Created by admin on 2016/8/22.
@@ -77,13 +78,23 @@ public class SQLUtils {
 
 
     /*
-    * @方法 获取数据库中所有的图片信息
+    * @方法 获取缓存数据库中所有的图片信息
     *
     */
     public static List<ImageCache> getImageInItem(long notekey){
         List<ImageCache> images=new ArrayList<ImageCache>();
         images= DataSupport.where("noteKey=?", notekey + "").find(ImageCache.class);
         return images;
+    }
+
+    /*
+   * @方法 获取缓存数据库中所有的Voice信息
+   *
+   */
+    public static List<VoiceCache> getVoiceInItem(long notekey){
+        List<VoiceCache> voiceCaches=new ArrayList<VoiceCache>();
+        voiceCaches= DataSupport.where("noteKey=?", notekey + "").find(VoiceCache.class);
+        return voiceCaches;
     }
 
 

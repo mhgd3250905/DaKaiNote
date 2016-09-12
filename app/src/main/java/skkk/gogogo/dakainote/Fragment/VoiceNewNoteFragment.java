@@ -1,6 +1,6 @@
 package skkk.gogogo.dakainote.Fragment;
 
-import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,14 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity;
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.ShowNewNoteActivity;
-import skkk.gogogo.dakainote.Adapter.NoteImageListAdapter;
+import skkk.gogogo.dakainote.Adapter.NoteVoiceListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
-import skkk.gogogo.dakainote.DbTable.ImageCache;
+import skkk.gogogo.dakainote.DbTable.VoiceCache;
+import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 import skkk.gogogo.dakainote.R;
@@ -34,30 +34,29 @@ import skkk.gogogo.dakainote.R;
 * 作    者：ksheng
 * 时    间：2016/9/10$ 13:19$.
 */
-public class ImageNewNoteFragment extends Fragment {
-
+public class VoiceNewNoteFragment extends Fragment {
+    private MediaPlayer mediaPlayer;
     private View view;
-    private List<ImageCache> myImages;
+    private List<VoiceCache> myVoices;
     private long noteKey = 0;
     private RecyclerView rvNoteImageList;
-    private NoteImageListAdapter adapter;
+    private NoteVoiceListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
     private SpacesItemDecoration mDecoration;
     private int REQUEST_NOTE_IMAGE_DELETE = 13;
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what==12345) {
+            if (msg.what==54321) {
                 Bundle data = msg.getData();
                 long myNoteKey = (long) data.get("notekey");
-                insertImage(myNoteKey);
+                insertVoice(myNoteKey);
             }
         }
     };
 
 
-
-    public ImageNewNoteFragment(long noteKey) {
+    public VoiceNewNoteFragment(long noteKey) {
         this.noteKey = noteKey;
     }
 
@@ -67,6 +66,7 @@ public class ImageNewNoteFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_note_image, container, false);
         initData();
         initUI(view);
+        setNewPlayer();
         return view;
     }
 
@@ -75,9 +75,9 @@ public class ImageNewNoteFragment extends Fragment {
     *
     */
     private void initData() {
-        myImages = new ArrayList<ImageCache>();
+        myVoices = new ArrayList<VoiceCache>();
         if (noteKey != 0) {
-            myImages = SQLUtils.getImageInItem(noteKey);
+            myVoices = SQLUtils.getVoiceInItem(noteKey);
         }
 
     }
@@ -87,9 +87,9 @@ public class ImageNewNoteFragment extends Fragment {
     * @方法 增加一个图片
     *
     */
-    public void insertImage(long noteKey) {
+    public void insertVoice(long noteKey) {
         reGetImageList(noteKey);
-        updateAll(myImages);
+        updateAll(myVoices);
     }
 
 
@@ -101,7 +101,7 @@ public class ImageNewNoteFragment extends Fragment {
         //获取RecyclerView实例
         rvNoteImageList = (RecyclerView) view.findViewById(R.id.rv_note_image_list);
         //设置Adapter
-        adapter = new NoteImageListAdapter(getContext(), myImages);
+        adapter = new NoteVoiceListAdapter(getContext(), myVoices);
         //设置布局管理器
         mLayoutManager = new LinearLayoutManager(getContext());
         //设置布局管理器
@@ -125,15 +125,18 @@ public class ImageNewNoteFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 /* @描述 在点击进入note详情之前先清空缓存数据库 */
-                ShowNewNoteActivity activity= (ShowNewNoteActivity) getActivity();
-                activity.setIsDelete(false);
-
-                Intent intent = new Intent();
-                reGetImageList(noteKey);
-                intent.putExtra("image_click", myImages.get(position).getImagePath());
-                intent.putExtra("image_notekey", myImages.get(position).getNoteKey());
-                intent.setClass(getActivity(), NoteImageActivity.class);
-                getActivity().startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
+                if (mediaPlayer.isPlaying()){
+                    mediaPlayer.release();
+                    mediaPlayer=null;
+                    setNewPlayer();
+                }
+                try {
+                    mediaPlayer.setDataSource(myVoices.get(position).getVoicePath());
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -148,7 +151,7 @@ public class ImageNewNoteFragment extends Fragment {
     *
     */
     public void reGetImageList(long noteKey) {
-        myImages = SQLUtils.getImageInItem(noteKey);
+        myVoices = SQLUtils.getVoiceInItem(noteKey);
     }
 
 
@@ -156,14 +159,49 @@ public class ImageNewNoteFragment extends Fragment {
     * @方法 原来一切都出在这个基类之上
     *
     */
-    public void updateAll(List<ImageCache> noteList) {
+    public void updateAll(List<VoiceCache> noteList) {
         adapter.setmItemDataList(noteList);
         adapter.notifyDataSetChanged();
     }
 
+
+    /*
+   * @方法 初始化MP
+   *
+   */
+    public void setNewPlayer() {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mediaPlayer.reset();
+            }
+        });
+        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                mediaPlayer.release();
+                return false;
+            }
+        });
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.reset();//重置为初始状态
+        }
+
+    }
+
+    /*
+    * @方法 在fragment关闭的时候把媒体播放器关闭
+    *
+    */
     @Override
     public void onDestroy() {
         super.onDestroy();
+        /* @描述 释放播放器 */
+        mediaPlayer.release();
+        mediaPlayer=null;
+        LogUtils.Log("释放媒体播放器~~");
+        /* @描述 清空handler */
         handler.removeCallbacksAndMessages(null);
     }
 }

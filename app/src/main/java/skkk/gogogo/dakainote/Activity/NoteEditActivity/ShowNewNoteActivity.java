@@ -13,7 +13,10 @@ import java.util.List;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Voice;
+import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
+import skkk.gogogo.dakainote.Fragment.VoiceNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
@@ -31,6 +34,7 @@ import skkk.gogogo.dakainote.R;
 public class ShowNewNoteActivity extends UINewNoteActivity {
     protected NoteNew inetntNote;
     protected ImageNewNoteFragment mImageNewNoteFragment;
+    protected VoiceNewNoteFragment mVoiceNewNoteFragment;
     protected long noteKey;
     MyImageThread myImageThread;
 
@@ -91,9 +95,14 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
      * @时间 2016/8/1 21:44
      */
     private void addDefaultFragment() {
+        /* @描述 加载图片fl布局 */
         mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_image,mImageNewNoteFragment).commit();
+        /* @描述 加载声音fl布局 */
+        mVoiceNewNoteFragment=new VoiceNewNoteFragment(noteKey);
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fl_note_voice, mVoiceNewNoteFragment).commit();
     }
 
     /*
@@ -102,6 +111,7 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
     * 2 将note中包含的内容显示到布局页面中
     *
     */
+
     private void initShowUI() {
         /* @描述 设置标题 */
         etNoteDetailTitle.setText(inetntNote.getTitle());
@@ -122,14 +132,25 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_image,mImageNewNoteFragment).commit();
 
-        /* @描述 载入图片 */
+        /* @描述 先把fragment搁好 */
+        mVoiceNewNoteFragment = new VoiceNewNoteFragment(noteKey);
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fl_note_voice,mVoiceNewNoteFragment).commit();
+
+        /* @描述 载入图片 以及 载入录音 */
         if (inetntNote.isImageIsExist()){
             fl_note_iamge.setVisibility(View.VISIBLE);
             //说明存在图片
             //获取图片列表
+            if (myImageThread!=null){
+                myImageThread=null;
+            }
             myImageThread=new MyImageThread();
             myImageThread.start();
-
+        }else if (inetntNote.isVoiceExist()){
+            fl_note_voice.setVisibility(View.VISIBLE);
+            //说明存在图片
+            //获取图片列表
         }
     }
 
@@ -138,10 +159,15 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         @Override
         public void run() {
             super.run();
-            //第一步清空缓存
+            /* @描述 第一步清空缓存 */
             DataSupport.deleteAll(ImageCache.class);
-            //第二步获取对应note中包含的图片
+            DataSupport.deleteAll(VoiceCache.class);
+
+            /* @描述 第二步获取对应note中包含的图片
+             *     以及获取对应的note中包含的录音  */
             List<Image> imageList = inetntNote.getMyImageList();
+            List<Voice> voiceList=inetntNote.getMyVoiceList();
+
             //第三步进行遍历把图片都保存到缓存数据库中
             for (int i = 0; i < imageList.size(); i++) {
                 ImageCache imageCache=new ImageCache();
@@ -149,14 +175,30 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
                 imageCache.setNoteKey(inetntNote.getKeyNum());
                 imageCache.save();
             }
+
+            //第三步进行遍历把图片都保存到缓存数据库中
+            for (int i = 0; i < voiceList.size(); i++) {
+                VoiceCache voiceCache=new VoiceCache();
+                voiceCache.setVoicePath(voiceList.get(i).getVoicePath());
+                voiceCache.setNoteKey(inetntNote.getKeyNum());
+                voiceCache.save();
+            }
+
             //发送消息让fragment从缓存数据库刷新数据
-            Message msg=new Message();
+            Message msg1=new Message();
+            Message msg2=new Message();
             Bundle bundle=new Bundle();
             bundle.putLong("notekey", noteKey);
-            msg.setData(bundle);
-            mImageNewNoteFragment.handler.sendMessage(msg);
+            msg1.setData(bundle);
+            msg1.what=12345;
+            msg2.setData(bundle);
+            msg2.what=54321;
+            mImageNewNoteFragment.handler.sendMessageDelayed(msg1,100);
+            mVoiceNewNoteFragment.handler.sendMessageDelayed(msg2,100);
         }
     }
+
+
 
 
 
@@ -172,6 +214,7 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
             myImageThread.interrupt();
             myImageThread = null;
         }
+
     }
 
 

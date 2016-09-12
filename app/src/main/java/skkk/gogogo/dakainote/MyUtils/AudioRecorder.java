@@ -36,6 +36,7 @@ public class AudioRecorder implements RecordStrategy {
         }
         fileName = "dksheng"+getCurrentDate();
         recorder = new MediaRecorder();
+        LogUtils.Log("初始化MediaRecorder");
         recorder.setOutputFile(fileFolder + "/" + fileName + ".amr");
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);// 设置MediaRecorder的音频源为麦克风
         recorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);// 设置MediaRecorder录制的音频格式
@@ -77,6 +78,7 @@ public class AudioRecorder implements RecordStrategy {
             recorder.stop();
             recorder.release();
             isRecording = false;
+            LogUtils.Log("释放MediaRecorder");
         }
 
     }

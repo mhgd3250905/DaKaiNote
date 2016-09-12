@@ -90,5 +90,24 @@
 其实只需要修改onBackPress就可以了呀~
 
 
+----------
+
+#2016/9/12 20:44:25
+
+今天需要按照image的显示方式吧voice加入进去
+-
+
+首先我们整理一下voice的存储以及显示方式
+
+1. 首先需要一个RecyclerView来显示Voice
+2. 然后item就是一个AudioButton
+3. 点击事件沿用RadioButton自带的方法就可以
+
+感觉还不错~
+
+
+ 
+
+
 
 

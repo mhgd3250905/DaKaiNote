@@ -1,11 +1,13 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
@@ -15,6 +17,8 @@ import java.util.List;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Voice;
+import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
@@ -40,8 +44,36 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         super.onCreate(savedInstanceState);
         initArcUI();
         initArcEvent();
+        initLLEvent();
         //initFragment();
 
+    }
+
+    private void initLLEvent() {
+        llNoteDetail.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom<oldBottom){
+                    fl_note_iamge.setVisibility(View.GONE);
+                    fl_note_voice.setVisibility(View.GONE);
+                    llNoteDetail.invalidate();
+                }else if (bottom>oldBottom){
+                    if (inetntNote!=null){
+                        if (inetntNote.isVoiceExist()){
+                            fl_note_voice.setVisibility(View.VISIBLE);
+                        }else if (inetntNote.isImageIsExist()){
+                            fl_note_iamge.setVisibility(View.VISIBLE);
+                        }
+                    }else {
+                        if (isVoiceExist){
+                            fl_note_voice.setVisibility(View.VISIBLE);
+                        }else if (isImageExist){
+                            fl_note_iamge.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+        }
+        });
     }
 
     private void initFragment() {
@@ -92,8 +124,8 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               }
                                                               break;
                                                           case 4:
-                                                              //直接finish()是为了触发onPause中的保存
-                                                              finish();
+                                                              InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                                              imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                                                               break;
                                                       }
                                                   }
@@ -152,6 +184,24 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 isStore = true;
             }
         }
+
+        /* @描述 保存录音 */
+        //获取到缓存中的图片
+        List<VoiceCache> voiceCaches = DataSupport
+                .where("notekey=?", String.valueOf(noteKey))
+                .find(VoiceCache.class);
+        //判断缓存图片是否存在
+        if (voiceCaches.size() != 0) {
+            for (int i = 0; i < voiceCaches.size(); i++) {
+                Voice voice = new Voice();
+                voice.setVoicePath(voiceCaches.get(i).getVoicePath());
+                voice.save();
+                note.getVoiceList().add(voice);
+                note.setVoiceExist(true);
+                isStore = true;
+            }
+        }
+
         /* @描述 保存note */
         if (isStore) {
             note.save();
@@ -194,6 +244,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             fl_note_iamge.setVisibility(View.VISIBLE);
             //设置图片存在
+            isImageExist=true;
             ImageCache imageCache = new ImageCache();
             imageCache.setNoteKey(noteKey);
             imageCache.setImagePath(imagePath);

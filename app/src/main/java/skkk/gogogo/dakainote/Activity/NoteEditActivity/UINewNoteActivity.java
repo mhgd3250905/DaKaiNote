@@ -1,13 +1,6 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-
-import skkk.gogogo.dakainote.MyUtils.LogUtils;
-import skkk.gogogo.dakainote.R;
-import skkk.gogogo.dakainote.View.AudioButton;
 
 /**
  * Created by admin on 2016/8/26.
@@ -112,46 +105,46 @@ public class UINewNoteActivity extends BaseNewNoteActivity {
 //    }
 
 
-    /*
-    * @方法 增加录音item
-    *
-    */
-    protected void addVoiceItem(String voicePath) {
-        LayoutInflater li = LayoutInflater.from(this);
-        View view_voice = li.inflate(R.layout.item_note_voice, null);
-        final AudioButton abVoice = (AudioButton) view_voice.findViewById(R.id.ab_note_voice);
-        abVoice.setVoicePath(voicePath);
-        llNoteDetail.addView(view_voice);
-
-          /* @描述 view_image的焦点监听事件 */
-        view_voice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                LogUtils.Log("image_item是否被选中——————>" + hasFocus);
-                if (hasFocus) {
-                    //如果获取到了焦点 那么就显示删除按钮
-                    abVoice.setBackgroundColor(getResources().getColor(R.color.colorRed));
-                } else {
-                    //如果没有获取的焦点 那么就不显示焦点
-                    abVoice.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                }
-            }
-        });
-
-        /* @描述 view_image 软键盘按键监听事件 */
-        view_voice.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_UP) {
-                    //如果是del按键那么将iamge_view除移
-                    llNoteDetail.removeView(llNoteDetail.getChildAt(childNum - 2));
-                    //移除之后为下一个控件获取焦点
-                    getFocuse(llNoteDetail.getChildAt(llNoteDetail.getChildCount()-1));
-
-                }
-                return true;
-            }
-        });
-    }
+//    /*
+//    * @方法 增加录音item
+//    *
+//    */
+//    protected void addVoiceItem(String voicePath) {
+//        LayoutInflater li = LayoutInflater.from(this);
+//        View view_voice = li.inflate(R.layout.item_note_voice, null);
+//        final AudioButton abVoice = (AudioButton) view_voice.findViewById(R.id.ab_note_voice);
+//        abVoice.setVoicePath(voicePath);
+//        llNoteDetail.addView(view_voice);
+//
+//          /* @描述 view_image的焦点监听事件 */
+//        view_voice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                LogUtils.Log("image_item是否被选中——————>" + hasFocus);
+//                if (hasFocus) {
+//                    //如果获取到了焦点 那么就显示删除按钮
+//                    abVoice.setBackgroundColor(getResources().getColor(R.color.colorRed));
+//                } else {
+//                    //如果没有获取的焦点 那么就不显示焦点
+//                    abVoice.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+//                }
+//            }
+//        });
+//
+//        /* @描述 view_image 软键盘按键监听事件 */
+//        view_voice.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_UP) {
+//                    //如果是del按键那么将iamge_view除移
+//                    llNoteDetail.removeView(llNoteDetail.getChildAt(childNum - 2));
+//                    //移除之后为下一个控件获取焦点
+//                    getFocuse(llNoteDetail.getChildAt(llNoteDetail.getChildCount()-1));
+//
+//                }
+//                return true;
+//            }
+//        });
+//    }
 
 }
