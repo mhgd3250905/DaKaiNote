@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,6 +46,7 @@ public class NoteListFragment extends Fragment {
     protected LinearLayout llBlankTip;
     protected UIHomeActivity mUiHomeActivity;
     private LinearLayoutManager mLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
     private SpacesItemDecoration mDecoration;
 
     @Nullable
@@ -85,12 +87,15 @@ public class NoteListFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         //设置布局管理器
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        mGridLayoutManager=new GridLayoutManager(getContext(),2);
+
         //设置间距
         mDecoration = new SpacesItemDecoration(5);
         //添加间距
         rvNoteList.addItemDecoration(mDecoration);
         //添加布局
-        rvNoteList.setLayoutManager(mLayoutManager);
+        rvNoteList.setLayoutManager(mGridLayoutManager);
         //设置基本动画
         rvNoteList.setItemAnimator(new DefaultItemAnimator());
         //rvNoteList

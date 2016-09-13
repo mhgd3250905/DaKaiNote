@@ -97,6 +97,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         fl_note_iamge= (FrameLayout) findViewById(R.id.fl_note_image);
         //设置note中用来显示Voicede1fl
         fl_note_voice= (FrameLayout) findViewById(R.id.fl_note_voice);
+
     }
     /*
      * @方法 设置监听事件

@@ -1,13 +1,13 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
@@ -37,6 +37,47 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     protected ArcMenuView arcMenuView;
     protected FloatingActionButton fabNoteDetail;
+    protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
+    protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
+
+    /* @描述 用来jieshou */
+    protected Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MESSAGE_LAYOUT_KEYBOARD_SHOW:
+                    showOrHideFl(View.GONE);
+                    break;
+                case MESSAGE_LAYOUT_KEYBOARD_HIDE:
+                    showOrHideFl(View.VISIBLE);
+                    break;
+            }
+        }
+    };
+
+    /*
+    * @方法 根据不同状态设置fl的隐藏与显示
+    *
+    */
+    public void showOrHideFl(int visibility) {
+        if (inetntNote != null) {
+            /* @描述 如果是显示状态 */
+            if (inetntNote.isVoiceExist() || isVoiceExist) {
+                fl_note_voice.setVisibility(visibility);
+            }
+            if (inetntNote.isImageIsExist() || isImageExist) {
+                fl_note_iamge.setVisibility(visibility);
+            }
+        } else {
+            /* @描述 如果是编辑状态 */
+            if (isVoiceExist) {
+                fl_note_voice.setVisibility(visibility);
+            }
+            if (isImageExist) {
+                fl_note_iamge.setVisibility(visibility);
+            }
+        }
+    }
 
 
     @Override
@@ -52,27 +93,22 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     private void initLLEvent() {
         llNoteDetail.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (bottom<oldBottom){
-                    fl_note_iamge.setVisibility(View.GONE);
-                    fl_note_voice.setVisibility(View.GONE);
-                    llNoteDetail.invalidate();
-                }else if (bottom>oldBottom){
-                    if (inetntNote!=null){
-                        if (inetntNote.isVoiceExist()){
-                            fl_note_voice.setVisibility(View.VISIBLE);
-                        }else if (inetntNote.isImageIsExist()){
-                            fl_note_iamge.setVisibility(View.VISIBLE);
-                        }
-                    }else {
-                        if (isVoiceExist){
-                            fl_note_voice.setVisibility(View.VISIBLE);
-                        }else if (isImageExist){
-                            fl_note_iamge.setVisibility(View.VISIBLE);
-                        }
-                    }
+            public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) {
+                    /* @描述 如果布局显示键盘出现 */
+                    Message msgActivity = mHandler.obtainMessage();
+                    msgActivity.what = MESSAGE_LAYOUT_KEYBOARD_SHOW;
+                    mHandler.sendMessage(msgActivity);
+                    //Toast.makeText(ArcNewNoteActivity.this, "setGone", Toast.LENGTH_SHORT).show();
+                } else if (bottom > oldBottom) {
+                    /* @描述 如果布局显示键盘隐藏 */
+                    Message msgActivity = mHandler.obtainMessage();
+                    msgActivity.what = MESSAGE_LAYOUT_KEYBOARD_HIDE;
+                    mHandler.sendMessage(msgActivity);
+
                 }
-        }
+            }
         });
     }
 
@@ -100,12 +136,13 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                   public void onClick(View view, int pos) {
                                                       switch (pos) {
                                                           case 1:
-                                                              /*
-                                                            * @方法 点击调用相机拍照
-                                                            *
-                                                            */
+                                                                  /*
+                                                                * @方法 点击调用相机拍照
+                                                                *
+                                                                */
                                                               isDelete = false;
                                                               takePicture(ArcNewNoteActivity.this);
+                                                              isDelete = false;
                                                               break;
                                                           case 2:
                                                               if (isPin) {
@@ -119,13 +156,12 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                           case 3:
                                                               if (rbVoice.getVisibility() == View.VISIBLE) {
                                                                   rbVoice.setVisibility(View.GONE);
-                                                              } else {
+                                                              } else{
                                                                   rbVoice.setVisibility(View.VISIBLE);
                                                               }
                                                               break;
                                                           case 4:
-                                                              InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                                                              imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                                                              fl_note_iamge.setVisibility(View.GONE);
                                                               break;
                                                       }
                                                   }
@@ -244,7 +280,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             fl_note_iamge.setVisibility(View.VISIBLE);
             //设置图片存在
-            isImageExist=true;
+            isImageExist = true;
             ImageCache imageCache = new ImageCache();
             imageCache.setNoteKey(noteKey);
             imageCache.setImagePath(imagePath);

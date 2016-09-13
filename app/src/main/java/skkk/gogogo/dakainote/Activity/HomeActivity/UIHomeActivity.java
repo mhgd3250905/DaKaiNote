@@ -109,7 +109,6 @@ public class UIHomeActivity extends BaseHomeActivity
                     startActivity(intent);
                 }else if (fabFlagInActivity==2){
                     /* @描述 如果fab标签是2说明为删除状态 */
-
                     noteListFragment.deleteSelectedItem();
                     changeFabSrc(1);
                     noteListFragment.hideCheckBox();

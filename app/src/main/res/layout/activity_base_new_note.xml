@@ -89,6 +89,7 @@
                 android:inputType="textMultiLine"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+
         </LinearLayout>
 
     <skkk.gogogo.dakainote.View.RecordButton
@@ -105,8 +106,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
-
-
     <!--弹射菜单-->
     <skkk.gogogo.dakainote.View.ArcMenuView
         android:id="@id/arc_menu_view_note"
@@ -114,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:position="right_bottom"
-        app:arcMode="circle"
+        app:arcMode="line"
         app:radius="200dp">
 
         <ImageView

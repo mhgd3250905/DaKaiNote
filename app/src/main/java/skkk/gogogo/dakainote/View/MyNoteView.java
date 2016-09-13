@@ -49,7 +49,7 @@ public class MyNoteView extends RelativeLayout {
 
     private void initView() {
         //将定义好的布局文件设置给当前的view
-        View.inflate(getContext(), R.layout.view_note_design, this);
+        View.inflate(getContext(), R.layout.view_note_design_2, this);
         tvViewTitle = (TextView) findViewById(R.id.tv_view_note_title);
         tvViewTitleTime = (TextView) findViewById(R.id.tv_view_note_title_time);
         tvViewContent = (TextView) findViewById(R.id.tv_view_note_content);
