@@ -143,20 +143,6 @@ public class CameraImageUtils {
     }
 
 
-//    /*
-//     * @方法 返回保存图片的位置文件
-//     *
-//     */
-//    public static File createImageFile() throws IOException {
-//        String timeStamp = new SimpleDateFormat("yyMMdd_HHmmss").format(new Date());
-//        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = Environment
-//                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-//        return image;
-//    }
-
-
     /*
     * @方法 打开相机并把保存到指定目录
     *

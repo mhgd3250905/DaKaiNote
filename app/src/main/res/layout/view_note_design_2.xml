@@ -4,23 +4,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp">
 
-
-    <TextView
-        android:id="@id/tv_view_note_title"
+    <LinearLayout
+        android:id="@+id/ll_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:text="20dp"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"/>
+        android:orientation="horizontal">
+        <TextView
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@id/tv_view_note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="20dp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
+
+        <CheckBox
+            android:text=""
+            android:gravity="center"
+            android:layout_weight="1"
+            android:visibility="visible"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:button="@drawable/select_checkbox_for_item_delete"
+            android:id="@id/cb_note_delete_check"
+            />
+    </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_view_note_title"
+        android:layout_below="@id/ll_title"
         android:orientation="horizontal">
 
         <TextView
@@ -79,19 +100,6 @@
             android:layout_height="50dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/item_pin"/>
-        <CheckBox
-            android:gravity="center"
-            android:layout_weight="1"
-            android:visibility="visible"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="3dp"
-            android:layout_gravity="center"
-            android:layout_width="32dp"
-            android:layout_height="match_parent"
-            android:button="@drawable/select_checkbox_for_item_delete"
-            android:id="@id/cb_note_delete_check"
-            />
-
     </LinearLayout>
 
 </RelativeLayout>
