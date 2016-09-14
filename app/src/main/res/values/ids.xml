@@ -73,6 +73,8 @@
     <item name="menu_tb_image_detail_delete" type="id">照片详情页面的删除按钮</item>
     <item name="fl_note_voice" type="id">note中用来显示voice集合的fl</item>
     <item name="ab_note_detail_item" type="id">ab_note_detail_item</item>
+    <item name="tv_dialog_image_from_camera" type="id">dialog_image_from_camera</item>
+    <item name="tv_dialog_image_from_album" type="id">dialog_image_from_album</item>
 
 
 </resources>

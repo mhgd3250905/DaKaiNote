@@ -63,5 +63,10 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="MyDialogBottomStyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
+
 
 </resources>

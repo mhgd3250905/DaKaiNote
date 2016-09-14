@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="@string/dialog_image_from_camera"
+        android:id="@id/tv_dialog_image_from_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="@string/dialog_image_from_album"
+        android:id="@id/tv_dialog_image_from_album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

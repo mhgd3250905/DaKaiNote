@@ -3,6 +3,7 @@ package skkk.gogogo.dakainote.MyUtils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
@@ -29,8 +30,6 @@ import java.util.Date;
 * 时    间：2016/8/11$ 22:48$.
 */
 public class CameraImageUtils {
-
-
 
 
     //返回按比例缩放之后的bitmap
@@ -81,12 +80,12 @@ public class CameraImageUtils {
     * @方法 返回缩略图
     *
     */
-    public static Bitmap getPreciselyBitmap(String imagePath,int reqWidth){
+    public static Bitmap getPreciselyBitmap(String imagePath, int reqWidth) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imagePath, options);
-        int imageWidth=options.outWidth;
-        int reqHeight=options.outHeight/((imageWidth/(reqWidth-20))<1?1:(imageWidth/(reqWidth-20)));
+        int imageWidth = options.outWidth;
+        int reqHeight = options.outHeight / ((imageWidth / (reqWidth - 20)) < 1 ? 1 : (imageWidth / (reqWidth - 20)));
 
         Log.d("SKKK_____", "图片宽为" + reqWidth + "图片高为" + reqHeight);
         return ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(imagePath),
@@ -100,21 +99,21 @@ public class CameraImageUtils {
     * @方法 图片质量压缩办法
     *
     */
-    public static Bitmap compressImage(Context context,String imagePath) {
-        Bitmap image=getPreciselyBitmap(imagePath,300);
+    public static Bitmap compressImage(Context context, String imagePath) {
+        Bitmap image = getPreciselyBitmap(imagePath, 300);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         //质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         int options = 10;
         //循环判断如果压缩后图片是否大于100kb,大于继续压缩
-        while ( baos.toByteArray().length / 1024>100) {
+        while (baos.toByteArray().length / 1024 > 100) {
             baos.reset();//重置baos即清空baos
             //这里压缩options%，把压缩后的数据存放到baos中
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);
             //每次都减少10
             //options -= 10;
-            if (options==0){
+            if (options == 0) {
                 Toast.makeText(context, "000", Toast.LENGTH_SHORT).show();
             }
         }
@@ -132,13 +131,13 @@ public class CameraImageUtils {
       *
       */
     public static String getImagePath() throws IOException {
-        String mCurrentImagePath=null;
+        String mCurrentImagePath = null;
         String timeStamp = new SimpleDateFormat("yyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment
                 .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        mCurrentImagePath=image.getAbsolutePath();
+        mCurrentImagePath = image.getAbsolutePath();
         image.delete();
         return mCurrentImagePath;
     }
@@ -162,7 +161,7 @@ public class CameraImageUtils {
     * @方法 打开相机并把保存到指定目录
     *
     */
-    public static void dispatchTakePictureIntent(Activity activity,String path, int REQUEST_CODE) {
+    public static void dispatchTakePictureIntent(Activity activity, String path, int REQUEST_CODE) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
             File photeFile = null;
@@ -173,7 +172,6 @@ public class CameraImageUtils {
             }
         }
     }
-
 
 
     /*
@@ -188,4 +186,28 @@ public class CameraImageUtils {
         context.sendBroadcast(mediaScanIntent);
     }
 
+
+    /**
+     * 通过uri获取文件的绝对路径
+     *
+     * @param uri
+     * @return
+     */
+    public static String getAbsoluteImagePath(Activity context,Uri uri) {
+        String imagePath = "";
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.managedQuery(uri, proj, // Which
+                null, // WHERE clause; which rows to return (all rows)
+                null, // WHERE clause selection arguments (none)
+                null); // Order-by clause (ascending by name)
+
+        if (cursor != null) {
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            if (cursor.getCount() > 0 && cursor.moveToFirst()) {
+                imagePath = cursor.getString(column_index);
+            }
+        }
+        return imagePath;
+    }
 }

@@ -1,13 +1,18 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
@@ -20,6 +25,7 @@ import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
+import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
@@ -37,8 +43,10 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     protected ArcMenuView arcMenuView;
     protected FloatingActionButton fabNoteDetail;
+    protected AlertDialog imageDialog;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
+    protected final static int PHOTO_REQUEST_GALLERY=914;
 
     /* @描述 用来jieshou */
     protected Handler mHandler = new Handler() {
@@ -54,6 +62,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             }
         }
     };
+
 
     /*
     * @方法 根据不同状态设置fl的隐藏与显示
@@ -136,13 +145,50 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                   public void onClick(View view, int pos) {
                                                       switch (pos) {
                                                           case 1:
-                                                                  /*
-                                                                * @方法 点击调用相机拍照
-                                                                *
-                                                                */
-                                                              isDelete = false;
-                                                              takePicture(ArcNewNoteActivity.this);
-                                                              isDelete = false;
+
+                                                              /* @描述 设置dialogView */
+                                                              final View dialogView = View.inflate(ArcNewNoteActivity.this,
+                                                                      R.layout.item_dialog_image, null);
+                                                              TextView tvFromCamera =
+                                                                      (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
+                                                              TextView tvFromAlbum =
+                                                                      (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_album);
+                                                              /* @描述 设置item点击事件 */
+
+                                                              /* @描述 相机拍照 */
+                                                              tvFromCamera.setOnClickListener(new View.OnClickListener() {
+                                                                  @Override
+                                                                  public void onClick(View v) {
+                                                                      /*
+                                                                       * @方法 点击调用相机拍照
+                                                                       *
+                                                                       */
+                                                                      takePicture(ArcNewNoteActivity.this);
+                                                                      isDelete = false;
+                                                                      imageDialog.dismiss();
+                                                                  }
+                                                              });
+
+                                                              /* @描述 来自相册 */
+                                                              tvFromAlbum.setOnClickListener(new View.OnClickListener() {
+                                                                  @Override
+                                                                  public void onClick(View v) {
+                                                                      // 激活系统图库，选择一张图片
+                                                                      Intent intent = new Intent(Intent.ACTION_PICK);
+                                                                      intent.setType("image/*");
+                                                                      // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
+                                                                      startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+                                                                      imageDialog.dismiss();
+                                                                  }
+                                                              });
+
+                                                              imageDialog = new AlertDialog.Builder(ArcNewNoteActivity.this)
+                                                                      .setView(dialogView).create();
+                                                              Window window = imageDialog.getWindow();
+                                                              window.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+                                                              window.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                                                              imageDialog.show();
+
                                                               break;
                                                           case 2:
                                                               if (isPin) {
@@ -156,12 +202,12 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                           case 3:
                                                               if (rbVoice.getVisibility() == View.VISIBLE) {
                                                                   rbVoice.setVisibility(View.GONE);
-                                                              } else{
+                                                              } else {
                                                                   rbVoice.setVisibility(View.VISIBLE);
                                                               }
                                                               break;
                                                           case 4:
-                                                              fl_note_iamge.setVisibility(View.GONE);
+
                                                               break;
                                                       }
                                                   }
@@ -277,20 +323,47 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("SKKK_____", "requestCode:  " + requestCode);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            fl_note_iamge.setVisibility(View.VISIBLE);
-            //设置图片存在
-            isImageExist = true;
-            ImageCache imageCache = new ImageCache();
-            imageCache.setNoteKey(noteKey);
-            imageCache.setImagePath(imagePath);
-            imageCache.save();
-            //获取当前fragment
+        if (resultCode == RESULT_OK){
+            switch (requestCode){
+                case REQUEST_IMAGE_CAPTURE:
+                    fl_note_iamge.setVisibility(View.VISIBLE);
+                    //设置图片存在
+                    isImageExist = true;
+                    LogUtils.Log(imagePath);
+                    ImageCache imageCache = new ImageCache();
+                    imageCache.setNoteKey(noteKey);
+                    imageCache.setImagePath(imagePath);
+                    imageCache.save();
+                    //获取当前fragment
 
-            mImageNewNoteFragment.insertImage(noteKey);
-            LogUtils.Log("这里是onActivityResult");
-            isDelete = true;
+                    mImageNewNoteFragment.insertImage(noteKey);
+                    LogUtils.Log("这里是onActivityResult");
+                    isDelete = true;
+                    break;
+                case PHOTO_REQUEST_GALLERY:
+                    if (data!=null){
+                        fl_note_iamge.setVisibility(View.VISIBLE);
+                        //设置图片存在
+                        isImageExist = true;
+                        Uri uriImageFromGallery = data.getData();
+                        LogUtils.Log(CameraImageUtils.getAbsoluteImagePath(ArcNewNoteActivity.this,
+                                uriImageFromGallery));
+
+
+                        ImageCache imageCacheGallery = new ImageCache();
+                        imageCacheGallery.setNoteKey(noteKey);
+                        imageCacheGallery.setImagePath(CameraImageUtils.getAbsoluteImagePath(ArcNewNoteActivity.this,
+                                uriImageFromGallery));
+                        imageCacheGallery.save();
+                        //获取当前fragment
+
+                        mImageNewNoteFragment.insertImage(noteKey);
+                    }
+                    break;
+            }
+
         }
+
     }
 
     /*

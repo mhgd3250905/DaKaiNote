@@ -147,6 +147,7 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
             }
             myImageThread=new MyImageThread();
             myImageThread.start();
+
         }else if (inetntNote.isVoiceExist()){
             fl_note_voice.setVisibility(View.VISIBLE);
             //说明存在图片
