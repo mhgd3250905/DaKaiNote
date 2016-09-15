@@ -75,6 +75,7 @@
     <item name="ab_note_detail_item" type="id">ab_note_detail_item</item>
     <item name="tv_dialog_image_from_camera" type="id">dialog_image_from_camera</item>
     <item name="tv_dialog_image_from_album" type="id">dialog_image_from_album</item>
+    <item name="menu_tb_notelist_delete_check" type="id">menu_tb_notelist_delete_check</item>
 
 
 </resources>

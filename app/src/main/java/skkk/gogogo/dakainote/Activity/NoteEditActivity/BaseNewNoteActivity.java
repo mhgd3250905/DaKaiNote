@@ -14,11 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import skkk.gogogo.dakainote.DbTable.ContentText;
-import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.R;
@@ -46,8 +42,6 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected boolean isVoiceExist=false;//是否有录音
 
     protected NoteNew note;//笔记类
-    protected List<Image> imageList=new ArrayList<Image>();//笔记图片类
-    protected List<ContentText> contentTextList;//笔记内容类
     protected static final int REQUEST_IMAGE_CAPTURE=111;//拍照请求码
     protected TextView tvNoteDetailTime;
     protected EditText etNoteDetailTitle;
@@ -57,7 +51,6 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected CoordinatorLayout clNoteDetails;//编辑界面的框架
     protected EditText etNewNoteDetail;//单一的内容显示Edit
 
-    protected View testView=null;
     protected FrameLayout fl_note_iamge;
     protected FrameLayout fl_note_voice;
 
@@ -97,8 +90,13 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         fl_note_iamge= (FrameLayout) findViewById(R.id.fl_note_image);
         //设置note中用来显示Voicede1fl
         fl_note_voice= (FrameLayout) findViewById(R.id.fl_note_voice);
-
     }
+
+
+    
+
+
+
     /*
      * @方法 设置监听事件
      *
@@ -128,14 +126,5 @@ public class BaseNewNoteActivity extends AppCompatActivity{
 
     }
 
-    /*
-    * @方法 为控件获取焦点
-    *
-    */
-    protected void getFocuse(View view){
-        view.setFocusable(true);
-        view.setFocusableInTouchMode(true);
-        view.requestFocus();
-        view.requestFocusFromTouch();
-    }
+
 }

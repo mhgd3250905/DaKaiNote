@@ -32,5 +32,6 @@
     <string name="blank_tip">点击按钮新增笔记</string>
     <string name="dialog_image_from_camera">拍照</string>
     <string name="dialog_image_from_album">来自相册</string>
+    <string name="notelist_tb_check">全选</string>
 
 </resources>
