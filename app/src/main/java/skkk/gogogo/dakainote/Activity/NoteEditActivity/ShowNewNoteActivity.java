@@ -16,6 +16,7 @@ import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
+import skkk.gogogo.dakainote.Fragment.ScheduleNewNoteFragment;
 import skkk.gogogo.dakainote.Fragment.VoiceNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
@@ -31,10 +32,12 @@ import skkk.gogogo.dakainote.R;
 * 作    者：ksheng
 * 时    间：2016/8/27$ 21:59$.
 */
-public class ShowNewNoteActivity extends UINewNoteActivity {
+public class ShowNewNoteActivity extends BaseNewNoteActivity {
     protected NoteNew inetntNote;
     protected ImageNewNoteFragment mImageNewNoteFragment;
     protected VoiceNewNoteFragment mVoiceNewNoteFragment;
+    protected ScheduleNewNoteFragment mScheduleNewNoteFragment;
+
     protected long noteKey;
     MyImageThread myImageThread;
 
@@ -103,6 +106,10 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         mVoiceNewNoteFragment=new VoiceNewNoteFragment(noteKey);
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_voice, mVoiceNewNoteFragment).commit();
+        /* @描述 加载Schedule fl布局 */
+        mScheduleNewNoteFragment=new ScheduleNewNoteFragment(noteKey);
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fl_note_schedule, mScheduleNewNoteFragment).commit();
     }
 
     /*
@@ -137,7 +144,12 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_voice,mVoiceNewNoteFragment).commit();
 
-        /* @描述 载入图片 以及 载入录音 */
+        /* @描述 先把fragment搁好 */
+        mScheduleNewNoteFragment = new ScheduleNewNoteFragment(noteKey);
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fl_note_schedule,mScheduleNewNoteFragment).commit();
+
+        /* @描述 载入图片 以及 载入录音 以及 载入schedule */
         if (inetntNote.isImageIsExist()){
             fl_note_iamge.setVisibility(View.VISIBLE);
             //说明存在图片
@@ -148,10 +160,14 @@ public class ShowNewNoteActivity extends UINewNoteActivity {
             myImageThread=new MyImageThread();
             myImageThread.start();
 
-        }else if (inetntNote.isVoiceExist()){
+        }
+        if (inetntNote.isVoiceExist()){
             fl_note_voice.setVisibility(View.VISIBLE);
             //说明存在图片
             //获取图片列表
+        }
+        if (inetntNote.isScheduleIsExist()){
+            fl_note_schedule.setVisibility(View.VISIBLE);
         }
     }
 

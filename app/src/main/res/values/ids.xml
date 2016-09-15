@@ -76,6 +76,9 @@
     <item name="tv_dialog_image_from_camera" type="id">dialog_image_from_camera</item>
     <item name="tv_dialog_image_from_album" type="id">dialog_image_from_album</item>
     <item name="menu_tb_notelist_delete_check" type="id">menu_tb_notelist_delete_check</item>
+    <item name="cb_item_schedule" type="id">cb_item_schedule</item>
+    <item name="et_item_schedule" type="id">et_item_schedule</item>
+    <item name="fl_note_schedule" type="id">fl_note_schedule</item>
 
 
 </resources>

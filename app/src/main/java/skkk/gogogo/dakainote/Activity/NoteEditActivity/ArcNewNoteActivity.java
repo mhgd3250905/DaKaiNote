@@ -22,6 +22,8 @@ import java.util.List;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Schedule;
+import skkk.gogogo.dakainote.DbTable.ScheduleCache;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
@@ -207,6 +209,18 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               }
                                                               break;
                                                           case 4:
+                                                              fl_note_schedule.setVisibility(View.VISIBLE);
+                                                              //设置图片存在
+                                                              isScheduleExist = true;
+
+                                                              ScheduleCache scheduleCache = new ScheduleCache();
+                                                              scheduleCache.setNoteKey(noteKey);
+                                                              scheduleCache.setScheduleChecked(false);
+                                                              scheduleCache.setScheduleContent("");
+                                                              scheduleCache.save();
+
+                                                              //获取当前fragment
+                                                              mScheduleNewNoteFragment.insertSchedule(noteKey);
 
                                                               break;
                                                       }
@@ -283,6 +297,26 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 isStore = true;
             }
         }
+
+        /* @描述 保存Schedule */
+        //获取到缓存中的图片
+        List<ScheduleCache> scheduleCaches = DataSupport
+                .where("notekey=?", String.valueOf(noteKey))
+                .find(ScheduleCache.class);
+        //判断缓存图片是否存在
+        if (scheduleCaches.size() != 0) {
+            for (int i = 0; i < scheduleCaches.size(); i++) {
+                Schedule schedule = new Schedule();
+                schedule.setScheduleChecked(scheduleCaches.get(i).isScheduleChecked());
+                schedule.setScheduleContent(scheduleCaches.get(i).getScheduleContent());
+                schedule.save();
+                note.getScheduleList().add(schedule);
+                note.setScheduleIsExist(true);
+                isStore = true;
+            }
+        }
+
+
 
         /* @描述 保存note */
         if (isStore) {

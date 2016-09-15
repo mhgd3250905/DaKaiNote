@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="50dp"
+              android:orientation="horizontal">
+
+    <ImageView
+        android:layout_marginLeft="10dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:src="@drawable/vector_drawable_tip"/>
+    <CheckBox
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:button="@drawable/select_checkbox_for_item_delete"
+        android:id="@id/cb_item_schedule"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        />
+
+    <EditText
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id="@id/et_item_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

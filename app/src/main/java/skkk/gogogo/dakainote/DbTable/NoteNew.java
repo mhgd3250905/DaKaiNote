@@ -23,11 +23,76 @@ public class NoteNew extends DataSupport implements Serializable {
     private boolean imageIsExist;
     private boolean pinIsExist;
     private boolean voiceExist;
+    private boolean scheduleIsExist;
     private long keyNum;
+
+
 
     private List<Image> imageList = new ArrayList<Image>();
     private List<Voice> voiceList = new ArrayList<Voice>();
+    private List<Schedule> scheduleList = new ArrayList<Schedule>();
 
+
+    /*
+     *
+     * @方法 获取我说需要的串联表Voice中的内容
+     *
+     */
+    public List<Schedule> getMyScheduleList() {
+        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Schedule.class);
+    }
+
+    public List<Schedule> getScheduleList() {
+        return scheduleList;
+    }
+
+    public void setScheduleList(List<Schedule> scheduleList) {
+        this.scheduleList = scheduleList;
+    }
+
+    /*
+    *
+    * @方法 获取我说需要的串联表Voice中的内容
+    *
+    */
+    public List<Voice> getMyVoiceList() {
+        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Voice.class);
+    }
+
+    public List<Voice> getVoiceList() {
+        return voiceList;
+    }
+
+    public void setVoiceList(List<Voice> voiceList) {
+        this.voiceList = voiceList;
+    }
+
+
+    /*
+    * @方法 获取我所需要的串联表Image中的内容
+    *
+    */
+    public List<Image> getMyImageList() {
+        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Image.class);
+    }
+    public List<Image> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
+    }
+
+
+
+
+    public boolean isScheduleIsExist() {
+        return scheduleIsExist;
+    }
+
+    public void setScheduleIsExist(boolean scheduleIsExist) {
+        this.scheduleIsExist = scheduleIsExist;
+    }
 
     public String getContent() {
         return content;
@@ -53,47 +118,12 @@ public class NoteNew extends DataSupport implements Serializable {
         this.id = id;
     }
 
-
-    /*
-    *
-    * @方法 获取我说需要的串联表Voice中的内容
-    *
-    */
-    public List<Voice> getMyVoiceList() {
-        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Voice.class);
-    }
-
-    public List<Voice> getVoiceList() {
-        return voiceList;
-    }
-
-    public void setVoiceList(List<Voice> voiceList) {
-        this.voiceList = voiceList;
-    }
-
     public boolean isImageIsExist() {
         return imageIsExist;
     }
 
     public void setImageIsExist(boolean imageIsExist) {
         this.imageIsExist = imageIsExist;
-    }
-
-    public List<Image> getImageList() {
-        return imageList;
-    }
-
-
-    /*
-    * @方法 获取我所需要的串联表Image中的内容
-    *
-    */
-    public List<Image> getMyImageList() {
-        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Image.class);
-    }
-
-    public void setImageList(List<Image> imageList) {
-        this.imageList = imageList;
     }
 
     public long getKeyNum() {

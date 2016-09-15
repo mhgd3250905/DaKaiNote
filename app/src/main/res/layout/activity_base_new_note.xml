@@ -77,6 +77,14 @@
                 android:layout_height="60dp">
             </FrameLayout>
 
+            <FrameLayout
+                android:background="@color/colorGray"
+                android:visibility="gone"
+                android:id="@id/fl_note_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+            </FrameLayout>
+
             <EditText
                 android:textSize="25dp"
                 android:paddingTop="10dp"

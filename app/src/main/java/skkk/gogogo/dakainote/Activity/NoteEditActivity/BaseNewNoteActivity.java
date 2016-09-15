@@ -31,6 +31,8 @@ import skkk.gogogo.dakainote.View.RecordButton;
 */
 public class BaseNewNoteActivity extends AppCompatActivity{
 
+    protected static int REQUEST_NOTE_IMAGE_DELETE = 13;
+
     protected boolean isStore=false;//是否有存储
     protected boolean isShow=false;//是否是展示页面
     protected LinearLayout llNoteDetail;
@@ -40,6 +42,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected Boolean isImageExist=false;//照片是否存在
     protected boolean isPin=false;//是否pin
     protected boolean isVoiceExist=false;//是否有录音
+    protected boolean isScheduleExist=false;//是否有Schedule
 
     protected NoteNew note;//笔记类
     protected static final int REQUEST_IMAGE_CAPTURE=111;//拍照请求码
@@ -53,7 +56,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
 
     protected FrameLayout fl_note_iamge;
     protected FrameLayout fl_note_voice;
-
+    protected FrameLayout fl_note_schedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +91,14 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         etNewNoteDetail= (EditText) findViewById(R.id.et_new_note_detail_new);
         //设置note中用来显示image的fl
         fl_note_iamge= (FrameLayout) findViewById(R.id.fl_note_image);
-        //设置note中用来显示Voicede1fl
+        //设置note中用来显示Voice的fl
         fl_note_voice= (FrameLayout) findViewById(R.id.fl_note_voice);
+        //设置note中用来显示Schedule的fl
+        fl_note_schedule= (FrameLayout) findViewById(R.id.fl_note_schedule);
     }
 
 
-    
+
 
 
 
