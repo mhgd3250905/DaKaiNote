@@ -1,5 +1,7 @@
 package skkk.gogogo.dakainote.Activity.HomeActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -85,6 +87,7 @@ public class UIHomeActivity extends BaseHomeActivity
     @Override
     protected void onResume() {
         super.onResume();
+        /* @描述 设置fab进入界面时的动画 */
         ScaleAnimation scaleAnimation=new ScaleAnimation(0f,1f,0f,1f,
                 Animation.RELATIVE_TO_SELF,0.5f,
                 Animation.RELATIVE_TO_SELF,0.5f);
@@ -109,9 +112,25 @@ public class UIHomeActivity extends BaseHomeActivity
                     startActivity(intent);
                 }else if (fabFlagInActivity==2){
                     /* @描述 如果fab标签是2说明为删除状态 */
-                    noteListFragment.deleteSelectedItem();
-                    changeFabSrc(1);
-                    noteListFragment.hideCheckBox();
+                    //这里加入一个dialog提示是否需要判断
+                    AlertDialog.Builder builderDeleteTIP=
+                            new AlertDialog.Builder(UIHomeActivity.this);
+                    builderDeleteTIP.setTitle("提示");
+                    builderDeleteTIP.setIcon(R.drawable.item_recycle);
+                    builderDeleteTIP.setMessage("点击确定删除选中笔记...");
+                    builderDeleteTIP.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            noteListFragment.deleteSelectedItem();
+                            changeFabSrc(1);
+                            noteListFragment.hideCheckBox();
+                            dialog.dismiss();
+                        }
+                    });
+                    builderDeleteTIP.setNegativeButton("取消", null);
+                    AlertDialog dialogDeleteTIP = builderDeleteTIP.create();
+                    dialogDeleteTIP.show();
+
                 }
             }
         });

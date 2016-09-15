@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center"
-    android:background="@drawable/record_bg"
+    android:background="@drawable/dialog_record_voice"
     android:padding="20dp" >
 
     <ImageView

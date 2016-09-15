@@ -57,7 +57,6 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
         }catch (Exception e){
             holder.myNoteView.setViewContent("");
         }
-
         holder.myNoteView.setViewTitleTime(mItemDataList.get(position).getTime());
         holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
         holder.myNoteView.setPinIsExist(mItemDataList.get(position).isPinIsExist());
@@ -97,7 +96,15 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
     */
     public void showCheckBox(boolean show){
         this.showCheckbox=show;
+        /* @描述 重置checkbox的勾选状态 */
         notifyDataSetChanged();
     }
 
+    /*
+    * @方法 获取adapter item中checkbox的显示状态
+    *
+    */
+    public Boolean getShowCheckbox() {
+        return showCheckbox;
+    }
 }

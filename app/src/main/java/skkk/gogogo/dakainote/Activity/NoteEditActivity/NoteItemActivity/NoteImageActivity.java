@@ -11,8 +11,6 @@ import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.io.File;
-
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
 
@@ -102,9 +100,10 @@ public class NoteImageActivity extends AppCompatActivity{
         //根据菜单判断
         switch (id){
             case R.id.menu_tb_image_detail_delete:
+                /* @描述 这里取消了删除源文件的行为 */
                 //删除文件
-                File deleteFile=new File(image_click_path);
-                deleteFile.delete();
+//                File deleteFile=new File(image_click_path);
+//                deleteFile.delete();
                 Intent resultIntent=new Intent();
                 resultIntent.putExtra("image_detail_path",image_click_path);
                 resultIntent.putExtra("image_detail_keynote",image_notekey);

@@ -138,10 +138,31 @@ public class MyNoteView extends RelativeLayout {
         if (show) {
             //显示
             cbNoteDeleteCheck.setVisibility(VISIBLE);
+            cbNoteDeleteCheck.setChecked(false);
         }else {
             //隐藏
             cbNoteDeleteCheck.setVisibility(GONE);
         }
+    }
+
+    /*
+    * @方法 设置checkbox勾选
+    *
+    */
+    public void setCheckboxStatus(boolean check){
+        if (check){
+            cbNoteDeleteCheck.setChecked(true);
+        }else {
+            cbNoteDeleteCheck.setChecked(false);
+        }
+    }
+
+    /*
+    * @方法 获取checkbox的勾选状态
+    *
+    */
+    public boolean getCheckboxStatus(){
+        return cbNoteDeleteCheck.isChecked();
     }
 
 }

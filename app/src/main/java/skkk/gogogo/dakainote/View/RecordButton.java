@@ -100,12 +100,12 @@ public class RecordButton extends Button{
         }
         switch (flag){
             case 1:
-                dialogImg.setImageResource(R.drawable.record_cancel);
+                dialogImg.setImageResource(R.drawable.vector_drawable_voice);
                 dialogTextView.setText("松开手指可取消录音");
                 this.setText("松开手指 取消录音");
                 break;
             default:
-                dialogImg.setImageResource(R.drawable.a0);
+                dialogImg.setImageResource(R.drawable.vector_drawable_voice);
                 dialogTextView.setText("向上滑动可取消录音");
                 this.setText("松开手指 完成录音");
                 break;
@@ -141,33 +141,7 @@ public class RecordButton extends Button{
     */
     private void setDialogImage() {
         if (voiceValue < 600.0) {
-            dialogImg.setImageResource(R.drawable.a0);
-        } else if (voiceValue > 600.0 && voiceValue < 1000.0) {
-            dialogImg.setImageResource(R.drawable.a1);
-        } else if (voiceValue > 1000.0 && voiceValue < 1200.0) {
-            dialogImg.setImageResource(R.drawable.a2);
-        } else if (voiceValue > 1200.0 && voiceValue < 1400.0) {
-            dialogImg.setImageResource(R.drawable.a3);
-        } else if (voiceValue > 1400.0 && voiceValue < 1600.0) {
-            dialogImg.setImageResource(R.drawable.a4);
-        } else if (voiceValue > 1600.0 && voiceValue < 1800.0) {
-            dialogImg.setImageResource(R.drawable.a5);
-        } else if (voiceValue > 1800.0 && voiceValue < 2000.0) {
-            dialogImg.setImageResource(R.drawable.a6);
-        } else if (voiceValue > 2000.0 && voiceValue < 3000.0) {
-            dialogImg.setImageResource(R.drawable.a7);
-        } else if (voiceValue > 3000.0 && voiceValue < 4000.0) {
-            dialogImg.setImageResource(R.drawable.a8);
-        } else if (voiceValue > 4000.0 && voiceValue < 6000.0) {
-            dialogImg.setImageResource(R.drawable.a9);
-        } else if (voiceValue > 6000.0 && voiceValue < 8000.0) {
-            dialogImg.setImageResource(R.drawable.a10);
-        } else if (voiceValue > 8000.0 && voiceValue < 10000.0) {
-            dialogImg.setImageResource(R.drawable.a11);
-        } else if (voiceValue > 10000.0 && voiceValue < 12000.0) {
-            dialogImg.setImageResource(R.drawable.a12);
-        } else if (voiceValue > 12000.0) {
-            dialogImg.setImageResource(R.drawable.a13);
+            dialogImg.setImageResource(R.drawable.vector_drawable_voice);
         }
     }
 

@@ -36,9 +36,7 @@ import skkk.gogogo.dakainote.View.MyNoteView;
 * 时    间：
 */
 public class NoteListFragment extends Fragment {
-    protected int REQUEST_CODE_2=2;
     protected View view;
-    protected List<NoteNew> notes;
     protected List<NoteNew> myNotes;
     protected NoteListAdapter adapter;
     protected NoteNew noteShow;
@@ -108,21 +106,30 @@ public class NoteListFragment extends Fragment {
         adapter.setOnItemClickLitener(new RecyclerViewBaseAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                //从数据库中查询第position行数据
-                noteShow = myNotes.get(position);
-                Log.d("SKKKKKKKK---------", noteShow.toString());
-                //将查询之note类传给NOTE展示页面
-                Intent intent = new Intent();
-                intent.putExtra("note", noteShow);
-                intent.putExtra("pos", position);
+                /* @描述 如果是正常显示状态那么点击fab进入note编辑界面 */
+                if (!adapter.getShowCheckbox()){
+                    //从数据库中查询第position行数据
+                    noteShow = myNotes.get(position);
+                    Log.d("SKKKKKKKK---------", noteShow.toString());
+                    //将查询之note类传给NOTE展示页面
+                    Intent intent = new Intent();
+                    intent.putExtra("note", noteShow);
+                    intent.putExtra("pos", position);
+                    intent.setClass(getContext(), ArcNewNoteActivity.class);
 
-
-
-                intent.setClass(getContext(), ArcNewNoteActivity.class);
-                LogUtils.Log("这里是点击事件定位的note，id为" + noteShow.getId());
-                LogUtils.Log("note: "+noteShow.toString());
-                //getActivity().startActivityForResult(intent, REQUEST_CODE_2);
-                getActivity().startActivity(intent);
+                    LogUtils.Log("这里是点击事件定位的note，id为" + noteShow.getId());
+                    LogUtils.Log("note: "+noteShow.toString());
+                    getActivity().startActivity(intent);
+                }else {
+                    /* @描述 如果是编辑状态那么点击fab执行删除操作 */
+                    View position1 = mGridLayoutManager.findViewByPosition(position);
+                    MyNoteView myNoteViewPos= (MyNoteView) ((CardView) position1).getChildAt(0);
+                    if (myNoteViewPos.getCheckboxStatus()) {
+                        myNoteViewPos.setCheckboxStatus(false);
+                    }else {
+                        myNoteViewPos.setCheckboxStatus(true);
+                    }
+                }
             }
 
             /*
@@ -143,7 +150,7 @@ public class NoteListFragment extends Fragment {
     */
     public void deleteSelectedItem() {
         for (int i=myNotes.size()-1;i>=0;i--) {
-            View positionView = mLayoutManager.findViewByPosition(i);
+            View positionView = mGridLayoutManager.findViewByPosition(i);
             if (positionView instanceof CardView){
                 MyNoteView myNoteViewPos= (MyNoteView) ((CardView) positionView).getChildAt(0);
                 if(myNoteViewPos.isDeleteChecked()){
