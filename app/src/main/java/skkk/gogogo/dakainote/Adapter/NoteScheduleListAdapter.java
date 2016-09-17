@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import skkk.gogogo.dakainote.DbTable.ScheduleCache;
+import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.ViewHolder.NoteScheduleItemViewHolder;
@@ -63,8 +64,8 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
         holder.etSchedule.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode==KeyEvent.KEYCODE_ENTER&&event.getAction()==KeyEvent.ACTION_UP){
-                    ScheduleCache scheduleCache=new ScheduleCache();
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+                    ScheduleCache scheduleCache = new ScheduleCache();
                     scheduleCache.setNoteKey(noteKey);
                     scheduleCache.setScheduleChecked(false);
                     scheduleCache.setScheduleContent("");
@@ -76,10 +77,13 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
                 return false;
             }
         });
-        holder.etSchedule.setFocusable(true);
-        holder.etSchedule.setFocusableInTouchMode(true);
-        holder.etSchedule.requestFocus();
-        holder.etSchedule.requestFocusFromTouch();
+        LogUtils.Log(String.valueOf(mItemDataList.get(position).getId()));
+        if (position==mItemDataList.size()-1) {
+            holder.etSchedule.setFocusable(true);
+            holder.etSchedule.setFocusableInTouchMode(true);
+            holder.etSchedule.requestFocus();
+            holder.etSchedule.requestFocusFromTouch();
+        }
     }
 
 

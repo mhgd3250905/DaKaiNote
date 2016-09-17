@@ -148,7 +148,18 @@
 2. 待办事项item形式为checkbox+EditText
 3. item需要在一个RecvclerView中显示吗？
 4. 待办事项item要具备添加 删除的功能
+![](http://i.imgur.com/PZ1sYBB.png)
 
+
+----------
+
+#2016/9/17 11:19:42 
+
+今天的待办事项：
+
+1. editText和schedule的布局分布 怎么才算合理？
+2. schedule的内容保存
+3. 布局样式的菜单按钮添加
 
 
 
