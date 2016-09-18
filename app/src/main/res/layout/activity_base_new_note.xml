@@ -77,9 +77,18 @@
                 android:layout_height="60dp">
             </FrameLayout>
 
-
+            <FrameLayout
+                android:layout_margin="5dp"
+                android:background="@drawable/shape_schedule"
+                android:visibility="gone"
+                android:id="@id/fl_note_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </FrameLayout>
 
             <EditText
+                android:textColorHint="@color/colorPrimary"
+                android:hint="@string/note_edit_hint"
                 android:textSize="25dp"
                 android:paddingTop="10dp"
                 android:id="@id/et_new_note_detail_new"
@@ -90,14 +99,6 @@
                 android:inputType="textMultiLine"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
-            <FrameLayout
-                android:background="@color/colorGray"
-                android:visibility="gone"
-                android:id="@id/fl_note_schedule"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </FrameLayout>
 
         </LinearLayout>
 

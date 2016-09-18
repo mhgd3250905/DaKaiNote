@@ -13,6 +13,8 @@ import java.util.List;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Schedule;
+import skkk.gogogo.dakainote.DbTable.ScheduleCache;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
@@ -40,6 +42,8 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
 
     protected long noteKey;
     MyImageThread myImageThread;
+    MyVoiceThread myVoiceThread;
+    MyScheduleThread myScheduleThread;
 
     protected boolean isDelete=true;
     /* @描述 用来设置isDelete */
@@ -165,9 +169,19 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
             fl_note_voice.setVisibility(View.VISIBLE);
             //说明存在图片
             //获取图片列表
+            if (myVoiceThread!=null){
+                myVoiceThread=null;
+            }
+            myVoiceThread=new MyVoiceThread();
+            myVoiceThread.start();
         }
         if (inetntNote.isScheduleIsExist()){
             fl_note_schedule.setVisibility(View.VISIBLE);
+            if (myScheduleThread!=null){
+                myScheduleThread=null;
+            }
+            myScheduleThread=new MyScheduleThread();
+            myScheduleThread.start();
         }
     }
 
@@ -178,12 +192,10 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
             super.run();
             /* @描述 第一步清空缓存 */
             DataSupport.deleteAll(ImageCache.class);
-            DataSupport.deleteAll(VoiceCache.class);
 
             /* @描述 第二步获取对应note中包含的图片
              *     以及获取对应的note中包含的录音  */
             List<Image> imageList = inetntNote.getMyImageList();
-            List<Voice> voiceList=inetntNote.getMyVoiceList();
 
             //第三步进行遍历把图片都保存到缓存数据库中
             for (int i = 0; i < imageList.size(); i++) {
@@ -193,7 +205,30 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
                 imageCache.save();
             }
 
-            //第三步进行遍历把图片都保存到缓存数据库中
+            //发送消息让fragment从缓存数据库刷新数据
+            Message msg1=new Message();
+            Bundle bundle=new Bundle();
+            bundle.putLong("notekey", noteKey);
+            msg1.setData(bundle);
+            msg1.what=12345;
+            mImageNewNoteFragment.handler.sendMessageDelayed(msg1, 100);
+        }
+    }
+
+    /* @描述 用来转存图片的线程 */
+    class MyVoiceThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            /* @描述 第一步清空缓存 */
+            DataSupport.deleteAll(VoiceCache.class);
+
+
+            /* @描述 第二步获取对应note中包含的图片
+             *     以及获取对应的note中包含的录音  */
+            List<Voice> voiceList=inetntNote.getMyVoiceList();
+
+            //第三步进行遍历把录音都保存到缓存数据库中
             for (int i = 0; i < voiceList.size(); i++) {
                 VoiceCache voiceCache=new VoiceCache();
                 voiceCache.setVoicePath(voiceList.get(i).getVoicePath());
@@ -202,19 +237,47 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
             }
 
             //发送消息让fragment从缓存数据库刷新数据
-            Message msg1=new Message();
             Message msg2=new Message();
             Bundle bundle=new Bundle();
             bundle.putLong("notekey", noteKey);
-            msg1.setData(bundle);
-            msg1.what=12345;
             msg2.setData(bundle);
             msg2.what=54321;
-            mImageNewNoteFragment.handler.sendMessageDelayed(msg1,100);
             mVoiceNewNoteFragment.handler.sendMessageDelayed(msg2,100);
+
         }
     }
 
+
+    /* @描述 用来转存图片的线程 */
+    class MyScheduleThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            /* @描述 第一步清空缓存 */
+            DataSupport.deleteAll(ScheduleCache.class);
+
+            /* @描述 第二步获取对应note中包含的图片
+             *     以及获取对应的note中包含的录音  */
+            List<Schedule> scheduleList=inetntNote.getMyScheduleList();
+
+            //第三步进行遍历把录音都保存到缓存数据库中
+            for (int i = 0; i < scheduleList.size(); i++) {
+                ScheduleCache scheduleCache=new ScheduleCache();
+                scheduleCache.setScheduleChecked(scheduleList.get(i).isScheduleChecked());
+                scheduleCache.setScheduleContent(scheduleList.get(i).getScheduleContent());
+                scheduleCache.setNoteKey(inetntNote.getKeyNum());
+                scheduleCache.save();
+            }
+            //发送消息让fragment从缓存数据库刷新数据
+            Message msg3=new Message();
+            Bundle bundle=new Bundle();
+            bundle.putLong("notekey", noteKey);
+            msg3.setData(bundle);
+            msg3.what=11111;
+
+            mScheduleNewNoteFragment.handler.sendMessage(msg3);
+        }
+    }
 
 
 
@@ -230,6 +293,14 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
         if (myImageThread!=null) {
             myImageThread.interrupt();
             myImageThread = null;
+        }
+        if (myVoiceThread!=null) {
+            myVoiceThread.interrupt();
+            myVoiceThread = null;
+        }
+        if (myScheduleThread!=null) {
+            myScheduleThread.interrupt();
+            myScheduleThread = null;
         }
 
     }

@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.ShowNewNoteActivity;
 import skkk.gogogo.dakainote.Adapter.NoteScheduleListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.ScheduleCache;
@@ -37,14 +36,14 @@ public class ScheduleNewNoteFragment extends Fragment {
     private View view;
     private List<ScheduleCache> mySchedules;
     private long noteKey = 0;
-    private RecyclerView rvNoteImageList;
+    private RecyclerView rvNoteScheduleList;
     private NoteScheduleListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
     private SpacesItemDecoration mDecoration;
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what==12345) {
+            if (msg.what==11111) {
                 Bundle data = msg.getData();
                 long myNoteKey = (long) data.get("notekey");
                 insertSchedule(myNoteKey);
@@ -95,7 +94,7 @@ public class ScheduleNewNoteFragment extends Fragment {
         */
     private void initUI(View view) {
         //获取RecyclerView实例
-        rvNoteImageList = (RecyclerView) view.findViewById(R.id.rv_note_image_list);
+        rvNoteScheduleList = (RecyclerView) view.findViewById(R.id.rv_note_image_list);
         //设置Adapter
         adapter = new NoteScheduleListAdapter(getContext(), mySchedules,noteKey);
         //设置布局管理器
@@ -105,14 +104,14 @@ public class ScheduleNewNoteFragment extends Fragment {
         //设置间距
         mDecoration = new SpacesItemDecoration(5);
         //添加间距
-        rvNoteImageList.addItemDecoration(mDecoration);
+        rvNoteScheduleList.addItemDecoration(mDecoration);
         //添加布局
-        rvNoteImageList.setLayoutManager(mLayoutManager);
+        rvNoteScheduleList.setLayoutManager(mLayoutManager);
         //设置基本动画
-        rvNoteImageList.setItemAnimator(new DefaultItemAnimator());
+        rvNoteScheduleList.setItemAnimator(new DefaultItemAnimator());
         //rvNoteList
-        rvNoteImageList.setAdapter(adapter);
-        rvNoteImageList.setHasFixedSize(true);
+        rvNoteScheduleList.setAdapter(adapter);
+        rvNoteScheduleList.setHasFixedSize(true);
         /*
         * @方法 item单击事件
         *
@@ -120,9 +119,6 @@ public class ScheduleNewNoteFragment extends Fragment {
         adapter.setOnItemClickLitener(new RecyclerViewBaseAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                /* @描述 在点击进入note详情之前先清空缓存数据库 */
-                ShowNewNoteActivity activity= (ShowNewNoteActivity) getActivity();
-                activity.setIsDelete(false);
 
             }
 
@@ -156,5 +152,12 @@ public class ScheduleNewNoteFragment extends Fragment {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
     }
+
+    public List<ScheduleCache> getListInAdapter(){
+        return adapter.getItemList();
+    }
+
+
+
 
 }

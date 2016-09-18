@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import skkk.gogogo.dakainote.DbTable.Image;
@@ -30,6 +31,7 @@ import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
+import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.ArcMenuView;
 
@@ -210,18 +212,16 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               break;
                                                           case 4:
                                                               fl_note_schedule.setVisibility(View.VISIBLE);
+                                                              etNewNoteDetail.setVisibility(View.GONE);
                                                               //设置图片存在
                                                               isScheduleExist = true;
 
                                                               ScheduleCache scheduleCache = new ScheduleCache();
-                                                              scheduleCache.setNoteKey(noteKey);
-                                                              scheduleCache.setScheduleChecked(false);
-                                                              scheduleCache.setScheduleContent("");
-                                                              scheduleCache.save();
+                                                              List<ScheduleCache> firstSchedule=new ArrayList<ScheduleCache>();
+                                                              firstSchedule.add(scheduleCache);
 
                                                               //获取当前fragment
-                                                              mScheduleNewNoteFragment.insertSchedule(noteKey);
-
+                                                              mScheduleNewNoteFragment.updateAll(firstSchedule);
                                                               break;
                                                       }
                                                   }
@@ -300,9 +300,11 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
 
         /* @描述 保存Schedule */
         //获取到缓存中的图片
-        List<ScheduleCache> scheduleCaches = DataSupport
-                .where("notekey=?", String.valueOf(noteKey))
-                .find(ScheduleCache.class);
+        MyViewUtils.getFoucs(llNoteDetail);
+
+        List<ScheduleCache> scheduleCaches =mScheduleNewNoteFragment.getListInAdapter();
+
+        //DataSupport.where("notekey=?", String.valueOf(noteKey)).find(ScheduleCache.class);
         //判断缓存图片是否存在
         if (scheduleCaches.size() != 0) {
             for (int i = 0; i < scheduleCaches.size(); i++) {
@@ -316,8 +318,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             }
         }
 
-
-
         /* @描述 保存note */
         if (isStore) {
             note.save();
@@ -325,7 +325,11 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             note = null;
             Toast.makeText(ArcNewNoteActivity.this, "您未保存任何内容...", Toast.LENGTH_SHORT).show();
         }
+
     }
+
+
+
 
     @Override
     public void onBackPressed() {

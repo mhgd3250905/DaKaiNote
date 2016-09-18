@@ -79,6 +79,7 @@
     <item name="cb_item_schedule" type="id">cb_item_schedule</item>
     <item name="et_item_schedule" type="id">et_item_schedule</item>
     <item name="fl_note_schedule" type="id">fl_note_schedule</item>
+    <item name="iv_item_schedule" type="id">iv_item_schedule</item>
 
 
 </resources>

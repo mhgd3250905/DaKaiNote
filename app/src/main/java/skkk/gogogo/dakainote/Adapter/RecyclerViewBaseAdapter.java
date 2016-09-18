@@ -11,7 +11,6 @@ package skkk.gogogo.dakainote.Adapter;
 */
 
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -65,22 +64,11 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
         void onItemLongClick(View view, int position);
     }
 
-    private OnItemClickLitener mOnItemClickLitener;
+    protected OnItemClickLitener mOnItemClickLitener;
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
-
-    public interface OnKeydownListener{
-        void onKetdown(View v, int keyCode, KeyEvent event);
-    }
-
-    private OnKeydownListener mOnKeydownListener;
-
-    public void setOnKeydownListener(OnKeydownListener mOnKeydownListener){
-        this.mOnKeydownListener=mOnKeydownListener;
-    }
-
 
 
 
@@ -126,6 +114,22 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
     public void removeAll(){
         mItemDataList.clear();
         notifyDataSetChanged();
+    }
+
+    /*
+    * @方法 获取mItemDataList
+    *
+    */
+    public List<ItemDataType> getItemList(){
+        return mItemDataList;
+    }
+
+    /*
+    * @方法 remove_pos
+    *
+    */
+    public void removePosItem(int pos){
+        mItemDataList.remove(pos);
     }
 
 

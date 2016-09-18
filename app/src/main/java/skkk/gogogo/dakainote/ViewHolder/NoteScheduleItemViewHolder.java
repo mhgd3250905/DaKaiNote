@@ -1,10 +1,9 @@
 package skkk.gogogo.dakainote.ViewHolder;
 
-import android.graphics.Paint;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import skkk.gogogo.dakainote.R;
 
@@ -21,6 +20,7 @@ public class NoteScheduleItemViewHolder  extends RecyclerViewHolderBase {
 
     public CheckBox cbSchedule;
     public EditText etSchedule;
+    public ImageView ivSchedule;
     /**
      * 在构造函数中进行findviewbyid
      * @param itemView item的view
@@ -29,25 +29,6 @@ public class NoteScheduleItemViewHolder  extends RecyclerViewHolderBase {
         super(itemView);
         cbSchedule= (CheckBox) itemView.findViewById(R.id.cb_item_schedule);
         etSchedule= (EditText) itemView.findViewById(R.id.et_item_schedule);
-        initEvent();
+        ivSchedule= (ImageView) itemView.findViewById(R.id.iv_item_schedule);
     }
-
-    /*
-    * @方法 schedule的点击联动事件
-    *       当checkbox被勾选的时候：editText会被划去
-    *
-    */
-    private void initEvent() {
-        cbSchedule.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    etSchedule.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                }else {
-                    etSchedule.getPaint().setFlags(0);
-                }
-            }
-        });
-    }
-
 }
