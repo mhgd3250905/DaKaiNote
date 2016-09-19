@@ -99,9 +99,6 @@ public class BaseNewNoteActivity extends AppCompatActivity{
 
 
 
-
-
-
     /*
      * @方法 设置监听事件
      *

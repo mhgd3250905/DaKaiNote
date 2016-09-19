@@ -80,6 +80,9 @@
     <item name="et_item_schedule" type="id">et_item_schedule</item>
     <item name="fl_note_schedule" type="id">fl_note_schedule</item>
     <item name="iv_item_schedule" type="id">iv_item_schedule</item>
+    <item name="note_style" type="id">note_style</item>
+    <item name="menu_tb_notelist_linear" type="id">menu_tb_notelist_linear</item>
+    <item name="menu_tb_notelist_card" type="id">menu_tb_notelist_card</item>
 
 
 </resources>

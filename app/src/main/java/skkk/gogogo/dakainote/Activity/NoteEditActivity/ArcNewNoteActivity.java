@@ -27,7 +27,6 @@ import skkk.gogogo.dakainote.DbTable.Schedule;
 import skkk.gogogo.dakainote.DbTable.ScheduleCache;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
-import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
@@ -125,10 +124,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         });
     }
 
-    private void initFragment() {
-        mImageNewNoteFragment = (ImageNewNoteFragment) getSupportFragmentManager().
-                findFragmentById(R.id.fl_note_image);
-    }
 
     /*
     * @方法 初始化弹射菜单UI

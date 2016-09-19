@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -66,9 +67,14 @@ public class UIHomeActivity extends BaseHomeActivity
         flHome= (FrameLayout) findViewById(R.id.fl_home);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
         arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_home);
 
         setSupportActionBar(toolbar);
+        //添加菜单
+        toolbar.inflateMenu(R.menu.note_style);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -80,8 +86,6 @@ public class UIHomeActivity extends BaseHomeActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-
-
     }
 
     @Override
@@ -135,6 +139,44 @@ public class UIHomeActivity extends BaseHomeActivity
             }
         });
     }
+
+
+    /*
+* @方法 添加菜单
+*
+*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.note_style, menu);
+        return true;
+    }
+
+    /*
+    * @方法 添加菜单点击事件
+    *
+    */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //获取菜单item_id
+        int id = item.getItemId();
+        //根据菜单判断
+        switch (id){
+            case R.id.menu_tb_notelist_linear:
+                noteListFragment.setNoteStyle(1);
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.fl_home, noteListFragment).commit();
+                break;
+            case R.id.menu_tb_notelist_card:
+                noteListFragment.setNoteStyle(2);
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.fl_home, noteListFragment).commit();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
 

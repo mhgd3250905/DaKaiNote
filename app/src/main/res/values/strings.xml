@@ -34,5 +34,8 @@
     <string name="dialog_image_from_album">来自相册</string>
     <string name="notelist_tb_check">全选</string>
     <string name="note_edit_hint">点击输入内容</string>
+    <string name="notelist_style">样式</string>
+    <string name="notelist_style_linear">线性布局</string>
+    <string name="notelist_style_card">卡片布局</string>
 
 </resources>

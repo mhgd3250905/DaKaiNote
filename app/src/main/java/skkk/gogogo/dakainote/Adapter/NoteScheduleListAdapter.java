@@ -12,13 +12,16 @@ package skkk.gogogo.dakainote.Adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 
 import java.util.List;
@@ -40,6 +43,7 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
     private LayoutInflater inflater;
     private long noteKey;
     private int mPos;
+    boolean isDel=false;
 
 
     /*
@@ -62,6 +66,7 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
     public void showData(RecyclerViewHolderBase viewHolder, final int position, final List<ScheduleCache> mItemDataList) {
         //向下转型为子类
         final NoteScheduleItemViewHolder holder = (NoteScheduleItemViewHolder) viewHolder;
+
         holder.cbSchedule.setChecked(mItemDataList.get(position).isScheduleChecked());
          /* @描述 设置cb的勾选状态 */
         if (mItemDataList.get(position).isScheduleChecked()) {
@@ -86,14 +91,34 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
                     LogUtils.Log("第" + position + "个" + "item勾选改变" + isChecked);
                     holder.etSchedule.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     mItemDataList.get(position).setScheduleChecked(true);
-                    setmItemDataList(mItemDataList);
+
                 } else {
                     /* @描述 取消勾选 */
                     LogUtils.Log("第" + position + "个" + "item勾选改变" + isChecked);
                     holder.etSchedule.getPaint().setFlags(0);
                     mItemDataList.get(position).setScheduleChecked(false);
-                    setmItemDataList(mItemDataList);
+
                 }
+            }
+        });
+
+        holder.etSchedule.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isDel) {
+                    return;
+                }
+                mItemDataList.get(position).setScheduleContent(s.toString());
             }
         });
 
@@ -102,23 +127,29 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 mPos = position;
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_ENTER && mPos == mItemDataList.size() - 1) {
 
+                /* @描述 设置软键盘强制显示 */
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(holder.etSchedule, InputMethodManager.SHOW_FORCED);
+
+                /* @描述 key_down */
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    /* @描述 如果是enter 而且position为最后一个 */
+                    if (keyCode == KeyEvent.KEYCODE_ENTER && mPos == mItemDataList.size() - 1) {
                         /* @描述 新建一个空的schedule 然后插入到list中 */
                         ScheduleCache scheduleCache = new ScheduleCache();
                         mItemDataList.add(scheduleCache);
                         setmItemDataList(mItemDataList);
                         notifyItemInserted(mItemDataList.size());
 
-                        return true;
-
                     } else if (TextUtils.isEmpty(holder.etSchedule.getText().toString()) &&
-                            keyCode == KeyEvent.KEYCODE_DEL) {
+                            keyCode == KeyEvent.KEYCODE_DEL &&
+                            mPos != 0) {
+                        /* @描述 如果et中text为空 按键为del 而且position不为0 */
+                        isDel = true;
                         mItemDataList.remove(position);
                         notifyItemRemoved(position);
-
-                        return true;
+                        notifyItemRangeChanged(position, mItemDataList.size());
 
                     }
                 } else if (event.getAction() == KeyEvent.ACTION_UP) {
@@ -127,21 +158,24 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
             }
         });
 
-
+        /* @描述 删除按钮的点击事件 */
         holder.ivSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isDel = true;
                 mItemDataList.remove(position);
                 notifyItemRemoved(position);
-
+                notifyItemRangeChanged(position, mItemDataList.size());
             }
         });
 
-
+        /* @描述 et的focus监听事件 */
         holder.etSchedule.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus){
+                    isDel=false;
+
                     ScaleAnimation scaleAnim=new ScaleAnimation(0f,1f,0f,1f,
                             Animation.RELATIVE_TO_SELF,0.5f,
                             Animation.RELATIVE_TO_SELF,0.5f);
@@ -164,14 +198,6 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
                     });
                     holder.ivSchedule.startAnimation(scaleAnim);
                 }else {
-
-                    if (mItemDataList.size()-1 >= position) {
-                    /* @描述 先把上一个在list中保存 */
-                        mItemDataList.get(position).setScheduleChecked(holder.cbSchedule.isChecked());
-                        mItemDataList.get(position).setScheduleContent(holder.etSchedule.getText().toString());
-                        setmItemDataList(mItemDataList);
-                    }
-
 
                     ScaleAnimation scaleAnim=new ScaleAnimation(1f,0f,1f,0f,
                             Animation.RELATIVE_TO_SELF,0.5f,
