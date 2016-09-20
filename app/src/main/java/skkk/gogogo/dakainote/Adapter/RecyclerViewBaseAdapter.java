@@ -24,10 +24,10 @@ import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
 
 /**
  * 横向RecyclerView基类adapter
- * @author Robin
- * time 2015-04-10 12:33:43
  *
  * @param <ItemDataType> 数据实体类型
+ * @author Robin
+ *         time 2015-04-10 12:33:43
  */
 public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
         RecyclerView.Adapter<RecyclerViewHolderBase> {
@@ -38,18 +38,28 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
         this.mItemDataList = mItemDataList;
     }
 
+    public List<ItemDataType> getItemDataList() {
+        return mItemDataList;
+    }
+
+    public void setItemDataList(List<ItemDataType> itemDataList) {
+        mItemDataList = itemDataList;
+    }
+
     public RecyclerViewBaseAdapter(List<ItemDataType> mItemDataList) {
         this.mItemDataList = mItemDataList;
     }
 
     /**
      * 动态增加一条数据
+     *
      * @param itemDataType 数据实体类对象
      */
-    public void append(int position,ItemDataType itemDataType){
-        if (itemDataType!=null) {
-            mItemDataList.add(position,itemDataType);
-            notifyDataSetChanged();
+    public void append(int position, ItemDataType itemDataType) {
+        if (itemDataType != null) {
+            mItemDataList.add(position+1,itemDataType);
+            notifyItemInserted(position + 1);
+            notifyItemRangeChanged(position + 1, mItemDataList.size());
         }
     }
 
@@ -71,14 +81,13 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
     }
 
 
-
-
     /**
      * 动态增加一组数据集合
+     *
      * @param itemDataTypes 数据实体类集合
      */
-    public void append(List<ItemDataType> itemDataTypes){
-        if (itemDataTypes.size()>0) {
+    public void append(List<ItemDataType> itemDataTypes) {
+        if (itemDataTypes.size() > 0) {
             for (ItemDataType itemDataType : itemDataTypes) {
                 mItemDataList.add(itemDataType);
             }
@@ -88,11 +97,12 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
 
     /**
      * 替换全部数据
+     *
      * @param itemDataTypes 数据实体类集合
      */
-    public void replace(List<ItemDataType> itemDataTypes){
+    public void replace(List<ItemDataType> itemDataTypes) {
         mItemDataList.clear();
-        if (itemDataTypes.size()>0) {
+        if (itemDataTypes.size() > 0) {
             mItemDataList.addAll(itemDataTypes);
             notifyDataSetChanged();
         }
@@ -100,27 +110,44 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
 
     /**
      * 移除一条数据集合
+     *
      * @param position
      */
-    public void remove(int position){
+    public void remove(int position) {
         mItemDataList.remove(position);
-        DataSupport.delete(NoteNew.class,position);
+        DataSupport.delete(NoteNew.class, position);
         notifyItemRemoved(position);
     }
 
     /**
+     * 移除一条ScheduleItem
+     *
+     * @param position
+     */
+    public void removeScheduleItem(int position) {
+        if (position == mItemDataList.size()) {
+            notifyItemRemoved(position);
+        } else {
+            mItemDataList.remove(position);
+            notifyDataSetChanged();
+        }
+    }
+
+
+    /**
      * 移除所有数据
      */
-    public void removeAll(){
+    public void removeAll() {
         mItemDataList.clear();
         notifyDataSetChanged();
     }
+
 
     /*
     * @方法 获取mItemDataList
     *
     */
-    public List<ItemDataType> getItemList(){
+    public List<ItemDataType> getItemList() {
         return mItemDataList;
     }
 
@@ -128,16 +155,15 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
     * @方法 remove_pos
     *
     */
-    public void removePosItem(int pos){
+    public void removePosItem(int pos) {
         mItemDataList.remove(pos);
     }
-
 
 
     /**
      * 更新pos数据
      */
-    public void update(int pos){
+    public void update(int pos) {
         notifyItemChanged(pos);
     }
 
@@ -170,12 +196,11 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
             });
         }
 
-
     }
 
     @Override
     public RecyclerViewHolderBase onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view=createView(viewGroup, i);
+        View view = createView(viewGroup, i);
         RecyclerViewHolderBase holder = createViewHolder(view);
         return holder;
     }
@@ -183,22 +208,27 @@ public abstract class RecyclerViewBaseAdapter<ItemDataType> extends
 
     /**
      * 显示数据抽象函数
-     * @param viewHolder 基类ViewHolder,需要向下转型为对应的ViewHolder（example:MainRecyclerViewHolder mainRecyclerViewHolder=(MainRecyclerViewHolder) viewHolder;）
-     * @param i 位置
+     *
+     * @param viewHolder    基类ViewHolder,需要向下转型为对应的ViewHolder（example:MainRecyclerViewHolder mainRecyclerViewHolder=(MainRecyclerViewHolder) viewHolder;）
+     * @param i             位置
      * @param mItemDataList 数据集合
      */
-    public abstract void showData(RecyclerViewHolderBase viewHolder, int i,List<ItemDataType> mItemDataList );
+    public abstract void showData(RecyclerViewHolderBase viewHolder, int i, List<ItemDataType> mItemDataList);
+
     /**
      * 加载item的view,直接返回加载的view即可
+     *
      * @param viewGroup 如果需要Context,可以viewGroup.getContext()获取
      * @param i
      * @return item 的 view
      */
-    public abstract View createView(ViewGroup viewGroup, int i) ;
+    public abstract View createView(ViewGroup viewGroup, int i);
+
     /**
      * 加载一个ViewHolder,为RecyclerViewHolderBase子类,直接返回子类的对象即可
+     *
      * @param view item 的view
-     * @return  RecyclerViewHolderBase 基类ViewHolder
+     * @return RecyclerViewHolderBase 基类ViewHolder
      */
-    public abstract RecyclerViewHolderBase  createViewHolder(View view) ;
+    public abstract RecyclerViewHolderBase createViewHolder(View view);
 }

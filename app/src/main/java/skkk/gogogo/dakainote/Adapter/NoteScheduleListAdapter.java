@@ -12,6 +12,8 @@ package skkk.gogogo.dakainote.Adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -41,19 +43,19 @@ import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
 public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCache> {
     private Context context;
     private LayoutInflater inflater;
-    private long noteKey;
     private int mPos;
     boolean isDel=false;
+    private Handler handler;
 
 
     /*
     * @方法 1 构造方法
     *
     */
-    public NoteScheduleListAdapter(Context context, List<ScheduleCache> mItemDataList, long noteKey) {
+    public NoteScheduleListAdapter(Context context, List<ScheduleCache> mItemDataList,Handler handler) {
         super(mItemDataList);
-        this.noteKey = noteKey;
         this.context = context;
+        this.handler=handler;
         /* @描述 设置对应 */
         inflater = LayoutInflater.from(context);
     }
@@ -115,10 +117,11 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (isDel) {
-                    return;
-                }
-                mItemDataList.get(position).setScheduleContent(s.toString());
+                Message msgText=new Message();
+                msgText.what=30803;
+                msgText.arg1=position;
+                msgText.obj=s.toString();
+                handler.sendMessage(msgText);
             }
         });
 
@@ -126,33 +129,32 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
         holder.etSchedule.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                mPos = position;
 
                 /* @描述 设置软键盘强制显示 */
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(holder.etSchedule, InputMethodManager.SHOW_FORCED);
+                switch (event.getAction()){
+                    case KeyEvent.ACTION_DOWN:
 
-                /* @描述 key_down */
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    /* @描述 如果是enter 而且position为最后一个 */
-                    if (keyCode == KeyEvent.KEYCODE_ENTER && mPos == mItemDataList.size() - 1) {
-                        /* @描述 新建一个空的schedule 然后插入到list中 */
-                        ScheduleCache scheduleCache = new ScheduleCache();
-                        mItemDataList.add(scheduleCache);
-                        setmItemDataList(mItemDataList);
-                        notifyItemInserted(mItemDataList.size());
-
-                    } else if (TextUtils.isEmpty(holder.etSchedule.getText().toString()) &&
-                            keyCode == KeyEvent.KEYCODE_DEL &&
-                            mPos != 0) {
-                        /* @描述 如果et中text为空 按键为del 而且position不为0 */
-                        isDel = true;
-                        mItemDataList.remove(position);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, mItemDataList.size());
-
-                    }
-                } else if (event.getAction() == KeyEvent.ACTION_UP) {
+                        if (keyCode==KeyEvent.KEYCODE_ENTER&&
+                                position==mItemDataList.size()-1){
+                            Message msg=new Message();
+                            msg.arg1=position;
+                            msg.what=30801;
+                            handler.sendMessage(msg);
+                            return true;
+                        }else if (keyCode==KeyEvent.KEYCODE_DEL&&
+                                TextUtils.isEmpty(holder.etSchedule.getText())&&
+                                mItemDataList.size()!=1) {
+                            Message msg=new Message();
+                            msg.arg1 = position;
+                            msg.what = 30802;
+                            handler.sendMessage(msg);
+                            return true;
+                        }
+                        break;
+                    case KeyEvent.ACTION_UP:
+                        break;
                 }
                 return false;
             }
@@ -247,6 +249,14 @@ public class NoteScheduleListAdapter extends RecyclerViewBaseAdapter<ScheduleCac
     public RecyclerViewHolderBase createViewHolder(View view) {
         //直接返回viewholder对象
         return new NoteScheduleItemViewHolder(view);
+    }
+
+    /*
+    * @方法 设置指定位置item的内容
+    *
+    */
+    public void setItemDataListInfo(int position,String content){
+        mItemDataList.get(position).setScheduleContent(content);
     }
 
 

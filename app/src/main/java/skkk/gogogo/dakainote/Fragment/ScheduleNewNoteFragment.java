@@ -40,13 +40,25 @@ public class ScheduleNewNoteFragment extends Fragment {
     private NoteScheduleListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
     private SpacesItemDecoration mDecoration;
+    private List<ScheduleCache> tempSchedules=new ArrayList<ScheduleCache>();
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what==11111) {
-                Bundle data = msg.getData();
-                long myNoteKey = (long) data.get("notekey");
-                insertSchedule(myNoteKey);
+            switch (msg.what) {
+                case 11111:
+                    Bundle data = msg.getData();
+                    long myNoteKey = (long) data.get("notekey");
+                    insertSchedule(myNoteKey);
+                    break;
+                case 30801://这里处理edit中按下enter
+
+                    break;
+                case 30802://这里处理edit中按下del切此事edit中内容已经清空
+
+                    break;
+                case 30803://这里处理edit中变化的text
+
+                    break;
             }
         }
     };
@@ -63,8 +75,10 @@ public class ScheduleNewNoteFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_note_image, container, false);
         initData();
         initUI(view);
+        initEvent();
         return view;
     }
+
 
     /*
     * @方法 从数据库中获取数据
@@ -96,7 +110,7 @@ public class ScheduleNewNoteFragment extends Fragment {
         //获取RecyclerView实例
         rvNoteScheduleList = (RecyclerView) view.findViewById(R.id.rv_note_image_list);
         //设置Adapter
-        adapter = new NoteScheduleListAdapter(getContext(), mySchedules,noteKey);
+        adapter = new NoteScheduleListAdapter(getContext(), mySchedules,handler);
         //设置布局管理器
         mLayoutManager = new LinearLayoutManager(getContext());
         //设置布局管理器
@@ -112,10 +126,15 @@ public class ScheduleNewNoteFragment extends Fragment {
         //rvNoteList
         rvNoteScheduleList.setAdapter(adapter);
         rvNoteScheduleList.setHasFixedSize(true);
-        /*
-        * @方法 item单击事件
-        *
-        */
+
+    }
+
+    /*
+    * @方法 设置监听事件
+    *
+    */
+    private void initEvent() {
+        /* @描述 item单击事件 */
         adapter.setOnItemClickLitener(new RecyclerViewBaseAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -127,7 +146,9 @@ public class ScheduleNewNoteFragment extends Fragment {
 
             }
         });
+
     }
+
 
     /*
     * @方法 重新获取ImageList

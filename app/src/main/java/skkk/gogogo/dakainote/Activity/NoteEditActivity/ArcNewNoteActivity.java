@@ -1,5 +1,6 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -152,6 +153,13 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                                       (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
                                                               TextView tvFromAlbum =
                                                                       (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_album);
+                                                              ObjectAnimator objectAnimator1,objectAnimator2;
+                                                              objectAnimator1=ObjectAnimator.ofFloat(dialogView,"scaleX",0,1).setDuration(1000);
+                                                              objectAnimator2=ObjectAnimator.ofFloat(dialogView,"scaleY",0,1).setDuration(1000);
+                                                              objectAnimator1.start();
+                                                              objectAnimator2.start();
+
+
                                                               /* @描述 设置item点击事件 */
 
                                                               /* @描述 相机拍照 */
@@ -217,6 +225,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
 
                                                               //获取当前fragment
                                                               mScheduleNewNoteFragment.updateAll(firstSchedule);
+
                                                               break;
                                                       }
                                                   }
