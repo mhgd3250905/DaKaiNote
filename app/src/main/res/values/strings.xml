@@ -37,5 +37,6 @@
     <string name="notelist_style">样式</string>
     <string name="notelist_style_linear">线性布局</string>
     <string name="notelist_style_card">卡片布局</string>
+    <string name="title_activity_note_edit_again">NoteEditAgainActivity</string>
 
 </resources>

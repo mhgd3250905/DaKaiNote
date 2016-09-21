@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import skkk.gogogo.dakainote.DbTable.Image;
@@ -214,18 +213,8 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               }
                                                               break;
                                                           case 4:
-                                                              fl_note_schedule.setVisibility(View.VISIBLE);
-                                                              etNewNoteDetail.setVisibility(View.GONE);
-                                                              //设置图片存在
-                                                              isScheduleExist = true;
-
-                                                              ScheduleCache scheduleCache = new ScheduleCache();
-                                                              List<ScheduleCache> firstSchedule=new ArrayList<ScheduleCache>();
-                                                              firstSchedule.add(scheduleCache);
-
-                                                              //获取当前fragment
-                                                              mScheduleNewNoteFragment.updateAll(firstSchedule);
-
+                                                              startActivity(new Intent(ArcNewNoteActivity.this,
+                                                                      NoteEditAgainActivity.class));
                                                               break;
                                                       }
                                                   }

@@ -83,6 +83,10 @@
     <item name="note_style" type="id">note_style</item>
     <item name="menu_tb_notelist_linear" type="id">menu_tb_notelist_linear</item>
     <item name="menu_tb_notelist_card" type="id">menu_tb_notelist_card</item>
+    <item name="ll_edit_again" type="id">ll_edit_again</item>
+    <item name="btn_schedule" type="id">btn_schedule</item>
+    <item name="iv_first_schedule" type="id">iv_first_schedule</item>
+    <item name="et_first_schedule" type="id">et_first_schedule</item>
 
 
 </resources>

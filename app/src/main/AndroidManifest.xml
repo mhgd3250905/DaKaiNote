@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <!-- 权限请求获取页面-->
+        <!-- 权限请求获取页面 -->
         <activity
             android:name=".Activity.PermissionsActivity.PermissionsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -38,10 +38,15 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateUnspecified|adjustResize"/>
 
-        <!-- 点击图片显示页面-->
+        <!-- 点击图片显示页面 -->
         <activity
             android:name=".Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activity.NoteEditActivity.NoteEditAgainActivity"
+            android:label="@string/title_activity_note_edit_again"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
