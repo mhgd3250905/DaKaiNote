@@ -9,12 +9,15 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
+import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
 
 public class NoteEditAgainActivity extends AppCompatActivity {
@@ -23,10 +26,14 @@ public class NoteEditAgainActivity extends AppCompatActivity {
     Button btnSchedule;
     ImageView ivfirstSchedule;
     EditText etFirstSchedule;
+    private int mItemChildCount;
+    private MyApplication myApplication;
+    private InputMethodManager mImm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myApplication = (MyApplication) getApplicationContext();
         initUI();
         initEvent();
     }
@@ -67,7 +74,8 @@ public class NoteEditAgainActivity extends AppCompatActivity {
                     case KeyEvent.ACTION_DOWN:
                         if (keyCode == KeyEvent.KEYCODE_ENTER && isSchedule) {
                             insertFirstItem();
-                        } else if (keyCode == KeyEvent.KEYCODE_DEL && isSchedule){
+                        } else if (keyCode == KeyEvent.KEYCODE_DEL && isSchedule &&
+                                TextUtils.isEmpty(etFirstSchedule.getText().toString())){
                             if (count==2){//说明只有一个基础的item，那么删除iv
                                 ivfirstSchedule.setVisibility(View.GONE);
                                 isSchedule=false;
@@ -102,6 +110,7 @@ public class NoteEditAgainActivity extends AppCompatActivity {
         etItem.setGravity(Gravity.CENTER_VERTICAL);
         etItem.setTextSize(25);
         etItem.setSingleLine(true);
+
         etItem.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -110,12 +119,17 @@ public class NoteEditAgainActivity extends AppCompatActivity {
                         if (keyCode == KeyEvent.KEYCODE_ENTER && isSchedule) {
                             insertFirstItem();
                         } else if (keyCode == KeyEvent.KEYCODE_DEL && isSchedule) {//说明只有一个基础的item，那么删除iv
-                            if (llItem.getChildCount() == 2 && TextUtils.isEmpty(etItem.getText().toString())) {
-                                LogUtils.Log(""+llItem.getChildCount());
+                            if (myApplication.getChildCountInScheduleItem()==2
+                                    && TextUtils.isEmpty(etItem.getText().toString())) {
+                                LogUtils.Log(""+ mItemChildCount);
                                 ivItem.setVisibility(View.GONE);
-                            } else if (llItem.getChildCount() == 1){
-                                LogUtils.Log(""+llItem.getChildCount());
+                                myApplication.setChildCountInScheduleItem(1);
+                            } else if (myApplication.getChildCountInScheduleItem() == 1
+                                    && TextUtils.isEmpty(etItem.getText().toString())){
+                                LogUtils.Log(""+ myApplication.getChildCountInScheduleItem());
                                 llNoteAgain.removeView(llItem);
+                                myApplication.setChildCountInScheduleItem(2);
+                                getFouce();
                             }
                         }
                         break;
@@ -132,6 +146,12 @@ public class NoteEditAgainActivity extends AppCompatActivity {
 
         llNoteAgain.addView(llItem);
 
+    }
+
+    public void getFouce(){
+        EditText view= (EditText) ((LinearLayout) llNoteAgain.
+                        getChildAt(llNoteAgain.getChildCount() - 1)).getChildAt(1);
+        MyViewUtils.getFoucs(view);
     }
 
 
