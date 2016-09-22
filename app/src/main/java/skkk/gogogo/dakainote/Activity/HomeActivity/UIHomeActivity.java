@@ -101,9 +101,9 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
     /*
-        * @方法 初始化监听事件
-        *
-        */
+     * @方法 初始化监听事件
+     *
+     */
     private void initEvent() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,9 +142,9 @@ public class UIHomeActivity extends BaseHomeActivity
 
 
     /*
-* @方法 添加菜单
-*
-*/
+     * @方法 添加菜单
+     *
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -153,9 +153,9 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
     /*
-    * @方法 添加菜单点击事件
-    *
-    */
+     * @方法 添加菜单点击事件
+     *
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //获取菜单item_id

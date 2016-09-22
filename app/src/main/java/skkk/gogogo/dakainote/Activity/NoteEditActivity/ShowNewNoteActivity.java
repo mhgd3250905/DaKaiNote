@@ -136,7 +136,7 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
             ivPin.setVisibility(View.INVISIBLE);
         }
         /* @描述 设置内容 */
-        etNewNoteDetail.setText(inetntNote.getContent());
+        etFirstSchedule.setText(inetntNote.getContent());
 
         /* @描述 先把fragment搁好 */
         mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);

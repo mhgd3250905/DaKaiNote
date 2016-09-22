@@ -87,6 +87,8 @@
     <item name="btn_schedule" type="id">btn_schedule</item>
     <item name="iv_first_schedule" type="id">iv_first_schedule</item>
     <item name="et_first_schedule" type="id">et_first_schedule</item>
+    <item name="cb_first_schedule" type="id">cb_first_schedule</item>
+    <item name="nsv_edit_again" type="id">nsv_edit_again</item>
 
 
 </resources>

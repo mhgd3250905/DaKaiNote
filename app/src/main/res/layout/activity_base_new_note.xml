@@ -27,6 +27,7 @@
                     app:titleTextColor="@color/colorWhite">
 
                     <EditText
+                        android:singleLine="true"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/colorWhite"
                         android:textSize="20dp"
@@ -39,6 +40,11 @@
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.AppBarLayout>
+
+
+
+
+
 
             <LinearLayout
                 android:background="@color/colorWhite"
@@ -86,21 +92,52 @@
                 android:layout_height="match_parent">
             </FrameLayout>
 
-            <EditText
-                android:textColorHint="@color/colorPrimary"
-                android:hint="@string/note_edit_hint"
-                android:textSize="25dp"
-                android:paddingTop="10dp"
-                android:id="@id/et_new_note_detail_new"
-                android:background="@null"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:gravity="left|top"
-                android:inputType="textMultiLine"
+            <android.support.v4.widget.NestedScrollView
+                android:fillViewport="true"
+                android:id="@id/nsv_edit_again"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@id/ll_edit_again"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                        <LinearLayout
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <CheckBox
+                                android:button="@drawable/select_checkbox_for_item_delete"
+                                android:gravity="center"
+                                android:id="@id/cb_first_schedule"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:visibility="gone"/>
+                            <EditText
+                                android:layout_weight="1"
+                                android:textColorHint="@color/colorPrimary"
+                                android:hint="@string/note_edit_hint"
+                                android:textSize="25dp"
+                                android:id="@id/et_first_schedule"
+                                android:background="@null"
+                                android:paddingRight="10dp"
+                                android:gravity="left|top"
+                                android:inputType="textMultiLine"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+                        </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
 
         </LinearLayout>
+
 
     <skkk.gogogo.dakainote.View.RecordButton
         android:elevation="10dp"

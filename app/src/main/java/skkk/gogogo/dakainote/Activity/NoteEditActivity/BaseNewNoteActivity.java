@@ -52,7 +52,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
     protected NestedScrollView nsvNoteDetail;//note滑动控件
     protected RecordButton rbVoice;//录音按钮
     protected CoordinatorLayout clNoteDetails;//编辑界面的框架
-    protected EditText etNewNoteDetail;//单一的内容显示Edit
+    protected EditText etFirstSchedule;//单一的内容显示Edit
 
     protected FrameLayout fl_note_iamge;
     protected FrameLayout fl_note_voice;
@@ -88,7 +88,7 @@ public class BaseNewNoteActivity extends AppCompatActivity{
 
         clNoteDetails= (CoordinatorLayout) findViewById(R.id.cl_note_detail);
         //设置单一的内容显示EditText
-        etNewNoteDetail= (EditText) findViewById(R.id.et_new_note_detail_new);
+        etFirstSchedule = (EditText) findViewById(R.id.et_first_schedule);//基础的et以及第一个Item中的et
         //设置note中用来显示image的fl
         fl_note_iamge= (FrameLayout) findViewById(R.id.fl_note_image);
         //设置note中用来显示Voice的fl

@@ -42,11 +42,6 @@
         <activity
             android:name=".Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".Activity.NoteEditActivity.NoteEditAgainActivity"
-            android:label="@string/title_activity_note_edit_again"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
     </application>
 
 </manifest>

@@ -12,7 +12,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,7 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 23:02$.
 */
-public class ArcNewNoteActivity extends VoiceNewNoteActivity {
+public class ArcNewNoteActivity extends EditNewNoteActivity {
     protected ArcMenuView arcMenuView;
     protected FloatingActionButton fabNoteDetail;
     protected AlertDialog imageDialog;
@@ -213,8 +215,18 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               }
                                                               break;
                                                           case 4:
-                                                              startActivity(new Intent(ArcNewNoteActivity.this,
-                                                                      NoteEditAgainActivity.class));
+                                                              if (!isScheduleExist){
+                                                                  cbfirstSchedule.setVisibility(View.VISIBLE);
+                                                                  isScheduleExist=true;
+                                                                  etFirstSchedule.setLayoutParams(new LinearLayout.LayoutParams(
+                                                                          ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                          ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                                          1));
+                                                                  etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
+                                                                  etFirstSchedule.setHint("输入待办项");
+                                                                  etFirstSchedule.setSingleLine(true);
+                                                                  nsvEditAgain.setFillViewport(false);
+                                                              }
                                                               break;
                                                       }
                                                   }
@@ -227,6 +239,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     *
     */
     private void saveNoteData() {
+
         isStore = false;
         /* @描述 保存标题 */
         if (!TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
@@ -236,8 +249,9 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         }
 
         /* @描述 保存et内容 */
-        if (!TextUtils.isEmpty(etNewNoteDetail.getText().toString())) {
-            note.setContent(etNewNoteDetail.getText().toString());
+        if (!TextUtils.isEmpty(etFirstSchedule.getText().toString())&&
+                !isScheduleExist) {
+            note.setContent(etFirstSchedule.getText().toString());
             isStore = true;
         }
 
