@@ -112,14 +112,17 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
                             <CheckBox
-                                android:button="@drawable/select_checkbox_for_item_delete"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
                                 android:gravity="center"
+                                android:button="@drawable/select_checkbox_for_item_delete"
                                 android:id="@id/cb_first_schedule"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:visibility="gone"/>
                             <EditText
+                                android:layout_marginLeft="10dp"
                                 android:layout_weight="1"
                                 android:textColorHint="@color/colorPrimary"
                                 android:hint="@string/note_edit_hint"

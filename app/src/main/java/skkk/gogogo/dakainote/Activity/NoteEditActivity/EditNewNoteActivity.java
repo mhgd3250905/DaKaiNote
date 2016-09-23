@@ -3,7 +3,6 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
@@ -29,7 +28,7 @@ import skkk.gogogo.dakainote.R;
 * 作    者：ksheng
 * 时    间：2016/9/22$ 21:57$.
 */
-public class EditNewNoteActivity extends VoiceNewNoteActivity {
+public class EditNewNoteActivity extends BaseNewNoteActivity {
     protected LinearLayout llNoteAgain;
     protected CheckBox cbfirstSchedule;
     protected MyApplication myApplication;
@@ -54,7 +53,7 @@ public class EditNewNoteActivity extends VoiceNewNoteActivity {
         nsvEditAgain = (NestedScrollView) findViewById(R.id.nsv_edit_again);//ll外面的NSV
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(etFirstSchedule,InputMethodManager.SHOW_FORCED);
+        imm.showSoftInput(etFirstSchedule, InputMethodManager.SHOW_FORCED);
 
 
     }
@@ -100,7 +99,7 @@ public class EditNewNoteActivity extends VoiceNewNoteActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    etFirstSchedule.setPaintFlags(Paint. STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+                    etFirstSchedule.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                     etFirstSchedule.setTextColor(Color.GRAY);
                 } else {
                     etFirstSchedule.setPaintFlags(Paint.HINTING_ON);
@@ -125,18 +124,127 @@ public class EditNewNoteActivity extends VoiceNewNoteActivity {
         imm.showSoftInput(etItem, InputMethodManager.SHOW_FORCED);
 
 
-        cbItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            cbItem.setForegroundGravity(Gravity.CENTER);
-        }
+        LinearLayout.LayoutParams paramsCb=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsCb.setMargins(10,0,10,0);
+        paramsCb.gravity=Gravity.CENTER;
+        cbItem.setLayoutParams(paramsCb);
+        cbItem.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
 
-        etItem.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        etItem.setLayoutParams(paramsEt);
         etItem.setGravity(Gravity.CENTER_VERTICAL);
         etItem.setTextSize(25);
-        etItem.setPadding(0,10,0,10);
         etItem.setSingleLine(true);
+
+
+        cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    etItem.setPaintFlags(Paint. STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+                    etItem.setTextColor(Color.GRAY);
+                } else {
+                    etItem.setPaintFlags(Paint.HINTING_ON);
+                    etItem.setTextColor(Color.BLACK);
+                }
+            }
+        });
+
+
+        etItem.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                switch (event.getAction()) {
+                    case KeyEvent.ACTION_DOWN:
+                        if (keyCode == KeyEvent.KEYCODE_ENTER && isScheduleExist) {
+                            insertFirstItem();
+                        } else if (keyCode == KeyEvent.KEYCODE_DEL && isScheduleExist) {//说明只有一个基础的item，那么删除iv
+                            if (myApplication.getChildCountInScheduleItem() == 2
+                                    && TextUtils.isEmpty(etItem.getText().toString())) {
+
+                                cbItem.setVisibility(View.GONE);
+                                myApplication.setChildCountInScheduleItem(1);
+                            } else if (myApplication.getChildCountInScheduleItem() == 1
+                                    && TextUtils.isEmpty(etItem.getText().toString())) {
+                                LogUtils.Log("" + myApplication.getChildCountInScheduleItem());
+                                llNoteAgain.removeView(llItem);
+                                myApplication.setChildCountInScheduleItem(2);
+                                getFouce();
+                            }
+                        }
+                        break;
+                    case KeyEvent.ACTION_UP:
+                        break;
+                }
+                return false;
+            }
+        });
+
+        llItem.addView(cbItem);
+        llItem.addView(etItem);
+
+        llNoteAgain.addView(llItem);
+
+    }
+
+
+    protected void insertFirstItem(boolean checked,String content) {
+        final LinearLayout llItem = new LinearLayout(this);
+        llItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        llItem.setOrientation(LinearLayout.HORIZONTAL);
+
+
+        final CheckBox cbItem = new CheckBox(this);
+        final EditText etItem = new EditText(this);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(etItem, InputMethodManager.SHOW_FORCED);
+
+
+
+
+        LinearLayout.LayoutParams paramsCb=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsCb.setMargins(10,0,10,0);
+        paramsCb.gravity=Gravity.CENTER;
+        cbItem.setLayoutParams(paramsCb);
+        cbItem.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
+        cbItem.setChecked(checked);
+
+        /*
+        *  <EditText
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:textColorHint="@color/colorPrimary"
+                                android:hint="@string/note_edit_hint"
+                                android:textSize="25dp"
+                                android:id="@id/et_first_schedule"
+                                android:background="@null"
+                                android:paddingRight="10dp"
+                                android:gravity="left|top"
+                                android:inputType="textMultiLine"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>*/
+
+
+        LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,1);
+        etItem.setLayoutParams(paramsEt);
+        etItem.setHint(R.string.note_edit_hint);
+        etItem.setGravity(Gravity.CENTER_VERTICAL);
+        etItem.setTextSize(25);
+        etItem.setSingleLine(true);
+        etItem.setText(content);
+        if (cbItem.isChecked()){
+            etItem.setPaintFlags(Paint. STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+            etItem.setTextColor(Color.GRAY);
+        }else {
+            etItem.setPaintFlags(Paint.HINTING_ON);
+            etItem.setTextColor(Color.BLACK);
+        }
 
 
         cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

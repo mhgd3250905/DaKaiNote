@@ -14,6 +14,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +47,7 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 23:02$.
 */
-public class ArcNewNoteActivity extends EditNewNoteActivity {
+public class ArcNewNoteActivity extends ShowNewNoteActivity {
     protected ArcMenuView arcMenuView;
     protected FloatingActionButton fabNoteDetail;
     protected AlertDialog imageDialog;
@@ -251,8 +253,27 @@ public class ArcNewNoteActivity extends EditNewNoteActivity {
         /* @描述 保存et内容 */
         if (!TextUtils.isEmpty(etFirstSchedule.getText().toString())&&
                 !isScheduleExist) {
+            /* @描述 如果不存在schedule而且et内容不为空 */
             note.setContent(etFirstSchedule.getText().toString());
             isStore = true;
+        }else if (isScheduleExist){
+            /* @描述 如果存在schedule */
+            int scheduleCount=llNoteAgain.getChildCount();
+            for (int i = 0; i < scheduleCount; i++) {
+                LinearLayout item= (LinearLayout) llNoteAgain.getChildAt(i);
+                Schedule schedule=new Schedule();
+                schedule.setScheduleChecked(false);
+                if (item.getChildCount()==2){
+                    schedule.setScheduleChecked(((CheckBox)item.getChildAt(0)).isChecked());
+                    schedule.setScheduleContent(((EditText)item.getChildAt(1)).getText().toString());
+                }else if (item.getChildCount()==1){
+                    schedule.setScheduleContent(((EditText)item.getChildAt(0)).getText().toString());
+                }
+                schedule.save();
+                note.getScheduleList().add(schedule);
+                note.setScheduleIsExist(true);
+                isStore=true;
+            }
         }
 
         /* @描述 保存时间 */

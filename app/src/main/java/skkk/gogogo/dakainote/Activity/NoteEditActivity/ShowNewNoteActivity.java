@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import org.litepal.crud.DataSupport;
 
@@ -14,7 +17,6 @@ import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.DbTable.Schedule;
-import skkk.gogogo.dakainote.DbTable.ScheduleCache;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
@@ -34,7 +36,7 @@ import skkk.gogogo.dakainote.R;
 * 作    者：ksheng
 * 时    间：2016/8/27$ 21:59$.
 */
-public class ShowNewNoteActivity extends BaseNewNoteActivity {
+public class ShowNewNoteActivity extends EditNewNoteActivity {
     protected NoteNew inetntNote;
     protected ImageNewNoteFragment mImageNewNoteFragment;
     protected VoiceNewNoteFragment mVoiceNewNoteFragment;
@@ -43,7 +45,7 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
     protected long noteKey;
     MyImageThread myImageThread;
     MyVoiceThread myVoiceThread;
-    MyScheduleThread myScheduleThread;
+    //MyScheduleThread myScheduleThread;
 
     protected boolean isDelete=true;
     /* @描述 用来设置isDelete */
@@ -165,6 +167,7 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
             myImageThread.start();
 
         }
+
         if (inetntNote.isVoiceExist()){
             fl_note_voice.setVisibility(View.VISIBLE);
             //说明存在图片
@@ -175,13 +178,28 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
             myVoiceThread=new MyVoiceThread();
             myVoiceThread.start();
         }
+
         if (inetntNote.isScheduleIsExist()){
-            fl_note_schedule.setVisibility(View.VISIBLE);
-            if (myScheduleThread!=null){
-                myScheduleThread=null;
+            List<Schedule> scheduleList=inetntNote.getMyScheduleList();
+            for (int i = 0; i < scheduleList.size(); i++) {
+                cbfirstSchedule.setVisibility(View.VISIBLE);
+                isScheduleExist=true;
+                etFirstSchedule.setLayoutParams(new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        1));
+                etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
+                etFirstSchedule.setHint("输入待办项");
+                etFirstSchedule.setSingleLine(true);
+                nsvEditAgain.setFillViewport(false);
+                if (i==0){
+                    cbfirstSchedule.setChecked(scheduleList.get(0).isScheduleChecked());
+                    etFirstSchedule.setText(scheduleList.get(0).getScheduleContent());
+                }else {
+                    insertFirstItem(scheduleList.get(i).isScheduleChecked(),
+                            scheduleList.get(i).getScheduleContent());
+                }
             }
-            myScheduleThread=new MyScheduleThread();
-            myScheduleThread.start();
         }
     }
 
@@ -248,36 +266,36 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
     }
 
 
-    /* @描述 用来转存图片的线程 */
-    class MyScheduleThread extends Thread{
-        @Override
-        public void run() {
-            super.run();
-            /* @描述 第一步清空缓存 */
-            DataSupport.deleteAll(ScheduleCache.class);
-
-            /* @描述 第二步获取对应note中包含的图片
-             *     以及获取对应的note中包含的录音  */
-            List<Schedule> scheduleList=inetntNote.getMyScheduleList();
-
-            //第三步进行遍历把录音都保存到缓存数据库中
-            for (int i = 0; i < scheduleList.size(); i++) {
-                ScheduleCache scheduleCache=new ScheduleCache();
-                scheduleCache.setScheduleChecked(scheduleList.get(i).isScheduleChecked());
-                scheduleCache.setScheduleContent(scheduleList.get(i).getScheduleContent());
-                scheduleCache.setNoteKey(inetntNote.getKeyNum());
-                scheduleCache.save();
-            }
-            //发送消息让fragment从缓存数据库刷新数据
-            Message msg3=new Message();
-            Bundle bundle=new Bundle();
-            bundle.putLong("notekey", noteKey);
-            msg3.setData(bundle);
-            msg3.what=11111;
-
-            mScheduleNewNoteFragment.handler.sendMessage(msg3);
-        }
-    }
+//    /* @描述 用来转存图片的线程 */
+//    class MyScheduleThread extends Thread{
+//        @Override
+//        public void run() {
+//            super.run();
+//            /* @描述 第一步清空缓存 */
+//            DataSupport.deleteAll(ScheduleCache.class);
+//
+//            /* @描述 第二步获取对应note中包含的图片
+//             *     以及获取对应的note中包含的录音  */
+//            List<Schedule> scheduleList=inetntNote.getMyScheduleList();
+//
+//            //第三步进行遍历把录音都保存到缓存数据库中
+//            for (int i = 0; i < scheduleList.size(); i++) {
+//                ScheduleCache scheduleCache=new ScheduleCache();
+//                scheduleCache.setScheduleChecked(scheduleList.get(i).isScheduleChecked());
+//                scheduleCache.setScheduleContent(scheduleList.get(i).getScheduleContent());
+//                scheduleCache.setNoteKey(inetntNote.getKeyNum());
+//                scheduleCache.save();
+//            }
+//            //发送消息让fragment从缓存数据库刷新数据
+//            Message msg3=new Message();
+//            Bundle bundle=new Bundle();
+//            bundle.putLong("notekey", noteKey);
+//            msg3.setData(bundle);
+//            msg3.what=11111;
+//
+//            mScheduleNewNoteFragment.handler.sendMessage(msg3);
+//        }
+//    }
 
 
 
@@ -298,10 +316,10 @@ public class ShowNewNoteActivity extends BaseNewNoteActivity {
             myVoiceThread.interrupt();
             myVoiceThread = null;
         }
-        if (myScheduleThread!=null) {
-            myScheduleThread.interrupt();
-            myScheduleThread = null;
-        }
+//        if (myScheduleThread!=null) {
+//            myScheduleThread.interrupt();
+//            myScheduleThread = null;
+//        }
 
     }
 
