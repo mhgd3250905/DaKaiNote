@@ -89,6 +89,7 @@
     <item name="et_first_schedule" type="id">et_first_schedule</item>
     <item name="cb_first_schedule" type="id">cb_first_schedule</item>
     <item name="nsv_edit_again" type="id">nsv_edit_again</item>
+    <item name="ll_note_list_flag" type="id">ll_note_list_flag</item>
 
 
 </resources>

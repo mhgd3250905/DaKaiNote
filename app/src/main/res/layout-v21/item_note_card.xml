@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
@@ -14,11 +13,9 @@
     card_view:cardCornerRadius="3dp">
 
     <skkk.gogogo.dakainote.View.MyNoteView
-
         android:id="@id/my_note_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </skkk.gogogo.dakainote.View.MyNoteView>
 
 </android.support.v7.widget.CardView>

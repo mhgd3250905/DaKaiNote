@@ -46,6 +46,7 @@ public class UIHomeActivity extends BaseHomeActivity
     protected FrameLayout flHome;
     private int fabFlagInActivity=1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

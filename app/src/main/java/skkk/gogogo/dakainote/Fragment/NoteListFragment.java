@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,8 @@ public class NoteListFragment extends Fragment {
     protected UIHomeActivity mUiHomeActivity;
     private LinearLayoutManager mLayoutManager;
     private GridLayoutManager mGridLayoutManager;
+    private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
+
     private SpacesItemDecoration mDecoration;
     private static int NOTE_STYLE_LINEAR = 1;
     private static int NOTE_STYLE_CARD = 2;
@@ -80,39 +83,39 @@ public class NoteListFragment extends Fragment {
         * @时间 2016/8/1 22:01
         */
     private void initUI(View view) {
-        //获取RecyclerView实例
+        /* @描述 获取RecyclerView实例 */
         rvNoteList = (RecyclerView) view.findViewById(R.id.rv_note_list);
-        //获取提示布局
+        /* @描述 获取提示布局 */
         llBlankTip = (LinearLayout) view.findViewById(R.id.ll_blank_tip);
-
-        //设置Adapter
+        /* @描述 设置Adapter */
         adapter = new NoteListAdapter(getContext(), myNotes);
-        //设置布局管理器
+        /* @描述 设置布局管理器 */
         mLayoutManager = new LinearLayoutManager(getContext());
-        //设置布局管理器
+        /* @描述 设置布局管理器 */
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         mGridLayoutManager = new GridLayoutManager(getContext(), 2);
-
-        //设置间距
-        mDecoration = new SpacesItemDecoration(5);
-        //添加间距
+        mStaggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        /* @描述 设置间距 */
+        mDecoration = new SpacesItemDecoration(0);
+        /* @描述 添加间距 */
         rvNoteList.addItemDecoration(mDecoration);
-        //添加布局
+        /* @描述 添加布局 */
         if (noteStyle == NOTE_STYLE_CARD) {
-            rvNoteList.setLayoutManager(mGridLayoutManager);
+            rvNoteList.setLayoutManager(mStaggeredGridLayoutManager);
         } else if (noteStyle == NOTE_STYLE_LINEAR) {
             rvNoteList.setLayoutManager(mLayoutManager);
         }
-        //设置基本动画
+        /* @描述 设置基本动画 */
         rvNoteList.setItemAnimator(new DefaultItemAnimator());
-        //rvNoteList
+        /* @描述 rvNoteList */
         rvNoteList.setAdapter(adapter);
         rvNoteList.setHasFixedSize(true);
-        /*
-        * @方法 item单击事件
-        *
-        */
+
+    }
+
+    /* @描述 设置所有的触发事件 */
+    private void initEvent() {
+        /* @描述 item单击事件 */
         adapter.setOnItemClickLitener(new RecyclerViewBaseAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -142,10 +145,7 @@ public class NoteListFragment extends Fragment {
                 }
             }
 
-            /*
-            * @方法 item长按事件
-            *
-            */
+            /* @描述 item长按事件 */
             @Override
             public void onItemLongClick(View view, final int position) {
                 adapter.showCheckBox(true);
@@ -180,18 +180,7 @@ public class NoteListFragment extends Fragment {
         adapter.showCheckBox(false);
     }
 
-    /*
-    * @方法 设置所有的触发事件
-    *
-    */
-    private void initEvent() {
-    }
-
-
-    /*
-        * @方法 更新指定位置list
-        *
-        */
+    /* @描述 更新指定位置list */
     public void updatePos(int position, NoteNew note) {
         adapter.append(position, note);
         Log.d("SKKK_____", "updateOK here is fragment");
@@ -227,10 +216,7 @@ public class NoteListFragment extends Fragment {
         rvNoteList.smoothScrollToPosition(0);
     }
 
-    /*
-    * @方法 删除指定pos的item
-    *
-    */
+    /* @描述 删除指定pos的item */
     public void deleteItemPos(int pos) {
         //首先获取这个位置的note
         NoteNew noteDelete = myNotes.get(pos);
@@ -241,19 +227,13 @@ public class NoteListFragment extends Fragment {
         showBlankTip();
     }
 
-    /*
-    * @方法 重新获取NoteList
-    *
-    */
+    /* @描述 重新获取NoteList */
     public void reGetNoteList() {
         myNotes = SQLUtils.getNoteList();
     }
 
 
-    /*
-    * @方法 设置note flag
-    *
-    */
+    /* @描述 设置note flag */
     public void setNoteStyle(int noteStyle) {
         this.noteStyle = noteStyle;
     }

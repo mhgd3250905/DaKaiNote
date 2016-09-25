@@ -58,11 +58,20 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
             holder.myNoteView.setViewContent("");
         }
         holder.myNoteView.setViewTitleTime(mItemDataList.get(position).getTime());
-        holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
-        holder.myNoteView.setPinIsExist(mItemDataList.get(position).isPinIsExist());
-        holder.myNoteView.setVoiceIsExist(mItemDataList.get(position).isVoiceExist());
-        //是否显示Checkbox
+
+        /* @描述 是否显示下方的标签 */
         holder.myNoteView.setCheckBoxShow(showCheckbox);
+        if (mItemDataList.get(position).isScheduleIsExist()
+                ||mItemDataList.get(position).isImageIsExist()
+                ||mItemDataList.get(position).isPinIsExist()
+                ||mItemDataList.get(position).isVoiceExist()){
+            holder.myNoteView.setImageFlagShow(true);
+            holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
+            holder.myNoteView.setPinIsExist(mItemDataList.get(position).isPinIsExist());
+            holder.myNoteView.setVoiceIsExist(mItemDataList.get(position).isVoiceExist());
+        }else {
+            holder.myNoteView.setImageFlagShow(false);
+        }
     }
 
 

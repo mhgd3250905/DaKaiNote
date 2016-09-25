@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -47,9 +46,8 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 23:02$.
 */
-public class ArcNewNoteActivity extends ShowNewNoteActivity {
+public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     protected ArcMenuView arcMenuView;
-    protected FloatingActionButton fabNoteDetail;
     protected AlertDialog imageDialog;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class MyNoteView extends RelativeLayout {
     private ImageView ivViewPin;
     private ImageView ivViewVoice;
     private CheckBox cbNoteDeleteCheck;
+    private LinearLayout llNoteListFlag;
     private boolean deleteChecked = false;
 
 
@@ -57,6 +59,7 @@ public class MyNoteView extends RelativeLayout {
         ivViewPin = (ImageView) findViewById(R.id.iv_view_note_pin);
         ivViewVoice = (ImageView) findViewById(R.id.iv_view_note_voice);
         cbNoteDeleteCheck = (CheckBox) findViewById(R.id.cb_note_delete_check);
+        llNoteListFlag= (LinearLayout) findViewById(R.id.ll_note_list_flag);
 
         /* @描述 cbNoteDeleteCheck 的check监听事件 */
         cbNoteDeleteCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -80,10 +83,15 @@ public class MyNoteView extends RelativeLayout {
 
     }
 
-    //修改标题天数
-//    public void setViewTitleDate(String date){
-//        tvViewTitleDate.setText(date);
-//    }
+
+    /* @描述 设置Card中下栏图标的显示 */
+    public void setImageFlagShow(boolean show){
+        if (show){
+            llNoteListFlag.setVisibility(VISIBLE);
+        }else {
+            llNoteListFlag.setVisibility(GONE);
+        }
+    }
 
     //修改标题
     public void setViewTitle(String time) {
