@@ -93,7 +93,8 @@
             </FrameLayout>
 
             <android.support.v4.widget.NestedScrollView
-                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:fillViewport="true"
                 android:id="@id/nsv_edit_again"
                 android:layout_width="match_parent"

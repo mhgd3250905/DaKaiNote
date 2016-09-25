@@ -28,6 +28,7 @@ public class MyNoteView extends RelativeLayout {
     private ImageView ivViewNote;
     private ImageView ivViewPin;
     private ImageView ivViewVoice;
+    private ImageView ivViewSchedule;
     private CheckBox cbNoteDeleteCheck;
     private LinearLayout llNoteListFlag;
     private boolean deleteChecked = false;
@@ -58,6 +59,7 @@ public class MyNoteView extends RelativeLayout {
         ivViewNote = (ImageView) findViewById(R.id.iv_view_note_image);
         ivViewPin = (ImageView) findViewById(R.id.iv_view_note_pin);
         ivViewVoice = (ImageView) findViewById(R.id.iv_view_note_voice);
+        ivViewSchedule= (ImageView) findViewById(R.id.iv_view_note_schedule);
         cbNoteDeleteCheck = (CheckBox) findViewById(R.id.cb_note_delete_check);
         llNoteListFlag= (LinearLayout) findViewById(R.id.ll_note_list_flag);
 
@@ -133,6 +135,15 @@ public class MyNoteView extends RelativeLayout {
             ivViewVoice.setVisibility(VISIBLE);
         } else {
             ivViewVoice.setVisibility(GONE);
+        }
+    }
+
+    //设置录音标签是否显示
+    public void setScheduleIsExist(boolean exist) {
+        if (exist) {
+            ivViewSchedule.setVisibility(VISIBLE);
+        } else {
+            ivViewSchedule.setVisibility(GONE);
         }
     }
 

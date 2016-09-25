@@ -51,6 +51,7 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
     public void showData(RecyclerViewHolderBase viewHolder, int position, List<NoteNew> mItemDataList) {
         //向下转型为子类
         NoteListViewHolder holder= (NoteListViewHolder) viewHolder;
+
         holder.myNoteView.setViewTitle(mItemDataList.get(position).getTitle());
         try {
             holder.myNoteView.setViewContent(mItemDataList.get(position).getContent());
@@ -69,6 +70,7 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
             holder.myNoteView.setImageIsExist(mItemDataList.get(position).isImageIsExist());
             holder.myNoteView.setPinIsExist(mItemDataList.get(position).isPinIsExist());
             holder.myNoteView.setVoiceIsExist(mItemDataList.get(position).isVoiceExist());
+            holder.myNoteView.setScheduleIsExist(mItemDataList.get(position).isScheduleIsExist());
         }else {
             holder.myNoteView.setImageFlagShow(false);
         }

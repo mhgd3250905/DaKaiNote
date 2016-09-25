@@ -135,7 +135,7 @@ public class NoteListFragment extends Fragment {
                     getActivity().startActivity(intent);
                 } else {
                     /* @描述 如果是编辑状态那么点击fab执行删除操作 */
-                    View position1 = mGridLayoutManager.findViewByPosition(position);
+                    View position1 = mStaggeredGridLayoutManager.findViewByPosition(position);
                     MyNoteView myNoteViewPos = (MyNoteView) ((CardView) position1).getChildAt(0);
                     if (myNoteViewPos.getCheckboxStatus()) {
                         myNoteViewPos.setCheckboxStatus(false);
@@ -160,7 +160,7 @@ public class NoteListFragment extends Fragment {
     */
     public void deleteSelectedItem() {
         for (int i = myNotes.size() - 1; i >= 0; i--) {
-            View positionView = mGridLayoutManager.findViewByPosition(i);
+            View positionView = mStaggeredGridLayoutManager.findViewByPosition(i);
             if (positionView instanceof CardView) {
                 MyNoteView myNoteViewPos = (MyNoteView) ((CardView) positionView).getChildAt(0);
                 if (myNoteViewPos.isDeleteChecked()) {

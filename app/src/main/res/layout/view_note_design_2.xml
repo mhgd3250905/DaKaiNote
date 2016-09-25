@@ -72,7 +72,7 @@
 
     <LinearLayout
         android:id="@id/ll_note_list_flag"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -102,6 +102,15 @@
             android:layout_height="50dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/item_pin"/>
+
+        <ImageView
+            android:scaleType="centerInside"
+            android:layout_weight="1"
+            android:id="@id/iv_view_note_schedule"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/item_schedule"/>
     </LinearLayout>
 
 </LinearLayout>

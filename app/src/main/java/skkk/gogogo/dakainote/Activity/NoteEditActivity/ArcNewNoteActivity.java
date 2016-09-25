@@ -27,7 +27,6 @@ import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.DbTable.Schedule;
-import skkk.gogogo.dakainote.DbTable.ScheduleCache;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
@@ -51,7 +50,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     protected AlertDialog imageDialog;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
-    protected final static int PHOTO_REQUEST_GALLERY=914;
+    protected final static int PHOTO_REQUEST_GALLERY = 914;
 
     /* @描述 用来jieshou */
     protected Handler mHandler = new Handler() {
@@ -154,9 +153,9 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                                       (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
                                                               TextView tvFromAlbum =
                                                                       (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_album);
-                                                              ObjectAnimator objectAnimator1,objectAnimator2;
-                                                              objectAnimator1=ObjectAnimator.ofFloat(dialogView,"scaleX",0,1).setDuration(1000);
-                                                              objectAnimator2=ObjectAnimator.ofFloat(dialogView,"scaleY",0,1).setDuration(1000);
+                                                              ObjectAnimator objectAnimator1, objectAnimator2;
+                                                              objectAnimator1 = ObjectAnimator.ofFloat(dialogView, "scaleX", 0, 1).setDuration(1000);
+                                                              objectAnimator2 = ObjectAnimator.ofFloat(dialogView, "scaleY", 0, 1).setDuration(1000);
                                                               objectAnimator1.start();
                                                               objectAnimator2.start();
 
@@ -215,20 +214,20 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                               }
                                                               break;
                                                           case 4:
-                                                              if (!isScheduleExist){
+                                                              if (!isScheduleExist) {
                                                                   cbfirstSchedule.setVisibility(View.VISIBLE);
-                                                                  isScheduleExist=true;
+                                                                  isScheduleExist = true;
                                                                   nsvEditAgain.setFillViewport(false);
 
-                                                                  LinearLayout.LayoutParams paramsCb=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                                  LinearLayout.LayoutParams paramsCb = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                                                                           ViewGroup.LayoutParams.WRAP_CONTENT);
-                                                                  paramsCb.gravity=Gravity.CENTER;
+                                                                  paramsCb.gravity = Gravity.CENTER;
                                                                   cbfirstSchedule.setLayoutParams(paramsCb);
                                                                   cbfirstSchedule.setPadding(0, 0, 0, 0);
                                                                   cbfirstSchedule.setGravity(Gravity.CENTER);
                                                                   cbfirstSchedule.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
 
-                                                                  LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(
+                                                                  LinearLayout.LayoutParams paramsEt = new LinearLayout.LayoutParams(
                                                                           ViewGroup.LayoutParams.MATCH_PARENT,
                                                                           ViewGroup.LayoutParams.WRAP_CONTENT);
                                                                   etFirstSchedule.setLayoutParams(paramsEt);
@@ -238,6 +237,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                                                                   etFirstSchedule.setBackground(null);
                                                                   etFirstSchedule.setTextSize(25);
                                                                   etFirstSchedule.setSingleLine(true);
+                                                                  MyViewUtils.getFoucs(etFirstSchedule);
                                                               }
                                                               break;
                                                       }
@@ -261,28 +261,31 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         }
 
         /* @描述 保存et内容 */
-        if (!TextUtils.isEmpty(etFirstSchedule.getText().toString())&&
+        if (!TextUtils.isEmpty(etFirstSchedule.getText().toString()) &&
                 !isScheduleExist) {
             /* @描述 如果不存在schedule而且et内容不为空 */
             note.setContent(etFirstSchedule.getText().toString());
             isStore = true;
-        }else if (isScheduleExist){
+        } else if (isScheduleExist) {
             /* @描述 如果存在schedule */
-            int scheduleCount=llNoteAgain.getChildCount();
+            /* @描述 设置内容 */
+            note.setContent(etFirstSchedule.getText().toString());
+            /* @描述 设置schedule */
+            int scheduleCount = llNoteAgain.getChildCount();
             for (int i = 0; i < scheduleCount; i++) {
-                LinearLayout item= (LinearLayout) llNoteAgain.getChildAt(i);
-                Schedule schedule=new Schedule();
+                LinearLayout item = (LinearLayout) llNoteAgain.getChildAt(i);
+                Schedule schedule = new Schedule();
                 schedule.setScheduleChecked(false);
-                if (item.getChildCount()==2){
-                    schedule.setScheduleChecked(((CheckBox)item.getChildAt(0)).isChecked());
-                    schedule.setScheduleContent(((EditText)item.getChildAt(1)).getText().toString());
-                }else if (item.getChildCount()==1){
-                    schedule.setScheduleContent(((EditText)item.getChildAt(0)).getText().toString());
+                if (item.getChildCount() == 2) {
+                    schedule.setScheduleChecked(((CheckBox) item.getChildAt(0)).isChecked());
+                    schedule.setScheduleContent(((EditText) item.getChildAt(1)).getText().toString());
+                } else if (item.getChildCount() == 1) {
+                    schedule.setScheduleContent(((EditText) item.getChildAt(0)).getText().toString());
                 }
                 schedule.save();
                 note.getScheduleList().add(schedule);
                 note.setScheduleIsExist(true);
-                isStore=true;
+                isStore = true;
             }
         }
 
@@ -340,22 +343,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         //获取到缓存中的图片
         MyViewUtils.getFoucs(llNoteDetail);
 
-        List<ScheduleCache> scheduleCaches =mScheduleNewNoteFragment.getListInAdapter();
-
-        //DataSupport.where("notekey=?", String.valueOf(noteKey)).find(ScheduleCache.class);
-        //判断缓存图片是否存在
-        if (scheduleCaches.size() != 0) {
-            for (int i = 0; i < scheduleCaches.size(); i++) {
-                Schedule schedule = new Schedule();
-                schedule.setScheduleChecked(scheduleCaches.get(i).isScheduleChecked());
-                schedule.setScheduleContent(scheduleCaches.get(i).getScheduleContent());
-                schedule.save();
-                note.getScheduleList().add(schedule);
-                note.setScheduleIsExist(true);
-                isStore = true;
-            }
-        }
-
         /* @描述 保存note */
         if (isStore) {
             note.save();
@@ -365,8 +352,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         }
 
     }
-
-
 
 
     @Override
@@ -399,8 +384,8 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("SKKK_____", "requestCode:  " + requestCode);
-        if (resultCode == RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
                     fl_note_iamge.setVisibility(View.VISIBLE);
                     //设置图片存在
@@ -417,7 +402,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                     isDelete = true;
                     break;
                 case PHOTO_REQUEST_GALLERY:
-                    if (data!=null){
+                    if (data != null) {
                         fl_note_iamge.setVisibility(View.VISIBLE);
                         //设置图片存在
                         isImageExist = true;

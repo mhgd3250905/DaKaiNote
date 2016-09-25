@@ -20,7 +20,6 @@ import skkk.gogogo.dakainote.DbTable.Schedule;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
-import skkk.gogogo.dakainote.Fragment.ScheduleNewNoteFragment;
 import skkk.gogogo.dakainote.Fragment.VoiceNewNoteFragment;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
@@ -40,7 +39,6 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     protected NoteNew inetntNote;
     protected ImageNewNoteFragment mImageNewNoteFragment;
     protected VoiceNewNoteFragment mVoiceNewNoteFragment;
-    protected ScheduleNewNoteFragment mScheduleNewNoteFragment;
 
     protected long noteKey;
     MyImageThread myImageThread;
@@ -112,10 +110,6 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
         mVoiceNewNoteFragment=new VoiceNewNoteFragment(noteKey);
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_voice, mVoiceNewNoteFragment).commit();
-        /* @描述 加载Schedule fl布局 */
-        mScheduleNewNoteFragment=new ScheduleNewNoteFragment(noteKey);
-        getSupportFragmentManager().beginTransaction().
-                add(R.id.fl_note_schedule, mScheduleNewNoteFragment).commit();
     }
 
     /*
@@ -150,10 +144,6 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_voice,mVoiceNewNoteFragment).commit();
 
-        /* @描述 先把fragment搁好 */
-        mScheduleNewNoteFragment = new ScheduleNewNoteFragment(noteKey);
-        getSupportFragmentManager().beginTransaction().
-                add(R.id.fl_note_schedule,mScheduleNewNoteFragment).commit();
 
         /* @描述 载入图片 以及 载入录音 以及 载入schedule */
         if (inetntNote.isImageIsExist()){
@@ -264,41 +254,6 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
 
         }
     }
-
-
-//    /* @描述 用来转存图片的线程 */
-//    class MyScheduleThread extends Thread{
-//        @Override
-//        public void run() {
-//            super.run();
-//            /* @描述 第一步清空缓存 */
-//            DataSupport.deleteAll(ScheduleCache.class);
-//
-//            /* @描述 第二步获取对应note中包含的图片
-//             *     以及获取对应的note中包含的录音  */
-//            List<Schedule> scheduleList=inetntNote.getMyScheduleList();
-//
-//            //第三步进行遍历把录音都保存到缓存数据库中
-//            for (int i = 0; i < scheduleList.size(); i++) {
-//                ScheduleCache scheduleCache=new ScheduleCache();
-//                scheduleCache.setScheduleChecked(scheduleList.get(i).isScheduleChecked());
-//                scheduleCache.setScheduleContent(scheduleList.get(i).getScheduleContent());
-//                scheduleCache.setNoteKey(inetntNote.getKeyNum());
-//                scheduleCache.save();
-//            }
-//            //发送消息让fragment从缓存数据库刷新数据
-//            Message msg3=new Message();
-//            Bundle bundle=new Bundle();
-//            bundle.putLong("notekey", noteKey);
-//            msg3.setData(bundle);
-//            msg3.what=11111;
-//
-//            mScheduleNewNoteFragment.handler.sendMessage(msg3);
-//        }
-//    }
-
-
-
 
 
     /*

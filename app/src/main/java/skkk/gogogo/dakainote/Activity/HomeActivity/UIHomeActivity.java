@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class UIHomeActivity extends BaseHomeActivity
     private FloatingActionButton fab;
     protected FrameLayout flHome;
     private int fabFlagInActivity=1;
+    protected LinearLayout llNoteListFlag;
 
 
     @Override

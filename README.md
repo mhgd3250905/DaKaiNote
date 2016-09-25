@@ -181,6 +181,12 @@
 截图如下：
 ![](http://i.imgur.com/JDFLxmw.png)
 
+----------
+#2016/9/25 22:58:46 
+
+修改了一下主页的布局  瀑布流呀~
+![](http://i.imgur.com/211nkuD.png)
+
 
 
 
