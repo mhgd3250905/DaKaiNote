@@ -33,6 +33,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
     protected CheckBox cbfirstSchedule;
     protected MyApplication myApplication;
     protected NestedScrollView nsvEditAgain;
+    private int mPos;
 
 
     @Override
@@ -54,8 +55,6 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(etFirstSchedule, InputMethodManager.SHOW_FORCED);
-
-
     }
 
     /*
@@ -63,25 +62,23 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
     *
     */
     private void initEditEvent() {
-
         etFirstSchedule.setOnKeyListener(new View.OnKeyListener() {
             int count = llNoteAgain.getChildCount();//标准应该是2
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                LinearLayout ll= (LinearLayout) v.getParent();
+                mPos = llNoteAgain.indexOfChild(ll);
                 switch (event.getAction()) {
                     case KeyEvent.ACTION_DOWN:
-                        if (keyCode == KeyEvent.KEYCODE_ENTER && isScheduleExist) {
-                            /* @描述 软键盘回车事件 */
+                        if (keyCode == KeyEvent.KEYCODE_ENTER
+                                && isScheduleExist
+                                && llNoteAgain.indexOfChild((LinearLayout) v.getParent())==llNoteAgain.getChildCount()-1) {
                             insertFirstItem();
-
-                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.showSoftInput(etFirstSchedule,InputMethodManager.SHOW_FORCED);
-
-
+                            getFouce(mPos + 1);
                         } else if (keyCode == KeyEvent.KEYCODE_DEL && isScheduleExist &&
                                 TextUtils.isEmpty(etFirstSchedule.getText().toString())) {
                             /* @描述 软件盘Del事件 */
-                            if (count == 1) {//说明只有一个基础的item，那么删除iv
+                            if (count == 1&& llNoteAgain.getChildCount()==1) {//说明只有一个基础的item，那么删除iv
                                 cbfirstSchedule.setVisibility(View.GONE);
                                 isScheduleExist = false;
                             }
@@ -113,10 +110,11 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
 
     private void insertFirstItem() {
         final LinearLayout llItem = new LinearLayout(this);
-        llItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams paramsLl=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,1);
+        llItem.setLayoutParams(paramsLl);
+        llItem.setPadding(0, 0, 0, 0);
         llItem.setOrientation(LinearLayout.HORIZONTAL);
-
 
         final CheckBox cbItem = new CheckBox(this);
         final EditText etItem = new EditText(this);
@@ -126,16 +124,20 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
 
         LinearLayout.LayoutParams paramsCb=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        paramsCb.setMargins(10,0,10,0);
         paramsCb.gravity=Gravity.CENTER;
         cbItem.setLayoutParams(paramsCb);
+        cbItem.setPadding(0, 0, 0, 0);
+        cbItem.setGravity(Gravity.CENTER);
         cbItem.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
 
-
-        LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         etItem.setLayoutParams(paramsEt);
+
         etItem.setGravity(Gravity.CENTER_VERTICAL);
+        etItem.setPadding(0, 0, 0, 0);
+        etItem.setBackground(null);
         etItem.setTextSize(25);
         etItem.setSingleLine(true);
 
@@ -157,10 +159,15 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                LinearLayout ll= (LinearLayout) v.getParent();
+                mPos = llNoteAgain.indexOfChild(ll);
                 switch (event.getAction()) {
                     case KeyEvent.ACTION_DOWN:
-                        if (keyCode == KeyEvent.KEYCODE_ENTER && isScheduleExist) {
+                        if (keyCode == KeyEvent.KEYCODE_ENTER
+                                && isScheduleExist
+                                && llNoteAgain.indexOfChild((LinearLayout) v.getParent())==llNoteAgain.getChildCount()-1) {
                             insertFirstItem();
+                            getFouce(mPos + 1);
                         } else if (keyCode == KeyEvent.KEYCODE_DEL && isScheduleExist) {//说明只有一个基础的item，那么删除iv
                             if (myApplication.getChildCountInScheduleItem() == 2
                                     && TextUtils.isEmpty(etItem.getText().toString())) {
@@ -172,7 +179,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
                                 LogUtils.Log("" + myApplication.getChildCountInScheduleItem());
                                 llNoteAgain.removeView(llItem);
                                 myApplication.setChildCountInScheduleItem(2);
-                                getFouce();
+                                getFouce(mPos-1);
                             }
                         }
                         break;
@@ -187,16 +194,16 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         llItem.addView(etItem);
 
         llNoteAgain.addView(llItem);
-
     }
 
 
     protected void insertFirstItem(boolean checked,String content) {
         final LinearLayout llItem = new LinearLayout(this);
-        llItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams paramsLl=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,1);
+        llItem.setLayoutParams(paramsLl);
+        llItem.setPadding(0, 0, 0, 0);
         llItem.setOrientation(LinearLayout.HORIZONTAL);
-
 
         final CheckBox cbItem = new CheckBox(this);
         final EditText etItem = new EditText(this);
@@ -204,47 +211,26 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         imm.showSoftInput(etItem, InputMethodManager.SHOW_FORCED);
 
 
-
-
         LinearLayout.LayoutParams paramsCb=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        paramsCb.setMargins(10,0,10,0);
         paramsCb.gravity=Gravity.CENTER;
         cbItem.setLayoutParams(paramsCb);
+        cbItem.setPadding(0, 0, 0, 0);
+        cbItem.setGravity(Gravity.CENTER);
         cbItem.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
         cbItem.setChecked(checked);
 
-        /*
-        *  <EditText
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="1"
-                                android:textColorHint="@color/colorPrimary"
-                                android:hint="@string/note_edit_hint"
-                                android:textSize="25dp"
-                                android:id="@id/et_first_schedule"
-                                android:background="@null"
-                                android:paddingRight="10dp"
-                                android:gravity="left|top"
-                                android:inputType="textMultiLine"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>*/
-
-
-        LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,1);
+        LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         etItem.setLayoutParams(paramsEt);
-        etItem.setHint(R.string.note_edit_hint);
+
         etItem.setGravity(Gravity.CENTER_VERTICAL);
+        etItem.setPadding(0, 0, 0, 0);
+        etItem.setBackground(null);
         etItem.setTextSize(25);
         etItem.setSingleLine(true);
         etItem.setText(content);
-        if (cbItem.isChecked()){
-            etItem.setPaintFlags(Paint. STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
-            etItem.setTextColor(Color.GRAY);
-        }else {
-            etItem.setPaintFlags(Paint.HINTING_ON);
-            etItem.setTextColor(Color.BLACK);
-        }
 
 
         cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -264,10 +250,15 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                LinearLayout ll= (LinearLayout) v.getParent();
+                mPos = llNoteAgain.indexOfChild(ll);
                 switch (event.getAction()) {
                     case KeyEvent.ACTION_DOWN:
-                        if (keyCode == KeyEvent.KEYCODE_ENTER && isScheduleExist) {
+                        if (keyCode == KeyEvent.KEYCODE_ENTER
+                                && isScheduleExist
+                                && llNoteAgain.indexOfChild((LinearLayout) v.getParent())==llNoteAgain.getChildCount()-1) {
                             insertFirstItem();
+                            getFouce(mPos+1);
                         } else if (keyCode == KeyEvent.KEYCODE_DEL && isScheduleExist) {//说明只有一个基础的item，那么删除iv
                             if (myApplication.getChildCountInScheduleItem() == 2
                                     && TextUtils.isEmpty(etItem.getText().toString())) {
@@ -279,7 +270,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
                                 LogUtils.Log("" + myApplication.getChildCountInScheduleItem());
                                 llNoteAgain.removeView(llItem);
                                 myApplication.setChildCountInScheduleItem(2);
-                                getFouce();
+                                getFouce(mPos-1);
                             }
                         }
                         break;
@@ -297,9 +288,10 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
 
     }
 
-    public void getFouce() {
+
+    public void getFouce(int pos) {
         EditText view = (EditText) ((LinearLayout) llNoteAgain.
-                getChildAt(llNoteAgain.getChildCount() - 1)).getChildAt(1);
+                getChildAt(pos)).getChildAt(1);
         MyViewUtils.getFoucs(view);
     }
 }

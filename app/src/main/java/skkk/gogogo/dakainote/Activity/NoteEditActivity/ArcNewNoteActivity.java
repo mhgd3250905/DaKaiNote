@@ -220,14 +220,26 @@ public class ArcNewNoteActivity extends ShowNewNoteActivity {
                                                               if (!isScheduleExist){
                                                                   cbfirstSchedule.setVisibility(View.VISIBLE);
                                                                   isScheduleExist=true;
-                                                                  etFirstSchedule.setLayoutParams(new LinearLayout.LayoutParams(
-                                                                          ViewGroup.LayoutParams.MATCH_PARENT,
-                                                                          ViewGroup.LayoutParams.WRAP_CONTENT,
-                                                                          1));
-                                                                  etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
-                                                                  etFirstSchedule.setHint("输入待办项");
-                                                                  etFirstSchedule.setSingleLine(true);
                                                                   nsvEditAgain.setFillViewport(false);
+
+                                                                  LinearLayout.LayoutParams paramsCb=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                                          ViewGroup.LayoutParams.WRAP_CONTENT);
+                                                                  paramsCb.gravity=Gravity.CENTER;
+                                                                  cbfirstSchedule.setLayoutParams(paramsCb);
+                                                                  cbfirstSchedule.setPadding(0, 0, 0, 0);
+                                                                  cbfirstSchedule.setGravity(Gravity.CENTER);
+                                                                  cbfirstSchedule.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
+
+                                                                  LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(
+                                                                          ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                          ViewGroup.LayoutParams.WRAP_CONTENT);
+                                                                  etFirstSchedule.setLayoutParams(paramsEt);
+
+                                                                  etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
+                                                                  etFirstSchedule.setPadding(0, 0, 0, 0);
+                                                                  etFirstSchedule.setBackground(null);
+                                                                  etFirstSchedule.setTextSize(25);
+                                                                  etFirstSchedule.setSingleLine(true);
                                                               }
                                                               break;
                                                       }

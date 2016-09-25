@@ -1,6 +1,7 @@
 package skkk.gogogo.dakainote.MyUtils;
 
 import android.view.View;
+import android.widget.EditText;
 
 /**
  * Created by admin on 2016/9/18.
@@ -22,5 +23,8 @@ public class MyViewUtils {
         view.setFocusableInTouchMode(true);
         view.requestFocus();
         view.requestFocusFromTouch();
+        if (view instanceof EditText) {
+            ((EditText) view).setSelection(((EditText) view).getText().length());
+        }
     }
 }
