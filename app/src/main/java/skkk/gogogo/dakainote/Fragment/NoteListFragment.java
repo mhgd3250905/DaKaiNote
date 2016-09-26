@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -45,7 +44,6 @@ public class NoteListFragment extends Fragment {
     protected LinearLayout llBlankTip;
     protected UIHomeActivity mUiHomeActivity;
     private LinearLayoutManager mLayoutManager;
-    private GridLayoutManager mGridLayoutManager;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
 
     private SpacesItemDecoration mDecoration;
@@ -93,7 +91,6 @@ public class NoteListFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         /* @描述 设置布局管理器 */
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mGridLayoutManager = new GridLayoutManager(getContext(), 2);
         mStaggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         /* @描述 设置间距 */
         mDecoration = new SpacesItemDecoration(0);

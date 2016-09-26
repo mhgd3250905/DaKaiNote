@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -78,6 +79,10 @@ public class BaseNewNoteActivity extends AppCompatActivity{
         tbNoteDetail = (Toolbar) findViewById(R.id.tb_note_new_detail);
         setSupportActionBar(tbNoteDetail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //添加菜单
+        tbNoteDetail.inflateMenu(R.menu.note_edit_menu);
+
         //设置时间提示
         tvNoteDetailTime= (TextView) findViewById(R.id.tv_note_detail_time);
         //设置标题
@@ -128,5 +133,15 @@ public class BaseNewNoteActivity extends AppCompatActivity{
 
     }
 
+    /*
+* @方法 添加菜单
+*
+*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.note_edit_menu, menu);
+        return true;
+    }
 
 }

@@ -22,7 +22,6 @@ import skkk.gogogo.dakainote.Adapter.NoteImageListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
-import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 import skkk.gogogo.dakainote.R;
 
 /**
@@ -42,7 +41,6 @@ public class ImageNewNoteFragment extends Fragment {
     private RecyclerView rvNoteImageList;
     private NoteImageListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
-    private SpacesItemDecoration mDecoration;
     private int REQUEST_NOTE_IMAGE_DELETE = 13;
     public Handler handler = new Handler() {
         @Override
@@ -54,8 +52,6 @@ public class ImageNewNoteFragment extends Fragment {
             }
         }
     };
-
-
 
     public ImageNewNoteFragment(long noteKey) {
         this.noteKey = noteKey;

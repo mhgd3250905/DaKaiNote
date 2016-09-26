@@ -91,6 +91,10 @@
     <item name="nsv_edit_again" type="id">nsv_edit_again</item>
     <item name="ll_note_list_flag" type="id">ll_note_list_flag</item>
     <item name="iv_view_note_schedule" type="id">iv_view_note_schedule</item>
+    <item name="menu_note_edit" type="id">menu_note_edit</item>
+    <item name="menu_note_edit_image" type="id">menu_note_edit_image</item>
+    <item name="menu_note_edit_voice" type="id">menu_note_edit_voice</item>
+    <item name="menu_note_edit_schedule" type="id">menu_note_edit_schedule</item>
 
 
 </resources>

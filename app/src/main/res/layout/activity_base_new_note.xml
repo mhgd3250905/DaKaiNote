@@ -93,6 +93,7 @@
             </FrameLayout>
 
             <android.support.v4.widget.NestedScrollView
+                android:layout_weight="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:fillViewport="true"
@@ -135,6 +136,8 @@
 
             </android.support.v4.widget.NestedScrollView>
 
+        <include layout="@layout/layout_bottom_bar"/>
+
         </LinearLayout>
 
 
@@ -150,7 +153,8 @@
         android:layout_alignParentBottom="true"
         android:id="@id/rb_voice"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        />
 
     <!--弹射菜单-->
     <skkk.gogogo.dakainote.View.ArcMenuView

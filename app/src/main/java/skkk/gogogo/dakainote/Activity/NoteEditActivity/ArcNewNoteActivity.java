@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -134,6 +135,116 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         //设置弹射菜单
         arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_note);
     }
+
+
+    /*
+   * @方法 添加菜单点击事件
+   *
+   */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //获取菜单item_id
+        int id = item.getItemId();
+        //根据菜单判断
+        switch (id){
+            case R.id.menu_note_edit_image:
+
+                /* @描述 设置dialogView */
+                final View dialogView = View.inflate(ArcNewNoteActivity.this,
+                        R.layout.item_dialog_image, null);
+                TextView tvFromCamera =
+                        (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
+                TextView tvFromAlbum =
+                        (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_album);
+                ObjectAnimator objectAnimator1, objectAnimator2;
+                objectAnimator1 = ObjectAnimator.ofFloat(dialogView, "scaleX", 0, 1).setDuration(1000);
+                objectAnimator2 = ObjectAnimator.ofFloat(dialogView, "scaleY", 0, 1).setDuration(1000);
+                objectAnimator1.start();
+                objectAnimator2.start();
+
+
+                                                              /* @描述 设置item点击事件 */
+
+                                                              /* @描述 相机拍照 */
+                tvFromCamera.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                                                                      /*
+                                                                       * @方法 点击调用相机拍照
+                                                                       *
+                                                                       */
+                        takePicture(ArcNewNoteActivity.this);
+                        isDelete = false;
+                        imageDialog.dismiss();
+                    }
+                });
+
+                                                              /* @描述 来自相册 */
+                tvFromAlbum.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 激活系统图库，选择一张图片
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType("image/*");
+                        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
+                        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+                        imageDialog.dismiss();
+                    }
+                });
+
+                imageDialog = new AlertDialog.Builder(ArcNewNoteActivity.this)
+                        .setView(dialogView).create();
+                Window window = imageDialog.getWindow();
+                window.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+                window.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                imageDialog.show();
+
+                break;
+            case R.id.menu_note_edit_voice:
+
+                if (isPin) {
+                    isPin = false;
+                    ivPin.setVisibility(View.INVISIBLE);
+                } else {
+                    isPin = true;
+                    ivPin.setVisibility(View.VISIBLE);
+                }
+
+                break;
+            case R.id.menu_note_edit_schedule:
+
+                if (!isScheduleExist) {
+                    cbfirstSchedule.setVisibility(View.VISIBLE);
+                    isScheduleExist = true;
+                    nsvEditAgain.setFillViewport(false);
+
+                    LinearLayout.LayoutParams paramsCb = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    paramsCb.gravity = Gravity.CENTER;
+                    cbfirstSchedule.setLayoutParams(paramsCb);
+                    cbfirstSchedule.setPadding(0, 0, 0, 0);
+                    cbfirstSchedule.setGravity(Gravity.CENTER);
+                    cbfirstSchedule.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
+
+                    LinearLayout.LayoutParams paramsEt = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    etFirstSchedule.setLayoutParams(paramsEt);
+
+                    etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
+                    etFirstSchedule.setPadding(0, 0, 0, 0);
+                    etFirstSchedule.setBackground(null);
+                    etFirstSchedule.setTextSize(25);
+                    etFirstSchedule.setSingleLine(true);
+                    MyViewUtils.getFoucs(etFirstSchedule);
+                }
+
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     /*
     * @方法 设置弹射菜单点击事件

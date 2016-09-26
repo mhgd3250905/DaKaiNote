@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:background="@color/colorPrimaryDark"
+              android:orientation="horizontal">
+
+    <ImageView
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_bottom_bold"/>
+
+    <ImageView
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_bottom_back"/>
+
+    <ImageView
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_bottom_person"/>
+
+    <ImageView
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_bottom_time"/>
+
+    <ImageView
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_bottom_pin"/>
+
+</LinearLayout>

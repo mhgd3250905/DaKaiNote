@@ -7,7 +7,6 @@ import java.util.List;
 
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
-import skkk.gogogo.dakainote.DbTable.ScheduleCache;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 
 /**
@@ -97,18 +96,6 @@ public class SQLUtils {
         voiceCaches= DataSupport.where("noteKey=?", notekey + "").find(VoiceCache.class);
         return voiceCaches;
     }
-
-
-    /*
-   * @方法 获取缓存数据库中所有的Voice信息
-   *
-   */
-    public static List<ScheduleCache> getScheduleInItem(long notekey){
-        List<ScheduleCache> scheduleCaches=new ArrayList<ScheduleCache>();
-        scheduleCaches= DataSupport.where("noteKey=?", notekey + "").find(ScheduleCache.class);
-        return scheduleCaches;
-    }
-
 
 
 
