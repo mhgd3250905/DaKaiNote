@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.ArcNewNoteActivity;
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.BottomBarNewNoteActivity;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
@@ -115,7 +115,7 @@ public class UIHomeActivity extends BaseHomeActivity
                 if (fabFlagInActivity==1) {
                     //进入到编辑页面
                     Intent intent = new Intent();
-                    intent.setClass(UIHomeActivity.this, ArcNewNoteActivity.class);
+                    intent.setClass(UIHomeActivity.this, BottomBarNewNoteActivity.class);
                     startActivity(intent);
                 }else if (fabFlagInActivity==2){
                     /* @描述 如果fab标签是2说明为删除状态 */

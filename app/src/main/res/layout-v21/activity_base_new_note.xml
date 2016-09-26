@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:id="@id/cl_note_detail"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:fitsSystemWindows="true"
-                                                 android:id="@id/cl_note_detail"
-                                                 android:background="@color/colorWhite">
+                                                 android:background="@color/colorWhite"
+                                                 android:fitsSystemWindows="true">
 
 
     <LinearLayout
+        android:id="@id/ll_note_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@id/ll_note_detail"
         android:orientation="vertical">
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.v7.widget.Toolbar
                 android:id="@id/tb_note_new_detail"
                 android:layout_width="match_parent"
@@ -27,40 +29,37 @@
                 app:titleTextColor="@color/colorWhite">
 
                 <EditText
-                    android:singleLine="true"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20dp"
                     android:id="@id/et_note_detail_title"
-                    android:background="@color/colorPrimaryDark"
-                    android:textColorHint="@color/colorWhite55"
-                    android:hint="请输入标题"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:hint="请输入标题"
+                    android:singleLine="true"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite55"
+                    android:textSize="20dp"/>
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 
 
-
-
-
-
         <LinearLayout
-            android:background="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/colorWhite"
             android:orientation="horizontal">
+
             <TextView
+                android:id="@id/tv_note_detail_time"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:text="2016-8-28 11:16:00"
-                android:id="@id/tv_note_detail_time"
-                android:gravity="center_vertical"
-                android:layout_weight="1"
-                android:textSize="20dp"
                 android:textColor="@color/colorGray"
-                android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:textSize="20dp"/>
 
             <ImageView
                 android:id="@id/iv_note_detail_pin"
@@ -70,36 +69,36 @@
         </LinearLayout>
 
         <FrameLayout
-            android:visibility="gone"
             android:id="@id/fl_note_image"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="150dp"
+            android:visibility="gone">
         </FrameLayout>
 
         <FrameLayout
-            android:visibility="gone"
             android:id="@id/fl_note_voice"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:visibility="gone">
         </FrameLayout>
 
         <FrameLayout
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_schedule"
-            android:visibility="gone"
             android:id="@id/fl_note_schedule"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_schedule"
+            android:visibility="gone">
         </FrameLayout>
 
         <android.support.v4.widget.NestedScrollView
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:fillViewport="true"
             android:id="@id/nsv_edit_again"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:id="@id/ll_edit_again"
@@ -108,29 +107,31 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
+
                     <CheckBox
-                        android:gravity="center"
-                        android:button="@drawable/select_checkbox_for_item_delete"
                         android:id="@id/cb_first_schedule"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:button="@drawable/select_checkbox_for_item_delete"
+                        android:gravity="center"
                         android:visibility="gone"/>
+
                     <EditText
-                        android:layout_weight="1"
-                        android:textColorHint="@color/colorPrimary"
-                        android:hint="@string/note_edit_hint"
-                        android:textSize="25dp"
                         android:id="@id/et_first_schedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:background="@null"
                         android:gravity="left|top"
+                        android:hint="@string/note_edit_hint"
                         android:inputType="textMultiLine"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:textColorHint="@color/colorPrimary"
+                        android:textSize="25dp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -142,66 +143,19 @@
 
 
     <skkk.gogogo.dakainote.View.RecordButton
-        android:elevation="10dp"
-        android:layout_margin="70dp"
-        android:visibility="gone"
-        android:layout_gravity="bottom"
-        android:textSize="25dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:background="@drawable/record_bg_selector"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
         android:id="@id/rb_voice"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_margin="70dp"
+        android:background="@drawable/record_bg_selector"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="25dp"
+        android:visibility="gone"
         />
-
-    <!--弹射菜单-->
-    <skkk.gogogo.dakainote.View.ArcMenuView
-        android:id="@id/arc_menu_view_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:position="right_bottom"
-        app:arcMode="line"
-        app:radius="200dp">
-
-        <ImageView
-            android:id="@id/arc_menu"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/menu" />
-
-        <ImageView
-            android:id="@id/arc_item_2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_camera"
-            android:tag="item_2" />
-
-        <ImageView
-            android:id="@id/arc_item_3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_pin"
-            android:tag="item_3" />
-
-        <ImageView
-            android:id="@id/arc_item_4"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/item_voice"
-            android:tag="item_4" />
-
-        <ImageView
-            android:id="@id/arc_item_5"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/item_save"
-            android:tag="item_5" />
-    </skkk.gogogo.dakainote.View.ArcMenuView>
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>

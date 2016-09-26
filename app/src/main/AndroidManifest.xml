@@ -34,7 +34,7 @@
         <!-- note details 编辑界面 -->
         <!-- note details 展示界面 -->
         <activity
-            android:name=".Activity.NoteEditActivity.ArcNewNoteActivity"
+            android:name=".Activity.NoteEditActivity.BottomBarNewNoteActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateUnspecified|adjustResize"/>
 

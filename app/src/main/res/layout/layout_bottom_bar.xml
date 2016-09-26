@@ -2,26 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="40dp"
-              android:background="@color/colorPrimaryDark"
+              android:background="@color/colorWhite"
               android:orientation="horizontal">
 
     <ImageView
+        android:id="@id/bottom_bar_bold"
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_bottom_bold"/>
 
     <ImageView
+        android:id="@id/bottom_bar_back"
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_bottom_back"/>
 
     <ImageView
+        android:id="@id/bottom_bar_contack"
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_bottom_person"/>
 
     <ImageView
+        android:id="@id/bottom_bar_time"
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_bottom_time"/>
 
     <ImageView
+        android:id="@id/bottom_bar_pin"
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_bottom_pin"/>
 

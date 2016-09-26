@@ -1,6 +1,7 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,8 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +38,6 @@ import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
-import skkk.gogogo.dakainote.View.ArcMenuView;
 
 /**
  * Created by admin on 2016/8/26.
@@ -46,12 +48,16 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 23:02$.
 */
-public class ArcNewNoteActivity extends VoiceNewNoteActivity {
-    protected ArcMenuView arcMenuView;
+public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected AlertDialog imageDialog;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
     protected final static int PHOTO_REQUEST_GALLERY = 914;
+    protected ImageView ivNoteEditBold;
+    protected ImageView ivNoteEditBack;
+    protected ImageView ivNoteEditContact;
+    protected ImageView ivNoteEditTime;
+    protected ImageView ivNoteEditPin;
 
     /* @描述 用来jieshou */
     protected Handler mHandler = new Handler() {
@@ -97,12 +103,36 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initArcUI();
-        initArcEvent();
+        initBottomBar();
         initLLEvent();
-        //initFragment();
-
     }
+
+
+    /*
+    * @方法 初始化bottomBarUI
+    *
+    */
+    private void initBottomBar() {
+        ivNoteEditBold = (ImageView) findViewById(R.id.bottom_bar_bold);
+        ivNoteEditBack = (ImageView) findViewById(R.id.bottom_bar_back);
+        ivNoteEditContact = (ImageView) findViewById(R.id.bottom_bar_contack);
+        ivNoteEditTime = (ImageView) findViewById(R.id.bottom_bar_time);
+        ivNoteEditPin = (ImageView) findViewById(R.id.bottom_bar_pin);
+        ivNoteEditPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* @描述 pin */
+                if (isPin) {
+                    isPin = false;
+                    ivPin.setVisibility(View.INVISIBLE);
+                } else {
+                    isPin = true;
+                    ivPin.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
 
     private void initLLEvent() {
         llNoteDetail.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -114,7 +144,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                     Message msgActivity = mHandler.obtainMessage();
                     msgActivity.what = MESSAGE_LAYOUT_KEYBOARD_SHOW;
                     mHandler.sendMessage(msgActivity);
-                    //Toast.makeText(ArcNewNoteActivity.this, "setGone", Toast.LENGTH_SHORT).show();
                 } else if (bottom > oldBottom) {
                     /* @描述 如果布局显示键盘隐藏 */
                     Message msgActivity = mHandler.obtainMessage();
@@ -128,16 +157,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
 
 
     /*
-    * @方法 初始化弹射菜单UI
-    *
-    */
-    protected void initArcUI() {
-        //设置弹射菜单
-        arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_note);
-    }
-
-
-    /*
    * @方法 添加菜单点击事件
    *
    */
@@ -146,11 +165,11 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         //获取菜单item_id
         int id = item.getItemId();
         //根据菜单判断
-        switch (id){
+        switch (id) {
             case R.id.menu_note_edit_image:
 
                 /* @描述 设置dialogView */
-                final View dialogView = View.inflate(ArcNewNoteActivity.this,
+                final View dialogView = View.inflate(BottomBarNewNoteActivity.this,
                         R.layout.item_dialog_image, null);
                 TextView tvFromCamera =
                         (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
@@ -163,23 +182,23 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 objectAnimator2.start();
 
 
-                                                              /* @描述 设置item点击事件 */
+                /* @描述 设置item点击事件 */
 
-                                                              /* @描述 相机拍照 */
+                /* @描述 相机拍照 */
                 tvFromCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                                                                      /*
-                                                                       * @方法 点击调用相机拍照
-                                                                       *
-                                                                       */
-                        takePicture(ArcNewNoteActivity.this);
+                    /*
+                     * @方法 点击调用相机拍照
+                     *
+                     */
+                        takePicture(BottomBarNewNoteActivity.this);
                         isDelete = false;
                         imageDialog.dismiss();
                     }
                 });
 
-                                                              /* @描述 来自相册 */
+                /* @描述 来自相册 */
                 tvFromAlbum.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -192,7 +211,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                     }
                 });
 
-                imageDialog = new AlertDialog.Builder(ArcNewNoteActivity.this)
+                imageDialog = new AlertDialog.Builder(BottomBarNewNoteActivity.this)
                         .setView(dialogView).create();
                 Window window = imageDialog.getWindow();
                 window.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
@@ -202,12 +221,14 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                 break;
             case R.id.menu_note_edit_voice:
 
-                if (isPin) {
-                    isPin = false;
-                    ivPin.setVisibility(View.INVISIBLE);
+                if (rbVoice.getVisibility() == View.VISIBLE) {
+                    rbVoice.setVisibility(View.GONE);
                 } else {
-                    isPin = true;
-                    ivPin.setVisibility(View.VISIBLE);
+                    rbVoice.setVisibility(View.VISIBLE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+
                 }
 
                 break;
@@ -245,117 +266,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    /*
-    * @方法 设置弹射菜单点击事件
-    *
-    */
-    protected void initArcEvent() {
-        arcMenuView.setmMenuItemClickListener(new ArcMenuView.OnMenuItemClickListener() {
-                                                  @Override
-                                                  public void onClick(View view, int pos) {
-                                                      switch (pos) {
-                                                          case 1:
-
-                                                              /* @描述 设置dialogView */
-                                                              final View dialogView = View.inflate(ArcNewNoteActivity.this,
-                                                                      R.layout.item_dialog_image, null);
-                                                              TextView tvFromCamera =
-                                                                      (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
-                                                              TextView tvFromAlbum =
-                                                                      (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_album);
-                                                              ObjectAnimator objectAnimator1, objectAnimator2;
-                                                              objectAnimator1 = ObjectAnimator.ofFloat(dialogView, "scaleX", 0, 1).setDuration(1000);
-                                                              objectAnimator2 = ObjectAnimator.ofFloat(dialogView, "scaleY", 0, 1).setDuration(1000);
-                                                              objectAnimator1.start();
-                                                              objectAnimator2.start();
-
-
-                                                              /* @描述 设置item点击事件 */
-
-                                                              /* @描述 相机拍照 */
-                                                              tvFromCamera.setOnClickListener(new View.OnClickListener() {
-                                                                  @Override
-                                                                  public void onClick(View v) {
-                                                                      /*
-                                                                       * @方法 点击调用相机拍照
-                                                                       *
-                                                                       */
-                                                                      takePicture(ArcNewNoteActivity.this);
-                                                                      isDelete = false;
-                                                                      imageDialog.dismiss();
-                                                                  }
-                                                              });
-
-                                                              /* @描述 来自相册 */
-                                                              tvFromAlbum.setOnClickListener(new View.OnClickListener() {
-                                                                  @Override
-                                                                  public void onClick(View v) {
-                                                                      // 激活系统图库，选择一张图片
-                                                                      Intent intent = new Intent(Intent.ACTION_PICK);
-                                                                      intent.setType("image/*");
-                                                                      // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
-                                                                      startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-                                                                      imageDialog.dismiss();
-                                                                  }
-                                                              });
-
-                                                              imageDialog = new AlertDialog.Builder(ArcNewNoteActivity.this)
-                                                                      .setView(dialogView).create();
-                                                              Window window = imageDialog.getWindow();
-                                                              window.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
-                                                              window.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
-                                                              imageDialog.show();
-
-                                                              break;
-                                                          case 2:
-                                                              if (isPin) {
-                                                                  isPin = false;
-                                                                  ivPin.setVisibility(View.INVISIBLE);
-                                                              } else {
-                                                                  isPin = true;
-                                                                  ivPin.setVisibility(View.VISIBLE);
-                                                              }
-                                                              break;
-                                                          case 3:
-                                                              if (rbVoice.getVisibility() == View.VISIBLE) {
-                                                                  rbVoice.setVisibility(View.GONE);
-                                                              } else {
-                                                                  rbVoice.setVisibility(View.VISIBLE);
-                                                              }
-                                                              break;
-                                                          case 4:
-                                                              if (!isScheduleExist) {
-                                                                  cbfirstSchedule.setVisibility(View.VISIBLE);
-                                                                  isScheduleExist = true;
-                                                                  nsvEditAgain.setFillViewport(false);
-
-                                                                  LinearLayout.LayoutParams paramsCb = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                                                          ViewGroup.LayoutParams.WRAP_CONTENT);
-                                                                  paramsCb.gravity = Gravity.CENTER;
-                                                                  cbfirstSchedule.setLayoutParams(paramsCb);
-                                                                  cbfirstSchedule.setPadding(0, 0, 0, 0);
-                                                                  cbfirstSchedule.setGravity(Gravity.CENTER);
-                                                                  cbfirstSchedule.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
-
-                                                                  LinearLayout.LayoutParams paramsEt = new LinearLayout.LayoutParams(
-                                                                          ViewGroup.LayoutParams.MATCH_PARENT,
-                                                                          ViewGroup.LayoutParams.WRAP_CONTENT);
-                                                                  etFirstSchedule.setLayoutParams(paramsEt);
-
-                                                                  etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
-                                                                  etFirstSchedule.setPadding(0, 0, 0, 0);
-                                                                  etFirstSchedule.setBackground(null);
-                                                                  etFirstSchedule.setTextSize(25);
-                                                                  etFirstSchedule.setSingleLine(true);
-                                                                  MyViewUtils.getFoucs(etFirstSchedule);
-                                                              }
-                                                              break;
-                                                      }
-                                                  }
-                                              }
-        );
-    }
 
     /*
     * @方法 保存Note 内容
@@ -459,7 +369,7 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             note.save();
         } else {
             note = null;
-            Toast.makeText(ArcNewNoteActivity.this, "您未保存任何内容...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BottomBarNewNoteActivity.this, "您未保存任何内容...", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -518,13 +428,13 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
                         //设置图片存在
                         isImageExist = true;
                         Uri uriImageFromGallery = data.getData();
-                        LogUtils.Log(CameraImageUtils.getAbsoluteImagePath(ArcNewNoteActivity.this,
+                        LogUtils.Log(CameraImageUtils.getAbsoluteImagePath(BottomBarNewNoteActivity.this,
                                 uriImageFromGallery));
 
 
                         ImageCache imageCacheGallery = new ImageCache();
                         imageCacheGallery.setNoteKey(noteKey);
-                        imageCacheGallery.setImagePath(CameraImageUtils.getAbsoluteImagePath(ArcNewNoteActivity.this,
+                        imageCacheGallery.setImagePath(CameraImageUtils.getAbsoluteImagePath(BottomBarNewNoteActivity.this,
                                 uriImageFromGallery));
                         imageCacheGallery.save();
                         //获取当前fragment
@@ -572,10 +482,6 @@ public class ArcNewNoteActivity extends VoiceNewNoteActivity {
             //保存内容
             saveNoteData();
         }
-//        }else {
-//            Toast.makeText(ArcNewNoteActivity.this,getResources().getString(R.string.not_save_anything), Toast.LENGTH_SHORT).show();
-//        }
     }
-
 
 }
