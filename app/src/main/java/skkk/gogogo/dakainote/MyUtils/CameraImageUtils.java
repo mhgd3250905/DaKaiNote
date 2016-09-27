@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
@@ -94,6 +95,16 @@ public class CameraImageUtils {
                 ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
     }
 
+
+
+    public static BitmapDrawable getImageDrawable(Context context,String imagePath,int reqWidth){
+        Bitmap bitmap=getPreciselyBitmap(imagePath,reqWidth);
+        BitmapDrawable bitmapDrawable=new BitmapDrawable(context.getResources(),bitmap);
+        bitmapDrawable.setAntiAlias(true);
+        bitmapDrawable.setDither(true);
+        bitmapDrawable.setFilterBitmap(true);
+        return bitmapDrawable;
+    }
 
     /*
     * @方法 图片质量压缩办法
@@ -196,4 +207,6 @@ public class CameraImageUtils {
         }
         return imagePath;
     }
+
+
 }

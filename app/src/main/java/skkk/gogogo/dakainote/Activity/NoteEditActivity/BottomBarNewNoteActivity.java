@@ -131,6 +131,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 }
             }
         });
+
     }
 
 
