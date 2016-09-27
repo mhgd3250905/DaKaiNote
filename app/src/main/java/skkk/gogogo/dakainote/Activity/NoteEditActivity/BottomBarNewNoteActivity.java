@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -35,6 +37,7 @@ import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
+import skkk.gogogo.dakainote.MyUtils.EditUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
@@ -58,6 +61,8 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected ImageView ivNoteEditContact;
     protected ImageView ivNoteEditTime;
     protected ImageView ivNoteEditPin;
+    protected Boolean etBold=false;//用来判断文字是否加粗的flag
+    boolean change=true;
 
     /* @描述 用来jieshou */
     protected Handler mHandler = new Handler() {
@@ -105,6 +110,26 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
         super.onCreate(savedInstanceState);
         initBottomBar();
         initLLEvent();
+        initEtEvent();
+    }
+
+    private void initEtEvent() {
+        etFirstSchedule.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
 
@@ -131,8 +156,17 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 }
             }
         });
+        ivNoteEditBold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int start=etFirstSchedule.getSelectionStart();
+                EditUtils.addFontSpan(etFirstSchedule);
+            }
+        });
 
     }
+
+
 
 
     private void initLLEvent() {
