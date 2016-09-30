@@ -1,5 +1,6 @@
 package skkk.gogogo.dakainote.MyUtils;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Spannable;
@@ -12,6 +13,8 @@ import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.widget.EditText;
+
+import skkk.gogogo.dakainote.R;
 
 /**
  * Created by admin on 2016/9/27.
@@ -27,10 +30,10 @@ public class EditUtils {
     /**
      * 超链接
      */
-    public static void addUrlSpan(EditText tv) {
-        SpannableString spanString = new SpannableString("超链接");
-        URLSpan span = new URLSpan("tel:0123456789");
-        spanString.setSpan(span, 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    public static void addUrlSpan(EditText tv,String name,long phone) {
+        SpannableString spanString = new SpannableString(name);
+        URLSpan span = new URLSpan("tel:"+phone);
+        spanString.setSpan(span, 0,name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.append(spanString);
     }
 
@@ -49,10 +52,10 @@ public class EditUtils {
     /**
      * 文字颜色
      */
-    public static void addForeColorSpan(EditText tv) {
-        SpannableString spanString = new SpannableString("颜色1");
-        ForegroundColorSpan span = new ForegroundColorSpan(Color.BLUE);
-        spanString.setSpan(span, 0, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    public static void addForeColorSpan(Context context,EditText tv,String content) {
+        SpannableString spanString = new SpannableString(content);
+        ForegroundColorSpan span = new ForegroundColorSpan(context.getResources().getColor(R.color.colorAccent));
+        spanString.setSpan(span, 0,content.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.append(spanString);
     }
 

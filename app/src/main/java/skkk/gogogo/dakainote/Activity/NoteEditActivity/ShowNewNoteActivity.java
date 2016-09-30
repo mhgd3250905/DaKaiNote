@@ -271,10 +271,7 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
             myVoiceThread.interrupt();
             myVoiceThread = null;
         }
-//        if (myScheduleThread!=null) {
-//            myScheduleThread.interrupt();
-//            myScheduleThread = null;
-//        }
+
 
     }
 

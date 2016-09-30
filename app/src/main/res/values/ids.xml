@@ -100,6 +100,7 @@
     <item name="bottom_bar_contack" type="id">bottom_bar_contact</item>
     <item name="bottom_bar_time" type="id">bottom_bar_time</item>
     <item name="bottom_bar_pin" type="id">bottom_bar_pin</item>
+    <item name="bottom_bar_next" type="id">bottom_bar_next</item>
 
 
 </resources>

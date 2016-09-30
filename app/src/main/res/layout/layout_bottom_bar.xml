@@ -13,7 +13,12 @@
     <ImageView
         android:id="@id/bottom_bar_back"
         style="@style/BottomBarStyle"
-        android:src="@drawable/vector_drawable_bottom_back"/>
+        android:src="@drawable/vector_drawable_bottom_perious"/>
+
+    <ImageView
+        android:id="@id/bottom_bar_next"
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_bottom_next"/>
 
     <ImageView
         android:id="@id/bottom_bar_contack"

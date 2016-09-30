@@ -25,8 +25,9 @@ public class BaseHomeActivity extends AppCompatActivity {
     static final String[] PERMISSIONS = new String[]{
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.RECORD_AUDIO
-
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.READ_PHONE_STATE
     };
 
 

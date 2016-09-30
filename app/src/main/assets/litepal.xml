@@ -10,5 +10,7 @@
         <mapping class="skkk.gogogo.dakainote.DbTable.ImageCache"></mapping>
         <mapping class="skkk.gogogo.dakainote.DbTable.VoiceCache"></mapping>
         <mapping class="skkk.gogogo.dakainote.DbTable.Schedule"></mapping>
+        <mapping class="skkk.gogogo.dakainote.DbTable.TextPeriousCache"></mapping>
+        <mapping class="skkk.gogogo.dakainote.DbTable.TextNextCache"></mapping>
     </list>
 </litepal>

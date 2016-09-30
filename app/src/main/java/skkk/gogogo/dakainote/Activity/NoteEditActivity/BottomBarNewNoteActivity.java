@@ -1,12 +1,15 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.animation.ObjectAnimator;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -33,6 +36,8 @@ import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.DbTable.Schedule;
+import skkk.gogogo.dakainote.DbTable.TextNextCache;
+import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
@@ -56,13 +61,18 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
     protected final static int PHOTO_REQUEST_GALLERY = 914;
+    protected final static int SELECT_PERSON_FROM_CONTACT = 928;
     protected ImageView ivNoteEditBold;
     protected ImageView ivNoteEditBack;
     protected ImageView ivNoteEditContact;
     protected ImageView ivNoteEditTime;
     protected ImageView ivNoteEditPin;
-    protected Boolean etBold=false;//用来判断文字是否加粗的flag
-    boolean change=true;
+    protected ImageView ivNoteEditNext;
+    protected Boolean etBold = false;//用来判断文字是否加粗的flag
+    boolean change = true;
+    protected int backNum = 0;
+    protected boolean fromSys;
+    protected List<TextPeriousCache> all;
 
     /* @描述 用来jieshou */
     protected Handler mHandler = new Handler() {
@@ -114,6 +124,10 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     }
 
     private void initEtEvent() {
+
+        /* @描述 添加空文本 */
+
+
         etFirstSchedule.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -127,7 +141,16 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (!isScheduleExist) {
+                    if (change) {
+                    /* @描述 如果不是schedule那么就进行上一步缓存处理 */
+                        TextPeriousCache textPeriousCache = new TextPeriousCache();
+                        textPeriousCache.setView_name("etFirstSchedule");
+                        textPeriousCache.setContent(s.toString());
+                        textPeriousCache.save();
+                        LogUtils.Log("完成记录  " + s.toString());
+                    }
+                }
             }
         });
     }
@@ -143,6 +166,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
         ivNoteEditContact = (ImageView) findViewById(R.id.bottom_bar_contack);
         ivNoteEditTime = (ImageView) findViewById(R.id.bottom_bar_time);
         ivNoteEditPin = (ImageView) findViewById(R.id.bottom_bar_pin);
+        ivNoteEditNext = (ImageView) findViewById(R.id.bottom_bar_next);
         ivNoteEditPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,17 +180,118 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 }
             }
         });
+        /* @描述  */
         ivNoteEditBold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int start=etFirstSchedule.getSelectionStart();
-                EditUtils.addFontSpan(etFirstSchedule);
+
+            }
+        });
+
+        /* @描述 点击选择通讯录加入 */
+        ivNoteEditContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        ContactsContract.Contacts.CONTENT_URI);
+                BottomBarNewNoteActivity.this.startActivityForResult(intent, SELECT_PERSON_FROM_CONTACT);
+            }
+        });
+        /* @描述 点击加入时间 */
+        ivNoteEditTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyViewUtils.getFoucs(etFirstSchedule);
+                String time = DateUtils.getTime();
+                if (etFirstSchedule.getLineCount() == 1 &&
+                        TextUtils.isEmpty(etFirstSchedule.getText().toString())) {
+                    etFirstSchedule.append(time);
+                    etFirstSchedule.append("\n");
+                } else {
+                    etFirstSchedule.append("\n");
+                    etFirstSchedule.append(time);
+                    etFirstSchedule.append("\n");
+                }
+            }
+        });
+
+        /* @描述
+          *
+          * 这里需要对文本编辑器的上一步还有有下一步的逻辑进行一个梳理
+          * 正常情况下 文本编辑器所有的TextChange都会被记录到db中
+          * 按下 上一步 按钮
+          * 返回db中的上一个text
+          * 这个时候的TextChange都不会写入到db中
+          * 但是每一次返回上一步，响应的db table中的对应item就会加入到 下一步的db中
+          *
+          * 按下 上一步的时候，返回下一步的db中的text
+          * 也不会造成TextChange的db写入
+          * 每一次点击上一步都会把下一步db中的对应item写入到上一步db中
+          *
+          * 这样描述感觉有点奇怪，但是大概就是这样子~
+          *
+          * */
+
+
+        /* @描述 点击返回文字上一步 */
+        ivNoteEditBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int count = DataSupport.count(TextPeriousCache.class);
+                if (count>0) {
+                    change = false;
+
+                    TextPeriousCache last = DataSupport.findLast(TextPeriousCache.class);
+
+                    TextNextCache textNextCache = new TextNextCache();
+                    textNextCache.setView_name(last.getView_name());
+                    textNextCache.setContent(last.getContent());
+                    textNextCache.save();
+                    LogUtils.Log("转存内容 "+last.getContent());
+
+                    last.delete();
+
+                    if (count==1){
+                        etFirstSchedule.setText("");
+                        change = true;
+                    }else {
+                        String content = DataSupport.findLast(TextPeriousCache.class).getContent();
+                        etFirstSchedule.setText(content);
+                        etFirstSchedule.setSelection(content.length());
+                        change = true;
+                    }
+                }
+            }
+        });
+
+        /* @描述 点击返回文字下一步 */
+        ivNoteEditNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int count = DataSupport.count(TextNextCache.class);
+                if (count>0) {
+                    change = false;
+
+                    TextNextCache last = DataSupport.findLast(TextNextCache.class);
+
+                    TextPeriousCache textPeriousCache = new TextPeriousCache();
+                    textPeriousCache.setView_name(last.getView_name());
+                    textPeriousCache.setContent(last.getContent());
+                    textPeriousCache.save();
+
+                    String content = DataSupport.findLast(TextNextCache.class).getContent();
+                    etFirstSchedule.setText(content);
+                    etFirstSchedule.setSelection(content.length());
+
+                    last.delete();
+                    change = true;
+
+                }
+
             }
         });
 
     }
-
-
 
 
     private void initLLEvent() {
@@ -427,9 +552,11 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         /* @描述 删除缓存中的图片内容 */
         DataSupport.deleteAll(ImageCache.class);
+        DataSupport.deleteAll(TextPeriousCache.class);
+        DataSupport.deleteAll(TextNextCache.class);
+        super.onDestroy();
     }
 
     /*
@@ -477,10 +604,46 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                         mImageNewNoteFragment.insertImage(noteKey);
                     }
                     break;
+                case SELECT_PERSON_FROM_CONTACT:
+                    if (data == null) {
+                        return;
+                    }
+                    //处理返回的data,获取选择的联系人信息
+                    Uri uri = data.getData();
+                    String[] contacts = getPhoneContacts(uri);
+                    EditUtils.addUrlSpan(etFirstSchedule, contacts[0], Long.parseLong(contacts[1]));
+                    break;
             }
 
         }
 
+    }
+
+    private String[] getPhoneContacts(Uri uri) {
+        String[] contact = new String[2];
+        //得到ContentResolver对象
+        ContentResolver cr = getContentResolver();
+        //取得电话本中开始一项的光标
+        Cursor cursor = cr.query(uri, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            //取得联系人姓名
+            int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            contact[0] = cursor.getString(nameFieldColumnIndex);
+            //取得电话号码
+            String ContactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+            Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + ContactId, null, null);
+            if (phone != null) {
+                phone.moveToFirst();
+                contact[1] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            }
+            phone.close();
+            cursor.close();
+        } else {
+            return null;
+        }
+        return contact;
     }
 
     /*
@@ -518,5 +681,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
             saveNoteData();
         }
     }
+
 
 }
