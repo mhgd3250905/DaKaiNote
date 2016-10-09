@@ -11,12 +11,12 @@ package skkk.gogogo.dakainote.View.AutoLinkEditText;
 */
 public enum AutoLinkMode {
 
-    MODE_HASHTAG("Hashtag"),
-    MODE_MENTION("Mention"),
-    MODE_URL("Url"),
-    MODE_PHONE("Phone"),
-    MODE_EMAIL("Email"),
-    MODE_CUSTOM("Custom");
+    MODE_HASHTAG("HASHTAG"),
+    MODE_MENTION("MENTION"),
+    MODE_URL("URL"),
+    MODE_PHONE("PHONE"),
+    MODE_EMAIL("EMAIL"),
+    MODE_CUSTOM("CUSTOM");
 
     private String name;
 

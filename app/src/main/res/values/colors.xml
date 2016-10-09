@@ -9,5 +9,8 @@
     <color name="colorWhite55">#55ffffff</color>
     <color name="colorGray">#44000000</color>
     <color name="colorTransPrimaryDark">#5528788c</color>
+    <color name="colorURL">#50c8b4</color>
+    <color name="colorEmail">#b45064</color>
+    <color name="colorPhone">#6464f0</color>
 
 </resources>

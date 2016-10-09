@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import skkk.gogogo.dakainote.R;
+
 /**
  * Created by admin on 2016/10/9.
  */
@@ -23,7 +25,7 @@ import java.util.regex.Pattern;
 * 作    者：ksheng
 * 时    间：2016/10/9$ 12:24$.
 */
-public class AutoLinkEditText extends EditText{
+public class AutoLinkEditText extends EditText {
 
     static final String TAG = AutoLinkEditText.class.getSimpleName();
 
@@ -39,9 +41,9 @@ public class AutoLinkEditText extends EditText{
 
     private int mentionModeColor = DEFAULT_COLOR;
     private int hashtagModeColor = DEFAULT_COLOR;
-    private int urlModeColor = DEFAULT_COLOR;
-    private int phoneModeColor = DEFAULT_COLOR;
-    private int emailModeColor = DEFAULT_COLOR;
+    private int urlModeColor = getResources().getColor(R.color.colorURL);
+    private int phoneModeColor = getResources().getColor(R.color.colorPhone);
+    private int emailModeColor = getResources().getColor(R.color.colorEmail);
     private int customModeColor = DEFAULT_COLOR;
     private int defaultSelectedColor = Color.LTGRAY;
 

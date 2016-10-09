@@ -42,5 +42,6 @@
     <string name="menu_note_edit_image">图片</string>
     <string name="menu_note_edit_voice">录音</string>
     <string name="menu_note_edit_schedule">行事历</string>
-
+    <string name="call_phone">您选择了电话: </string>
+    <string name="open_url">您选择了网址: </string>
 </resources>

@@ -68,9 +68,19 @@
         <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
     </style>
 
+
     <style name="BottomBarStyle">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="EditGravitySettingStyle">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

@@ -10,7 +10,6 @@
 
 
     <LinearLayout
-
         android:id="@id/ll_note_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -123,7 +122,7 @@
                         android:gravity="center"
                         android:visibility="gone"/>
 
-                    <EditText
+                    <skkk.gogogo.dakainote.View.AutoLinkEditText.AutoLinkEditText
                         android:id="@id/et_first_schedule"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -133,7 +132,8 @@
                         android:hint="@string/note_edit_hint"
                         android:inputType="textMultiLine"
                         android:textColorHint="@color/colorPrimary"
-                        android:textSize="25dp"/>
+                        android:textSize="20dp"/>
+
                 </LinearLayout>
             </LinearLayout>
 

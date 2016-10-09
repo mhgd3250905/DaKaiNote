@@ -218,7 +218,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         cbItem.setPadding(0, 0, 0, 0);
         cbItem.setGravity(Gravity.CENTER);
         cbItem.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
-        cbItem.setChecked(checked);
+
 
         LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -228,10 +228,9 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setGravity(Gravity.CENTER_VERTICAL);
         etItem.setPadding(0, 0, 0, 0);
         etItem.setBackground(null);
-        etItem.setTextSize(25);
+        etItem.setTextSize(20);
         etItem.setSingleLine(true);
         etItem.setText(content);
-
 
         cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -259,10 +258,10 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
                                 && llNoteAgain.indexOfChild((LinearLayout) v.getParent())==llNoteAgain.getChildCount()-1) {
                             insertFirstItem();
                             getFouce(mPos+1);
-                        } else if (keyCode == KeyEvent.KEYCODE_DEL && isScheduleExist) {//说明只有一个基础的item，那么删除iv
+                        } else if (keyCode == KeyEvent.KEYCODE_DEL && isScheduleExist) {
+                            //说明只有一个基础的item，那么删除iv
                             if (myApplication.getChildCountInScheduleItem() == 2
                                     && TextUtils.isEmpty(etItem.getText().toString())) {
-
                                 cbItem.setVisibility(View.GONE);
                                 myApplication.setChildCountInScheduleItem(1);
                             } else if (myApplication.getChildCountInScheduleItem() == 1
@@ -285,7 +284,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         llItem.addView(etItem);
 
         llNoteAgain.addView(llItem);
-
+        cbItem.setChecked(checked);
     }
 
 

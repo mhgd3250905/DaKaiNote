@@ -123,6 +123,8 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     */
 
     private void initShowUI() {
+        /* @描述 设置对齐方式 */
+        etFirstSchedule.setGravity(inetntNote.getGravity());
         /* @描述 设置标题 */
         etNoteDetailTitle.setText(inetntNote.getTitle());
         /* @描述 设置时间 */
@@ -135,7 +137,7 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
             ivPin.setVisibility(View.INVISIBLE);
         }
         /* @描述 设置内容 */
-        etFirstSchedule.setText(inetntNote.getContent());
+        etFirstSchedule.setAutoLinkText(inetntNote.getContent());
 
         /* @描述 先把fragment搁好 */
         mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);
@@ -186,8 +188,8 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
                 etFirstSchedule.setSingleLine(true);
                 nsvEditAgain.setFillViewport(false);
                 if (i==0){
-                    cbfirstSchedule.setChecked(scheduleList.get(0).isScheduleChecked());
                     etFirstSchedule.setText(scheduleList.get(0).getScheduleContent());
+                    cbfirstSchedule.setChecked(scheduleList.get(0).isScheduleChecked());
                 }else {
                     insertFirstItem(scheduleList.get(i).isScheduleChecked(),
                             scheduleList.get(i).getScheduleContent());

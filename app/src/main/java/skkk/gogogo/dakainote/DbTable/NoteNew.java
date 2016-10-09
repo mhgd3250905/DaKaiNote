@@ -25,13 +25,11 @@ public class NoteNew extends DataSupport implements Serializable {
     private boolean voiceExist;
     private boolean scheduleIsExist;
     private long keyNum;
-
-
+    private int gravity;
 
     private List<Image> imageList = new ArrayList<Image>();
     private List<Voice> voiceList = new ArrayList<Voice>();
     private List<Schedule> scheduleList = new ArrayList<Schedule>();
-
 
     /*
      *
@@ -156,6 +154,14 @@ public class NoteNew extends DataSupport implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(int gravity) {
+        this.gravity = gravity;
     }
 
     @Override

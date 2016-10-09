@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="40dp"
+              android:layout_height="50dp"
               android:background="@color/colorWhite"
               android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@id/bottom_bar_contack"
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_gravity_left"/>
+
+    <ImageView
+        android:id="@id/bottom_bar_time"
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_bottom_time"/>
 
     <ImageView
         android:id="@id/bottom_bar_bold"
@@ -20,15 +31,6 @@
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_bottom_next"/>
 
-    <ImageView
-        android:id="@id/bottom_bar_contack"
-        style="@style/BottomBarStyle"
-        android:src="@drawable/vector_drawable_bottom_person"/>
-
-    <ImageView
-        android:id="@id/bottom_bar_time"
-        style="@style/BottomBarStyle"
-        android:src="@drawable/vector_drawable_bottom_time"/>
 
     <ImageView
         android:id="@id/bottom_bar_pin"

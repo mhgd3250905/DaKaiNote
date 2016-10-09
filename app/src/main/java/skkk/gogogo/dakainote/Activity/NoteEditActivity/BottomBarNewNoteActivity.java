@@ -3,6 +3,7 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 import android.animation.ObjectAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -46,6 +48,7 @@ import skkk.gogogo.dakainote.MyUtils.EditUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.AutoLinkEditText.LinkTouchMovementMethod;
 
 /**
  * Created by admin on 2016/8/26.
@@ -85,6 +88,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
             }
         }
     };
+    private AlertDialog mDialog;
 
 
     /*
@@ -121,10 +125,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     }
 
     private void initEtEvent() {
-
         /* @描述 添加空文本 */
-
-
         etFirstSchedule.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -148,6 +149,18 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                         LogUtils.Log("完成记录  " + s.toString());
                     }
                 }
+
+                if (!checkString.equals(etFirstSchedule.getText().toString())) {
+                    checkString=etFirstSchedule.getText().toString();
+                    SpannableString spannableString = etFirstSchedule.makeSpannableString(s.toString());
+                    int start = etFirstSchedule.getSelectionStart();
+                    etFirstSchedule.setText(spannableString);
+                    etFirstSchedule.setMovementMethod(new LinkTouchMovementMethod());
+                    Log.d("skkk", "检查了一遍~");
+                    etFirstSchedule.setSelection(start);
+                    checkFlag = false;
+                }
+
             }
         });
     }
@@ -185,13 +198,48 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
             }
         });
 
-        /* @描述 点击选择通讯录加入 */
+        /* @描述 点击选择对齐方式 */
         ivNoteEditContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        ContactsContract.Contacts.CONTENT_URI);
-                BottomBarNewNoteActivity.this.startActivityForResult(intent, SELECT_PERSON_FROM_CONTACT);
+                AlertDialog.Builder builder=new AlertDialog.Builder(BottomBarNewNoteActivity.this);
+                boolean[] gravityCheck=new boolean[]{true,false,false};
+                int gravityIndex = sPerf.getInt("edit_gravity", 0);
+                for (int i = 0; i < 3; i++) {
+                    if (i==gravityIndex){
+                        gravityCheck[i]=true;
+                    }else {
+                        gravityCheck[i]=false;
+                    }
+                }
+                builder.setMultiChoiceItems(new String[]{"左对齐", "居中", "右对齐"},
+                        gravityCheck,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                switch (which) {
+                                    case 0:
+                                        etFirstSchedule.setGravity(Gravity.LEFT | Gravity.TOP);
+                                        sPerf.edit().putInt("edit_gravity",0).commit();
+                                        dialog.dismiss();
+                                        break;
+                                    case 1:
+                                        etFirstSchedule.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+                                        sPerf.edit().putInt("edit_gravity",1).commit();
+                                        dialog.dismiss();
+                                        break;
+                                    case 2:
+                                        etFirstSchedule.setGravity(Gravity.RIGHT | Gravity.TOP);
+                                        sPerf.edit().putInt("edit_gravity",2).commit();
+                                        dialog.dismiss();
+                                        break;
+                                }
+                            }
+                        }
+                );
+                builder.setTitle("请选择文字对齐方式");
+                mDialog = builder.create();
+                builder.show();
             }
         });
         /* @描述 点击加入时间 */
@@ -229,7 +277,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
           *
           * */
 
-
         /* @描述 点击返回文字上一步 */
         ivNoteEditBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +286,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     change = false;
 
                     TextPeriousCache last = DataSupport.findLast(TextPeriousCache.class);
-
                     TextNextCache textNextCache = new TextNextCache();
                     textNextCache.setView_name(last.getView_name());
                     textNextCache.setContent(last.getContent());
@@ -428,6 +474,9 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     private void saveNoteData() {
 
         isStore = false;
+        /* @描述 保存对齐方式 */
+        note.setGravity(sPerf.getInt("edit_gravity",0));
+
         /* @描述 保存标题 */
         if (!TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
             note.setTitle(etNoteDetailTitle.getText().toString());
@@ -563,6 +612,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
         Log.d("SKKK_____", "requestCode:  " + requestCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                /* @描述 相机返回值 */
                 case REQUEST_IMAGE_CAPTURE:
                     fl_note_iamge.setVisibility(View.VISIBLE);
                     //设置图片存在
@@ -578,6 +628,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     LogUtils.Log("这里是onActivityResult");
                     isDelete = true;
                     break;
+                /* @描述 相册返回值 */
                 case PHOTO_REQUEST_GALLERY:
                     if (data != null) {
                         fl_note_iamge.setVisibility(View.VISIBLE);
@@ -586,7 +637,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                         Uri uriImageFromGallery = data.getData();
                         LogUtils.Log(CameraImageUtils.getAbsoluteImagePath(BottomBarNewNoteActivity.this,
                                 uriImageFromGallery));
-
 
                         ImageCache imageCacheGallery = new ImageCache();
                         imageCacheGallery.setNoteKey(noteKey);
@@ -598,6 +648,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                         mImageNewNoteFragment.insertImage(noteKey);
                     }
                     break;
+                /* @描述 通讯录返回值 */
                 case SELECT_PERSON_FROM_CONTACT:
                     if (data == null) {
                         return;

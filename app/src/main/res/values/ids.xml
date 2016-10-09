@@ -102,6 +102,9 @@
     <item name="bottom_bar_pin" type="id">bottom_bar_pin</item>
     <item name="bottom_bar_next" type="id">bottom_bar_next</item>
     <item name="iv_image_show" type="id">iv_image_show</item>
+    <item name="rb_edit_gravity_left" type="id">rb_edit_gravity_left</item>
+    <item name="rb_edit_gravity_right" type="id">rb_edit_gravity_right</item>
+    <item name="rb_edit_gravity_center" type="id">rb_edit_gravity_center</item>
 
 
 </resources>
