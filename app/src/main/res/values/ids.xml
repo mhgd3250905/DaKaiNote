@@ -95,7 +95,6 @@
     <item name="menu_note_edit_image" type="id">menu_note_edit_image</item>
     <item name="menu_note_edit_voice" type="id">menu_note_edit_voice</item>
     <item name="menu_note_edit_schedule" type="id">menu_note_edit_schedule</item>
-    <item name="bottom_bar_bold" type="id">bottom_bar_bold</item>
     <item name="bottom_bar_back" type="id">bottom_bar_back</item>
     <item name="bottom_bar_contack" type="id">bottom_bar_contact</item>
     <item name="bottom_bar_time" type="id">bottom_bar_time</item>
@@ -105,6 +104,7 @@
     <item name="rb_edit_gravity_left" type="id">rb_edit_gravity_left</item>
     <item name="rb_edit_gravity_right" type="id">rb_edit_gravity_right</item>
     <item name="rb_edit_gravity_center" type="id">rb_edit_gravity_center</item>
+    <item name="bottom_bar_separate" type="id">bottom_bar_separate</item>
 
 
 </resources>

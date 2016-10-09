@@ -1,7 +1,6 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
@@ -24,8 +23,6 @@ public class VoiceNewNoteActivity extends ShowNewNoteActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //设置NestedScrollView
-        nsvNoteDetail= (NestedScrollView) findViewById(R.id.nsv_note_detail);
         //设置录音按钮
         rbVoice= (RecordButton) findViewById(R.id.rb_voice);
         rbVoice.setAudioRecord(new AudioRecorder());

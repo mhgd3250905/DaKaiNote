@@ -99,11 +99,7 @@ public class NoteListFragment extends Fragment {
         /* @描述 添加间距 */
         rvNoteList.addItemDecoration(mDecoration);
         /* @描述 添加布局 */
-        if (noteStyle == NOTE_STYLE_CARD) {
-            rvNoteList.setLayoutManager(mStaggeredGridLayoutManager);
-        } else if (noteStyle == NOTE_STYLE_LINEAR) {
-            rvNoteList.setLayoutManager(mLayoutManager);
-        }
+        rvNoteList.setLayoutManager(mStaggeredGridLayoutManager);
         /* @描述 设置基本动画 */
         rvNoteList.setItemAnimator(new DefaultItemAnimator());
         /* @描述 rvNoteList */

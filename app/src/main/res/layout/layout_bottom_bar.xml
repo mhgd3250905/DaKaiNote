@@ -17,9 +17,9 @@
         android:src="@drawable/vector_drawable_bottom_time"/>
 
     <ImageView
-        android:id="@id/bottom_bar_bold"
+        android:id="@id/bottom_bar_separate"
         style="@style/BottomBarStyle"
-        android:src="@drawable/vector_drawable_bottom_bold"/>
+        android:src="@drawable/vector_drawable_separate"/>
 
     <ImageView
         android:id="@id/bottom_bar_back"

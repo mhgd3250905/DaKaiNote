@@ -81,6 +81,13 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
                             if (count == 1&& llNoteAgain.getChildCount()==1) {//说明只有一个基础的item，那么删除iv
                                 cbfirstSchedule.setVisibility(View.GONE);
                                 isScheduleExist = false;
+                                nsvEditAgain.setFillViewport(true);
+                                LinearLayout.LayoutParams paramsEt = new LinearLayout.LayoutParams(
+                                        ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.MATCH_PARENT);
+                                etFirstSchedule.setLayoutParams(paramsEt);
+                                etFirstSchedule.setGravity(Gravity.TOP | Gravity.LEFT);
+                                etFirstSchedule.setSingleLine(false);
                             }
                         }
                         break;
@@ -138,7 +145,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setGravity(Gravity.CENTER_VERTICAL);
         etItem.setPadding(0, 0, 0, 0);
         etItem.setBackground(null);
-        etItem.setTextSize(25);
+        etItem.setTextSize(20);
         etItem.setSingleLine(true);
 
 

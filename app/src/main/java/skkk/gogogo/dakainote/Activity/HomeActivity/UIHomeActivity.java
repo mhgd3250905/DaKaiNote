@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -234,7 +233,7 @@ public class UIHomeActivity extends BaseHomeActivity
 //            NoteListFragment noteListFragment = (NoteListFragment) getSupportFragmentManager().
 //                    findFragmentById(R.id.fl_home);
 //            noteListFragment.smoothScrollToTop();
-            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            Snackbar.make(flHome, "再按一次退出程序",Snackbar.LENGTH_SHORT).show();
             tExit = new Timer();
             tExit.schedule(new TimerTask() {
                 @Override
@@ -259,11 +258,12 @@ public class UIHomeActivity extends BaseHomeActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         switch (item.getItemId()){
+            /* @描述 点击切换到全部笔记展示页面 */
             case R.id.nav_list:
 
                 myNotes = SQLUtils.getNoteList();
                 if (myNotes.size()==0){
-                    Snackbar.make(flHome,"没有笔记...",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(flHome,"点击按钮新增笔记...",Snackbar.LENGTH_SHORT).show();
                 }else{
                     noteListFragment.updateAll(myNotes);
                 }
@@ -272,16 +272,40 @@ public class UIHomeActivity extends BaseHomeActivity
                         .replace(R.id.fl_home, noteListFragment)
                         .commit();
                 break;
+            /* @描述 点击切换到pin笔记列表 */
             case R.id.nav_pin:
 
+                myNotes = SQLUtils.getPinNoteList();
+                if (myNotes.size()==0){
+                    Snackbar.make(flHome,"没有pin笔记...",Snackbar.LENGTH_SHORT).show();
+                }else{
+                    noteListFragment.updateAll(myNotes);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fl_home, noteListFragment)
+                            .commit();
+                }
                 break;
+            /* @描述 点击切换到图片展示页面
+             * 点击图片应该跳转到响应的图片Note中 */
             case R.id.nav_image:
-                /* @描述 点击切换到图片展示页面 */
                 startShowImageThread();
                 break;
-            case R.id.nav_voice:
 
+            /* @描述 点击切换到声音笔记列表 */
+            case R.id.nav_voice:
+                myNotes = SQLUtils.getVoiceNoteList();
+                if (myNotes.size()==0){
+                    Snackbar.make(flHome,"没有录音笔记...",Snackbar.LENGTH_SHORT).show();
+                }else{
+                    noteListFragment.updateAll(myNotes);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fl_home, noteListFragment)
+                            .commit();
+                }
                 break;
+
             case R.id.nav_setting:
 
                 break;

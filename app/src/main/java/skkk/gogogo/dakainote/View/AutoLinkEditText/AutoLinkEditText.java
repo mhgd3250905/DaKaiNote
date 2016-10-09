@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
@@ -68,9 +69,11 @@ public class AutoLinkEditText extends EditText {
 
 
     public void setAutoLinkText(String text) {
-        SpannableString spannableString = makeSpannableString(text);
-        setText(spannableString);
-        setMovementMethod(new LinkTouchMovementMethod());
+        if (!TextUtils.isEmpty(text)) {
+            SpannableString spannableString = makeSpannableString(text);
+            setText(spannableString);
+            setMovementMethod(new LinkTouchMovementMethod());
+        }
     }
 
     public SpannableString makeSpannableString(String text) {

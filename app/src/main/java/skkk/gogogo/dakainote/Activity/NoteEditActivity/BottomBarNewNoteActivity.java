@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -65,7 +66,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
     protected final static int PHOTO_REQUEST_GALLERY = 914;
     protected final static int SELECT_PERSON_FROM_CONTACT = 928;
-    protected ImageView ivNoteEditBold;
+    protected ImageView ivNoteEditSeparate;
     protected ImageView ivNoteEditBack;
     protected ImageView ivNoteEditContact;
     protected ImageView ivNoteEditTime;
@@ -171,7 +172,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     *
     */
     private void initBottomBar() {
-        ivNoteEditBold = (ImageView) findViewById(R.id.bottom_bar_bold);
+        ivNoteEditSeparate = (ImageView) findViewById(R.id.bottom_bar_separate);
         ivNoteEditBack = (ImageView) findViewById(R.id.bottom_bar_back);
         ivNoteEditContact = (ImageView) findViewById(R.id.bottom_bar_contack);
         ivNoteEditTime = (ImageView) findViewById(R.id.bottom_bar_time);
@@ -191,10 +192,17 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
             }
         });
         /* @描述  */
-        ivNoteEditBold.setOnClickListener(new View.OnClickListener() {
+        ivNoteEditSeparate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (isScheduleExist){
+                    Snackbar.make(llNoteAgain,"行事历状态无法插入分隔符",Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                etFirstSchedule.append("\n");
+                etFirstSchedule.append("▶▶▶▶▶▶▶▶");
+                etFirstSchedule.append("\n");
+                etFirstSchedule.setSelection(etFirstSchedule.getText().length());
             }
         });
 
@@ -202,6 +210,10 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
         ivNoteEditContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isScheduleExist){
+                    Snackbar.make(llNoteAgain,"行事历状态无法调节对齐方式",Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 AlertDialog.Builder builder=new AlertDialog.Builder(BottomBarNewNoteActivity.this);
                 boolean[] gravityCheck=new boolean[]{true,false,false};
                 int gravityIndex = sPerf.getInt("edit_gravity", 0);
@@ -246,6 +258,10 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
         ivNoteEditTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isScheduleExist){
+                    Snackbar.make(llNoteAgain,"行事历状态无法插入时间",Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 MyViewUtils.getFoucs(etFirstSchedule);
                 String time = DateUtils.getTime();
                 if (etFirstSchedule.getLineCount() == 1 &&
@@ -366,6 +382,8 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
         int id = item.getItemId();
         //根据菜单判断
         switch (id) {
+
+            /* @描述 点击图片按钮 */
             case R.id.menu_note_edit_image:
 
                 /* @描述 设置dialogView */
@@ -419,6 +437,8 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 imageDialog.show();
 
                 break;
+
+            /* @描述 点击录音按钮 */
             case R.id.menu_note_edit_voice:
 
                 if (rbVoice.getVisibility() == View.VISIBLE) {
@@ -427,11 +447,10 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     rbVoice.setVisibility(View.VISIBLE);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
-
                 }
 
                 break;
+            /* @描述 点击Schedule按钮 */
             case R.id.menu_note_edit_schedule:
 
                 if (!isScheduleExist) {
@@ -455,7 +474,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
                     etFirstSchedule.setPadding(0, 0, 0, 0);
                     etFirstSchedule.setBackground(null);
-                    etFirstSchedule.setTextSize(25);
+                    etFirstSchedule.setTextSize(20);
                     etFirstSchedule.setSingleLine(true);
                     MyViewUtils.getFoucs(etFirstSchedule);
                 }
@@ -562,10 +581,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 isStore = true;
             }
         }
-
-        /* @描述 保存Schedule */
-        //获取到缓存中的图片
-        MyViewUtils.getFoucs(llNoteDetail);
 
         /* @描述 保存note */
         if (isStore) {
