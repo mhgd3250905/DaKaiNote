@@ -16,7 +16,7 @@ import android.widget.TextView;
 * 作    者：ksheng
 * 时    间：2016/10/9$ 12:23$.
 */
-class LinkTouchMovementMethod extends LinkMovementMethod {
+public class LinkTouchMovementMethod extends LinkMovementMethod {
 
     private TouchableSpan pressedSpan;
 

@@ -54,9 +54,16 @@ public class AutoLinkEditText extends EditText{
     }
 
     @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, type);
+    }
+
+
+    @Override
     public void setHighlightColor(int color) {
         super.setHighlightColor(Color.TRANSPARENT);
     }
+
 
     public void setAutoLinkText(String text) {
         SpannableString spannableString = makeSpannableString(text);
@@ -64,7 +71,7 @@ public class AutoLinkEditText extends EditText{
         setMovementMethod(new LinkTouchMovementMethod());
     }
 
-    private SpannableString makeSpannableString(String text) {
+    public SpannableString makeSpannableString(String text) {
 
         final SpannableString spannableString = new SpannableString(text);
 
