@@ -46,6 +46,9 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     //MyScheduleThread myScheduleThread;
 
     protected boolean isDelete=true;
+
+
+
     /* @描述 用来设置isDelete */
     public void setIsDelete(boolean isDelete) {
         this.isDelete = isDelete;

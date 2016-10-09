@@ -4,9 +4,7 @@ import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
 
-/**
- * Created by admin on 2016/9/28.
- */
+
 /*
 * 
 * 描    述：保存EditText文字缓存

@@ -4,9 +4,7 @@ import org.litepal.crud.DataSupport;
 
 import java.io.Serializable;
 
-/**
- * Created by admin on 2016/9/29.
- */
+
 /*
 * 
 * 描    述：

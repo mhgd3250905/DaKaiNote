@@ -17,6 +17,7 @@
         <include
             layout="@layout/view_blank_tip"
             android:id="@id/ll_blank_tip"/>
+
     </FrameLayout>
 
 

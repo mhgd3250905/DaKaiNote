@@ -70,9 +70,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected ImageView ivNoteEditNext;
     protected Boolean etBold = false;//用来判断文字是否加粗的flag
     boolean change = true;
-    protected int backNum = 0;
-    protected boolean fromSys;
-    protected List<TextPeriousCache> all;
 
     /* @描述 用来jieshou */
     protected Handler mHandler = new Handler() {
@@ -285,12 +282,9 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
 
                     last.delete();
                     change = true;
-
                 }
-
             }
         });
-
     }
 
 

@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +93,7 @@ public class NoteListFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         /* @描述 设置布局管理器 */
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mStaggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         /* @描述 设置间距 */
         mDecoration = new SpacesItemDecoration(0);
         /* @描述 添加间距 */
@@ -127,9 +129,11 @@ public class NoteListFragment extends Fragment {
                     intent.putExtra("pos", position);
                     intent.setClass(getContext(), BottomBarNewNoteActivity.class);
 
+
                     LogUtils.Log("这里是点击事件定位的note，id为" + noteShow.getId());
                     LogUtils.Log("note: " + noteShow.toString());
                     getActivity().startActivity(intent);
+
                 } else {
                     /* @描述 如果是编辑状态那么点击fab执行删除操作 */
                     View position1 = mStaggeredGridLayoutManager.findViewByPosition(position);
@@ -159,6 +163,9 @@ public class NoteListFragment extends Fragment {
         for (int i = myNotes.size() - 1; i >= 0; i--) {
             View positionView = mStaggeredGridLayoutManager.findViewByPosition(i);
             if (positionView instanceof CardView) {
+
+                DataSupport.delete(NoteNew.class, myNotes.get(i).getId());
+
                 MyNoteView myNoteViewPos = (MyNoteView) ((CardView) positionView).getChildAt(0);
                 if (myNoteViewPos.isDeleteChecked()) {
                     deleteItemPos(i);

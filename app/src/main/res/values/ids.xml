@@ -101,6 +101,7 @@
     <item name="bottom_bar_time" type="id">bottom_bar_time</item>
     <item name="bottom_bar_pin" type="id">bottom_bar_pin</item>
     <item name="bottom_bar_next" type="id">bottom_bar_next</item>
+    <item name="iv_image_show" type="id">iv_image_show</item>
 
 
 </resources>
