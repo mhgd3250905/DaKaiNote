@@ -289,6 +289,7 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("SKKK_____", "requestCode:  " + requestCode);
+
         if(requestCode==REQUEST_NOTE_IMAGE_DELETE&&resultCode==RESULT_OK){
             LogUtils.Log("你选择了删除图片");
             /* @描述 在图片详情界面选择了删除图片*/
@@ -312,6 +313,13 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
             mImageNewNoteFragment.updateAll(imageInItem);
             if (imageInItem.size()==0){
                 fl_note_iamge.setVisibility(View.GONE);
+                /* @描述 把图片存在flag设置为false
+                 * 如果是展示页面就把展示页面的note设置图片不存在
+                  * 主要是为了解决在软键盘出现消失的时候fl_image的显示问题*/
+                isImageExist=false;
+                if (inetntNote!=null){
+                    inetntNote.setImageIsExist(false);
+                }
             }
         }
     }

@@ -21,7 +21,6 @@ import skkk.gogogo.dakainote.R;
 */
 public class MyNoteView extends RelativeLayout {
 
-
     private TextView tvViewTitle;
     private TextView tvViewTitleTime;
     private TextView tvViewContent;
@@ -32,7 +31,6 @@ public class MyNoteView extends RelativeLayout {
     private CheckBox cbNoteDeleteCheck;
     private LinearLayout llNoteListFlag;
     private boolean deleteChecked = false;
-
 
     public MyNoteView(Context context) {
         super(context);
@@ -59,9 +57,9 @@ public class MyNoteView extends RelativeLayout {
         ivViewNote = (ImageView) findViewById(R.id.iv_view_note_image);
         ivViewPin = (ImageView) findViewById(R.id.iv_view_note_pin);
         ivViewVoice = (ImageView) findViewById(R.id.iv_view_note_voice);
-        ivViewSchedule= (ImageView) findViewById(R.id.iv_view_note_schedule);
+        ivViewSchedule = (ImageView) findViewById(R.id.iv_view_note_schedule);
         cbNoteDeleteCheck = (CheckBox) findViewById(R.id.cb_note_delete_check);
-        llNoteListFlag= (LinearLayout) findViewById(R.id.ll_note_list_flag);
+        llNoteListFlag = (LinearLayout) findViewById(R.id.ll_note_list_flag);
 
         /* @描述 cbNoteDeleteCheck 的check监听事件 */
         cbNoteDeleteCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -87,10 +85,10 @@ public class MyNoteView extends RelativeLayout {
 
 
     /* @描述 设置Card中下栏图标的显示 */
-    public void setImageFlagShow(boolean show){
-        if (show){
+    public void setImageFlagShow(boolean show) {
+        if (show) {
             llNoteListFlag.setVisibility(VISIBLE);
-        }else {
+        } else {
             llNoteListFlag.setVisibility(GONE);
         }
     }
@@ -158,7 +156,7 @@ public class MyNoteView extends RelativeLayout {
             //显示
             cbNoteDeleteCheck.setVisibility(VISIBLE);
             cbNoteDeleteCheck.setChecked(false);
-        }else {
+        } else {
             //隐藏
             cbNoteDeleteCheck.setVisibility(GONE);
         }
@@ -168,10 +166,10 @@ public class MyNoteView extends RelativeLayout {
     * @方法 设置checkbox勾选
     *
     */
-    public void setCheckboxStatus(boolean check){
-        if (check){
+    public void setCheckboxStatus(boolean check) {
+        if (check) {
             cbNoteDeleteCheck.setChecked(true);
-        }else {
+        } else {
             cbNoteDeleteCheck.setChecked(false);
         }
     }
@@ -180,7 +178,7 @@ public class MyNoteView extends RelativeLayout {
     * @方法 获取checkbox的勾选状态
     *
     */
-    public boolean getCheckboxStatus(){
+    public boolean getCheckboxStatus() {
         return cbNoteDeleteCheck.isChecked();
     }
 

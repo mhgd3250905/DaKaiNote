@@ -69,8 +69,22 @@ public class SQLUtils {
     public static List<NoteNew> getVoiceNoteList(){
         List<NoteNew> noteList=new ArrayList<NoteNew>();
         int j=0;
-        for (int i= DataSupport.where("pinisexist = ?","1").find(NoteNew.class).size()-1;i>=0;i--){
-            noteList.add(j, DataSupport.where("pinisexist = ?","1").find(NoteNew.class).get(i));
+        for (int i= DataSupport.where("voiceexist = ?","1").find(NoteNew.class).size()-1;i>=0;i--){
+            noteList.add(j, DataSupport.where("voiceexist = ?","1").find(NoteNew.class).get(i));
+            j++;
+        }
+        return noteList;
+    }
+
+    /*
+  * @方法 获取数据库中所有Schedule的
+  *
+  */
+    public static List<NoteNew> getScheduleNoteList(){
+        List<NoteNew> noteList=new ArrayList<NoteNew>();
+        int j=0;
+        for (int i= DataSupport.where("scheduleisexist = ?","1").find(NoteNew.class).size()-1;i>=0;i--){
+            noteList.add(j, DataSupport.where("scheduleisexist = ?","1").find(NoteNew.class).get(i));
             j++;
         }
         return noteList;

@@ -140,14 +140,14 @@
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
-
+        <include
+            layout="@layout/layout_bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"/>
     </LinearLayout>
 
-    <include
-        layout="@layout/layout_bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"/>
+
 
     <skkk.gogogo.dakainote.View.RecordButton
         android:id="@id/rb_voice"

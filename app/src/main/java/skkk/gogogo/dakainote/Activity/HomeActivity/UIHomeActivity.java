@@ -46,10 +46,11 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 public class UIHomeActivity extends BaseHomeActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     protected NoteListFragment noteListFragment;
-    private List<NoteNew> myNotes;
-    private FloatingActionButton fab;
+    protected List<NoteNew> myNotes;
+    protected FloatingActionButton fab;
     protected FrameLayout flHome;
-    private int fabFlagInActivity=1;
+    protected int fabFlagInActivity=1;
+    protected Toolbar mToolbar;
 
 
     @Override
@@ -72,19 +73,18 @@ public class UIHomeActivity extends BaseHomeActivity
 
         flHome= (FrameLayout) findViewById(R.id.fl_home);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_home);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         //添加菜单
-        toolbar.inflateMenu(R.menu.note_style);
+        mToolbar.inflateMenu(R.menu.note_style);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -169,14 +169,16 @@ public class UIHomeActivity extends BaseHomeActivity
         //根据菜单判断
         switch (id){
             case R.id.menu_tb_notelist_linear:
-                noteListFragment.setNoteStyle(1);
-                getSupportFragmentManager().beginTransaction().
-                        replace(R.id.fl_home, noteListFragment).commit();
+                noteListFragment.setLayoutFlag(0);
+                sPref.edit().putInt("note_style",0).commit();
                 break;
-            case R.id.menu_tb_notelist_card:
-                noteListFragment.setNoteStyle(2);
-                getSupportFragmentManager().beginTransaction().
-                        replace(R.id.fl_home, noteListFragment).commit();
+            case R.id.menu_tb_notelist_stagger:
+                noteListFragment.setLayoutFlag(1);
+                sPref.edit().putInt("note_style",1).commit();
+                break;
+            case R.id.menu_tb_notelist_grid:
+                noteListFragment.setLayoutFlag(2);
+                sPref.edit().putInt("note_style",2).commit();
                 break;
         }
 
@@ -260,7 +262,6 @@ public class UIHomeActivity extends BaseHomeActivity
         switch (item.getItemId()){
             /* @描述 点击切换到全部笔记展示页面 */
             case R.id.nav_list:
-
                 myNotes = SQLUtils.getNoteList();
                 if (myNotes.size()==0){
                     Snackbar.make(flHome,"点击按钮新增笔记...",Snackbar.LENGTH_SHORT).show();
@@ -274,7 +275,7 @@ public class UIHomeActivity extends BaseHomeActivity
                 break;
             /* @描述 点击切换到pin笔记列表 */
             case R.id.nav_pin:
-
+                mToolbar.setTitle("PIN笔记");
                 myNotes = SQLUtils.getPinNoteList();
                 if (myNotes.size()==0){
                     Snackbar.make(flHome,"没有pin笔记...",Snackbar.LENGTH_SHORT).show();
@@ -289,14 +290,39 @@ public class UIHomeActivity extends BaseHomeActivity
             /* @描述 点击切换到图片展示页面
              * 点击图片应该跳转到响应的图片Note中 */
             case R.id.nav_image:
-                startShowImageThread();
+                mToolbar.setTitle("图片笔记");
+                myNotes = SQLUtils.getImageNoteList();
+                if (myNotes.size()==0){
+                    Snackbar.make(flHome,"没有图片笔记...",Snackbar.LENGTH_SHORT).show();
+                }else{
+                    noteListFragment.updateAll(myNotes);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fl_home, noteListFragment)
+                            .commit();
+                }
                 break;
 
             /* @描述 点击切换到声音笔记列表 */
             case R.id.nav_voice:
+                mToolbar.setTitle("录音笔记");
                 myNotes = SQLUtils.getVoiceNoteList();
                 if (myNotes.size()==0){
                     Snackbar.make(flHome,"没有录音笔记...",Snackbar.LENGTH_SHORT).show();
+                }else{
+                    noteListFragment.updateAll(myNotes);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fl_home, noteListFragment)
+                            .commit();
+                }
+                break;
+            /* @描述 点击切换到声音笔记列表 */
+            case R.id.nav_schedule:
+                mToolbar.setTitle("录音笔记");
+                myNotes = SQLUtils.getScheduleNoteList();
+                if (myNotes.size()==0){
+                    Snackbar.make(flHome,"没有行事历...",Snackbar.LENGTH_SHORT).show();
                 }else{
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()

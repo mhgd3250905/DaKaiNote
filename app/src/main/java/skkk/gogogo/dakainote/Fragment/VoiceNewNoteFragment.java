@@ -22,7 +22,6 @@ import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
-import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 import skkk.gogogo.dakainote.R;
 
 /**
@@ -42,8 +41,6 @@ public class VoiceNewNoteFragment extends Fragment {
     private RecyclerView rvNoteImageList;
     private NoteVoiceListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
-    private SpacesItemDecoration mDecoration;
-    private int REQUEST_NOTE_IMAGE_DELETE = 13;
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

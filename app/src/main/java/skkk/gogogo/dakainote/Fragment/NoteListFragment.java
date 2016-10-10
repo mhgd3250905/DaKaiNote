@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -45,21 +46,50 @@ public class NoteListFragment extends Fragment {
     protected RecyclerView rvNoteList;
     protected LinearLayout llBlankTip;
     protected UIHomeActivity mUiHomeActivity;
-    private LinearLayoutManager mLayoutManager;
+    private LinearLayoutManager mLinearLayoutManager;
     private StaggeredGridLayoutManager mStaggeredGridLayoutManager;
+    private GridLayoutManager mGridLayoutManager;
 
     private SpacesItemDecoration mDecoration;
-    private static int NOTE_STYLE_LINEAR = 1;
-    private static int NOTE_STYLE_CARD = 2;
-    private int noteStyle = 2;
+    private int layoutFlag=1;//0就是瀑布流 1就是list布局 2就是标准卡片布局
 
+    /* @描述 设置布局参数 */
+    public void setLayoutFlag(int layoutFlag) {
+        this.layoutFlag = layoutFlag;
+        switch (layoutFlag){
+            case 0:
+                /* @描述 设置布局管理器 */
+                mLinearLayoutManager = new LinearLayoutManager(getContext());
+                mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                 /* @描述 添加布局 */
+                rvNoteList.setLayoutManager(mLinearLayoutManager);
+                break;
+            case 1:
+                /* @描述 设置布局管理器 */
+                mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                /* @描述 添加布局 */
+                rvNoteList.setLayoutManager(mStaggeredGridLayoutManager);
+                break;
+            case 2:
+                 /* @描述 设置布局管理器 */
+                mGridLayoutManager=new GridLayoutManager(getContext(),2);
+                 /* @描述 添加布局 */
+                rvNoteList.setLayoutManager(mGridLayoutManager);
+                break;
+        }
+
+    }
+
+
+    public NoteListFragment(int layoutFlag) {
+        this.layoutFlag = layoutFlag;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_note_list, container, false);
-
         beforeStart();
         initUI(view);
         initEvent();
@@ -89,17 +119,32 @@ public class NoteListFragment extends Fragment {
         llBlankTip = (LinearLayout) view.findViewById(R.id.ll_blank_tip);
         /* @描述 设置Adapter */
         adapter = new NoteListAdapter(getContext(), myNotes);
-        /* @描述 设置布局管理器 */
-        mLayoutManager = new LinearLayoutManager(getContext());
-        /* @描述 设置布局管理器 */
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        switch (layoutFlag){
+            case 0:
+                /* @描述 设置布局管理器 */
+                mLinearLayoutManager = new LinearLayoutManager(getContext());
+                mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                 /* @描述 添加布局 */
+                rvNoteList.setLayoutManager(mLinearLayoutManager);
+                break;
+            case 1:
+                /* @描述 设置布局管理器 */
+                mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                /* @描述 添加布局 */
+                rvNoteList.setLayoutManager(mStaggeredGridLayoutManager);
+                break;
+            case 2:
+                 /* @描述 设置布局管理器 */
+                mGridLayoutManager=new GridLayoutManager(getContext(),2);
+                 /* @描述 添加布局 */
+                rvNoteList.setLayoutManager(mGridLayoutManager);
+                break;
+        }
+
         /* @描述 设置间距 */
         mDecoration = new SpacesItemDecoration(0);
         /* @描述 添加间距 */
         rvNoteList.addItemDecoration(mDecoration);
-        /* @描述 添加布局 */
-        rvNoteList.setLayoutManager(mStaggeredGridLayoutManager);
         /* @描述 设置基本动画 */
         rvNoteList.setItemAnimator(new DefaultItemAnimator());
         /* @描述 rvNoteList */
@@ -132,7 +177,18 @@ public class NoteListFragment extends Fragment {
 
                 } else {
                     /* @描述 如果是编辑状态那么点击fab执行删除操作 */
-                    View position1 = mStaggeredGridLayoutManager.findViewByPosition(position);
+                    View position1=null;
+                    switch (layoutFlag){
+                        case 0:
+                            position1 = mLinearLayoutManager.findViewByPosition(position);
+                            break;
+                        case 1:
+                            position1 = mStaggeredGridLayoutManager.findViewByPosition(position);
+                            break;
+                        case 2:
+                            position1=mGridLayoutManager.findViewByPosition(position);
+                            break;
+                    }
                     MyNoteView myNoteViewPos = (MyNoteView) ((CardView) position1).getChildAt(0);
                     if (myNoteViewPos.getCheckboxStatus()) {
                         myNoteViewPos.setCheckboxStatus(false);
@@ -157,11 +213,20 @@ public class NoteListFragment extends Fragment {
     */
     public void deleteSelectedItem() {
         for (int i = myNotes.size() - 1; i >= 0; i--) {
-            View positionView = mStaggeredGridLayoutManager.findViewByPosition(i);
+            View positionView=null;
+            switch (layoutFlag){
+                case 0:
+                    positionView = mLinearLayoutManager.findViewByPosition(i);
+                    break;
+                case 1:
+                    positionView = mStaggeredGridLayoutManager.findViewByPosition(i);
+                    break;
+                case 2:
+                    positionView=mGridLayoutManager.findViewByPosition(i);
+                    break;
+            }
             if (positionView instanceof CardView) {
-
                 DataSupport.delete(NoteNew.class, myNotes.get(i).getId());
-
                 MyNoteView myNoteViewPos = (MyNoteView) ((CardView) positionView).getChildAt(0);
                 if (myNoteViewPos.isDeleteChecked()) {
                     deleteItemPos(i);
@@ -232,11 +297,6 @@ public class NoteListFragment extends Fragment {
         myNotes = SQLUtils.getNoteList();
     }
 
-
-    /* @描述 设置note flag */
-    public void setNoteStyle(int noteStyle) {
-        this.noteStyle = noteStyle;
-    }
 
 }
 

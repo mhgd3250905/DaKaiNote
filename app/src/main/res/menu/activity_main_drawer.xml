@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_list"
-            android:icon="@drawable/vector_drawable_list"
+            android:icon="@drawable/vector_drawable_all"
             android:title="所有" />
         <item
             android:id="@+id/nav_pin"
@@ -18,6 +18,10 @@
             android:id="@+id/nav_voice"
             android:icon="@drawable/vector_drawable_voice"
             android:title="录音" />
+        <item
+            android:id="@+id/nav_schedule"
+            android:icon="@drawable/vector_drawable_menu_schedule"
+            android:title="行事历" />
     </group>
 
     <item android:title="关于">

@@ -25,7 +25,7 @@ public class FragmentUIHomeActivity extends UIHomeActivity {
     * @时间 2016/8/1 21:44
     */
     private void addDefaultFragment() {
-        noteListFragment = new NoteListFragment();
+        noteListFragment = new NoteListFragment(sPref.getInt("note_style",1));
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_home, noteListFragment).commit();
     }

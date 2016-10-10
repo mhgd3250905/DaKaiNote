@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.HomeActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -20,6 +21,7 @@ public class BaseHomeActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0; // 请求码
     protected ArcMenuView arcMenuView;
+    protected SharedPreferences sPref;
 
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
@@ -37,6 +39,7 @@ public class BaseHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sPref=getSharedPreferences("note",MODE_PRIVATE);
         mPermissionsChecker = new PermissionsChecker(this);
     }
 

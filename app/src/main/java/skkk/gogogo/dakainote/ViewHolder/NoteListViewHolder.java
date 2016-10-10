@@ -32,5 +32,4 @@ public class NoteListViewHolder extends RecyclerViewHolderBase {
         super(itemView);
         myNoteView= (MyNoteView) itemView.findViewById(R.id.my_note_view);
     }
-
 }

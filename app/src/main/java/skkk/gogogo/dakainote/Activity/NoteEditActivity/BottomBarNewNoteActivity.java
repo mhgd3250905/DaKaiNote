@@ -161,7 +161,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     etFirstSchedule.setSelection(start);
                     checkFlag = false;
                 }
-
             }
         });
     }
@@ -365,7 +364,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     Message msgActivity = mHandler.obtainMessage();
                     msgActivity.what = MESSAGE_LAYOUT_KEYBOARD_HIDE;
                     mHandler.sendMessage(msgActivity);
-
                 }
             }
         });

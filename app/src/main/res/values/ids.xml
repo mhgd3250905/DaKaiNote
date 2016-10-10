@@ -82,7 +82,6 @@
     <item name="iv_item_schedule" type="id">iv_item_schedule</item>
     <item name="note_style" type="id">note_style</item>
     <item name="menu_tb_notelist_linear" type="id">menu_tb_notelist_linear</item>
-    <item name="menu_tb_notelist_card" type="id">menu_tb_notelist_card</item>
     <item name="ll_edit_again" type="id">ll_edit_again</item>
     <item name="btn_schedule" type="id">btn_schedule</item>
     <item name="iv_first_schedule" type="id">iv_first_schedule</item>
@@ -105,6 +104,8 @@
     <item name="rb_edit_gravity_right" type="id">rb_edit_gravity_right</item>
     <item name="rb_edit_gravity_center" type="id">rb_edit_gravity_center</item>
     <item name="bottom_bar_separate" type="id">bottom_bar_separate</item>
+    <item name="menu_tb_notelist_stagger" type="id">menu_tb_notelist_stagger</item>
+    <item name="menu_tb_notelist_grid" type="id">menu_tb_notelist_grid</item>
 
 
 </resources>
