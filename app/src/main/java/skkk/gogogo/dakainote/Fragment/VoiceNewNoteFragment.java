@@ -1,5 +1,7 @@
 package skkk.gogogo.dakainote.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -137,8 +139,22 @@ public class VoiceNewNoteFragment extends Fragment {
             }
 
             @Override
-            public void onItemLongClick(View view, int position) {
-
+            public void onItemLongClick(View view, final int position) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                builder.setTitle("提醒");
+                builder.setIcon(R.drawable.item_recycle);
+                builder.setMessage("您将删除该录音...");
+                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myVoices.get(position).delete();
+                        reGetImageList(noteKey);
+                        updateAll(myVoices);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
             }
         });
     }

@@ -71,7 +71,6 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected ImageView ivNoteEditTime;
     protected ImageView ivNoteEditPin;
     protected ImageView ivNoteEditNext;
-    protected Boolean etBold = false;//用来判断文字是否加粗的flag
     boolean change = true;
 
     /* @描述 用来jieshou */
@@ -446,10 +445,10 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     rbVoice.setVisibility(View.GONE);
                 } else {
                     rbVoice.setVisibility(View.VISIBLE);
+                    /* @描述 只要录音按键出现那么就强制关闭软键盘 */
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    imm.hideSoftInputFromWindow(etFirstSchedule.getWindowToken(), 0); //强制隐藏键盘
                 }
-
                 break;
             /* @描述 点击Schedule按钮 */
             case R.id.menu_note_edit_schedule:

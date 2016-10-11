@@ -4,13 +4,11 @@
     android:layout_height="150dp"
     android:paddingTop="2dp">
 
-
     <skkk.gogogo.dakainote.View.MyImageView
         android:id="@id/iv_note_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:adjustViewBounds="true"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>
