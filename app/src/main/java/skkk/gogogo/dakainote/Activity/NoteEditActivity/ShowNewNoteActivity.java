@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,6 +40,8 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     protected NoteNew inetntNote;
     protected ImageNewNoteFragment mImageNewNoteFragment;
     protected VoiceNewNoteFragment mVoiceNewNoteFragment;
+    protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
+    protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
 
     protected long noteKey;
     MyImageThread myImageThread;
@@ -46,6 +49,45 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     //MyScheduleThread myScheduleThread;
 
     protected boolean isDelete=true;
+
+    /* @描述 用来jieshou */
+    protected Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MESSAGE_LAYOUT_KEYBOARD_SHOW:
+                    showOrHideFl(View.GONE);
+                    break;
+                case MESSAGE_LAYOUT_KEYBOARD_HIDE:
+                    showOrHideFl(View.VISIBLE);
+                    break;
+            }
+        }
+    };
+
+    /*
+    * @方法 根据不同状态设置fl的隐藏与显示
+    *
+    */
+    public void showOrHideFl(int visibility) {
+        if (inetntNote != null) {
+            /* @描述 如果是显示状态 */
+            if (inetntNote.isVoiceExist() || isVoiceExist) {
+                fl_note_voice.setVisibility(visibility);
+            }
+            if (inetntNote.isImageIsExist() || isImageExist) {
+                fl_note_iamge.setVisibility(visibility);
+            }
+        } else {
+            /* @描述 如果是编辑状态 */
+            if (isVoiceExist) {
+                fl_note_voice.setVisibility(visibility);
+            }
+            if (isImageExist) {
+                fl_note_iamge.setVisibility(visibility);
+            }
+        }
+    }
 
 
 
@@ -308,6 +350,7 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
                 int deleteImage= DataSupport.deleteAll(ImageCache.class, "imagepath=?", image_detail_path);
                 LogUtils.Log("image表中删除行数为 "+deleteImage);
             }
+
             /* @描述 刷新fragment */
             List<ImageCache> imageInItem = SQLUtils.getImageInItem(noteKey);
             mImageNewNoteFragment.updateAll(imageInItem);

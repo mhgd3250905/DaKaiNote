@@ -1,16 +1,12 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.animation.ObjectAnimator;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -61,10 +57,8 @@ import skkk.gogogo.dakainote.View.AutoLinkEditText.LinkTouchMovementMethod;
 */
 public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected AlertDialog imageDialog;
-    protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
-    protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
+
     protected final static int PHOTO_REQUEST_GALLERY = 914;
-    protected final static int SELECT_PERSON_FROM_CONTACT = 928;
     protected ImageView ivNoteEditSeparate;
     protected ImageView ivNoteEditBack;
     protected ImageView ivNoteEditContact;
@@ -72,47 +66,10 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected ImageView ivNoteEditPin;
     protected ImageView ivNoteEditNext;
     boolean change = true;
-
-    /* @描述 用来jieshou */
-    protected Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_LAYOUT_KEYBOARD_SHOW:
-                    showOrHideFl(View.GONE);
-                    break;
-                case MESSAGE_LAYOUT_KEYBOARD_HIDE:
-                    showOrHideFl(View.VISIBLE);
-                    break;
-            }
-        }
-    };
     private AlertDialog mDialog;
 
 
-    /*
-    * @方法 根据不同状态设置fl的隐藏与显示
-    *
-    */
-    public void showOrHideFl(int visibility) {
-        if (inetntNote != null) {
-            /* @描述 如果是显示状态 */
-            if (inetntNote.isVoiceExist() || isVoiceExist) {
-                fl_note_voice.setVisibility(visibility);
-            }
-            if (inetntNote.isImageIsExist() || isImageExist) {
-                fl_note_iamge.setVisibility(visibility);
-            }
-        } else {
-            /* @描述 如果是编辑状态 */
-            if (isVoiceExist) {
-                fl_note_voice.setVisibility(visibility);
-            }
-            if (isImageExist) {
-                fl_note_iamge.setVisibility(visibility);
-            }
-        }
-    }
+
 
 
     @Override
@@ -663,48 +620,13 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                         mImageNewNoteFragment.insertImage(noteKey);
                     }
                     break;
-                /* @描述 通讯录返回值 */
-//                case SELECT_PERSON_FROM_CONTACT:
-//                    if (data == null) {
-//                        return;
-//                    }
-//                    //处理返回的data,获取选择的联系人信息
-//                    Uri uri = data.getData();
-//                    String[] contacts = getPhoneContacts(uri);
-//                    EditUtils.addUrlSpan(etFirstSchedule, contacts[0], Long.parseLong(contacts[1]));
-//                    break;
+
             }
 
         }
 
     }
 
-    private String[] getPhoneContacts(Uri uri) {
-        String[] contact = new String[2];
-        //得到ContentResolver对象
-        ContentResolver cr = getContentResolver();
-        //取得电话本中开始一项的光标
-        Cursor cursor = cr.query(uri, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            //取得联系人姓名
-            int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-            contact[0] = cursor.getString(nameFieldColumnIndex);
-            //取得电话号码
-            String ContactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-            Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + ContactId, null, null);
-            if (phone != null) {
-                phone.moveToFirst();
-                contact[1] = phone.getString(phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            }
-            phone.close();
-            cursor.close();
-        } else {
-            return null;
-        }
-        return contact;
-    }
 
     /*
         * @方法 保存数据而且返回响应的note

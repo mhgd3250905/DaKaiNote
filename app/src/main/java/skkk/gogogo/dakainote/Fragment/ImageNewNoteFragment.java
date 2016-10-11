@@ -1,6 +1,9 @@
 package skkk.gogogo.dakainote.Fragment;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,20 +12,22 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity;
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.ShowNewNoteActivity;
 import skkk.gogogo.dakainote.Adapter.NoteImageListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by admin on 2016/9/10.
@@ -42,6 +47,7 @@ public class ImageNewNoteFragment extends Fragment {
     private NoteImageListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
     private int REQUEST_NOTE_IMAGE_DELETE = 13;
+    PhotoViewAttacher mAttacher;
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -120,21 +126,74 @@ public class ImageNewNoteFragment extends Fragment {
         adapter.setOnItemClickLitener(new RecyclerViewBaseAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                /* @描述 在点击进入note详情之前先清空缓存数据库 */
-                ShowNewNoteActivity activity= (ShowNewNoteActivity) getActivity();
-                activity.setIsDelete(false);
 
-                Intent intent = new Intent();
-                reGetImageList(noteKey);
-                intent.putExtra("image_click", myImages.get(position).getImagePath());
-                intent.putExtra("image_notekey", myImages.get(position).getNoteKey());
-                intent.setClass(getActivity(), NoteImageActivity.class);
-                getActivity().startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
+                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                View imageShowView=View.inflate(getContext(), R.layout.dialog_note_image_show, null);
+                ImageView imageView= (ImageView) imageShowView.findViewById(R.id.iv_note_item_image);
+                Bitmap bitmap= BitmapFactory.decodeFile(myImages.get(position).getImagePath());
+                imageView.setImageBitmap(bitmap);
+                builder.setView(imageShowView);
+                mAttacher=new PhotoViewAttacher(imageView);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                DisplayMetrics dm = new DisplayMetrics();
+                //获取屏幕信息
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+                int screenWidth = dm.widthPixels;
+
+                int screenHeigh = dm.heightPixels;
+
+                int bitmapWidth = bitmap.getWidth();
+
+                int bitmapHeight = bitmap.getHeight();
+                WindowManager.LayoutParams params =
+
+                        dialog.getWindow().getAttributes();//获取dialog信息
+
+                if (bitmapWidth>screenWidth||bitmapHeight>screenHeigh){
+                    params.width = screenWidth-20;
+
+                    params.height =screenHeigh*2/3;
+
+                }else {
+                    params.width = bitmapWidth;
+
+                    params.height =bitmapHeight;
+                }
+
+                dialog.getWindow().setAttributes(params);//设置大小
+
+//                /* @描述 在点击进入note详情之前先清空缓存数据库 */
+//                ShowNewNoteActivity activity= (ShowNewNoteActivity) getActivity();
+//                activity.setIsDelete(false);
+//
+//                Intent intent = new Intent();
+//                reGetImageList(noteKey);
+//                intent.putExtra("image_click", myImages.get(position).getImagePath());
+//                intent.putExtra("image_notekey", myImages.get(position).getNoteKey());
+//                intent.setClass(getActivity(), NoteImageActivity.class);
+//                getActivity().startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
             }
 
             @Override
-            public void onItemLongClick(View view, int position) {
-
+            public void onItemLongClick(View view, final int position) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+                builder.setTitle("提醒");
+                builder.setIcon(R.drawable.item_recycle);
+                builder.setMessage("您将删除图片...");
+                builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        myImages.get(position).delete();
+                        reGetImageList(noteKey);
+                        updateAll(myImages);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
             }
         });
     }
