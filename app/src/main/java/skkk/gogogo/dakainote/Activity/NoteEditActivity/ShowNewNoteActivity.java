@@ -42,6 +42,8 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     protected VoiceNewNoteFragment mVoiceNewNoteFragment;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
+    protected final static int IMAGE_DELETED=1011;
+    protected final static int VOICE_DELETED=1012;
 
     protected long noteKey;
     MyImageThread myImageThread;
@@ -60,6 +62,36 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
                     break;
                 case MESSAGE_LAYOUT_KEYBOARD_HIDE:
                     showOrHideFl(View.VISIBLE);
+                    break;
+                case IMAGE_DELETED:
+                    /* @描述 刷新fragment */
+                    List<ImageCache> imageInItem = SQLUtils.getImageInItem(noteKey);
+                    mImageNewNoteFragment.updateAll(imageInItem);
+                    if (imageInItem.size()==0){
+                        fl_note_iamge.setVisibility(View.GONE);
+                /* @描述 把图片存在flag设置为false
+                 * 如果是展示页面就把展示页面的note设置图片不存在
+                  * 主要是为了解决在软键盘出现消失的时候fl_image的显示问题*/
+                        isImageExist=false;
+                        if (inetntNote!=null){
+                            inetntNote.setImageIsExist(false);
+                        }
+                    }
+                    break;
+                case VOICE_DELETED:
+                    /* @描述 刷新fragment */
+                    List<VoiceCache> voiceInItem = SQLUtils.getVoiceInItem(noteKey);
+                    mVoiceNewNoteFragment.updateAll(voiceInItem);
+                    if (voiceInItem.size()==0){
+                        fl_note_voice.setVisibility(View.GONE);
+                /* @描述 把图片存在flag设置为false
+                 * 如果是展示页面就把展示页面的note设置图片不存在
+                  * 主要是为了解决在软键盘出现消失的时候fl_image的显示问题*/
+                        isVoiceExist=false;
+                        if (inetntNote!=null){
+                            inetntNote.setImageIsExist(false);
+                        }
+                    }
                     break;
             }
         }
@@ -148,11 +180,11 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
      */
     private void addDefaultFragment() {
         /* @描述 加载图片fl布局 */
-        mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);
+        mImageNewNoteFragment = new ImageNewNoteFragment(noteKey,mHandler);
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_image,mImageNewNoteFragment).commit();
         /* @描述 加载声音fl布局 */
-        mVoiceNewNoteFragment=new VoiceNewNoteFragment(noteKey);
+        mVoiceNewNoteFragment=new VoiceNewNoteFragment(noteKey,mHandler);
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_voice, mVoiceNewNoteFragment).commit();
     }
@@ -182,12 +214,12 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
         etFirstSchedule.setAutoLinkText(inetntNote.getContent());
 
         /* @描述 先把fragment搁好 */
-        mImageNewNoteFragment = new ImageNewNoteFragment(noteKey);
+        mImageNewNoteFragment = new ImageNewNoteFragment(noteKey,mHandler);
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_image,mImageNewNoteFragment).commit();
 
         /* @描述 先把fragment搁好 */
-        mVoiceNewNoteFragment = new VoiceNewNoteFragment(noteKey);
+        mVoiceNewNoteFragment = new VoiceNewNoteFragment(noteKey,mHandler);
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_note_voice,mVoiceNewNoteFragment).commit();
 

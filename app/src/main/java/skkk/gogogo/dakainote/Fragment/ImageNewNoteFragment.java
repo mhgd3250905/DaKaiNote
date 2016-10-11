@@ -47,6 +47,8 @@ public class ImageNewNoteFragment extends Fragment {
     private NoteImageListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
     private int REQUEST_NOTE_IMAGE_DELETE = 13;
+    private int IMAGE_DELETED=1011;
+    private Handler mHandler;
     PhotoViewAttacher mAttacher;
     public Handler handler = new Handler() {
         @Override
@@ -59,8 +61,9 @@ public class ImageNewNoteFragment extends Fragment {
         }
     };
 
-    public ImageNewNoteFragment(long noteKey) {
+    public ImageNewNoteFragment(long noteKey,Handler mHandler) {
         this.noteKey = noteKey;
+        this.mHandler=mHandler;
     }
 
     @Nullable
@@ -189,11 +192,13 @@ public class ImageNewNoteFragment extends Fragment {
                         myImages.get(position).delete();
                         reGetImageList(noteKey);
                         updateAll(myImages);
+                        mHandler.sendEmptyMessage(IMAGE_DELETED);
                         dialog.dismiss();
                     }
                 });
                 builder.setNegativeButton("取消", null);
                 builder.show();
+
             }
         });
     }

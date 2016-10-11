@@ -43,6 +43,8 @@ public class VoiceNewNoteFragment extends Fragment {
     private RecyclerView rvNoteImageList;
     private NoteVoiceListAdapter adapter;
     private LinearLayoutManager mLayoutManager;
+    private int VOICE_DELETED=1012;
+    private Handler mHandler;
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -55,8 +57,9 @@ public class VoiceNewNoteFragment extends Fragment {
     };
 
 
-    public VoiceNewNoteFragment(long noteKey) {
+    public VoiceNewNoteFragment(long noteKey,Handler mHandler) {
         this.noteKey = noteKey;
+        this.mHandler=mHandler;
     }
 
     @Nullable
@@ -150,11 +153,13 @@ public class VoiceNewNoteFragment extends Fragment {
                         myVoices.get(position).delete();
                         reGetImageList(noteKey);
                         updateAll(myVoices);
+                        mHandler.sendEmptyMessage(VOICE_DELETED);
                         dialog.dismiss();
                     }
                 });
                 builder.setNegativeButton("取消", null);
                 builder.show();
+
             }
         });
     }
