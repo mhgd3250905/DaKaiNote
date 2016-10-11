@@ -256,7 +256,8 @@ public class NoteListFragment extends Fragment {
     *
     */
     public void updateAll(List<NoteNew> noteList) {
-        adapter.setmItemDataList(noteList);
+        myNotes=noteList;
+        adapter.setmItemDataList(myNotes);
         adapter.notifyDataSetChanged();
     }
 

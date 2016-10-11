@@ -30,12 +30,11 @@
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@id/iv_note_item_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            fresco:actualImageScaleType="centerInside"
-            fresco:placeholderImage="@drawable/vector_drawable_image" />
+            />
 
     </RelativeLayout>
 

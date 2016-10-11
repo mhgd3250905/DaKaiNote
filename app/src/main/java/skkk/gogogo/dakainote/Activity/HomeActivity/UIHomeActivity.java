@@ -262,6 +262,7 @@ public class UIHomeActivity extends BaseHomeActivity
         switch (item.getItemId()){
             /* @描述 点击切换到全部笔记展示页面 */
             case R.id.nav_list:
+                mToolbar.setTitle("大开笔记");
                 myNotes = SQLUtils.getNoteList();
                 if (myNotes.size()==0){
                     Snackbar.make(flHome,"点击按钮新增笔记...",Snackbar.LENGTH_SHORT).show();

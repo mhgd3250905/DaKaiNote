@@ -45,7 +45,6 @@ import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
-import skkk.gogogo.dakainote.MyUtils.EditUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
@@ -155,7 +154,17 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     checkString=etFirstSchedule.getText().toString();
                     SpannableString spannableString = etFirstSchedule.makeSpannableString(s.toString());
                     int start = etFirstSchedule.getSelectionStart();
+
+                    if (change){
+                        change=false;
+                    }
+
                     etFirstSchedule.setText(spannableString);
+
+                    if (!change){
+                        change=true;
+                    }
+
                     etFirstSchedule.setMovementMethod(new LinkTouchMovementMethod());
                     Log.d("skkk", "检查了一遍~");
                     etFirstSchedule.setSelection(start);
@@ -190,7 +199,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 }
             }
         });
-        /* @描述  */
+        /* @描述 加入分隔符 */
         ivNoteEditSeparate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,10 +207,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     Snackbar.make(llNoteAgain,"行事历状态无法插入分隔符",Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                etFirstSchedule.append("\n");
-                etFirstSchedule.append("▶▶▶▶▶▶▶▶");
-                etFirstSchedule.append("\n");
-                etFirstSchedule.setSelection(etFirstSchedule.getText().length());
+                etFirstSchedule.append("\n"+"----------------------"+"\n");
             }
         });
 
@@ -265,12 +271,9 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 String time = DateUtils.getTime();
                 if (etFirstSchedule.getLineCount() == 1 &&
                         TextUtils.isEmpty(etFirstSchedule.getText().toString())) {
-                    etFirstSchedule.append(time);
-                    etFirstSchedule.append("\n");
+                    etFirstSchedule.append(time+"\n");
                 } else {
-                    etFirstSchedule.append("\n");
-                    etFirstSchedule.append(time);
-                    etFirstSchedule.append("\n");
+                    etFirstSchedule.append("\n"+time+"\n");
                 }
             }
         });
@@ -662,15 +665,15 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     }
                     break;
                 /* @描述 通讯录返回值 */
-                case SELECT_PERSON_FROM_CONTACT:
-                    if (data == null) {
-                        return;
-                    }
-                    //处理返回的data,获取选择的联系人信息
-                    Uri uri = data.getData();
-                    String[] contacts = getPhoneContacts(uri);
-                    EditUtils.addUrlSpan(etFirstSchedule, contacts[0], Long.parseLong(contacts[1]));
-                    break;
+//                case SELECT_PERSON_FROM_CONTACT:
+//                    if (data == null) {
+//                        return;
+//                    }
+//                    //处理返回的data,获取选择的联系人信息
+//                    Uri uri = data.getData();
+//                    String[] contacts = getPhoneContacts(uri);
+//                    EditUtils.addUrlSpan(etFirstSchedule, contacts[0], Long.parseLong(contacts[1]));
+//                    break;
             }
 
         }

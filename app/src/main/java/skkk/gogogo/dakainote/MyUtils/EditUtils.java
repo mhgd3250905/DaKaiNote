@@ -8,6 +8,7 @@ import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -102,17 +103,15 @@ public class EditUtils {
         tv.append(spanString);
     }
 
-
-
-//    /**
-//     * 图片
-//     */
-//    private void addImageSpan(EditText tv) {
-//        SpannableString spanString = new SpannableString(" ");
-//        Drawable d = getResources().getDrawable(R.drawable.ic_launcher);
-//        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-//        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
-//        spanString.setSpan(span, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        tv.append(spanString);
-//    }
+    /**
+     * 图片
+     */
+    public static void addImageSpan(Context context,EditText tv) {
+        SpannableString ss = new SpannableString("line");
+        //用这个drawable对象代替字符串easy
+        ImageSpan span = new ImageSpan(context,R.drawable.line);
+        //包括0但是不包括"easy".length()即：4。[0,4)。值得注意的是当我们复制这个图片的时候，实际是复制了"easy"这个字符串。
+        ss.setSpan(span,0,"line".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv.append(ss);
+    }
 }

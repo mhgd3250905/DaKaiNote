@@ -1,6 +1,5 @@
 package skkk.gogogo.dakainote.Application;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import org.litepal.LitePalApplication;
 
@@ -20,7 +19,6 @@ public class MyApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fresco.initialize(this);
     }
 
     public static int getItemDelFlag() {

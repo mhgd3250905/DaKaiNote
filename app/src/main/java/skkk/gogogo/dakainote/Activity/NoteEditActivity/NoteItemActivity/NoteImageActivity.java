@@ -1,25 +1,26 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity.NoteItemActivity;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-
-import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.R;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class NoteImageActivity extends AppCompatActivity{
-    protected SimpleDraweeView ivNoteItemImage;
+    protected ImageView ivNoteItemImage;
     protected String image_click_path;
     protected Intent intentGet;
     protected Toolbar tbNoteNewDetailImage;
     private long image_notekey;
+    PhotoViewAttacher mAttacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class NoteImageActivity extends AppCompatActivity{
     */
     private void initUI() {
         setContentView(R.layout.activity_note_image);
-        ivNoteItemImage= (SimpleDraweeView) findViewById(R.id.iv_note_item_image);
+        ivNoteItemImage= (ImageView) findViewById(R.id.iv_note_item_image);
         tbNoteNewDetailImage= (Toolbar) findViewById(R.id.tb_note_new_detial_image);
         setSupportActionBar(tbNoteNewDetailImage);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,9 +59,12 @@ public class NoteImageActivity extends AppCompatActivity{
     *
     */
     private void initData() {
-        Uri uri = Uri.parse("file://" + image_click_path);
-        LogUtils.Log("file://" + image_click_path);
-        ivNoteItemImage.setImageURI(uri);
+        Bitmap bitmap= BitmapFactory.decodeFile(image_click_path);
+//        Uri uri = Uri.parse("file://" + image_click_path);
+//        LogUtils.Log("file://" + image_click_path);
+        ivNoteItemImage.setImageBitmap(bitmap);
+        mAttacher = new PhotoViewAttacher(ivNoteItemImage);
+
     }
 
 

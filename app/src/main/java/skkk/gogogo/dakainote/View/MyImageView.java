@@ -1,12 +1,8 @@
 package skkk.gogogo.dakainote.View;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.AttributeSet;
-
-import com.facebook.drawee.view.SimpleDraweeView;
-
-import skkk.gogogo.dakainote.MyUtils.LogUtils;
+import android.widget.ImageView;
 
 /**
  * Created by admin on 2016/8/27.
@@ -17,7 +13,7 @@ import skkk.gogogo.dakainote.MyUtils.LogUtils;
 * 作    者：ksheng
 * 时    间：2016/8/27$ 21:31$.
 */
-public class MyImageView extends SimpleDraweeView {
+public class MyImageView extends ImageView {
 
     private String imagePath;
     private int imageId;
@@ -40,9 +36,7 @@ public class MyImageView extends SimpleDraweeView {
 
     public void setBitmapFromPath(String imagePath) {
         this.imagePath = imagePath;
-        Uri uri = Uri.parse("file://" + imagePath);
-        LogUtils.Log("setBitmaoFromPath的路径为 file://" + imagePath);
-        setImageURI(uri);
+        setBitmapFromPath(imagePath);
     }
 
     public String getImagePath() {
