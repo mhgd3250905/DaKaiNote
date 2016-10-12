@@ -38,5 +38,14 @@
         <attr name="arcMode"/>
     </declare-styleable>
 
+    <declare-styleable name="SettingShowView">
+        <attr name="settingTitleText" format="string"/>
+        <attr name="settingShowText" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="SettingCheckView">
+        <attr name="checkTitleText" format="string"/>
+    </declare-styleable>
+
 
 </resources>

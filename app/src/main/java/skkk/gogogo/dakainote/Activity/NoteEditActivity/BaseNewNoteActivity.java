@@ -62,7 +62,6 @@ public class BaseNewNoteActivity extends AppCompatActivity {
 
     protected FrameLayout fl_note_iamge;
     protected FrameLayout fl_note_voice;
-    protected FrameLayout fl_note_schedule;
 
     protected boolean checkFlag = false;
     protected String checkString;
@@ -109,8 +108,6 @@ public class BaseNewNoteActivity extends AppCompatActivity {
         fl_note_iamge = (FrameLayout) findViewById(R.id.fl_note_image);
         //设置note中用来显示Voice的fl
         fl_note_voice = (FrameLayout) findViewById(R.id.fl_note_voice);
-        //设置note中用来显示Schedule的fl
-        fl_note_schedule = (FrameLayout) findViewById(R.id.fl_note_schedule);
         //初始化SP
         sPerf=getSharedPreferences("note",MODE_PRIVATE);
     }

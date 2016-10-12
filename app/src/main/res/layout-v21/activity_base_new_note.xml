@@ -32,14 +32,17 @@
                 <EditText
                     android:id="@id/et_note_detail_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="@color/colorPrimaryDark"
                     android:hint="请输入标题"
                     android:singleLine="true"
+                    android:gravity="center_vertical"
                     android:textColor="@color/colorWhite"
                     android:textColorHint="@color/colorWhite55"
-                    android:textSize="20dp"/>
+
+                    android:textSize="20sp"/>
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
@@ -60,7 +63,7 @@
                 android:paddingLeft="10dp"
                 android:text="2016-8-28 11:16:00"
                 android:textColor="@color/colorGray"
-                android:textSize="20dp"/>
+                android:textSize="15sp"/>
 
             <ImageView
                 android:id="@id/iv_note_detail_pin"
@@ -132,21 +135,20 @@
                         android:hint="@string/note_edit_hint"
                         android:inputType="textMultiLine"
                         android:textColorHint="@color/colorPrimary"
-                        android:textSize="20dp"/>
+                        android:textSize="17sp"/>
+
                 </LinearLayout>
-
-
-
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
+
         <include
             layout="@layout/layout_bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"/>
-    </LinearLayout>
 
+    </LinearLayout>
 
 
     <skkk.gogogo.dakainote.View.RecordButton

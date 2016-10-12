@@ -22,7 +22,7 @@
     <string name="note_image_tag">NOTE_IMAGE_TAG</string>
     <string name="note_text_tag">NOTE_TEXT_TAG</string>
     <string name="app_address">https://github.com/mhgd3250905/DaKaiNote</string>
-    <string name="app_desc">记录生活，记录简单...</string>
+    <string name="app_desc">记录生活，记录简单</string>
     <string name="note_voice_tag">note_voice_tag</string>
     <string name="item_voice_str">点击播放录音...</string>
     <string name="title_activity_main2">Main2Activity</string>
@@ -45,4 +45,8 @@
     <string name="call_phone">您选择了电话: </string>
     <string name="open_url">您选择了网址: </string>
     <string name="notelist_style_grid">卡片布局</string>
+    <string name="setting_title_1">界面</string>
+    <string name="setting_night_style">夜间模式，点击切换</string>
+    <string name="setting_title_2">数据</string>
+    <string name="setting_title_3">隐私</string>
 </resources>

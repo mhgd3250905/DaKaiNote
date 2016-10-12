@@ -106,6 +106,17 @@
     <item name="bottom_bar_separate" type="id">bottom_bar_separate</item>
     <item name="menu_tb_notelist_stagger" type="id">menu_tb_notelist_stagger</item>
     <item name="menu_tb_notelist_grid" type="id">menu_tb_notelist_grid</item>
+    <item name="tv_setting_menu_image" type="id">tv_setting_menu_image</item>
+    <item name="tv_setting_language" type="id">tv_setting_language</item>
+    <item name="tv_view_setting_check" type="id">tv_view_setting_check</item>
+    <item name="cb_view_setting_check" type="id">cb_view_setting_check</item>
+    <item name="tv_setting_title" type="id">tv_setting_title</item>
+    <item name="tv_setting_show" type="id">tv_setting_show</item>
+    <item name="ssv_setting_menu_image" type="id">ssv_setting_menu_image</item>
+    <item name="ssv_setting_language" type="id">ssv_setting_language</item>
+    <item name="scv_setting_night" type="id">scv_setting_night</item>
+    <item name="ssv_setting_backup" type="id">ssv_setting_backup</item>
+    <item name="ssv_setting_resave" type="id">ssv_setting_resave</item>
 
 
 </resources>

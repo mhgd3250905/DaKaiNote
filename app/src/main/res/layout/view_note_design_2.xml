@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_title"
@@ -10,14 +10,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
+            android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:layout_weight="1"
             android:id="@id/tv_view_note_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:paddingTop="5dp"
-            android:text="20dp"
+            android:paddingBottom="5dp"
+            android:text="caption"
+            android:textSize="14sp"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"/>
 
@@ -43,6 +45,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:layout_marginRight="10dp"
             android:id="@id/tv_view_note_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -50,10 +53,11 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20dp"
-            android:maxLines="3"
+            android:textColor="@color/colorBlackBody"
+            android:textSize="16sp"
+            android:maxLines="4"
             android:ellipsize="end"/>
+
     </LinearLayout>
 
     <TextView
@@ -63,9 +67,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:gravity="center_vertical"
-        android:text="aaa"
-        android:textSize="10dp"
+        android:text="time"
+        android:textSize="12sp"
         android:textColor="@color/colorGray"/>
 
     <LinearLayout

@@ -31,6 +31,7 @@ import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.Fragment.ImageShowFragment;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
+import skkk.gogogo.dakainote.Fragment.SettingFragment;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
@@ -334,6 +335,9 @@ public class UIHomeActivity extends BaseHomeActivity
                 break;
 
             case R.id.nav_setting:
+                SettingFragment settingFragment=new SettingFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fl_home,settingFragment).commit();
 
                 break;
             case R.id.nav_author:

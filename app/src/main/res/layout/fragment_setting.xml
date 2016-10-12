@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:setting="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:elevation="1dp"
+        android:background="@drawable/shape_setting_bg"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/setting_title_1"
+            style="@style/SettingTitleStyle"/>
+
+        <skkk.gogogo.dakainote.View.SettingShowView
+            android:layout_marginLeft="10dp"
+            android:id="@id/ssv_setting_menu_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            setting:settingTitleText="侧滑菜单头部图片"
+            setting:settingShowText="图片路径"
+            ></skkk.gogogo.dakainote.View.SettingShowView>
+
+
+        <skkk.gogogo.dakainote.View.SettingShowView
+            android:layout_marginLeft="10dp"
+            android:id="@id/ssv_setting_language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            setting:settingTitleText="语言"
+            setting:settingShowText="跟随系统"></skkk.gogogo.dakainote.View.SettingShowView>
+
+        <skkk.gogogo.dakainote.View.SettingCheckView
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@id/scv_setting_night"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            setting:checkTitleText="夜间模式"></skkk.gogogo.dakainote.View.SettingCheckView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:elevation="1dp"
+        android:background="@drawable/shape_setting_bg"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/setting_title_3"
+            style="@style/SettingTitleStyle"/>
+
+        <skkk.gogogo.dakainote.View.SettingShowView
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@id/ssv_setting_resave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            setting:settingTitleText="上锁"
+            setting:settingShowText="上锁方式"></skkk.gogogo.dakainote.View.SettingShowView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:elevation="1dp"
+        android:background="@drawable/shape_setting_bg"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="@string/setting_title_2"
+            style="@style/SettingTitleStyle"/>
+
+        <skkk.gogogo.dakainote.View.SettingShowView
+            android:layout_marginLeft="10dp"
+            android:id="@id/ssv_setting_backup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            setting:settingTitleText="备份"
+            setting:settingShowText="上一次备份"
+            ></skkk.gogogo.dakainote.View.SettingShowView>
+
+
+        <skkk.gogogo.dakainote.View.SettingShowView
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@id/ssv_setting_resave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            setting:settingTitleText="恢复"
+            setting:settingShowText="上一次恢复"></skkk.gogogo.dakainote.View.SettingShowView>
+
+    </LinearLayout>
+
+</LinearLayout>
