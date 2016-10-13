@@ -24,17 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             setting:settingTitleText="侧滑菜单头部图片"
-            setting:settingShowText="图片路径"
+            setting:settingShowText=""
             ></skkk.gogogo.dakainote.View.SettingShowView>
-
 
         <skkk.gogogo.dakainote.View.SettingShowView
             android:layout_marginLeft="10dp"
-            android:id="@id/ssv_setting_language"
+            android:id="@id/ssv_setting_note_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            setting:settingTitleText="语言"
-            setting:settingShowText="跟随系统"></skkk.gogogo.dakainote.View.SettingShowView>
+            setting:settingTitleText="笔记样式"
+            setting:settingShowText="瀑布流"></skkk.gogogo.dakainote.View.SettingShowView>
+
 
         <skkk.gogogo.dakainote.View.SettingCheckView
             android:layout_marginLeft="10dp"

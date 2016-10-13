@@ -1,6 +1,10 @@
 package skkk.gogogo.dakainote.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -21,11 +25,22 @@ import skkk.gogogo.dakainote.View.SettingShowView;
 * 作    者：ksheng
 * 时    间：2016/10/12$ 22:58$.
 */
-public class SettingFragment extends Fragment{
+public class SettingFragment extends Fragment {
 
     private View view;
-    private SettingShowView ssvMenuImage,ssvLanguage;
+    private SettingShowView ssvMenuImage, ssvNoteStyle;
     private SettingCheckView scvNight;
+    private NoteListFragment mNoteListFragment;
+    private SharedPreferences sPref;
+    private Handler homeHandler;
+    protected final static int PHOTO_REQUEST_GALLERY = 914;
+    protected String noteStyle,imagePath;
+
+    public SettingFragment(NoteListFragment noteListFragment, SharedPreferences sPref, Handler homeHandler) {
+        mNoteListFragment = noteListFragment;
+        this.homeHandler = homeHandler;
+        this.sPref = sPref;
+    }
 
     @Nullable
     @Override
@@ -37,38 +52,96 @@ public class SettingFragment extends Fragment{
 
     /* @描述 初始化控件 */
     private void initView(final View view) {
-        ssvMenuImage= (SettingShowView) view.findViewById(R.id.ssv_setting_menu_image);
-        ssvLanguage= (SettingShowView) view.findViewById(R.id.ssv_setting_language);
-        scvNight= (SettingCheckView) view.findViewById(R.id.scv_setting_night);
+        ssvMenuImage = (SettingShowView) view.findViewById(R.id.ssv_setting_menu_image);
+        ssvNoteStyle = (SettingShowView) view.findViewById(R.id.ssv_setting_note_style);
+        scvNight = (SettingCheckView) view.findViewById(R.id.scv_setting_night);
+        noteStyle="瀑布流";
+        switch (sPref.getInt("note_style",1)){
+            case 0:
+                noteStyle="列表";
+                break;
+            case 1:
+                noteStyle="瀑布流";
+                break;
+            case 2:
+                noteStyle="卡片";
+                break;
+        }
+
+        ssvMenuImage.setTvShowText(sPref.getString("menu_title_image",""));
+
+        ssvNoteStyle.setTvShowText(noteStyle);
+
+
         ssvMenuImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(view,"侧滑菜单图片设置",Snackbar.LENGTH_SHORT).show();
+                /* @描述 切换侧滑菜单头图片消息 */
+                homeHandler.sendEmptyMessage(1);
             }
         });
 
-        ssvLanguage.setOnClickListener(new View.OnClickListener() {
+
+        ssvNoteStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(view,"语言设置",Snackbar.LENGTH_SHORT).show();
+                /* @描述 设置布局样式点击事件 */
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setSingleChoiceItems(new String[]{"线性布局", "瀑布流", "卡片模式"},
+                        sPref.getInt("note_style", 1), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        ssvNoteStyle.setTvShowText("列表");
+                                        mNoteListFragment.setLayoutFlag(0);
+                                        sPref.edit().putInt("note_style", 0).commit();
+                                        dialog.dismiss();
+                                        Snackbar.make(view, "您选择了列表", Snackbar.LENGTH_SHORT).show();
+                                        break;
+                                    case 1:
+                                        ssvNoteStyle.setTvShowText("瀑布流");
+                                        mNoteListFragment.setLayoutFlag(1);
+                                        sPref.edit().putInt("note_style", 1).commit();
+                                        dialog.dismiss();
+                                        Snackbar.make(view, "您选择了瀑布流", Snackbar.LENGTH_SHORT).show();
+                                        break;
+                                    case 2:
+                                        ssvNoteStyle.setTvShowText("卡片");
+                                        mNoteListFragment.setLayoutFlag(2);
+                                        sPref.edit().putInt("note_style", 2).commit();
+                                        dialog.dismiss();
+                                        Snackbar.make(view, "您选择了卡片", Snackbar.LENGTH_SHORT).show();
+                                        break;
+                                }
+                            }
+                        });
+                builder.setIcon(R.drawable.item_edit);
+                builder.setTitle("布局样式");
+                builder.show();
             }
         });
+
 
         scvNight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (scvNight.getCheck()){
+                if (scvNight.getCheck()) {
                     scvNight.setChecked(false);
                     scvNight.setCheckTitle("日间模式");
-                    Snackbar.make(view,"日间模式",Snackbar.LENGTH_SHORT).show();
-                }else {
+                    Snackbar.make(view, "日间模式", Snackbar.LENGTH_SHORT).show();
+                } else {
                     scvNight.setChecked(true);
                     scvNight.setCheckTitle("夜间模式");
-                    Snackbar.make(view,"夜间模式",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(view, "夜间模式", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    /* @描述 设置侧滑图片路径显示区域 */
+    public void setSsvMenuImageSrc(String path){
+        ssvMenuImage.setTvShowText(path);
+    }
 
 }

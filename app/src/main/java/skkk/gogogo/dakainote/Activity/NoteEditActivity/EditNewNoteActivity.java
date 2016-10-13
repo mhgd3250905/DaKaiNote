@@ -145,7 +145,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setGravity(Gravity.CENTER_VERTICAL);
         etItem.setPadding(0, 0, 0, 0);
         etItem.setBackground(null);
-        etItem.setTextSize(20);
+        etItem.setTextSize(17);
         etItem.setSingleLine(true);
 
 
@@ -235,7 +235,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setGravity(Gravity.CENTER_VERTICAL);
         etItem.setPadding(0, 0, 0, 0);
         etItem.setBackground(null);
-        etItem.setTextSize(20);
+        etItem.setTextSize(17);
         etItem.setSingleLine(true);
         etItem.setText(content);
 

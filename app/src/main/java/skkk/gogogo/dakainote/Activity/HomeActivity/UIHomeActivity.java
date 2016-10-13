@@ -3,8 +3,12 @@ package skkk.gogogo.dakainote.Activity.HomeActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -12,12 +16,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import org.litepal.crud.DataSupport;
 
@@ -52,6 +56,25 @@ public class UIHomeActivity extends BaseHomeActivity
     protected FrameLayout flHome;
     protected int fabFlagInActivity=1;
     protected Toolbar mToolbar;
+    protected LinearLayout llMenuTitle;
+    protected final static int PHOTO_REQUEST_GALLERY=914;
+    protected String imagePath;
+
+    protected Handler homeHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    // 激活系统图库，选择一张图片
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
+                    startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+                    break;
+            }
+        }
+    };
+    private SettingFragment mSettingFragment;
 
 
     @Override
@@ -72,6 +95,8 @@ public class UIHomeActivity extends BaseHomeActivity
     private void initUI() {
         setContentView(R.layout.activity_main);
 
+        //llMenuTitle= (LinearLayout)findViewById(R.id.ll_menu_title);
+
         flHome= (FrameLayout) findViewById(R.id.fl_home);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -79,10 +104,8 @@ public class UIHomeActivity extends BaseHomeActivity
         arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_home);
 
         setSupportActionBar(mToolbar);
-        //添加菜单
-        mToolbar.inflateMenu(R.menu.note_style);
-
-
+//        //添加菜单
+//        mToolbar.inflateMenu(R.menu.note_style);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -91,21 +114,18 @@ public class UIHomeActivity extends BaseHomeActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        llMenuTitle= (LinearLayout) navigationView.getHeaderView(0);
+        imagePath=sPref.getString("menu_title_image","");
+        if (imagePath.equals("")){
+            llMenuTitle.setBackground(getResources().getDrawable(R.drawable.shape_note_bg));
+        }else {
+            BitmapDrawable bitmapDrawable=getLLBgDrawable(imagePath);
+            llMenuTitle.setBackground(bitmapDrawable);
+        }
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /* @描述 设置fab进入界面时的动画 */
-        ScaleAnimation scaleAnimation=new ScaleAnimation(0f,1f,0f,1f,
-                Animation.RELATIVE_TO_SELF,0.5f,
-                Animation.RELATIVE_TO_SELF,0.5f);
-        scaleAnimation.setDuration(300);
-        scaleAnimation.setStartOffset(200);
-        fab.startAnimation(scaleAnimation);
-    }
 
     /*
      * @方法 初始化监听事件
@@ -146,49 +166,6 @@ public class UIHomeActivity extends BaseHomeActivity
             }
         });
     }
-
-
-    /*
-     * @方法 添加菜单
-     *
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.note_style, menu);
-        return true;
-    }
-
-    /*
-     * @方法 添加菜单点击事件
-     *
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //获取菜单item_id
-        int id = item.getItemId();
-        //根据菜单判断
-        switch (id){
-            case R.id.menu_tb_notelist_linear:
-                noteListFragment.setLayoutFlag(0);
-                sPref.edit().putInt("note_style",0).commit();
-                break;
-            case R.id.menu_tb_notelist_stagger:
-                noteListFragment.setLayoutFlag(1);
-                sPref.edit().putInt("note_style",1).commit();
-                break;
-            case R.id.menu_tb_notelist_grid:
-                noteListFragment.setLayoutFlag(2);
-                sPref.edit().putInt("note_style",2).commit();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
 
     /*
     * @方法 变更Fab背景图片
@@ -263,6 +240,9 @@ public class UIHomeActivity extends BaseHomeActivity
         switch (item.getItemId()){
             /* @描述 点击切换到全部笔记展示页面 */
             case R.id.nav_list:
+                if (!fab.isShown()) {
+                    fab.show();
+                }
                 mToolbar.setTitle("大开笔记");
                 myNotes = SQLUtils.getNoteList();
                 if (myNotes.size()==0){
@@ -277,6 +257,9 @@ public class UIHomeActivity extends BaseHomeActivity
                 break;
             /* @描述 点击切换到pin笔记列表 */
             case R.id.nav_pin:
+                if (!fab.isShown()) {
+                    fab.show();
+                }
                 mToolbar.setTitle("PIN笔记");
                 myNotes = SQLUtils.getPinNoteList();
                 if (myNotes.size()==0){
@@ -292,6 +275,9 @@ public class UIHomeActivity extends BaseHomeActivity
             /* @描述 点击切换到图片展示页面
              * 点击图片应该跳转到响应的图片Note中 */
             case R.id.nav_image:
+                if (!fab.isShown()) {
+                    fab.show();
+                }
                 mToolbar.setTitle("图片笔记");
                 myNotes = SQLUtils.getImageNoteList();
                 if (myNotes.size()==0){
@@ -307,6 +293,9 @@ public class UIHomeActivity extends BaseHomeActivity
 
             /* @描述 点击切换到声音笔记列表 */
             case R.id.nav_voice:
+                if (!fab.isShown()) {
+                    fab.show();
+                }
                 mToolbar.setTitle("录音笔记");
                 myNotes = SQLUtils.getVoiceNoteList();
                 if (myNotes.size()==0){
@@ -319,8 +308,11 @@ public class UIHomeActivity extends BaseHomeActivity
                             .commit();
                 }
                 break;
-            /* @描述 点击切换到声音笔记列表 */
+            /* @描述 点击切换到行事历笔记列表 */
             case R.id.nav_schedule:
+                if (!fab.isShown()) {
+                    fab.show();
+                }
                 mToolbar.setTitle("录音笔记");
                 myNotes = SQLUtils.getScheduleNoteList();
                 if (myNotes.size()==0){
@@ -335,9 +327,12 @@ public class UIHomeActivity extends BaseHomeActivity
                 break;
 
             case R.id.nav_setting:
-                SettingFragment settingFragment=new SettingFragment();
+                if (fab.isShown()){
+                    fab.hide();
+                }
+                mSettingFragment = new SettingFragment(noteListFragment,sPref,homeHandler);
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fl_home,settingFragment).commit();
+                        .replace(R.id.fl_home, mSettingFragment).commit();
 
                 break;
             case R.id.nav_author:
@@ -349,6 +344,23 @@ public class UIHomeActivity extends BaseHomeActivity
         return true;
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /* @描述 设置fab进入界面时的动画 */
+        if (!fab.isShown()) {
+            fab.show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (fab.isShown()){
+            fab.hide();
+        }
+    }
 
     /* @描述 打开展示图片线程 */
     protected void startShowImageThread(){
@@ -385,7 +397,45 @@ public class UIHomeActivity extends BaseHomeActivity
         }
     };
 
+    /*
+           * @方法 针对相机非返回值处理
+           *
+           */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("SKKK_____", "requestCode:  " + requestCode);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                /* @描述 相册返回值 */
+                case PHOTO_REQUEST_GALLERY:
+                    if (data != null) {
+                        Uri uriImageFromGallery = data.getData();
+                        String path=CameraImageUtils.getAbsoluteImagePath(UIHomeActivity.this,
+                                uriImageFromGallery);
+                        BitmapDrawable bitmapDrawable=getLLBgDrawable(path);
+                        llMenuTitle.setBackground(bitmapDrawable);
+                        sPref.edit().putString("menu_title_image",path).commit();
+                        mSettingFragment.setSsvMenuImageSrc(path);
+                    }
+                    break;
 
+            }
+
+        }
+
+    }
+
+    public BitmapDrawable getLLBgDrawable(String path){
+        BitmapDrawable bitmapDrawable=new BitmapDrawable(getResources(),
+                path);
+        bitmapDrawable.setDither(true);
+        bitmapDrawable.setAntiAlias(true);
+        bitmapDrawable.setFilterBitmap(true);
+        bitmapDrawable.setGravity(Gravity.CENTER);
+        bitmapDrawable.setTileModeXY(Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        return bitmapDrawable;
+    }
 
 
 

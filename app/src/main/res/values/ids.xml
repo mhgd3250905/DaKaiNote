@@ -117,6 +117,8 @@
     <item name="scv_setting_night" type="id">scv_setting_night</item>
     <item name="ssv_setting_backup" type="id">ssv_setting_backup</item>
     <item name="ssv_setting_resave" type="id">ssv_setting_resave</item>
+    <item name="ssv_setting_note_style" type="id">ssv_setting_note_style</item>
+    <item name="ll_menu_title" type="id">ll_menu_title</item>
 
 
 </resources>

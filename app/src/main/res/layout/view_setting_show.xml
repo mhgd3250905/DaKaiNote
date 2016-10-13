@@ -8,6 +8,7 @@
         android:text="title"
        style="@style/SettingBodyTitleStyle"/>
     <TextView
+        android:singleLine="true"
         android:id="@id/tv_setting_show"
         android:text="content"
         android:layout_width="match_parent"

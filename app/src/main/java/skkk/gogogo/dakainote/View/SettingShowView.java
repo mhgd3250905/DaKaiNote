@@ -50,11 +50,11 @@ public class SettingShowView extends LinearLayout {
         tvShow.setText(mShow);
     }
 
-    private void setTvTitleText(String content){
+    public void setTvTitleText(String content){
         tvTitle.setText(content);
     }
 
-    private void setTvShowText(String content){
+    public void setTvShowText(String content){
         tvShow.setText(content);
     }
 
