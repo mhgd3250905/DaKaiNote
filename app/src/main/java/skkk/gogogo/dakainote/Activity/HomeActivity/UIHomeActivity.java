@@ -80,6 +80,7 @@ public class UIHomeActivity extends BaseHomeActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initUI();
         initData();
         initEvent();
@@ -325,11 +326,13 @@ public class UIHomeActivity extends BaseHomeActivity
                             .commit();
                 }
                 break;
-
+            /* @描述 点击切换到设置界面 */
             case R.id.nav_setting:
+                /* @描述 隐藏fab */
                 if (fab.isShown()){
                     fab.hide();
                 }
+                mToolbar.setTitle("设置");
                 mSettingFragment = new SettingFragment(noteListFragment,sPref,homeHandler);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fl_home, mSettingFragment).commit();

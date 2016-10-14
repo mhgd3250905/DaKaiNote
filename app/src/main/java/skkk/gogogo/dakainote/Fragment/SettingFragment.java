@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import skkk.gogogo.dakainote.Activity.HomeActivity.BaseHomeActivity;
+import skkk.gogogo.dakainote.Activity.TouchDeblockActivity.TouchDeblockActivity;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.SettingCheckView;
 import skkk.gogogo.dakainote.View.SettingShowView;
@@ -28,7 +31,7 @@ import skkk.gogogo.dakainote.View.SettingShowView;
 public class SettingFragment extends Fragment {
 
     private View view;
-    private SettingShowView ssvMenuImage, ssvNoteStyle;
+    private SettingShowView ssvMenuImage, ssvNoteStyle,ssvLock;
     private SettingCheckView scvNight;
     private NoteListFragment mNoteListFragment;
     private SharedPreferences sPref;
@@ -55,6 +58,7 @@ public class SettingFragment extends Fragment {
         ssvMenuImage = (SettingShowView) view.findViewById(R.id.ssv_setting_menu_image);
         ssvNoteStyle = (SettingShowView) view.findViewById(R.id.ssv_setting_note_style);
         scvNight = (SettingCheckView) view.findViewById(R.id.scv_setting_night);
+        ssvLock= (SettingShowView) view.findViewById(R.id.ssv_setting_lock);
         noteStyle="瀑布流";
         switch (sPref.getInt("note_style",1)){
             case 0:
@@ -126,15 +130,28 @@ public class SettingFragment extends Fragment {
         scvNight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BaseHomeActivity uiHomeActivity= (BaseHomeActivity) getActivity();
                 if (scvNight.getCheck()) {
                     scvNight.setChecked(false);
                     scvNight.setCheckTitle("日间模式");
+
+
+
                     Snackbar.make(view, "日间模式", Snackbar.LENGTH_SHORT).show();
                 } else {
                     scvNight.setChecked(true);
                     scvNight.setCheckTitle("夜间模式");
+
+
                     Snackbar.make(view, "夜间模式", Snackbar.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        ssvLock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), TouchDeblockActivity.class));
             }
         });
     }

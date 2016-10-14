@@ -19,6 +19,7 @@ import skkk.gogogo.dakainote.View.ArcMenuView;
 */
 public class BaseHomeActivity extends AppCompatActivity {
 
+
     private static final int REQUEST_CODE = 0; // 请求码
     protected ArcMenuView arcMenuView;
     protected SharedPreferences sPref;
@@ -39,6 +40,12 @@ public class BaseHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        if(savedInstanceState != null){
+//            theme = savedInstanceState.getInt("theme");
+//            setTheme(theme);
+//        }
+
         sPref=getSharedPreferences("note",MODE_PRIVATE);
         mPermissionsChecker = new PermissionsChecker(this);
     }

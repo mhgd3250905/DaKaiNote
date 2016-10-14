@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#8cc8c8</color>
     <color name="colorPrimaryDark">#28788c</color>
     <color name="colorAccent">#dc7878</color>
@@ -14,9 +15,6 @@
     <color name="colorURL">#50c8b4</color>
     <color name="colorEmail">#b45064</color>
     <color name="colorPhone">#6464f0</color>
-    <color name="backgroundColor">#FFFFFF</color>
+    <color name="backgroundColor">#3b3b3b</color>
 
-    <color name="theme_color_primary">#fb7299</color>
-    <color name="theme_color_primary_dark">#b85671</color>
-    <color name="theme_color_primary_trans">#99f0486c</color>
 </resources>

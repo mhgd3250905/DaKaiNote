@@ -62,7 +62,7 @@
         <skkk.gogogo.dakainote.View.SettingShowView
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
-            android:id="@id/ssv_setting_resave"
+            android:id="@id/ssv_setting_lock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             setting:settingTitleText="上锁"

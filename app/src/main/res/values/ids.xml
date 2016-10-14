@@ -119,6 +119,9 @@
     <item name="ssv_setting_resave" type="id">ssv_setting_resave</item>
     <item name="ssv_setting_note_style" type="id">ssv_setting_note_style</item>
     <item name="ll_menu_title" type="id">ll_menu_title</item>
+    <item name="ssv_setting_lock" type="id">ssv_setting_lock</item>
+    <item name="tdv_deblock" type="id">tdv_deblock</item>
+    <item name="tdv_lock" type="id">tdv_lock</item>
 
 
 </resources>

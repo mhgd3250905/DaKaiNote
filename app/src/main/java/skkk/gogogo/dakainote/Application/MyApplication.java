@@ -12,7 +12,7 @@ import org.litepal.LitePalApplication;
 * 作    者：ksheng
 * 时    间：
 */
-public class MyApplication extends LitePalApplication {
+public class MyApplication extends LitePalApplication{
     private final static int ITEM_ENTER_FLAG=30801;
     private final static int ITEM_DEL_FLAG=30802;
     private int childCountInScheduleItem=2;
@@ -36,4 +36,5 @@ public class MyApplication extends LitePalApplication {
     public void setChildCountInScheduleItem(int childCountInScheduleItem) {
         this.childCountInScheduleItem = childCountInScheduleItem;
     }
+
 }

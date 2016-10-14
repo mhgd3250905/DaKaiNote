@@ -49,6 +49,10 @@
         <activity
             android:name=".Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.TouchDeblockActivity.TouchDeblockActivity">
+        </activity>
+        <activity android:name=".Activity.TouchDeblockActivity.LockActivity">
+        </activity>
     </application>
 
 </manifest>
