@@ -2,7 +2,6 @@ package skkk.gogogo.dakainote.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import skkk.gogogo.dakainote.Activity.HomeActivity.BaseHomeActivity;
-import skkk.gogogo.dakainote.Activity.TouchDeblockActivity.TouchDeblockActivity;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.SettingCheckView;
 import skkk.gogogo.dakainote.View.SettingShowView;
+import skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView;
 
 /**
  * Created by admin on 2016/10/12.
@@ -31,13 +32,13 @@ import skkk.gogogo.dakainote.View.SettingShowView;
 public class SettingFragment extends Fragment {
 
     private View view;
-    private SettingShowView ssvMenuImage, ssvNoteStyle,ssvLock;
+    private SettingShowView ssvMenuImage, ssvNoteStyle, ssvLock,ssvBackup,ssvResave;
     private SettingCheckView scvNight;
     private NoteListFragment mNoteListFragment;
     private SharedPreferences sPref;
     private Handler homeHandler;
     protected final static int PHOTO_REQUEST_GALLERY = 914;
-    protected String noteStyle,imagePath;
+    protected String noteStyle, imagePath;
 
     public SettingFragment(NoteListFragment noteListFragment, SharedPreferences sPref, Handler homeHandler) {
         mNoteListFragment = noteListFragment;
@@ -50,6 +51,7 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         initView(view);
+        initEvent();
         return view;
     }
 
@@ -58,25 +60,41 @@ public class SettingFragment extends Fragment {
         ssvMenuImage = (SettingShowView) view.findViewById(R.id.ssv_setting_menu_image);
         ssvNoteStyle = (SettingShowView) view.findViewById(R.id.ssv_setting_note_style);
         scvNight = (SettingCheckView) view.findViewById(R.id.scv_setting_night);
-        ssvLock= (SettingShowView) view.findViewById(R.id.ssv_setting_lock);
-        noteStyle="瀑布流";
-        switch (sPref.getInt("note_style",1)){
+        ssvLock = (SettingShowView) view.findViewById(R.id.ssv_setting_lock);
+        ssvBackup= (SettingShowView) view.findViewById(R.id.ssv_setting_backup);
+        ssvResave= (SettingShowView) view.findViewById(R.id.ssv_setting_resave);
+
+
+
+        noteStyle = "瀑布流";
+        switch (sPref.getInt("note_style", 1)) {
             case 0:
-                noteStyle="列表";
+                noteStyle = "列表";
                 break;
             case 1:
-                noteStyle="瀑布流";
+                noteStyle = "瀑布流";
                 break;
             case 2:
-                noteStyle="卡片";
+                noteStyle = "卡片";
                 break;
         }
 
-        ssvMenuImage.setTvShowText(sPref.getString("menu_title_image",""));
+        //设置侧滑菜单头图片
+        ssvMenuImage.setTvShowText(sPref.getString("menu_title_image", ""));
 
         ssvNoteStyle.setTvShowText(noteStyle);
 
+        //设置上锁文字
+        if (sPref.getBoolean("lock",false)){
+            ssvLock.setTvShowText("开启上锁");
+        }else {
+            ssvLock.setTvShowText("关闭上锁");
+        }
 
+    }
+
+    /* @描述 初始化点击事件 */
+    private void initEvent() {
         ssvMenuImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,11 +148,10 @@ public class SettingFragment extends Fragment {
         scvNight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BaseHomeActivity uiHomeActivity= (BaseHomeActivity) getActivity();
+                BaseHomeActivity uiHomeActivity = (BaseHomeActivity) getActivity();
                 if (scvNight.getCheck()) {
                     scvNight.setChecked(false);
                     scvNight.setCheckTitle("日间模式");
-
 
 
                     Snackbar.make(view, "日间模式", Snackbar.LENGTH_SHORT).show();
@@ -149,15 +166,85 @@ public class SettingFragment extends Fragment {
         });
 
         ssvLock.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           if (sPref.getBoolean("lock",false)){
+                                               //如果有设置上锁,就关闭上锁
+                                               sPref.edit().putBoolean("lock",false).commit();
+                                               ssvLock.setTvShowText("关闭上锁");
+                                           }else {
+                                               //如果没有设置上锁
+                                               if (!sPref.getBoolean("lock_first", true)){
+                                                   //如果不是第一次点击
+                                                   //打开上锁
+                                                   sPref.edit().putBoolean("lock",true).commit();
+                                                   ssvLock.setTvShowText("开启上锁");
+
+                                               }else {
+                                                   //如果是第一次点击
+                                                   final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                                   final TouchDeblockingView tdvLock = new TouchDeblockingView(getContext());
+                                                   final AlertDialog dialog = builder.create();
+                                                   if (sPref.getBoolean("lock_first", true)) {
+
+                                                       builder.setTitle("请设置密码");
+                                                       tdvLock.setOnDrawFinishedListener(new TouchDeblockingView.OnDrawFinishListener() {
+                                                           @Override
+                                                           public boolean OnDrawFinished(List<Integer> passList) {
+                                                               if (passList.size() < 4) {
+                                                                   Snackbar.make(tdvLock, "密码过短，请重新输入", Snackbar.LENGTH_SHORT).show();
+                                                                   tdvLock.resetPoints();
+                                                                   return false;
+                                                               } else {
+                                                                   StringBuilder sb = new StringBuilder();
+                                                                   for (Integer i : passList) {
+                                                                       sb.append(i);
+                                                                   }
+                                                                   sPref.edit().putString("password", sb.toString()).commit();
+                                                                   sPref.edit().putBoolean("lock_first", false).commit();
+                                                                   ssvLock.setTvShowText("开启上锁");
+                                                                   dialog.dismiss();
+                                                                   return true;
+                                                               }
+                                                           }
+                                                       });
+                                                       builder.setView(tdvLock);
+                                                       builder.show();
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+
+        );
+
+        ssvBackup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), TouchDeblockActivity.class));
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setIcon(R.drawable.item_save);
+                builder.setTitle("备份提醒");
+                builder.setMessage("点击确认进行备份操作...");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startBackup();
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
             }
         });
     }
 
+    /* @描述 备份方法 */
+    private void startBackup() {
+
+    }
+
     /* @描述 设置侧滑图片路径显示区域 */
-    public void setSsvMenuImageSrc(String path){
+
+    public void setSsvMenuImageSrc(String path) {
         ssvMenuImage.setTvShowText(path);
     }
 

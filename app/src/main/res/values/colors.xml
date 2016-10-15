@@ -15,6 +15,9 @@
     <color name="colorEmail">#b45064</color>
     <color name="colorPhone">#6464f0</color>
     <color name="backgroundColor">#FFFFFF</color>
+    <color name="colorTouchNormalLine">#56abe4</color>
+    <color name="colorTouchPressLine">#2aa515</color>
+    <color name="colorTouchErrorLine">#d81e06</color>
 
     <color name="theme_color_primary">#fb7299</color>
     <color name="theme_color_primary_dark">#b85671</color>

@@ -1,6 +1,7 @@
 package skkk.gogogo.dakainote.Activity.HomeActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Shader;
@@ -18,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -40,6 +42,7 @@ import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.ArcMenuView;
+import skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView;
 
 /*
 *
@@ -54,16 +57,17 @@ public class UIHomeActivity extends BaseHomeActivity
     protected List<NoteNew> myNotes;
     protected FloatingActionButton fab;
     protected FrameLayout flHome;
-    protected int fabFlagInActivity=1;
+    protected int fabFlagInActivity = 1;
     protected Toolbar mToolbar;
     protected LinearLayout llMenuTitle;
-    protected final static int PHOTO_REQUEST_GALLERY=914;
+    protected final static int PHOTO_REQUEST_GALLERY = 914;
     protected String imagePath;
+    protected boolean canBack=true;
 
-    protected Handler homeHandler=new Handler(){
+    protected Handler homeHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
                     // 激活系统图库，选择一张图片
                     Intent intent = new Intent(Intent.ACTION_PICK);
@@ -80,7 +84,7 @@ public class UIHomeActivity extends BaseHomeActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_main);
         initUI();
         initData();
         initEvent();
@@ -94,11 +98,11 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
     private void initUI() {
-        setContentView(R.layout.activity_main);
+
 
         //llMenuTitle= (LinearLayout)findViewById(R.id.ll_menu_title);
 
-        flHome= (FrameLayout) findViewById(R.id.fl_home);
+        flHome = (FrameLayout) findViewById(R.id.fl_home);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -115,12 +119,12 @@ public class UIHomeActivity extends BaseHomeActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        llMenuTitle= (LinearLayout) navigationView.getHeaderView(0);
-        imagePath=sPref.getString("menu_title_image","");
-        if (imagePath.equals("")){
+        llMenuTitle = (LinearLayout) navigationView.getHeaderView(0);
+        imagePath = sPref.getString("menu_title_image", "");
+        if (imagePath.equals("")) {
             llMenuTitle.setBackground(getResources().getDrawable(R.drawable.shape_note_bg));
-        }else {
-            BitmapDrawable bitmapDrawable=getLLBgDrawable(imagePath);
+        } else {
+            BitmapDrawable bitmapDrawable = getLLBgDrawable(imagePath);
             llMenuTitle.setBackground(bitmapDrawable);
         }
 
@@ -173,11 +177,11 @@ public class UIHomeActivity extends BaseHomeActivity
     *       fab编辑状态和删除状态的切换
     *
     */
-    public void changeFabSrc(int flag){
-        fabFlagInActivity=flag;
-        if (flag==1){
+    public void changeFabSrc(int flag) {
+        fabFlagInActivity = flag;
+        if (flag == 1) {
             fab.setImageResource(R.drawable.vector_drawable_pen);
-        }else{
+        } else {
             fab.setImageResource(R.drawable.vector_drawable_delete);
         }
     }
@@ -189,15 +193,15 @@ public class UIHomeActivity extends BaseHomeActivity
     */
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if(fabFlagInActivity==2){
-            changeFabSrc(1);
-            noteListFragment.hideCheckBox();
-        }else{
-            exitBy2Click();
-        }
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else if (fabFlagInActivity == 2) {
+                changeFabSrc(1);
+                noteListFragment.hideCheckBox();
+            } else {
+                exitBy2Click();
+            }
     }
 
     /*
@@ -214,7 +218,7 @@ public class UIHomeActivity extends BaseHomeActivity
 //            NoteListFragment noteListFragment = (NoteListFragment) getSupportFragmentManager().
 //                    findFragmentById(R.id.fl_home);
 //            noteListFragment.smoothScrollToTop();
-            Snackbar.make(flHome, "再按一次退出程序",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(flHome, "再按一次退出程序", Snackbar.LENGTH_SHORT).show();
             tExit = new Timer();
             tExit.schedule(new TimerTask() {
                 @Override
@@ -238,7 +242,7 @@ public class UIHomeActivity extends BaseHomeActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             /* @描述 点击切换到全部笔记展示页面 */
             case R.id.nav_list:
                 if (!fab.isShown()) {
@@ -246,9 +250,9 @@ public class UIHomeActivity extends BaseHomeActivity
                 }
                 mToolbar.setTitle("大开笔记");
                 myNotes = SQLUtils.getNoteList();
-                if (myNotes.size()==0){
-                    Snackbar.make(flHome,"点击按钮新增笔记...",Snackbar.LENGTH_SHORT).show();
-                }else{
+                if (myNotes.size() == 0) {
+                    Snackbar.make(flHome, "点击按钮新增笔记...", Snackbar.LENGTH_SHORT).show();
+                } else {
                     noteListFragment.updateAll(myNotes);
                 }
                 getSupportFragmentManager()
@@ -263,9 +267,9 @@ public class UIHomeActivity extends BaseHomeActivity
                 }
                 mToolbar.setTitle("PIN笔记");
                 myNotes = SQLUtils.getPinNoteList();
-                if (myNotes.size()==0){
-                    Snackbar.make(flHome,"没有pin笔记...",Snackbar.LENGTH_SHORT).show();
-                }else{
+                if (myNotes.size() == 0) {
+                    Snackbar.make(flHome, "没有pin笔记...", Snackbar.LENGTH_SHORT).show();
+                } else {
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -281,9 +285,9 @@ public class UIHomeActivity extends BaseHomeActivity
                 }
                 mToolbar.setTitle("图片笔记");
                 myNotes = SQLUtils.getImageNoteList();
-                if (myNotes.size()==0){
-                    Snackbar.make(flHome,"没有图片笔记...",Snackbar.LENGTH_SHORT).show();
-                }else{
+                if (myNotes.size() == 0) {
+                    Snackbar.make(flHome, "没有图片笔记...", Snackbar.LENGTH_SHORT).show();
+                } else {
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -299,9 +303,9 @@ public class UIHomeActivity extends BaseHomeActivity
                 }
                 mToolbar.setTitle("录音笔记");
                 myNotes = SQLUtils.getVoiceNoteList();
-                if (myNotes.size()==0){
-                    Snackbar.make(flHome,"没有录音笔记...",Snackbar.LENGTH_SHORT).show();
-                }else{
+                if (myNotes.size() == 0) {
+                    Snackbar.make(flHome, "没有录音笔记...", Snackbar.LENGTH_SHORT).show();
+                } else {
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -316,9 +320,9 @@ public class UIHomeActivity extends BaseHomeActivity
                 }
                 mToolbar.setTitle("录音笔记");
                 myNotes = SQLUtils.getScheduleNoteList();
-                if (myNotes.size()==0){
-                    Snackbar.make(flHome,"没有行事历...",Snackbar.LENGTH_SHORT).show();
-                }else{
+                if (myNotes.size() == 0) {
+                    Snackbar.make(flHome, "没有行事历...", Snackbar.LENGTH_SHORT).show();
+                } else {
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -329,11 +333,11 @@ public class UIHomeActivity extends BaseHomeActivity
             /* @描述 点击切换到设置界面 */
             case R.id.nav_setting:
                 /* @描述 隐藏fab */
-                if (fab.isShown()){
+                if (fab.isShown()) {
                     fab.hide();
                 }
                 mToolbar.setTitle("设置");
-                mSettingFragment = new SettingFragment(noteListFragment,sPref,homeHandler);
+                mSettingFragment = new SettingFragment(noteListFragment, sPref, homeHandler);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fl_home, mSettingFragment).commit();
 
@@ -355,33 +359,77 @@ public class UIHomeActivity extends BaseHomeActivity
         if (!fab.isShown()) {
             fab.show();
         }
+
+        /* @描述 如果开启上锁 */
+        if (sPref.getBoolean("lock",false)){
+            canBack=false;
+            //如果是第一次点击
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final TouchDeblockingView tdvLock = new TouchDeblockingView(this);
+            final Dialog dialog=builder.create();
+                builder.setTitle("请输入密码");
+                tdvLock.setOnDrawFinishedListener(new TouchDeblockingView.OnDrawFinishListener() {
+                    @Override
+                    public boolean OnDrawFinished(List<Integer> passList) {
+
+                        if (passList.size() < 4) {
+                            Snackbar.make(tdvLock, "密码过短，请重新输入", Snackbar.LENGTH_SHORT).show();
+                            tdvLock.resetPoints();
+                            return false;
+                        } else {
+                            StringBuilder sb = new StringBuilder();
+                            for (Integer i : passList) {
+                                sb.append(i);
+                            }
+                            if (sPref.getString("password", "").equals(sb.toString())) {
+                                dialog.dismiss();
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+                });
+                builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount()==0)
+                        {
+                           return true;
+                        }
+                        return false;
+                    }
+                });
+                builder.setView(tdvLock);
+                builder.show();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (fab.isShown()){
+        if (fab.isShown()) {
             fab.hide();
         }
     }
 
     /* @描述 打开展示图片线程 */
-    protected void startShowImageThread(){
-        Thread showImageThread=new Thread(showImageRunnable);
+    protected void startShowImageThread() {
+        Thread showImageThread = new Thread(showImageRunnable);
         showImageThread.start();
 
     }
 
     /* @描述 展示图片异步加载 */
-    private Runnable showImageRunnable=new Runnable() {
+    private Runnable showImageRunnable = new Runnable() {
         @Override
         public void run() {
             List<Image> all = DataSupport.findAll(Image.class);
-            if (all.size()==0){
-                Snackbar.make(flHome,"没有图片...",Snackbar.LENGTH_SHORT).show();
+            if (all.size() == 0) {
+                Snackbar.make(flHome, "没有图片...", Snackbar.LENGTH_SHORT).show();
                 return;
             }
-            final List<BitmapDrawable> allBitmapDrawable=new ArrayList<BitmapDrawable>();
+            final List<BitmapDrawable> allBitmapDrawable = new ArrayList<BitmapDrawable>();
             for (int i = 0; i < all.size(); i++) {
                 allBitmapDrawable.add(
                         CameraImageUtils
@@ -390,7 +438,7 @@ public class UIHomeActivity extends BaseHomeActivity
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ImageShowFragment imageShowFragment=new ImageShowFragment(allBitmapDrawable);
+                    ImageShowFragment imageShowFragment = new ImageShowFragment(allBitmapDrawable);
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fl_home, imageShowFragment)
@@ -414,11 +462,11 @@ public class UIHomeActivity extends BaseHomeActivity
                 case PHOTO_REQUEST_GALLERY:
                     if (data != null) {
                         Uri uriImageFromGallery = data.getData();
-                        String path=CameraImageUtils.getAbsoluteImagePath(UIHomeActivity.this,
+                        String path = CameraImageUtils.getAbsoluteImagePath(UIHomeActivity.this,
                                 uriImageFromGallery);
-                        BitmapDrawable bitmapDrawable=getLLBgDrawable(path);
+                        BitmapDrawable bitmapDrawable = getLLBgDrawable(path);
                         llMenuTitle.setBackground(bitmapDrawable);
-                        sPref.edit().putString("menu_title_image",path).commit();
+                        sPref.edit().putString("menu_title_image", path).commit();
                         mSettingFragment.setSsvMenuImageSrc(path);
                     }
                     break;
@@ -429,8 +477,8 @@ public class UIHomeActivity extends BaseHomeActivity
 
     }
 
-    public BitmapDrawable getLLBgDrawable(String path){
-        BitmapDrawable bitmapDrawable=new BitmapDrawable(getResources(),
+    public BitmapDrawable getLLBgDrawable(String path) {
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(),
                 path);
         bitmapDrawable.setDither(true);
         bitmapDrawable.setAntiAlias(true);
@@ -439,7 +487,6 @@ public class UIHomeActivity extends BaseHomeActivity
         bitmapDrawable.setTileModeXY(Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         return bitmapDrawable;
     }
-
 
 
 }

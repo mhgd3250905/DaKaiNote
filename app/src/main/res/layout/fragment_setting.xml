@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             setting:settingTitleText="上锁"
-            setting:settingShowText="上锁方式"></skkk.gogogo.dakainote.View.SettingShowView>
+            setting:settingShowText="开启上锁"></skkk.gogogo.dakainote.View.SettingShowView>
 
     </LinearLayout>
 
@@ -92,7 +92,6 @@
             setting:settingShowText="上一次备份"
             ></skkk.gogogo.dakainote.View.SettingShowView>
 
-
         <skkk.gogogo.dakainote.View.SettingShowView
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
@@ -100,7 +99,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             setting:settingTitleText="恢复"
-            setting:settingShowText="上一次恢复"></skkk.gogogo.dakainote.View.SettingShowView>
+            setting:settingShowText="上一次恢复">
+        </skkk.gogogo.dakainote.View.SettingShowView>
 
     </LinearLayout>
 

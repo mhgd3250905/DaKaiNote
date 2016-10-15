@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -44,6 +43,7 @@ public class TouchDeblockingView extends View {
     private float mouseX, mouseY;
 
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Paint normalPaint=new Paint();
     Paint pressPaint=new Paint();
     Paint errorPaint=new Paint();
 
@@ -67,18 +67,23 @@ public class TouchDeblockingView extends View {
 
     /* @描述 初始化工作 */
     private void init() {
-        pressPaint.setColor(Color.YELLOW);
-        pressPaint.setStrokeWidth(20);
+        normalPaint.setColor(getResources().getColor(R.color.colorTouchNormalLine));
+        normalPaint.setStrokeWidth(5);
+        normalPaint.setAntiAlias(true);
+        normalPaint.setDither(true);
+
+        pressPaint.setColor(getResources().getColor(R.color.colorTouchPressLine));
+        pressPaint.setStrokeWidth(5);
         pressPaint.setAntiAlias(true);
         pressPaint.setDither(true);
 
-        errorPaint.setColor(Color.RED);
-        errorPaint.setStrokeWidth(20);
+        errorPaint.setColor(getResources().getColor(R.color.colorTouchErrorLine));
+        errorPaint.setStrokeWidth(5);
         errorPaint.setAntiAlias(true);
         errorPaint.setDither(true);
 
 
-        bitmapPointNormal = BitmapFactory.decodeResource(getResources(), R.drawable.touch_nomal);
+        bitmapPointNormal = BitmapFactory.decodeResource(getResources(), R.drawable.touch_normal);
         bitmapPointPress = BitmapFactory.decodeResource(getResources(), R.drawable.touch_press);
         bitmapPointError = BitmapFactory.decodeResource(getResources(), R.drawable.touch_error);
 
@@ -159,7 +164,9 @@ public class TouchDeblockingView extends View {
 
 
     private void drawLine(Canvas canvas,Point a,Point b){
-        if (a.state==Point.STATE_PRESS){
+        if (a.state==Point.STATE_NORMAL){
+            canvas.drawLine(a.x,a.y,b.x,b.y,normalPaint);
+        } else if (a.state==Point.STATE_PRESS){
             canvas.drawLine(a.x,a.y,b.x,b.y,pressPaint);
         }else if (a.state==Point.STATE_ERROR){
             canvas.drawLine(a.x,a.y,b.x,b.y,errorPaint);
