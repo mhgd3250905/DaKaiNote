@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.bmob.v3.Bmob;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.BottomBarNewNoteActivity;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
@@ -79,11 +80,16 @@ public class UIHomeActivity extends BaseHomeActivity
         }
     };
     private SettingFragment mSettingFragment;
+    private Dialog mDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //第一：默认初始化
+        Bmob.initialize(this, "b0bff13900cd010d5145da59e88f213f");
+
         setContentView(R.layout.activity_main);
         initUI();
         initData();
@@ -366,7 +372,7 @@ public class UIHomeActivity extends BaseHomeActivity
             //如果是第一次点击
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final TouchDeblockingView tdvLock = new TouchDeblockingView(this);
-            final Dialog dialog=builder.create();
+
                 builder.setTitle("请输入密码");
                 tdvLock.setOnDrawFinishedListener(new TouchDeblockingView.OnDrawFinishListener() {
                     @Override
@@ -377,12 +383,15 @@ public class UIHomeActivity extends BaseHomeActivity
                             tdvLock.resetPoints();
                             return false;
                         } else {
+
                             StringBuilder sb = new StringBuilder();
+
                             for (Integer i : passList) {
                                 sb.append(i);
                             }
+
                             if (sPref.getString("password", "").equals(sb.toString())) {
-                                dialog.dismiss();
+                                mDialog.dismiss();
                                 return true;
                             } else {
                                 return false;
@@ -393,15 +402,14 @@ public class UIHomeActivity extends BaseHomeActivity
                 builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
                     @Override
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount()==0)
-                        {
-                           return true;
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                            return true;
                         }
                         return false;
                     }
                 });
                 builder.setView(tdvLock);
-                builder.show();
+            mDialog = builder.show();
         }
     }
 

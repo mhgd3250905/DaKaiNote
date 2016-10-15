@@ -122,6 +122,7 @@
     <item name="ssv_setting_lock" type="id">ssv_setting_lock</item>
     <item name="tdv_deblock" type="id">tdv_deblock</item>
     <item name="tdv_lock" type="id">tdv_lock</item>
+    <item name="tv_setting_reset_pw" type="id">tv_setting_reset_pw</item>
 
 
 </resources>

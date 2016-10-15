@@ -68,6 +68,13 @@
             setting:settingTitleText="上锁"
             setting:settingShowText="开启上锁"></skkk.gogogo.dakainote.View.SettingShowView>
 
+        <TextView
+            android:id="@id/tv_setting_reset_pw"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="重置密码"
+            style="@style/SettingBodyTitleStyle"/>
+
     </LinearLayout>
 
     <LinearLayout

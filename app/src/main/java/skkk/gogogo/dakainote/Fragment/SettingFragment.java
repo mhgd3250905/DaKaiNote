@@ -8,9 +8,11 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class SettingFragment extends Fragment {
     private Handler homeHandler;
     protected final static int PHOTO_REQUEST_GALLERY = 914;
     protected String noteStyle, imagePath;
+    private TextView tvResetPW;
 
     public SettingFragment(NoteListFragment noteListFragment, SharedPreferences sPref, Handler homeHandler) {
         mNoteListFragment = noteListFragment;
@@ -63,6 +66,7 @@ public class SettingFragment extends Fragment {
         ssvLock = (SettingShowView) view.findViewById(R.id.ssv_setting_lock);
         ssvBackup= (SettingShowView) view.findViewById(R.id.ssv_setting_backup);
         ssvResave= (SettingShowView) view.findViewById(R.id.ssv_setting_resave);
+        tvResetPW= (TextView) view.findViewById(R.id.tv_setting_reset_pw);
 
 
 
@@ -86,9 +90,9 @@ public class SettingFragment extends Fragment {
 
         //设置上锁文字
         if (sPref.getBoolean("lock",false)){
-            ssvLock.setTvShowText("开启上锁");
+            ssvLock.setTvShowText("已开启上锁");
         }else {
-            ssvLock.setTvShowText("关闭上锁");
+            ssvLock.setTvShowText("已关闭上锁");
         }
 
     }
@@ -168,17 +172,17 @@ public class SettingFragment extends Fragment {
         ssvLock.setOnClickListener(new View.OnClickListener() {
                                        @Override
                                        public void onClick(View v) {
-                                           if (sPref.getBoolean("lock",false)){
+                                           if (sPref.getBoolean("lock", false)){
                                                //如果有设置上锁,就关闭上锁
                                                sPref.edit().putBoolean("lock",false).commit();
-                                               ssvLock.setTvShowText("关闭上锁");
+                                               ssvLock.setTvShowText("已关闭上锁");
                                            }else {
                                                //如果没有设置上锁
                                                if (!sPref.getBoolean("lock_first", true)){
                                                    //如果不是第一次点击
                                                    //打开上锁
                                                    sPref.edit().putBoolean("lock",true).commit();
-                                                   ssvLock.setTvShowText("开启上锁");
+                                                   ssvLock.setTvShowText("已开启上锁");
 
                                                }else {
                                                    //如果是第一次点击
@@ -202,7 +206,7 @@ public class SettingFragment extends Fragment {
                                                                    }
                                                                    sPref.edit().putString("password", sb.toString()).commit();
                                                                    sPref.edit().putBoolean("lock_first", false).commit();
-                                                                   ssvLock.setTvShowText("开启上锁");
+                                                                   ssvLock.setTvShowText("已开启上锁");
                                                                    dialog.dismiss();
                                                                    return true;
                                                                }
@@ -217,6 +221,15 @@ public class SettingFragment extends Fragment {
                                    }
 
         );
+
+        tvResetPW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(sPref.getString("password",""))){
+
+                }
+            }
+        });
 
         ssvBackup.setOnClickListener(new View.OnClickListener() {
             @Override
