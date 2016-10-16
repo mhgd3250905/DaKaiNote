@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -271,11 +272,12 @@ public class UIHomeActivity extends BaseHomeActivity
                 if (!fab.isShown()) {
                     fab.show();
                 }
-                mToolbar.setTitle("PIN笔记");
+
                 myNotes = SQLUtils.getPinNoteList();
                 if (myNotes.size() == 0) {
                     Snackbar.make(flHome, "没有pin笔记...", Snackbar.LENGTH_SHORT).show();
                 } else {
+                    mToolbar.setTitle("PIN笔记");
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -289,11 +291,12 @@ public class UIHomeActivity extends BaseHomeActivity
                 if (!fab.isShown()) {
                     fab.show();
                 }
-                mToolbar.setTitle("图片笔记");
+
                 myNotes = SQLUtils.getImageNoteList();
                 if (myNotes.size() == 0) {
                     Snackbar.make(flHome, "没有图片笔记...", Snackbar.LENGTH_SHORT).show();
                 } else {
+                    mToolbar.setTitle("图片笔记");
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -307,11 +310,12 @@ public class UIHomeActivity extends BaseHomeActivity
                 if (!fab.isShown()) {
                     fab.show();
                 }
-                mToolbar.setTitle("录音笔记");
                 myNotes = SQLUtils.getVoiceNoteList();
                 if (myNotes.size() == 0) {
                     Snackbar.make(flHome, "没有录音笔记...", Snackbar.LENGTH_SHORT).show();
                 } else {
+                    mToolbar.setTitle("录音笔记");
+
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -324,11 +328,12 @@ public class UIHomeActivity extends BaseHomeActivity
                 if (!fab.isShown()) {
                     fab.show();
                 }
-                mToolbar.setTitle("录音笔记");
                 myNotes = SQLUtils.getScheduleNoteList();
                 if (myNotes.size() == 0) {
                     Snackbar.make(flHome, "没有行事历...", Snackbar.LENGTH_SHORT).show();
                 } else {
+                    mToolbar.setTitle("录音笔记");
+
                     noteListFragment.updateAll(myNotes);
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -361,11 +366,12 @@ public class UIHomeActivity extends BaseHomeActivity
     @Override
     protected void onResume() {
         super.onResume();
+
         /* @描述 设置fab进入界面时的动画 */
         if (!fab.isShown()) {
+            SystemClock.sleep(100);
             fab.show();
         }
-
         /* @描述 如果开启上锁 */
         if (sPref.getBoolean("lock",false)){
             canBack=false;
@@ -373,7 +379,9 @@ public class UIHomeActivity extends BaseHomeActivity
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final TouchDeblockingView tdvLock = new TouchDeblockingView(this);
 
-                builder.setTitle("请输入密码");
+            builder.setTitle("请输入密码");
+            builder.setView(tdvLock);
+
                 tdvLock.setOnDrawFinishedListener(new TouchDeblockingView.OnDrawFinishListener() {
                     @Override
                     public boolean OnDrawFinished(List<Integer> passList) {
@@ -399,16 +407,16 @@ public class UIHomeActivity extends BaseHomeActivity
                         }
                     }
                 });
-                builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                    @Override
-                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-                            return true;
-                        }
-                        return false;
+            builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                        return true;
                     }
+                    return false;
+                }
                 });
-                builder.setView(tdvLock);
+
             mDialog = builder.show();
         }
     }
@@ -417,6 +425,7 @@ public class UIHomeActivity extends BaseHomeActivity
     protected void onPause() {
         super.onPause();
         if (fab.isShown()) {
+            SystemClock.sleep(100);
             fab.hide();
         }
     }
@@ -457,9 +466,9 @@ public class UIHomeActivity extends BaseHomeActivity
     };
 
     /*
-           * @方法 针对相机非返回值处理
-           *
-           */
+    * @方法 针对相机非返回值处理
+    *
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -1,6 +1,7 @@
 package skkk.gogogo.dakainote.Fragment;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -39,9 +40,9 @@ public class SettingFragment extends Fragment {
     private NoteListFragment mNoteListFragment;
     private SharedPreferences sPref;
     private Handler homeHandler;
-    protected final static int PHOTO_REQUEST_GALLERY = 914;
-    protected String noteStyle, imagePath;
+    protected String noteStyle;
     private TextView tvResetPW;
+    private Dialog mDialog;
 
     public SettingFragment(NoteListFragment noteListFragment, SharedPreferences sPref, Handler homeHandler) {
         mNoteListFragment = noteListFragment;
@@ -68,8 +69,6 @@ public class SettingFragment extends Fragment {
         ssvResave= (SettingShowView) view.findViewById(R.id.ssv_setting_resave);
         tvResetPW= (TextView) view.findViewById(R.id.tv_setting_reset_pw);
 
-
-
         noteStyle = "瀑布流";
         switch (sPref.getInt("note_style", 1)) {
             case 0:
@@ -88,11 +87,15 @@ public class SettingFragment extends Fragment {
 
         ssvNoteStyle.setTvShowText(noteStyle);
 
-        //设置上锁文字
-        if (sPref.getBoolean("lock",false)){
-            ssvLock.setTvShowText("已开启上锁");
+        if (sPref.getBoolean("lock_first",true)&&TextUtils.isEmpty(sPref.getString("password",""))){
+            ssvLock.setTvShowText("点击设置密码");
         }else {
-            ssvLock.setTvShowText("已关闭上锁");
+            //设置上锁文字
+            if (sPref.getBoolean("lock", false)) {
+                ssvLock.setTvShowText("已开启上锁");
+            } else {
+                ssvLock.setTvShowText("已关闭上锁");
+            }
         }
 
     }
@@ -188,7 +191,7 @@ public class SettingFragment extends Fragment {
                                                    //如果是第一次点击
                                                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                                    final TouchDeblockingView tdvLock = new TouchDeblockingView(getContext());
-                                                   final AlertDialog dialog = builder.create();
+
                                                    if (sPref.getBoolean("lock_first", true)) {
 
                                                        builder.setTitle("请设置密码");
@@ -206,14 +209,15 @@ public class SettingFragment extends Fragment {
                                                                    }
                                                                    sPref.edit().putString("password", sb.toString()).commit();
                                                                    sPref.edit().putBoolean("lock_first", false).commit();
+                                                                   sPref.edit().putBoolean("lock",true).commit();
                                                                    ssvLock.setTvShowText("已开启上锁");
-                                                                   dialog.dismiss();
+                                                                   mDialog.dismiss();
                                                                    return true;
                                                                }
                                                            }
                                                        });
                                                        builder.setView(tdvLock);
-                                                       builder.show();
+                                                       mDialog = builder.show();
                                                    }
                                                }
                                            }
@@ -225,9 +229,13 @@ public class SettingFragment extends Fragment {
         tvResetPW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(sPref.getString("password",""))){
-
+                if (!sPref.getBoolean("lock_first",true)){
+                    sPref.edit().putBoolean("lock_first",true).commit();
+                    sPref.edit().putString("password", "").commit();
+                    sPref.edit().putBoolean("lock",false).commit();
                 }
+                ssvLock.setTvShowText("点击设置密码");
+                Snackbar.make(view,"密码已清除，请点击上锁重新设置。",Snackbar.LENGTH_SHORT).show();
             }
         });
 

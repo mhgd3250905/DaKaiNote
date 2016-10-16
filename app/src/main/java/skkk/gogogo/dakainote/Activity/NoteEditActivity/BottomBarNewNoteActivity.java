@@ -67,9 +67,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
     protected ImageView ivNoteEditNext;
     boolean change = true;
     private AlertDialog mDialog;
-
-
-
+    private InputMethodManager mImm;
 
 
     @Override
@@ -343,6 +341,10 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
             /* @描述 点击图片按钮 */
             case R.id.menu_note_edit_image:
 
+                 /* @描述 只要录音按键出现那么就强制关闭软键盘 */
+                mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mImm.hideSoftInputFromWindow(etFirstSchedule.getWindowToken(), 0); //强制隐藏键盘
+
                 /* @描述 设置dialogView */
                 final View dialogView = View.inflate(BottomBarNewNoteActivity.this,
                         R.layout.item_dialog_image, null);
@@ -403,8 +405,8 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 } else {
                     rbVoice.setVisibility(View.VISIBLE);
                     /* @描述 只要录音按键出现那么就强制关闭软键盘 */
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(etFirstSchedule.getWindowToken(), 0); //强制隐藏键盘
+                    mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mImm.hideSoftInputFromWindow(etFirstSchedule.getWindowToken(), 0); //强制隐藏键盘
                 }
                 break;
             /* @描述 点击Schedule按钮 */

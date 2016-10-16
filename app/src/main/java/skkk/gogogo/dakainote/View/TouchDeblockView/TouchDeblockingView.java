@@ -68,17 +68,17 @@ public class TouchDeblockingView extends View {
     /* @描述 初始化工作 */
     private void init() {
         normalPaint.setColor(getResources().getColor(R.color.colorTouchNormalLine));
-        normalPaint.setStrokeWidth(5);
+        normalPaint.setStrokeWidth(10);
         normalPaint.setAntiAlias(true);
         normalPaint.setDither(true);
 
         pressPaint.setColor(getResources().getColor(R.color.colorTouchPressLine));
-        pressPaint.setStrokeWidth(5);
+        pressPaint.setStrokeWidth(10);
         pressPaint.setAntiAlias(true);
         pressPaint.setDither(true);
 
         errorPaint.setColor(getResources().getColor(R.color.colorTouchErrorLine));
-        errorPaint.setStrokeWidth(5);
+        errorPaint.setStrokeWidth(10);
         errorPaint.setAntiAlias(true);
         errorPaint.setDither(true);
 
