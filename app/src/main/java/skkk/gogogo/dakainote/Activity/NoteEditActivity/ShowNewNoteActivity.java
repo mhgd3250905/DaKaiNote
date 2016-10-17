@@ -145,7 +145,11 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
             /* @描述 如果是编辑界面 */
             tvNoteDetailTime.setText(DateUtils.getTime());
             LogUtils.Log("编辑界面时间显示为" + DateUtils.getTime());
-            initNote();
+
+             /* @描述 保存唯一标识码 */
+            noteKey=System.currentTimeMillis();
+            //note.setKeyNum(noteKey);//保存标识
+
             addDefaultFragment();
         }
     }
@@ -164,15 +168,6 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
         }
     }
 
-    /*
-     * @方法 初始化note
-     *
-     */
-    private void initNote() {
-        /* @描述 保存唯一标识码 */
-        noteKey=System.currentTimeMillis();
-        note.setKeyNum(noteKey);//保存标识
-    }
 
     /*
      * @desc 加入默认的Fragment界面

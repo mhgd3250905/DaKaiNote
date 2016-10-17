@@ -9,7 +9,7 @@
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:background="?attr/mainBackground"
     android:stateListAnimator="@anim/card_anim"
     card_view:cardCornerRadius="3dp">
 

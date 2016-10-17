@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import skkk.gogogo.dakainote.Activity.HomeActivity.BaseHomeActivity;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.SettingCheckView;
 import skkk.gogogo.dakainote.View.SettingShowView;
@@ -98,6 +97,12 @@ public class SettingFragment extends Fragment {
             }
         }
 
+        if (sPref.getBoolean("night",false)){
+            scvNight.setCheckTitle("夜间模式");
+        }else {
+            scvNight.setCheckTitle("日间模式");
+        }
+
     }
 
     /* @描述 初始化点击事件 */
@@ -155,20 +160,12 @@ public class SettingFragment extends Fragment {
         scvNight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BaseHomeActivity uiHomeActivity = (BaseHomeActivity) getActivity();
-                if (scvNight.getCheck()) {
-                    scvNight.setChecked(false);
-                    scvNight.setCheckTitle("日间模式");
-
-
-                    Snackbar.make(view, "日间模式", Snackbar.LENGTH_SHORT).show();
-                } else {
-                    scvNight.setChecked(true);
-                    scvNight.setCheckTitle("夜间模式");
-
-
-                    Snackbar.make(view, "夜间模式", Snackbar.LENGTH_SHORT).show();
+                if (sPref.getBoolean("night",false)){
+                    sPref.edit().putBoolean("night",false).commit();
+                }else {
+                    sPref.edit().putBoolean("night",true).commit();
                 }
+                getActivity().recreate();
             }
         });
 

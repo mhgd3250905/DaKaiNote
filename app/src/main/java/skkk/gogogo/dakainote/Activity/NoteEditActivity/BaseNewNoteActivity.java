@@ -66,13 +66,19 @@ public class BaseNewNoteActivity extends AppCompatActivity {
     protected boolean checkFlag = false;
     protected String checkString;
 
-    protected SharedPreferences sPerf;
+    protected SharedPreferences sPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
         initEvent();
+
+        if (sPref.getBoolean("night",false)){
+            setTheme(R.style.AppThemeNight);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
     }
 
     /*
@@ -109,7 +115,7 @@ public class BaseNewNoteActivity extends AppCompatActivity {
         //设置note中用来显示Voice的fl
         fl_note_voice = (FrameLayout) findViewById(R.id.fl_note_voice);
         //初始化SP
-        sPerf=getSharedPreferences("note",MODE_PRIVATE);
+        sPref=getSharedPreferences("note",MODE_PRIVATE);
     }
 
     /*

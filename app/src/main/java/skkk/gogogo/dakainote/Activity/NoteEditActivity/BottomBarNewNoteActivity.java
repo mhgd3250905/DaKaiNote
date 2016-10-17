@@ -105,18 +105,18 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 }
 
                 if (!checkString.equals(etFirstSchedule.getText().toString())) {
-                    checkString=etFirstSchedule.getText().toString();
+                    checkString = etFirstSchedule.getText().toString();
                     SpannableString spannableString = etFirstSchedule.makeSpannableString(s.toString());
                     int start = etFirstSchedule.getSelectionStart();
 
-                    if (change){
-                        change=false;
+                    if (change) {
+                        change = false;
                     }
 
                     etFirstSchedule.setText(spannableString);
 
-                    if (!change){
-                        change=true;
+                    if (!change) {
+                        change = true;
                     }
 
                     etFirstSchedule.setMovementMethod(new LinkTouchMovementMethod());
@@ -175,7 +175,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 }
                 AlertDialog.Builder builder=new AlertDialog.Builder(BottomBarNewNoteActivity.this);
                 boolean[] gravityCheck=new boolean[]{true,false,false};
-                int gravityIndex = sPerf.getInt("edit_gravity", 0);
+                int gravityIndex = sPref.getInt("edit_gravity", 0);
                 for (int i = 0; i < 3; i++) {
                     if (i==gravityIndex){
                         gravityCheck[i]=true;
@@ -191,17 +191,17 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                                 switch (which) {
                                     case 0:
                                         etFirstSchedule.setGravity(Gravity.LEFT | Gravity.TOP);
-                                        sPerf.edit().putInt("edit_gravity",0).commit();
+                                        sPref.edit().putInt("edit_gravity",0).commit();
                                         dialog.dismiss();
                                         break;
                                     case 1:
                                         etFirstSchedule.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
-                                        sPerf.edit().putInt("edit_gravity",1).commit();
+                                        sPref.edit().putInt("edit_gravity",1).commit();
                                         dialog.dismiss();
                                         break;
                                     case 2:
                                         etFirstSchedule.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                        sPerf.edit().putInt("edit_gravity",2).commit();
+                                        sPref.edit().putInt("edit_gravity",2).commit();
                                         dialog.dismiss();
                                         break;
                                 }
@@ -453,7 +453,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
 
         isStore = false;
         /* @描述 保存对齐方式 */
-        note.setGravity(sPerf.getInt("edit_gravity",0));
+        note.setGravity(sPref.getInt("edit_gravity",0));
 
         /* @描述 保存标题 */
         if (!TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
@@ -524,6 +524,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
             }
         }
 
+
         /* @描述 保存录音 */
         //获取到缓存中的图片
         List<VoiceCache> voiceCaches = DataSupport
@@ -550,6 +551,109 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
         }
 
     }
+
+//    /* @描述 更新数据 */
+//    public void updateNote(){
+//
+//        isStore = false;
+//        /* @描述 保存对齐方式 */
+//        note.setGravity(sPerf.getInt("edit_gravity",0));
+//
+//        /* @描述 保存标题 */
+//        if (!TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
+//            note.setTitle(etNoteDetailTitle.getText().toString());
+//        } else {
+//            note.setTitle("无题");
+//        }
+//
+//        /* @描述 保存et内容 */
+//        if (!TextUtils.isEmpty(etFirstSchedule.getText().toString()) &&
+//                !isScheduleExist) {
+//            /* @描述 如果不存在schedule而且et内容不为空 */
+//            note.setContent(etFirstSchedule.getText().toString());
+//            isStore = true;
+//        } else if (isScheduleExist) {
+//            /* @描述 如果存在schedule */
+//            /* @描述 设置内容 */
+//            note.setContent(etFirstSchedule.getText().toString());
+//            /* @描述 设置schedule */
+//            int scheduleCount = llNoteAgain.getChildCount();
+//            for (int i = 0; i < scheduleCount; i++) {
+//                LinearLayout item = (LinearLayout) llNoteAgain.getChildAt(i);
+//                Schedule schedule = new Schedule();
+//                schedule.setScheduleChecked(false);
+//                if (item.getChildCount() == 2) {
+//                    schedule.setScheduleChecked(((CheckBox) item.getChildAt(0)).isChecked());
+//                    schedule.setScheduleContent(((EditText) item.getChildAt(1)).getText().toString());
+//                } else if (item.getChildCount() == 1) {
+//                    schedule.setScheduleContent(((EditText) item.getChildAt(0)).getText().toString());
+//                }
+//                schedule.save();
+//                note.getScheduleList().add(schedule);
+//                note.setScheduleIsExist(true);
+//                isStore = true;
+//            }
+//        }
+//
+//        /* @描述 保存时间 */
+//        if (inetntNote == null) {
+//            note.setTime(DateUtils.getTime());//保存时间
+//        } else {
+//            //展示状态保留原来时间
+//            note.setTime(inetntNote.getTime());
+//        }
+//
+//        /* @描述 设置noteKey */
+//        note.setKeyNum(noteKey);
+//        /* @描述 初始化无图片存在 */
+//        note.setImageIsExist(false);//初始化图片为不存在
+//        /* @描述 初始化无录音存在 */
+//        note.setVoiceExist(false);//初始化录音为不存在
+//        /* @描述 保存pin属性 */
+//        note.setPinIsExist(isPin);//设置pin属性
+//        /* @描述 保存图片 */
+//        //获取到缓存中的图片
+//        List<ImageCache> imageCaches = DataSupport
+//                .where("notekey=?", String.valueOf(noteKey))
+//                .find(ImageCache.class);
+//        //判断缓存图片是否存在
+//        if (imageCaches.size() != 0) {
+//            for (int i = 0; i < imageCaches.size(); i++) {
+//                Image image = new Image();
+//                image.setImagePath(imageCaches.get(i).getImagePath());
+//                image.save();
+//                note.getImageList().add(image);
+//                note.setImageIsExist(true);
+//                isStore = true;
+//            }
+//        }
+//
+//
+//        /* @描述 保存录音 */
+//        //获取到缓存中的图片
+//        List<VoiceCache> voiceCaches = DataSupport
+//                .where("notekey=?", String.valueOf(noteKey))
+//                .find(VoiceCache.class);
+//        //判断缓存图片是否存在
+//        if (voiceCaches.size() != 0) {
+//            for (int i = 0; i < voiceCaches.size(); i++) {
+//                Voice voice = new Voice();
+//                voice.setVoicePath(voiceCaches.get(i).getVoicePath());
+//                voice.save();
+//                note.getVoiceList().add(voice);
+//                note.setVoiceExist(true);
+//                isStore = true;
+//            }
+//        }
+//
+//        /* @描述 保存note */
+//        if (isStore) {
+//           note.update(inetntNote.getId());
+//        } else {
+//            note = null;
+//            Toast.makeText(BottomBarNewNoteActivity.this, "您未保存任何内容...", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 
     @Override
@@ -588,6 +692,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
             switch (requestCode) {
                 /* @描述 相机返回值 */
                 case REQUEST_IMAGE_CAPTURE:
+
                     fl_note_iamge.setVisibility(View.VISIBLE);
                     //设置图片存在
                     isImageExist = true;
@@ -601,9 +706,12 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     mImageNewNoteFragment.insertImage(noteKey);
                     LogUtils.Log("这里是onActivityResult");
                     isDelete = true;
+
                     break;
+
                 /* @描述 相册返回值 */
                 case PHOTO_REQUEST_GALLERY:
+
                     if (data != null) {
                         fl_note_iamge.setVisibility(View.VISIBLE);
                         //设置图片存在

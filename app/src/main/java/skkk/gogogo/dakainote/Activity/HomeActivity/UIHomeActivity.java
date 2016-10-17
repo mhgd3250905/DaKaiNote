@@ -43,7 +43,6 @@ import skkk.gogogo.dakainote.Fragment.SettingFragment;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
-import skkk.gogogo.dakainote.View.ArcMenuView;
 import skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView;
 
 /*
@@ -65,6 +64,8 @@ public class UIHomeActivity extends BaseHomeActivity
     protected final static int PHOTO_REQUEST_GALLERY = 914;
     protected String imagePath;
     protected boolean canBack=true;
+
+
 
     protected Handler homeHandler = new Handler() {
         @Override
@@ -88,14 +89,37 @@ public class UIHomeActivity extends BaseHomeActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (sPref.getBoolean("night",false)){
+            setTheme(R.style.AppThemeNight);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
+
+
         //第一：默认初始化
         Bmob.initialize(this, "b0bff13900cd010d5145da59e88f213f");
-
+        //加入默认的Fragment界面
+        addDefaultFragment();
         setContentView(R.layout.activity_main);
         initUI();
         initData();
         initEvent();
     }
+
+
+
+
+    /*
+    * @desc 加入默认的Fragment界面
+    * @时间 2016/8/1 21:44
+    */
+    private void addDefaultFragment() {
+        noteListFragment = new NoteListFragment(sPref.getInt("note_style",1));
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fl_home, noteListFragment).commit();
+    }
+
+
 
     private void initData() {
         myNotes = new ArrayList<NoteNew>();
@@ -113,8 +137,6 @@ public class UIHomeActivity extends BaseHomeActivity
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        arcMenuView = (ArcMenuView) findViewById(R.id.arc_menu_view_home);
-
         setSupportActionBar(mToolbar);
 //        //添加菜单
 //        mToolbar.inflateMenu(R.menu.note_style);
@@ -126,14 +148,16 @@ public class UIHomeActivity extends BaseHomeActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         llMenuTitle = (LinearLayout) navigationView.getHeaderView(0);
-        imagePath = sPref.getString("menu_title_image", "");
-        if (imagePath.equals("")) {
-            llMenuTitle.setBackground(getResources().getDrawable(R.drawable.shape_note_bg));
-        } else {
-            BitmapDrawable bitmapDrawable = getLLBgDrawable(imagePath);
-            llMenuTitle.setBackground(bitmapDrawable);
-        }
+
+//        imagePath = sPref.getString("menu_title_image", "");
+//        if (imagePath.equals("")) {
+//            llMenuTitle.setBackground(getResources().getDrawable(R.drawable.shape_note_bg));
+//        } else {
+//            BitmapDrawable bitmapDrawable = getLLBgDrawable(imagePath);
+//            llMenuTitle.setBackground(bitmapDrawable);
+//        }
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
     }
@@ -354,7 +378,7 @@ public class UIHomeActivity extends BaseHomeActivity
 
                 break;
             case R.id.nav_author:
-
+                UIHomeActivity.this.recreate();
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -373,7 +397,7 @@ public class UIHomeActivity extends BaseHomeActivity
             fab.show();
         }
         /* @描述 如果开启上锁 */
-        if (sPref.getBoolean("lock",false)){
+        if (sPref.getBoolean("lock", false)){
             canBack=false;
             //如果是第一次点击
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -415,7 +439,7 @@ public class UIHomeActivity extends BaseHomeActivity
                     }
                     return false;
                 }
-                });
+            });
 
             mDialog = builder.show();
         }

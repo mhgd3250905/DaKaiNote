@@ -47,6 +47,8 @@
         <attr name="checkTitleText" format="string"/>
     </declare-styleable>
 
+    <attr name="styleTextColor" format="color|reference"></attr>
+        <attr name="mainBackground" format="color|reference"></attr>
 
 
 </resources>

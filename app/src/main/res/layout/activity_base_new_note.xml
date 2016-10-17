@@ -5,7 +5,7 @@
     android:id="@id/cl_note_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="?attr/mainBackground"
     android:fitsSystemWindows="true">
 
 
@@ -53,7 +53,6 @@
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/colorWhite"
             android:orientation="horizontal">
 
             <TextView
@@ -63,7 +62,6 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="2016-8-28 11:16:00"
-                android:textColor="@color/colorGray"
                 android:textSize="15sp"/>
 
             <ImageView
@@ -126,9 +124,10 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="left|top"
+                        android:textColor="?attr/styleTextColor"
                         android:hint="@string/note_edit_hint"
                         android:inputType="textMultiLine"
-                        android:textColorHint="@color/colorPrimary"
+                        android:textColorHint="@color/colorWhite55"
                         android:textSize="17sp"/>
 
                 </LinearLayout>

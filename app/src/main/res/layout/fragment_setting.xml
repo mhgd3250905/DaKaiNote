@@ -38,7 +38,6 @@
                 setting:settingTitleText="笔记样式"
                 setting:settingShowText="瀑布流"></skkk.gogogo.dakainote.View.SettingShowView>
 
-
             <skkk.gogogo.dakainote.View.SettingCheckView
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"

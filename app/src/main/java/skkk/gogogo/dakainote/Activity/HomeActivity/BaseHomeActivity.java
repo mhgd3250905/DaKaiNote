@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import skkk.gogogo.dakainote.Activity.PermissionsActivity.PermissionsActivity;
 import skkk.gogogo.dakainote.MyUtils.PermissionsChecker;
-import skkk.gogogo.dakainote.View.ArcMenuView;
 
 /*
 *
@@ -21,8 +20,8 @@ public class BaseHomeActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_CODE = 0; // 请求码
-    protected ArcMenuView arcMenuView;
     protected SharedPreferences sPref;
+
 
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
@@ -40,15 +39,20 @@ public class BaseHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        if(savedInstanceState != null){
-//            theme = savedInstanceState.getInt("theme");
-//            setTheme(theme);
-//        }
-
         sPref=getSharedPreferences("note",MODE_PRIVATE);
         mPermissionsChecker = new PermissionsChecker(this);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
 
     @Override protected void onResume() {
         super.onResume();
@@ -59,7 +63,7 @@ public class BaseHomeActivity extends AppCompatActivity {
     }
 
     private void startPermissionsActivity() {
-        PermissionsActivity.startActivityForResult(this,REQUEST_CODE, PERMISSIONS);
+        PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
     }
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
