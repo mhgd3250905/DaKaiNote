@@ -8,11 +8,11 @@
         android:text="title"
        style="@style/SettingBodyTitleStyle"/>
     <TextView
+        android:textColor="@color/colorGray"
         android:singleLine="true"
         android:id="@id/tv_setting_show"
         android:text="content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorBlackBody77"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -8,6 +8,8 @@
     <color name="nightColorPrimaryDark">#383838</color>
     <color name="nightColorAccent">#a72b55</color>
 
+    <color name="myTextColor">?attr/styleTextColor</color>
+
 
     <color name="colorLightBlue">#3ffffF</color>
     <color name="colorBlackBody">#cc000000</color>

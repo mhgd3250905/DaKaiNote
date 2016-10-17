@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 
     <application
@@ -54,6 +55,8 @@
         </activity>
         <activity android:name=".Activity.TouchDeblockActivity.LockActivity">
         </activity>
+
+
     </application>
 
 </manifest>

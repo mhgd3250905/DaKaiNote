@@ -222,6 +222,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     return;
                 }
                 MyViewUtils.getFoucs(etFirstSchedule);
+
                 String time = DateUtils.getTime();
                 if (etFirstSchedule.getLineCount() == 1 &&
                         TextUtils.isEmpty(etFirstSchedule.getText().toString())) {
@@ -229,6 +230,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                 } else {
                     etFirstSchedule.append("\n"+time+"\n");
                 }
+
             }
         });
 
@@ -433,7 +435,7 @@ public class BottomBarNewNoteActivity extends VoiceNewNoteActivity {
                     etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
                     etFirstSchedule.setPadding(0, 0, 0, 0);
                     etFirstSchedule.setBackground(null);
-                    etFirstSchedule.setTextSize(20);
+                    etFirstSchedule.setTextSize(17);
                     etFirstSchedule.setSingleLine(true);
                     MyViewUtils.getFoucs(etFirstSchedule);
                 }

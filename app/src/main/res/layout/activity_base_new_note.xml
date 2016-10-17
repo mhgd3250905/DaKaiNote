@@ -23,19 +23,18 @@
                 android:id="@id/tb_note_new_detail"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/colorPrimaryDark"
                 android:elevation="10dp"
                 app:navigationIcon="@drawable/vector_drawable_back"
                 app:title="大开笔记"
                 app:titleTextColor="@color/colorWhite">
 
                 <EditText
+                    android:background="@null"
                     android:id="@id/et_note_detail_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/colorPrimaryDark"
                     android:hint="请输入标题"
                     android:singleLine="true"
                     android:gravity="center_vertical"
@@ -49,6 +48,7 @@
 
 
         <LinearLayout
+            android:background="?attr/mainBackground"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:layout_width="match_parent"
@@ -56,6 +56,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="@color/colorGray"
                 android:id="@id/tv_note_detail_time"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -97,6 +98,7 @@
             android:fillViewport="true">
 
             <LinearLayout
+                android:background="?attr/mainBackground"
                 android:id="@id/ll_edit_again"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

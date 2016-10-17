@@ -62,6 +62,7 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
 
         /* @描述 是否显示下方的标签 */
         holder.myNoteView.setCheckBoxShow(showCheckbox);
+
         if (mItemDataList.get(position).isScheduleIsExist()
                 ||mItemDataList.get(position).isImageIsExist()
                 ||mItemDataList.get(position).isPinIsExist()

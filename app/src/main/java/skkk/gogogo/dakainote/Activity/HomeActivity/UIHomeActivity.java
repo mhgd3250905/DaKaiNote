@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -25,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -34,7 +34,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.BottomBarNewNoteActivity;
+import skkk.gogogo.dakainote.Bean.Person;
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.Fragment.ImageShowFragment;
@@ -64,6 +67,7 @@ public class UIHomeActivity extends BaseHomeActivity
     protected final static int PHOTO_REQUEST_GALLERY = 914;
     protected String imagePath;
     protected boolean canBack=true;
+    protected boolean noNeedLock=true;
 
 
 
@@ -95,7 +99,6 @@ public class UIHomeActivity extends BaseHomeActivity
             setTheme(R.style.AppTheme);
         }
 
-
         //第一：默认初始化
         Bmob.initialize(this, "b0bff13900cd010d5145da59e88f213f");
         //加入默认的Fragment界面
@@ -104,6 +107,7 @@ public class UIHomeActivity extends BaseHomeActivity
         initUI();
         initData();
         initEvent();
+
     }
 
 
@@ -123,9 +127,9 @@ public class UIHomeActivity extends BaseHomeActivity
 
     private void initData() {
         myNotes = new ArrayList<NoteNew>();
-        //获取当前fragment
-        noteListFragment = (NoteListFragment) getSupportFragmentManager().
-                findFragmentById(R.id.fl_home);
+//        //获取当前fragment
+//        noteListFragment = (NoteListFragment) getSupportFragmentManager().
+//                findFragmentById(R.id.fl_home);
     }
 
     private void initUI() {
@@ -276,9 +280,7 @@ public class UIHomeActivity extends BaseHomeActivity
         switch (item.getItemId()) {
             /* @描述 点击切换到全部笔记展示页面 */
             case R.id.nav_list:
-                if (!fab.isShown()) {
-                    fab.show();
-                }
+
                 mToolbar.setTitle("大开笔记");
                 myNotes = SQLUtils.getNoteList();
                 if (myNotes.size() == 0) {
@@ -293,9 +295,6 @@ public class UIHomeActivity extends BaseHomeActivity
                 break;
             /* @描述 点击切换到pin笔记列表 */
             case R.id.nav_pin:
-                if (!fab.isShown()) {
-                    fab.show();
-                }
 
                 myNotes = SQLUtils.getPinNoteList();
                 if (myNotes.size() == 0) {
@@ -312,9 +311,6 @@ public class UIHomeActivity extends BaseHomeActivity
             /* @描述 点击切换到图片展示页面
              * 点击图片应该跳转到响应的图片Note中 */
             case R.id.nav_image:
-                if (!fab.isShown()) {
-                    fab.show();
-                }
 
                 myNotes = SQLUtils.getImageNoteList();
                 if (myNotes.size() == 0) {
@@ -331,9 +327,7 @@ public class UIHomeActivity extends BaseHomeActivity
 
             /* @描述 点击切换到声音笔记列表 */
             case R.id.nav_voice:
-                if (!fab.isShown()) {
-                    fab.show();
-                }
+
                 myNotes = SQLUtils.getVoiceNoteList();
                 if (myNotes.size() == 0) {
                     Snackbar.make(flHome, "没有录音笔记...", Snackbar.LENGTH_SHORT).show();
@@ -349,9 +343,7 @@ public class UIHomeActivity extends BaseHomeActivity
                 break;
             /* @描述 点击切换到行事历笔记列表 */
             case R.id.nav_schedule:
-                if (!fab.isShown()) {
-                    fab.show();
-                }
+
                 myNotes = SQLUtils.getScheduleNoteList();
                 if (myNotes.size() == 0) {
                     Snackbar.make(flHome, "没有行事历...", Snackbar.LENGTH_SHORT).show();
@@ -367,18 +359,32 @@ public class UIHomeActivity extends BaseHomeActivity
                 break;
             /* @描述 点击切换到设置界面 */
             case R.id.nav_setting:
-                /* @描述 隐藏fab */
-                if (fab.isShown()) {
-                    fab.hide();
-                }
+                 /* @描述 隐藏fab */
+
                 mToolbar.setTitle("设置");
                 mSettingFragment = new SettingFragment(noteListFragment, sPref, homeHandler);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fl_home, mSettingFragment).commit();
-
                 break;
+
             case R.id.nav_author:
-                UIHomeActivity.this.recreate();
+                /* @描述 隐藏fab */
+
+                Person p2 = new Person();
+                p2.setName("lucky");
+                p2.setAddress("北京海淀");
+                p2.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String objectId, BmobException e) {
+                        if (e == null) {
+                            Toast.makeText(UIHomeActivity.this, "添加数据成功，返回objectId为：" + objectId, Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(UIHomeActivity.this, "创建数据失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -387,18 +393,16 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
 
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        /* @描述 设置fab进入界面时的动画 */
-        if (!fab.isShown()) {
-            SystemClock.sleep(100);
-            fab.show();
-        }
+
         /* @描述 如果开启上锁 */
-        if (sPref.getBoolean("lock", false)){
+        if (sPref.getBoolean("lock", false)&&noNeedLock){
             canBack=false;
+            noNeedLock=false;
             //如果是第一次点击
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final TouchDeblockingView tdvLock = new TouchDeblockingView(this);
@@ -448,10 +452,7 @@ public class UIHomeActivity extends BaseHomeActivity
     @Override
     protected void onPause() {
         super.onPause();
-        if (fab.isShown()) {
-            SystemClock.sleep(100);
-            fab.hide();
-        }
+
     }
 
     /* @描述 打开展示图片线程 */
@@ -507,6 +508,7 @@ public class UIHomeActivity extends BaseHomeActivity
                                 uriImageFromGallery);
                         BitmapDrawable bitmapDrawable = getLLBgDrawable(path);
                         llMenuTitle.setBackground(bitmapDrawable);
+                        llMenuTitle.setGravity(Gravity.CENTER);
                         sPref.edit().putString("menu_title_image", path).commit();
                         mSettingFragment.setSsvMenuImageSrc(path);
                     }
@@ -524,10 +526,11 @@ public class UIHomeActivity extends BaseHomeActivity
         bitmapDrawable.setDither(true);
         bitmapDrawable.setAntiAlias(true);
         bitmapDrawable.setFilterBitmap(true);
-        bitmapDrawable.setGravity(Gravity.CENTER);
+        bitmapDrawable.setGravity(Gravity.RELATIVE_LAYOUT_DIRECTION);
         bitmapDrawable.setTileModeXY(Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         return bitmapDrawable;
     }
+
 
 
 }

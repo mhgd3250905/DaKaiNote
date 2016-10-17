@@ -137,6 +137,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         cbItem.setGravity(Gravity.CENTER);
         cbItem.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
 
+
         LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -147,17 +148,26 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setBackground(null);
         etItem.setTextSize(17);
         etItem.setSingleLine(true);
+        if (isNight){
+            etItem.setTextColor(Color.WHITE);
+        }else {
+            etItem.setTextColor(Color.BLACK);
+        }
 
 
         cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    etItem.setPaintFlags(Paint. STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+                    etItem.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                     etItem.setTextColor(Color.GRAY);
                 } else {
                     etItem.setPaintFlags(Paint.HINTING_ON);
-                    etItem.setTextColor(Color.BLACK);
+                    if (isNight){
+                        etItem.setTextColor(Color.WHITE);
+                    }else {
+                        etItem.setTextColor(Color.BLACK);
+                    }
                 }
             }
         });
@@ -166,13 +176,13 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                LinearLayout ll= (LinearLayout) v.getParent();
+                LinearLayout ll = (LinearLayout) v.getParent();
                 mPos = llNoteAgain.indexOfChild(ll);
                 switch (event.getAction()) {
                     case KeyEvent.ACTION_DOWN:
                         if (keyCode == KeyEvent.KEYCODE_ENTER
                                 && isScheduleExist
-                                && llNoteAgain.indexOfChild((LinearLayout) v.getParent())==llNoteAgain.getChildCount()-1) {
+                                && llNoteAgain.indexOfChild((LinearLayout) v.getParent()) == llNoteAgain.getChildCount() - 1) {
                             insertFirstItem();
                             getFouce(mPos + 1);
                         } else if (keyCode == KeyEvent.KEYCODE_DEL && isScheduleExist) {//说明只有一个基础的item，那么删除iv
@@ -186,7 +196,7 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
                                 LogUtils.Log("" + myApplication.getChildCountInScheduleItem());
                                 llNoteAgain.removeView(llItem);
                                 myApplication.setChildCountInScheduleItem(2);
-                                getFouce(mPos-1);
+                                getFouce(mPos - 1);
                             }
                         }
                         break;
@@ -226,7 +236,6 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         cbItem.setGravity(Gravity.CENTER);
         cbItem.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
 
-
         LinearLayout.LayoutParams paramsEt=new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -238,6 +247,11 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         etItem.setTextSize(17);
         etItem.setSingleLine(true);
         etItem.setText(content);
+        if (isNight){
+            etItem.setTextColor(Color.WHITE);
+        }else {
+            etItem.setTextColor(Color.BLACK);
+        }
 
         cbItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -247,7 +261,11 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
                     etItem.setTextColor(Color.GRAY);
                 } else {
                     etItem.setPaintFlags(Paint.HINTING_ON);
-                    etItem.setTextColor(Color.BLACK);
+                    if (isNight){
+                        etItem.setTextColor(Color.WHITE);
+                    }else {
+                        etItem.setTextColor(Color.BLACK);
+                    }
                 }
             }
         });

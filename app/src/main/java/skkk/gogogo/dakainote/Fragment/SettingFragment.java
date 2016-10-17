@@ -3,6 +3,7 @@ package skkk.gogogo.dakainote.Fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.SettingCheckView;
 import skkk.gogogo.dakainote.View.SettingShowView;
@@ -99,8 +101,10 @@ public class SettingFragment extends Fragment {
 
         if (sPref.getBoolean("night",false)){
             scvNight.setCheckTitle("夜间模式");
+            scvNight.setChecked(true);
         }else {
             scvNight.setCheckTitle("日间模式");
+            scvNight.setChecked(false);
         }
 
     }
@@ -162,10 +166,15 @@ public class SettingFragment extends Fragment {
             public void onClick(View v) {
                 if (sPref.getBoolean("night",false)){
                     sPref.edit().putBoolean("night",false).commit();
+                    scvNight.setCheckTitle("夜间模式");
+                    scvNight.setChecked(true);
                 }else {
                     sPref.edit().putBoolean("night",true).commit();
+                    scvNight.setCheckTitle("日间模式");
+                    scvNight.setChecked(false);
                 }
-                getActivity().recreate();
+                startActivity(new Intent(getActivity(), UIHomeActivity.class));
+                getActivity().finish();
             }
         });
 

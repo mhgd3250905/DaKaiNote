@@ -10,6 +10,7 @@
 
 
     <LinearLayout
+        android:background="?attr/mainBackground"
         android:id="@id/ll_note_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,19 +24,18 @@
                 android:id="@id/tb_note_new_detail"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/colorPrimaryDark"
                 android:elevation="10dp"
                 app:navigationIcon="@drawable/vector_drawable_back"
                 app:title="大开笔记"
                 app:titleTextColor="@color/colorWhite">
 
                 <EditText
+                    android:background="@null"
                     android:id="@id/et_note_detail_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/colorPrimaryDark"
                     android:hint="请输入标题"
                     android:singleLine="true"
                     android:gravity="center_vertical"
@@ -49,29 +49,32 @@
 
 
         <LinearLayout
+            android:background="?attr/mainBackground"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="@color/colorGray"
                 android:id="@id/tv_note_detail_time"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dp"
                 android:text="2016-8-28 11:16:00"
-                android:textColor="@color/colorGray"
                 android:textSize="15sp"/>
 
             <ImageView
                 android:id="@id/iv_note_detail_pin"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/item_pin"/>
         </LinearLayout>
 
         <FrameLayout
+            android:paddingBottom="10dp"
             android:id="@id/fl_note_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -85,14 +88,6 @@
             android:visibility="gone">
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@id/fl_note_schedule"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="@drawable/shape_schedule"
-            android:visibility="gone">
-        </FrameLayout>
 
         <android.support.v4.widget.NestedScrollView
             android:id="@id/nsv_edit_again"
@@ -104,6 +99,7 @@
             android:fillViewport="true">
 
             <LinearLayout
+                android:background="?attr/mainBackground"
                 android:id="@id/ll_edit_again"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -130,8 +126,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:textColor="?attr/styleTextColor"
                         android:gravity="left|top"
+                        android:textColor="?attr/styleTextColor"
                         android:hint="@string/note_edit_hint"
                         android:inputType="textMultiLine"
                         android:textColorHint="@color/colorWhite55"

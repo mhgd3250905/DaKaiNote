@@ -10,6 +10,7 @@
         android:layout_height="25dp"
         android:layout_gravity="center"
         android:src="@drawable/vector_drawable_tip"/>
+
     <CheckBox
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"

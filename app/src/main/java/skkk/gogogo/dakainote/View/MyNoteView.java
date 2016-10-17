@@ -158,7 +158,7 @@ public class MyNoteView extends RelativeLayout {
             cbNoteDeleteCheck.setChecked(false);
         } else {
             //隐藏
-            cbNoteDeleteCheck.setVisibility(GONE);
+            cbNoteDeleteCheck.setVisibility(INVISIBLE);
         }
     }
 
