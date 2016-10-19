@@ -117,6 +117,7 @@ public class BaseNewNoteActivity extends AppCompatActivity {
         etFirstSchedule.addAutoLinkMode(AutoLinkMode.MODE_PHONE, AutoLinkMode.MODE_URL);
         checkString = etFirstSchedule.getText().toString();
 
+
         //设置note中用来显示image的fl
         fl_note_iamge = (FrameLayout) findViewById(R.id.fl_note_image);
         //设置note中用来显示Voice的fl

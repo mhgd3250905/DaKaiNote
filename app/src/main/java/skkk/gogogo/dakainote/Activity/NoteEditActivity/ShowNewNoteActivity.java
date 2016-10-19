@@ -18,6 +18,7 @@ import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.NoteNew;
 import skkk.gogogo.dakainote.DbTable.Schedule;
+import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
 import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 import skkk.gogogo.dakainote.Fragment.ImageNewNoteFragment;
@@ -207,6 +208,12 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
         }
         /* @描述 设置内容 */
         etFirstSchedule.setAutoLinkText(inetntNote.getContent());
+
+        //在展示界面记录下第一步
+        TextPeriousCache textPeriousCacheBase = new TextPeriousCache();
+        textPeriousCacheBase.setView_name("etFirstSchedule");
+        textPeriousCacheBase.setContent(inetntNote.getContent());
+        textPeriousCacheBase.save();
 
         /* @描述 先把fragment搁好 */
         mImageNewNoteFragment = new ImageNewNoteFragment(noteKey,mHandler);

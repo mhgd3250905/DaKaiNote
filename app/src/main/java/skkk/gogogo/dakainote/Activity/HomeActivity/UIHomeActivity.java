@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.BottomBarNewNoteActivity;
@@ -99,8 +98,6 @@ public class UIHomeActivity extends BaseHomeActivity
             setTheme(R.style.AppTheme);
         }
 
-        //第一：默认初始化
-        Bmob.initialize(this, "b0bff13900cd010d5145da59e88f213f");
         //加入默认的Fragment界面
         addDefaultFragment();
         setContentView(R.layout.activity_main);

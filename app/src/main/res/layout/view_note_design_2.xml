@@ -62,7 +62,7 @@
     </LinearLayout>
 
     <TextView
-        android:textColor="@color/colorGray"
+        android:textColor="?attr/styleTextColor55"
         android:paddingBottom="5dp"
         android:id="@id/tv_view_note_title_time"
         android:layout_width="match_parent"

@@ -123,6 +123,8 @@
     <item name="tdv_deblock" type="id">tdv_deblock</item>
     <item name="tdv_lock" type="id">tdv_lock</item>
     <item name="tv_setting_reset_pw" type="id">tv_setting_reset_pw</item>
+    <item name="iv_splash" type="id">iv_splash</item>
+    <item name="tv_splash_title" type="id">tv_splash_title</item>
 
 
 </resources>

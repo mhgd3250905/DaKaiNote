@@ -11,6 +11,7 @@
         <!--<item name="android:textColor">@android:color/black</item>-->
         <item name="mainBackground">@android:color/white</item>
         <item name="styleTextColor">@android:color/black</item>
+        <item name="styleTextColor55">#77000000</item>
     </style>
 
     <!-- Base application theme. -->
@@ -24,6 +25,7 @@
         <!--<item name="android:textColor">@android:color/white</item>-->
         <item name="mainBackground">@color/nightColorPrimaryDark</item>
         <item name="styleTextColor">@android:color/white</item>
+        <item name="styleTextColor55">#77ffffff</item>
     </style>
 
 
