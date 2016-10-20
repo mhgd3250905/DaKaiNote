@@ -18,7 +18,7 @@ import skkk.gogogo.dakainote.View.RecordButton;
 * 作    者：ksheng
 * 时    间：2016/8/30$ 22:56$.
 */
-public class VoiceNewNoteActivity extends ShowNewNoteActivity {
+public class VoiceNoteActivity extends ShowNoteActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

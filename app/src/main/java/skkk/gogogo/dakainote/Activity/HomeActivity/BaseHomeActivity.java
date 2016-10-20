@@ -74,9 +74,6 @@ public class BaseHomeActivity extends AppCompatActivity {
         }
     }
 
-    public void reStart(){
-        recreate();
-    }
 
 
 }

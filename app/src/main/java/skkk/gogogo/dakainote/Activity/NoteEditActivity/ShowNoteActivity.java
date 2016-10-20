@@ -1,10 +1,8 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,7 @@ import java.util.List;
 
 import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
-import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.DbTable.Schedule;
 import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
 import skkk.gogogo.dakainote.DbTable.Voice;
@@ -37,14 +35,15 @@ import skkk.gogogo.dakainote.R;
 * 作    者：ksheng
 * 时    间：2016/8/27$ 21:59$.
 */
-public class ShowNewNoteActivity extends EditNewNoteActivity {
-    protected NoteNew inetntNote;
+public class ShowNoteActivity extends ScheduleNoteActivity {
+    protected Note inetntNote;
     protected ImageNewNoteFragment mImageNewNoteFragment;
     protected VoiceNewNoteFragment mVoiceNewNoteFragment;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_SHOW = 201601;
     protected final static int MESSAGE_LAYOUT_KEYBOARD_HIDE = 201602;
     protected final static int IMAGE_DELETED=1011;
     protected final static int VOICE_DELETED=1012;
+    protected boolean isShow = false;//是否是展示页面
 
     protected long noteKey;
     MyImageThread myImageThread;
@@ -53,7 +52,7 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
 
     protected boolean isDelete=true;
 
-    /* @描述 用来jieshou */
+    /* @描述 用来接收fragment中传来的信息 */
     protected Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -123,19 +122,19 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     }
 
 
-
-    /* @描述 用来设置isDelete */
-    public void setIsDelete(boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        beforeStart();//获取传入的数据
 
+        //获取传入的intent中包含的note数据
+        inetntNote = (Note) getIntent().getSerializableExtra("note");
+        if (inetntNote != null) {
+            //如果传入note不是空的那么就说明是展示页面
+            isShow = true;
+        }
+
+        note = new Note();//这里必须要初始化note
         /* @描述 如果是展示页面 */
-        note = new NoteNew();//这里必须要初始化note
         if (isShow) {
             noteKey=inetntNote.getKeyNum();
             initShowUI();
@@ -146,26 +145,9 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
             /* @描述 如果是编辑界面 */
             tvNoteDetailTime.setText(DateUtils.getTime());
             LogUtils.Log("编辑界面时间显示为" + DateUtils.getTime());
-
              /* @描述 保存唯一标识码 */
             noteKey=System.currentTimeMillis();
-            //note.setKeyNum(noteKey);//保存标识
-
             addDefaultFragment();
-        }
-    }
-
-
-    /*
-     * @方法 获取传入的
-     *
-     */
-    private void beforeStart() {
-        //获取传入的intent中包含的note数据
-        inetntNote = (NoteNew) getIntent().getSerializableExtra("note");
-        if (inetntNote != null) {
-            //如果传入note不是空的那么就说明是展示页面
-            isShow = true;
         }
     }
 
@@ -191,7 +173,6 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
     * 2 将note中包含的内容显示到布局页面中
     *
     */
-
     private void initShowUI() {
         /* @描述 设置对齐方式 */
         etFirstSchedule.setGravity(inetntNote.getGravity());
@@ -215,18 +196,10 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
         textPeriousCacheBase.setContent(inetntNote.getContent());
         textPeriousCacheBase.save();
 
-        /* @描述 先把fragment搁好 */
-        mImageNewNoteFragment = new ImageNewNoteFragment(noteKey,mHandler);
-        getSupportFragmentManager().beginTransaction().
-                add(R.id.fl_note_image,mImageNewNoteFragment).commit();
+        //初始化imageFragment & voiceFragment
+        addDefaultFragment();
 
-        /* @描述 先把fragment搁好 */
-        mVoiceNewNoteFragment = new VoiceNewNoteFragment(noteKey,mHandler);
-        getSupportFragmentManager().beginTransaction().
-                add(R.id.fl_note_voice,mVoiceNewNoteFragment).commit();
-
-
-        /* @描述 载入图片 以及 载入录音 以及 载入schedule */
+        /* @描述 载入图片 以及 载入录音*/
         if (inetntNote.isImageIsExist()){
             fl_note_iamge.setVisibility(View.VISIBLE);
             //说明存在图片
@@ -236,7 +209,6 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
             }
             myImageThread=new MyImageThread();
             myImageThread.start();
-
         }
 
         if (inetntNote.isVoiceExist()){
@@ -356,48 +328,4 @@ public class ShowNewNoteActivity extends EditNewNoteActivity {
 
     }
 
-
-    /*
-     * @方法 针对删除note中图片进行返回值处理
-     *
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("SKKK_____", "requestCode:  " + requestCode);
-
-        if(requestCode==REQUEST_NOTE_IMAGE_DELETE&&resultCode==RESULT_OK){
-            LogUtils.Log("你选择了删除图片");
-            /* @描述 在图片详情界面选择了删除图片*/
-
-            /* @描述 获取图片的路径以及notekey */
-            String image_detail_path = (String) data.getExtras().get("image_detail_path");
-            //long image_detail_notekey = (long) data.getExtras().get("image_detail_notekey");
-
-            /* @描述 删除缓存数据库中的对应图片 */
-            if(isShow){
-                int deleteImage= DataSupport.deleteAll(ImageCache.class, "imagepath=?", image_detail_path);
-                DataSupport.deleteAll(Image.class,"imagepath=?",image_detail_path);
-
-                LogUtils.Log("image表中删除行数为 "+deleteImage);
-            }else {
-                int deleteImage= DataSupport.deleteAll(ImageCache.class, "imagepath=?", image_detail_path);
-                LogUtils.Log("image表中删除行数为 "+deleteImage);
-            }
-
-            /* @描述 刷新fragment */
-            List<ImageCache> imageInItem = SQLUtils.getImageInItem(noteKey);
-            mImageNewNoteFragment.updateAll(imageInItem);
-            if (imageInItem.size()==0){
-                fl_note_iamge.setVisibility(View.GONE);
-                /* @描述 把图片存在flag设置为false
-                 * 如果是展示页面就把展示页面的note设置图片不存在
-                  * 主要是为了解决在软键盘出现消失的时候fl_image的显示问题*/
-                isImageExist=false;
-                if (inetntNote!=null){
-                    inetntNote.setImageIsExist(false);
-                }
-            }
-        }
-    }
 }

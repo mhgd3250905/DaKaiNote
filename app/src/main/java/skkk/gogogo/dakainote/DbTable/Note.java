@@ -15,7 +15,7 @@ import java.util.List;
 * 作    者：ksheng
 * 时    间：2016/8/27$ 14:27$.
 */
-public class NoteNew extends DataSupport implements Serializable {
+public class Note extends DataSupport implements Serializable {
     private int id;
     private String title;
     private String time;
@@ -37,7 +37,7 @@ public class NoteNew extends DataSupport implements Serializable {
      *
      */
     public List<Schedule> getMyScheduleList() {
-        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Schedule.class);
+        return DataSupport.where("note_id = ?", String.valueOf(id)).find(Schedule.class);
     }
 
     public List<Schedule> getScheduleList() {
@@ -54,7 +54,7 @@ public class NoteNew extends DataSupport implements Serializable {
     *
     */
     public List<Voice> getMyVoiceList() {
-        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Voice.class);
+        return DataSupport.where("note_id = ?", String.valueOf(id)).find(Voice.class);
     }
 
     public List<Voice> getVoiceList() {
@@ -71,7 +71,7 @@ public class NoteNew extends DataSupport implements Serializable {
     *
     */
     public List<Image> getMyImageList() {
-        return DataSupport.where("notenew_id = ?", String.valueOf(id)).find(Image.class);
+        return DataSupport.where("note_id = ?", String.valueOf(id)).find(Image.class);
     }
     public List<Image> getImageList() {
         return imageList;
@@ -166,7 +166,7 @@ public class NoteNew extends DataSupport implements Serializable {
 
     @Override
     public String toString() {
-        return "NoteNew{" +
+        return "Note{" +
                 ", id=" + id +
                 ", title='" + title + '\'' +
                 ", time='" + time + '\'' +

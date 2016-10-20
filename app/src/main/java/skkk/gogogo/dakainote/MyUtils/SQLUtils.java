@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import skkk.gogogo.dakainote.DbTable.ImageCache;
-import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
 
 /**
@@ -23,11 +23,11 @@ public class SQLUtils {
     * @方法 获取数据库中所有的条目
     *
     */
-    public static List<NoteNew> getNoteList(){
-        List<NoteNew> noteList=new ArrayList<NoteNew>();
+    public static List<Note> getNoteList(){
+        List<Note> noteList=new ArrayList<Note>();
         int j=0;
-        for (int i= DataSupport.findAll(NoteNew.class).size()-1;i>=0;i--){
-            noteList.add(j, DataSupport.findAll(NoteNew.class).get(i));
+        for (int i= DataSupport.findAll(Note.class).size()-1;i>=0;i--){
+            noteList.add(j, DataSupport.findAll(Note.class).get(i));
             j++;
         }
         return noteList;
@@ -37,12 +37,12 @@ public class SQLUtils {
     * @方法 获取数据库中所有有图片的
     *
     */
-    public static List<NoteNew> getImageNoteList(){
-        List<NoteNew> noteList=new ArrayList<NoteNew>();
+    public static List<Note> getImageNoteList(){
+        List<Note> noteList=new ArrayList<Note>();
         int j=0;
 
-        for (int i= DataSupport.where("imageisexist = ?","1").find(NoteNew.class).size()-1;i>=0;i--){
-            noteList.add(j, DataSupport.where("imageisexist = ?","1").find(NoteNew.class).get(i));
+        for (int i= DataSupport.where("imageisexist = ?","1").find(Note.class).size()-1;i>=0;i--){
+            noteList.add(j, DataSupport.where("imageisexist = ?","1").find(Note.class).get(i));
             j++;
         }
         return noteList;
@@ -52,11 +52,11 @@ public class SQLUtils {
     * @方法 获取数据库中所有PIN的
     *
     */
-    public static List<NoteNew> getPinNoteList(){
-        List<NoteNew> noteList=new ArrayList<NoteNew>();
+    public static List<Note> getPinNoteList(){
+        List<Note> noteList=new ArrayList<Note>();
         int j=0;
-        for (int i= DataSupport.where("pinisexist = ?","1").find(NoteNew.class).size()-1;i>=0;i--){
-            noteList.add(j, DataSupport.where("pinisexist = ?","1").find(NoteNew.class).get(i));
+        for (int i= DataSupport.where("pinisexist = ?","1").find(Note.class).size()-1;i>=0;i--){
+            noteList.add(j, DataSupport.where("pinisexist = ?","1").find(Note.class).get(i));
             j++;
         }
         return noteList;
@@ -66,11 +66,11 @@ public class SQLUtils {
    * @方法 获取数据库中所有Voice的
    *
    */
-    public static List<NoteNew> getVoiceNoteList(){
-        List<NoteNew> noteList=new ArrayList<NoteNew>();
+    public static List<Note> getVoiceNoteList(){
+        List<Note> noteList=new ArrayList<Note>();
         int j=0;
-        for (int i= DataSupport.where("voiceexist = ?","1").find(NoteNew.class).size()-1;i>=0;i--){
-            noteList.add(j, DataSupport.where("voiceexist = ?","1").find(NoteNew.class).get(i));
+        for (int i= DataSupport.where("voiceexist = ?","1").find(Note.class).size()-1;i>=0;i--){
+            noteList.add(j, DataSupport.where("voiceexist = ?","1").find(Note.class).get(i));
             j++;
         }
         return noteList;
@@ -80,11 +80,11 @@ public class SQLUtils {
   * @方法 获取数据库中所有Schedule的
   *
   */
-    public static List<NoteNew> getScheduleNoteList(){
-        List<NoteNew> noteList=new ArrayList<NoteNew>();
+    public static List<Note> getScheduleNoteList(){
+        List<Note> noteList=new ArrayList<Note>();
         int j=0;
-        for (int i= DataSupport.where("scheduleisexist = ?","1").find(NoteNew.class).size()-1;i>=0;i--){
-            noteList.add(j, DataSupport.where("scheduleisexist = ?","1").find(NoteNew.class).get(i));
+        for (int i= DataSupport.where("scheduleisexist = ?","1").find(Note.class).size()-1;i>=0;i--){
+            noteList.add(j, DataSupport.where("scheduleisexist = ?","1").find(Note.class).get(i));
             j++;
         }
         return noteList;

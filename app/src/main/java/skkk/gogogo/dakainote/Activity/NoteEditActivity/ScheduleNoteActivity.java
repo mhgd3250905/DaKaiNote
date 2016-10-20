@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -16,7 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
@@ -28,34 +26,14 @@ import skkk.gogogo.dakainote.R;
 * 作    者：ksheng
 * 时    间：2016/9/22$ 21:57$.
 */
-public class EditNewNoteActivity extends BaseNewNoteActivity {
-    protected LinearLayout llNoteAgain;
-    protected CheckBox cbfirstSchedule;
-    protected MyApplication myApplication;
-    protected NestedScrollView nsvEditAgain;
-    private int mPos;
-
+public class ScheduleNoteActivity extends BaseNoteActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myApplication = (MyApplication) getApplicationContext();
-        initEditUI();//初始化UI
         initEditEvent();//设置监听事件
     }
 
-    /*
-    * @方法 初始化UI
-    *
-    */
-    private void initEditUI() {
-        llNoteAgain = (LinearLayout) findViewById(R.id.ll_edit_again);//包裹在item的LL
-        cbfirstSchedule = (CheckBox) findViewById(R.id.cb_first_schedule);//item中的cb
-        nsvEditAgain = (NestedScrollView) findViewById(R.id.nsv_edit_again);//ll外面的NSV
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(etFirstSchedule, InputMethodManager.SHOW_FORCED);
-    }
 
     /*
     * @方法 甚至监听事件
@@ -111,11 +89,14 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
                 }
             }
         });
-
-
     }
 
-    private void insertFirstItem() {
+    /*
+    * @方法 插入一个Schedule Item
+    * @参数 null
+    * @返回值 null
+    */
+    protected void insertFirstItem() {
         final LinearLayout llItem = new LinearLayout(this);
         LinearLayout.LayoutParams paramsLl=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT,1);
@@ -214,6 +195,11 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
     }
 
 
+    /*
+    * @方法 插入一个Schedule Item
+    * @参数 是否勾选 boolean / schedule内容 String
+    * @返回值 null
+    */
     protected void insertFirstItem(boolean checked,String content) {
         final LinearLayout llItem = new LinearLayout(this);
         LinearLayout.LayoutParams paramsLl=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -312,7 +298,11 @@ public class EditNewNoteActivity extends BaseNewNoteActivity {
         cbItem.setChecked(checked);
     }
 
-
+    /*
+    * @方法 对特定的子view进行焦点获取
+    * @参数 子view序号 int
+    * @返回值 null
+    */
     public void getFouce(int pos) {
         EditText view = (EditText) ((LinearLayout) llNoteAgain.
                 getChildAt(pos)).getChildAt(1);

@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.ViewHolder.NoteListViewHolder;
 import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
@@ -28,7 +28,7 @@ import skkk.gogogo.dakainote.ViewHolder.RecyclerViewHolderBase;
  * time 2015-04-10 12:50:31
  *
  */
-public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
+public class NoteListAdapter extends RecyclerViewBaseAdapter<Note> {
     private Context context;
     private LayoutInflater inflater;
     private Boolean showCheckbox=false;
@@ -37,7 +37,7 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
     * @方法 1 构造方法
     *
     */
-    public NoteListAdapter(Context context, List<NoteNew> mItemDataList) {
+    public NoteListAdapter(Context context, List<Note> mItemDataList) {
         super(mItemDataList);
         this.context = context;
         inflater= LayoutInflater.from(context);
@@ -48,7 +48,7 @@ public class NoteListAdapter extends RecyclerViewBaseAdapter<NoteNew> {
     *
     */
     @Override
-    public void showData(RecyclerViewHolderBase viewHolder, int position, List<NoteNew> mItemDataList) {
+    public void showData(RecyclerViewHolderBase viewHolder, int position, List<Note> mItemDataList) {
         //向下转型为子类
         NoteListViewHolder holder= (NoteListViewHolder) viewHolder;
 

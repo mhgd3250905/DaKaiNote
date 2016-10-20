@@ -168,16 +168,6 @@ public class ImageNewNoteFragment extends Fragment {
 
                 dialog.getWindow().setAttributes(params);//设置大小
 
-//                /* @描述 在点击进入note详情之前先清空缓存数据库 */
-//                ShowNewNoteActivity activity= (ShowNewNoteActivity) getActivity();
-//                activity.setIsDelete(false);
-//
-//                Intent intent = new Intent();
-//                reGetImageList(noteKey);
-//                intent.putExtra("image_click", myImages.get(position).getImagePath());
-//                intent.putExtra("image_notekey", myImages.get(position).getNoteKey());
-//                intent.setClass(getActivity(), NoteImageActivity.class);
-//                getActivity().startActivityForResult(intent, REQUEST_NOTE_IMAGE_DELETE);
             }
 
             @Override

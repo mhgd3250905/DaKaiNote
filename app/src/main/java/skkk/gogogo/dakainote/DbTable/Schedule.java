@@ -15,7 +15,7 @@ import java.io.Serializable;
 */
 public class Schedule extends DataSupport implements Serializable {
     private int id;
-    private NoteNew noteNew;
+    private Note mNote;
     private boolean scheduleChecked;
     private String scheduleContent;
 
@@ -27,12 +27,12 @@ public class Schedule extends DataSupport implements Serializable {
         this.id = id;
     }
 
-    public NoteNew getNoteNew() {
-        return noteNew;
+    public Note getNote() {
+        return mNote;
     }
 
-    public void setNoteNew(NoteNew noteNew) {
-        this.noteNew = noteNew;
+    public void setNote(Note note) {
+        this.mNote = note;
     }
 
     public boolean isScheduleChecked() {

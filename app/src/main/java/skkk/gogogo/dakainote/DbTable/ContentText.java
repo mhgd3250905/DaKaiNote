@@ -14,7 +14,7 @@ import java.io.Serializable;
 * 时    间：2016/8/27$ 14:46$.
 */
 public class ContentText extends DataSupport implements Serializable {
-    private NoteNew noteNew;
+    private Note mNote;
     private String contentText;
     private int id;
     private int num;
@@ -44,11 +44,11 @@ public class ContentText extends DataSupport implements Serializable {
     }
 
 
-    public NoteNew getNoteNew() {
-        return noteNew;
+    public Note getNote() {
+        return mNote;
     }
 
-    public void setNoteNew(NoteNew noteNew) {
-        this.noteNew = noteNew;
+    public void setNote(Note note) {
+        this.mNote = note;
     }
 }

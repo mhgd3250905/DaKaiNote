@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
     <application
         android:name=".Application.MyApplication"
         android:icon="@drawable/item_edit"
@@ -36,19 +38,18 @@
         <activity
             android:name=".Activity.PermissionsActivity.PermissionsActivity"
             android:theme="@style/AppTheme"/>
+
         <activity android:name=".Activity.MyTestActivity"/>
 
         <!-- note details 编辑界面 -->
         <!-- note details 展示界面 -->
         <activity
-            android:name=".Activity.NoteEditActivity.BottomBarNewNoteActivity"
+            android:name=".Activity.NoteEditActivity.SaveNoteActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateUnspecified|adjustResize"/>
 
+
         <!-- 点击图片显示页面 -->
-        <activity
-            android:name=".Activity.NoteEditActivity.NoteItemActivity.NoteImageActivity"
-            android:theme="@style/AppTheme"/>
         <activity android:name=".Activity.TouchDeblockActivity.TouchDeblockActivity">
         </activity>
         <activity android:name=".Activity.TouchDeblockActivity.LockActivity">

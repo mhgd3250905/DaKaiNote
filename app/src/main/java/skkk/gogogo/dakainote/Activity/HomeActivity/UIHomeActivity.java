@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,16 +15,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,14 +29,12 @@ import java.util.TimerTask;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.BottomBarNewNoteActivity;
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.SaveNoteActivity;
+import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.Bean.Person;
-import skkk.gogogo.dakainote.DbTable.Image;
-import skkk.gogogo.dakainote.DbTable.NoteNew;
-import skkk.gogogo.dakainote.Fragment.ImageShowFragment;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.Fragment.SettingFragment;
-import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView;
@@ -57,7 +49,7 @@ import skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView;
 public class UIHomeActivity extends BaseHomeActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     protected NoteListFragment noteListFragment;
-    protected List<NoteNew> myNotes;
+    protected List<Note> myNotes;
     protected FloatingActionButton fab;
     protected FrameLayout flHome;
     protected int fabFlagInActivity = 1;
@@ -65,9 +57,10 @@ public class UIHomeActivity extends BaseHomeActivity
     protected LinearLayout llMenuTitle;
     protected final static int PHOTO_REQUEST_GALLERY = 914;
     protected String imagePath;
-    protected boolean canBack=true;
-    protected boolean noNeedLock=true;
-
+    protected boolean canBack = true;
+    protected boolean noNeedLock = true;
+    protected MyApplication mApplication;
+    protected SharedPreferences sPref;
 
 
     protected Handler homeHandler = new Handler() {
@@ -91,10 +84,15 @@ public class UIHomeActivity extends BaseHomeActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //获取Application实例
+        mApplication= (MyApplication) getApplicationContext();
+        //获取缓存sPref
+        sPref=mApplication.getsPref();
 
-        if (sPref.getBoolean("night",false)){
+        //设置主题
+        if (sPref.getBoolean("night", false)) {
             setTheme(R.style.AppThemeNight);
-        }else {
+        } else {
             setTheme(R.style.AppTheme);
         }
 
@@ -108,39 +106,24 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
 
-
-
     /*
     * @desc 加入默认的Fragment界面
     * @时间 2016/8/1 21:44
     */
     private void addDefaultFragment() {
-        noteListFragment = new NoteListFragment(sPref.getInt("note_style",1));
+        noteListFragment = new NoteListFragment(mApplication.getNotes(),sPref.getInt("note_style", 1));
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_home, noteListFragment).commit();
     }
 
-
-
-    private void initData() {
-        myNotes = new ArrayList<NoteNew>();
-//        //获取当前fragment
-//        noteListFragment = (NoteListFragment) getSupportFragmentManager().
-//                findFragmentById(R.id.fl_home);
-    }
-
+    /* @描述 初始化UI */
     private void initUI() {
-
-
-        //llMenuTitle= (LinearLayout)findViewById(R.id.ll_menu_title);
 
         flHome = (FrameLayout) findViewById(R.id.fl_home);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(mToolbar);
-//        //添加菜单
-//        mToolbar.inflateMenu(R.menu.note_style);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -152,17 +135,13 @@ public class UIHomeActivity extends BaseHomeActivity
 
         llMenuTitle = (LinearLayout) navigationView.getHeaderView(0);
 
-//        imagePath = sPref.getString("menu_title_image", "");
-//        if (imagePath.equals("")) {
-//            llMenuTitle.setBackground(getResources().getDrawable(R.drawable.shape_note_bg));
-//        } else {
-//            BitmapDrawable bitmapDrawable = getLLBgDrawable(imagePath);
-//            llMenuTitle.setBackground(bitmapDrawable);
-//        }
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
+    /* @描述 初始化数据 */
+    private void initData() {
+        myNotes = new ArrayList<Note>();
+    }
 
     /*
      * @方法 初始化监听事件
@@ -176,7 +155,7 @@ public class UIHomeActivity extends BaseHomeActivity
                 if (fabFlagInActivity == 1) {
                     //进入到编辑页面
                     Intent intent = new Intent();
-                    intent.setClass(UIHomeActivity.this, BottomBarNewNoteActivity.class);
+                    intent.setClass(UIHomeActivity.this, SaveNoteActivity.class);
                     startActivity(intent);
                 } else if (fabFlagInActivity == 2) {
                     /* @描述 如果fab标签是2说明为删除状态 */
@@ -225,15 +204,15 @@ public class UIHomeActivity extends BaseHomeActivity
     */
     @Override
     public void onBackPressed() {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else if (fabFlagInActivity == 2) {
-                changeFabSrc(1);
-                noteListFragment.hideCheckBox();
-            } else {
-                exitBy2Click();
-            }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (fabFlagInActivity == 2) {
+            changeFabSrc(1);
+            noteListFragment.hideCheckBox();
+        } else {
+            exitBy2Click();
+        }
     }
 
     /*
@@ -246,10 +225,6 @@ public class UIHomeActivity extends BaseHomeActivity
         Timer tExit = null;
         if (isExit == false) {
             isExit = true; // 准备退出
-//            //获取当前fragment
-//            NoteListFragment noteListFragment = (NoteListFragment) getSupportFragmentManager().
-//                    findFragmentById(R.id.fl_home);
-//            noteListFragment.smoothScrollToTop();
             Snackbar.make(flHome, "再按一次退出程序", Snackbar.LENGTH_SHORT).show();
             tExit = new Timer();
             tExit.schedule(new TimerTask() {
@@ -390,16 +365,15 @@ public class UIHomeActivity extends BaseHomeActivity
     }
 
 
-
+    /* @描述 在onResume周期进行是否上锁判定 */
     @Override
     protected void onResume() {
         super.onResume();
 
-
         /* @描述 如果开启上锁 */
-        if (sPref.getBoolean("lock", false)&&noNeedLock){
-            canBack=false;
-            noNeedLock=false;
+        if (sPref.getBoolean("lock", false) && noNeedLock) {
+            canBack = false;
+            noNeedLock = false;
             //如果是第一次点击
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final TouchDeblockingView tdvLock = new TouchDeblockingView(this);
@@ -407,31 +381,31 @@ public class UIHomeActivity extends BaseHomeActivity
             builder.setTitle("请输入密码");
             builder.setView(tdvLock);
 
-                tdvLock.setOnDrawFinishedListener(new TouchDeblockingView.OnDrawFinishListener() {
-                    @Override
-                    public boolean OnDrawFinished(List<Integer> passList) {
+            tdvLock.setOnDrawFinishedListener(new TouchDeblockingView.OnDrawFinishListener() {
+                @Override
+                public boolean OnDrawFinished(List<Integer> passList) {
 
-                        if (passList.size() < 4) {
-                            Snackbar.make(tdvLock, "密码过短，请重新输入", Snackbar.LENGTH_SHORT).show();
-                            tdvLock.resetPoints();
-                            return false;
+                    if (passList.size() < 4) {
+                        Snackbar.make(tdvLock, "密码过短，请重新输入", Snackbar.LENGTH_SHORT).show();
+                        tdvLock.resetPoints();
+                        return false;
+                    } else {
+
+                        StringBuilder sb = new StringBuilder();
+
+                        for (Integer i : passList) {
+                            sb.append(i);
+                        }
+
+                        if (sPref.getString("password", "").equals(sb.toString())) {
+                            mDialog.dismiss();
+                            return true;
                         } else {
-
-                            StringBuilder sb = new StringBuilder();
-
-                            for (Integer i : passList) {
-                                sb.append(i);
-                            }
-
-                            if (sPref.getString("password", "").equals(sb.toString())) {
-                                mDialog.dismiss();
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return false;
                         }
                     }
-                });
+                }
+            });
             builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
                 @Override
                 public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
@@ -446,88 +420,47 @@ public class UIHomeActivity extends BaseHomeActivity
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
-
-    /* @描述 打开展示图片线程 */
-    protected void startShowImageThread() {
-        Thread showImageThread = new Thread(showImageRunnable);
-        showImageThread.start();
-
-    }
-
-    /* @描述 展示图片异步加载 */
-    private Runnable showImageRunnable = new Runnable() {
-        @Override
-        public void run() {
-            List<Image> all = DataSupport.findAll(Image.class);
-            if (all.size() == 0) {
-                Snackbar.make(flHome, "没有图片...", Snackbar.LENGTH_SHORT).show();
-                return;
-            }
-            final List<BitmapDrawable> allBitmapDrawable = new ArrayList<BitmapDrawable>();
-            for (int i = 0; i < all.size(); i++) {
-                allBitmapDrawable.add(
-                        CameraImageUtils
-                                .getImageDrawable(UIHomeActivity.this, all.get(i).getImagePath(), 360));
-            }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ImageShowFragment imageShowFragment = new ImageShowFragment(allBitmapDrawable);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fl_home, imageShowFragment)
-                            .commit();
-                }
-            });
-        }
-    };
-
-    /*
-    * @方法 针对相机非返回值处理
-    *
-    */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("SKKK_____", "requestCode:  " + requestCode);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                /* @描述 相册返回值 */
-                case PHOTO_REQUEST_GALLERY:
-                    if (data != null) {
-                        Uri uriImageFromGallery = data.getData();
-                        String path = CameraImageUtils.getAbsoluteImagePath(UIHomeActivity.this,
-                                uriImageFromGallery);
-                        BitmapDrawable bitmapDrawable = getLLBgDrawable(path);
-                        llMenuTitle.setBackground(bitmapDrawable);
-                        llMenuTitle.setGravity(Gravity.CENTER);
-                        sPref.edit().putString("menu_title_image", path).commit();
-                        mSettingFragment.setSsvMenuImageSrc(path);
-                    }
-                    break;
-
-            }
-
-        }
-
-    }
-
-    public BitmapDrawable getLLBgDrawable(String path) {
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(),
-                path);
-        bitmapDrawable.setDither(true);
-        bitmapDrawable.setAntiAlias(true);
-        bitmapDrawable.setFilterBitmap(true);
-        bitmapDrawable.setGravity(Gravity.RELATIVE_LAYOUT_DIRECTION);
-        bitmapDrawable.setTileModeXY(Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-        return bitmapDrawable;
-    }
-
+//    /*
+//    * @方法 针对相机非返回值处理
+//    *
+//    */
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Log.d("SKKK_____", "requestCode:  " + requestCode);
+//        if (resultCode == RESULT_OK) {
+//            switch (requestCode) {
+//                /* @描述 相册返回值 */
+//                case PHOTO_REQUEST_GALLERY:
+//                    if (data != null) {
+//                        Uri uriImageFromGallery = data.getData();
+//                        String path = CameraImageUtils.getAbsoluteImagePath(UIHomeActivity.this,
+//                                uriImageFromGallery);
+//                        BitmapDrawable bitmapDrawable = getLLBgDrawable(path);
+//                        llMenuTitle.setBackground(bitmapDrawable);
+//                        llMenuTitle.setGravity(Gravity.CENTER);
+//                        sPref.edit().putString("menu_title_image", path).commit();
+//                        mSettingFragment.setSsvMenuImageSrc(path);
+//                    }
+//                    break;
+//
+//            }
+//
+//        }
+//
+//    }
+//
+//
+//    public BitmapDrawable getLLBgDrawable(String path) {
+//        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(),
+//                path);
+//        bitmapDrawable.setDither(true);
+//        bitmapDrawable.setAntiAlias(true);
+//        bitmapDrawable.setFilterBitmap(true);
+//        bitmapDrawable.setGravity(Gravity.RELATIVE_LAYOUT_DIRECTION);
+//        bitmapDrawable.setTileModeXY(Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+//        return bitmapDrawable;
+//    }
 
 
 }

@@ -36,7 +36,7 @@ import skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView;
 public class SettingFragment extends Fragment {
 
     private View view;
-    private SettingShowView ssvMenuImage, ssvNoteStyle, ssvLock,ssvBackup,ssvResave;
+    private SettingShowView ssvNoteStyle, ssvLock,ssvBackup,ssvResave;
     private SettingCheckView scvNight;
     private NoteListFragment mNoteListFragment;
     private SharedPreferences sPref;
@@ -62,7 +62,6 @@ public class SettingFragment extends Fragment {
 
     /* @描述 初始化控件 */
     private void initView(final View view) {
-        ssvMenuImage = (SettingShowView) view.findViewById(R.id.ssv_setting_menu_image);
         ssvNoteStyle = (SettingShowView) view.findViewById(R.id.ssv_setting_note_style);
         scvNight = (SettingCheckView) view.findViewById(R.id.scv_setting_night);
         ssvLock = (SettingShowView) view.findViewById(R.id.ssv_setting_lock);
@@ -83,8 +82,6 @@ public class SettingFragment extends Fragment {
                 break;
         }
 
-        //设置侧滑菜单头图片
-        ssvMenuImage.setTvShowText(sPref.getString("menu_title_image", ""));
 
         ssvNoteStyle.setTvShowText(noteStyle);
 
@@ -111,15 +108,6 @@ public class SettingFragment extends Fragment {
 
     /* @描述 初始化点击事件 */
     private void initEvent() {
-        ssvMenuImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /* @描述 切换侧滑菜单头图片消息 */
-                homeHandler.sendEmptyMessage(1);
-            }
-        });
-
-
         ssvNoteStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -269,10 +257,5 @@ public class SettingFragment extends Fragment {
 
     }
 
-    /* @描述 设置侧滑图片路径显示区域 */
-
-    public void setSsvMenuImageSrc(String path) {
-        ssvMenuImage.setTvShowText(path);
-    }
 
 }

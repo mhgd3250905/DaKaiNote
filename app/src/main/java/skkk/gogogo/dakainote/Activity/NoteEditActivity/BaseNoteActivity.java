@@ -1,16 +1,20 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,7 +23,8 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
-import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.Application.MyApplication;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.MyUtils.CameraImageUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.AutoLinkEditText.AutoLinkEditText;
@@ -36,12 +41,11 @@ import skkk.gogogo.dakainote.View.RecordButton;
 * 作    者：ksheng
 * 时    间：2016/8/26$ 21:47$.
 */
-public class BaseNewNoteActivity extends AppCompatActivity {
+public class BaseNoteActivity extends AppCompatActivity {
 
     protected static int REQUEST_NOTE_IMAGE_DELETE = 13;
 
     protected boolean isStore = false;//是否有存储
-    protected boolean isShow = false;//是否是展示页面
     protected LinearLayout llNoteDetail;
     protected Toolbar tbNoteDetail;
     protected String imagePath;//照片路径
@@ -51,7 +55,7 @@ public class BaseNewNoteActivity extends AppCompatActivity {
     protected boolean isVoiceExist = false;//是否有录音
     protected boolean isScheduleExist = false;//是否有Schedule
 
-    protected NoteNew note;//笔记类
+    protected Note note;//笔记类
     protected static final int REQUEST_IMAGE_CAPTURE = 111;//拍照请求码
     protected TextView tvNoteDetailTime;
     protected EditText etNoteDetailTitle;
@@ -69,13 +73,24 @@ public class BaseNewNoteActivity extends AppCompatActivity {
     protected SharedPreferences sPref;
 
     protected boolean isNight=false;
+    protected MyApplication myApplication;
+
+    protected LinearLayout llNoteAgain;
+    protected CheckBox cbfirstSchedule;
+    protected NestedScrollView nsvEditAgain;
+    protected int mPos;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sPref=getSharedPreferences("note",MODE_PRIVATE);
+        //获取Application实例
+        myApplication= (MyApplication) getApplicationContext();
+        //获取缓存sPerf
+        sPref=myApplication.getsPref();
         isNight=sPref.getBoolean("night",false);
-
+        //设置主题
         if (isNight){
             setTheme(R.style.AppThemeNight);
         }else {
@@ -84,8 +99,6 @@ public class BaseNewNoteActivity extends AppCompatActivity {
 
         initUI();
         initEvent();
-
-
     }
 
     /*
@@ -117,12 +130,18 @@ public class BaseNewNoteActivity extends AppCompatActivity {
         etFirstSchedule.addAutoLinkMode(AutoLinkMode.MODE_PHONE, AutoLinkMode.MODE_URL);
         checkString = etFirstSchedule.getText().toString();
 
-
         //设置note中用来显示image的fl
         fl_note_iamge = (FrameLayout) findViewById(R.id.fl_note_image);
         //设置note中用来显示Voice的fl
         fl_note_voice = (FrameLayout) findViewById(R.id.fl_note_voice);
-        //初始化SP
+
+
+        llNoteAgain = (LinearLayout) findViewById(R.id.ll_edit_again);//包裹在item的LL
+        cbfirstSchedule = (CheckBox) findViewById(R.id.cb_first_schedule);//item中的cb
+        nsvEditAgain = (NestedScrollView) findViewById(R.id.nsv_edit_again);//ll外面的NSV
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(etFirstSchedule, InputMethodManager.SHOW_FORCED);
 
     }
 

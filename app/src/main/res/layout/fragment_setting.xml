@@ -27,15 +27,6 @@
                 android:text="@string/setting_title_1"/>
 
             <skkk.gogogo.dakainote.View.SettingShowView
-                android:id="@id/ssv_setting_menu_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                setting:settingShowText=""
-                setting:settingTitleText="侧滑菜单头部图片"
-                ></skkk.gogogo.dakainote.View.SettingShowView>
-
-            <skkk.gogogo.dakainote.View.SettingShowView
                 android:id="@id/ssv_setting_note_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

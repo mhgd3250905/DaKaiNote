@@ -2,33 +2,44 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
-        android:id="@id/menu_note_edit"
+        android:id="@id/menu_note_share"
         android:orderInCategory="80"
         android:title="@string/note_edit_menu"
+        android:icon="@drawable/vector_share"
+        app:showAsAction="ifRoom">
+    </item>
+
+    <item
+        android:id="@id/menu_note_edit"
         android:icon="@drawable/vector_drawable_enclosure"
+        android:orderInCategory="80"
+        android:title="@string/note_edit_menu"
         app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@id/menu_note_edit_image"
+                android:icon="@drawable/item_camera"
                 android:orderInCategory="80"
                 android:title="@string/menu_note_edit_image"
-                android:icon="@drawable/item_camera"
                 app:showAsAction="ifRoom"/>
             <item
                 android:id="@id/menu_note_edit_voice"
+                android:icon="@drawable/item_voice"
                 android:orderInCategory="80"
                 android:title="@string/menu_note_edit_voice"
-                android:icon="@drawable/item_voice"
                 app:showAsAction="ifRoom"/>
             <item
                 android:id="@id/menu_note_edit_schedule"
+                android:icon="@drawable/item_list"
                 android:orderInCategory="80"
                 android:title="@string/menu_note_edit_schedule"
-                android:icon="@drawable/item_list"
                 app:showAsAction="ifRoom"/>
 
         </menu>
     </item>
+
+
 
 </menu>

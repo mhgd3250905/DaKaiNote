@@ -15,7 +15,7 @@ import java.io.Serializable;
 */
 public class Voice extends DataSupport implements Serializable {
     private int id;
-    private NoteNew noteNew;
+    private Note note;
     private String voicePath;
     private int num;
     public int getNum() {
@@ -30,12 +30,15 @@ public class Voice extends DataSupport implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    public NoteNew getNoteNew() {
-        return noteNew;
+
+    public Note getNote() {
+        return note;
     }
-    public void setNoteNew(NoteNew noteNew) {
-        this.noteNew = noteNew;
+
+    public void setNote(Note note) {
+        this.note = note;
     }
+
     public String getVoicePath() {
         return voicePath;
     }

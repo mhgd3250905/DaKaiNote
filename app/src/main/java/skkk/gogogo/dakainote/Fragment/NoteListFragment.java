@@ -18,14 +18,13 @@ import android.widget.LinearLayout;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
-import skkk.gogogo.dakainote.Activity.NoteEditActivity.BottomBarNewNoteActivity;
+import skkk.gogogo.dakainote.Activity.NoteEditActivity.SaveNoteActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
-import skkk.gogogo.dakainote.DbTable.NoteNew;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
@@ -40,9 +39,9 @@ import skkk.gogogo.dakainote.View.MyNoteView;
 */
 public class NoteListFragment extends Fragment {
     protected View view;
-    protected List<NoteNew> myNotes;
+    protected List<Note> myNotes;
     protected NoteListAdapter adapter;
-    protected NoteNew noteShow;
+    protected Note noteShow;
     protected RecyclerView rvNoteList;
     protected LinearLayout llBlankTip;
     protected UIHomeActivity mUiHomeActivity;
@@ -53,7 +52,12 @@ public class NoteListFragment extends Fragment {
     private SpacesItemDecoration mDecoration;
     private int layoutFlag=1;//0就是瀑布流 1就是list布局 2就是标准卡片布局
 
-    /* @描述 设置布局参数 */
+    /*
+    * @方法 设置布局
+    * @描述 通过修改布局管理器来修改布局样式
+    * @参数 布局参数 int
+    * @返回值 null
+    */
     public void setLayoutFlag(int layoutFlag) {
         this.layoutFlag = layoutFlag;
         switch (layoutFlag){
@@ -77,41 +81,28 @@ public class NoteListFragment extends Fragment {
                 rvNoteList.setLayoutManager(mGridLayoutManager);
                 break;
         }
-
     }
-
-
-    public NoteListFragment(int layoutFlag) {
+    
+    /* @描述 构造方法 */
+    public NoteListFragment(List<Note> myNotes,int layoutFlag) {
         this.layoutFlag = layoutFlag;
+        this.myNotes=myNotes;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_note_list, container, false);
-        beforeStart();
         initUI(view);
         initEvent();
         return view;
     }
 
+    
     /*
-    * @方法 从数据库中获取数据
-    *
-    */
-    private void beforeStart() {
-        myNotes = new ArrayList<NoteNew>();
-        myNotes = SQLUtils.getNoteList();
-        mUiHomeActivity = (UIHomeActivity) getActivity();
-        //List<ContentText> contentTextList = myNotes.get(0).getContentTextList();
-    }
-
-
-    /*
-        * @desc 这里需要实现recycler的瀑布流布局
-        * @时间 2016/8/1 22:01
-        */
+     * @desc 这里需要实现recycler的瀑布流布局
+     * @时间 2016/8/1 22:01
+     */
     private void initUI(View view) {
         /* @描述 获取RecyclerView实例 */
         rvNoteList = (RecyclerView) view.findViewById(R.id.rv_note_list);
@@ -168,7 +159,7 @@ public class NoteListFragment extends Fragment {
                     Intent intent = new Intent();
                     intent.putExtra("note", noteShow);
                     intent.putExtra("pos", position);
-                    intent.setClass(getContext(), BottomBarNewNoteActivity.class);
+                    intent.setClass(getContext(), SaveNoteActivity.class);
 
 
                     LogUtils.Log("这里是点击事件定位的note，id为" + noteShow.getId());
@@ -177,8 +168,8 @@ public class NoteListFragment extends Fragment {
 
                 } else {
                     /* @描述 如果是编辑状态那么点击fab执行删除操作 */
-                    View position1=null;
-                    switch (layoutFlag){
+                    View position1 = null;
+                    switch (layoutFlag) {
                         case 0:
                             position1 = mLinearLayoutManager.findViewByPosition(position);
                             break;
@@ -186,7 +177,7 @@ public class NoteListFragment extends Fragment {
                             position1 = mStaggeredGridLayoutManager.findViewByPosition(position);
                             break;
                         case 2:
-                            position1=mGridLayoutManager.findViewByPosition(position);
+                            position1 = mGridLayoutManager.findViewByPosition(position);
                             break;
                     }
                     MyNoteView myNoteViewPos = (MyNoteView) ((CardView) position1).getChildAt(0);
@@ -202,6 +193,8 @@ public class NoteListFragment extends Fragment {
             @Override
             public void onItemLongClick(View view, final int position) {
                 adapter.showCheckBox(true);
+                //修改主页面的fab样式
+                mUiHomeActivity = (UIHomeActivity) getActivity();
                 mUiHomeActivity.changeFabSrc(2);
             }
         });
@@ -226,7 +219,7 @@ public class NoteListFragment extends Fragment {
                     break;
             }
             if (positionView instanceof CardView) {
-                DataSupport.delete(NoteNew.class, myNotes.get(i).getId());
+                DataSupport.delete(Note.class, myNotes.get(i).getId());
                 MyNoteView myNoteViewPos = (MyNoteView) ((CardView) positionView).getChildAt(0);
                 if (myNoteViewPos.isDeleteChecked()) {
                     deleteItemPos(i);
@@ -245,17 +238,12 @@ public class NoteListFragment extends Fragment {
         adapter.showCheckBox(false);
     }
 
-    /* @描述 更新指定位置list */
-    public void updatePos(int position, NoteNew note) {
-        adapter.append(position, note);
-        Log.d("SKKK_____", "updateOK here is fragment");
-    }
 
     /*
     * @方法 原来一切都出在这个基类之上
     *
     */
-    public void updateAll(List<NoteNew> noteList) {
+    public void updateAll(List<Note> noteList) {
         myNotes=noteList;
         adapter.setmItemDataList(myNotes);
         adapter.notifyDataSetChanged();
@@ -264,13 +252,19 @@ public class NoteListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        reGetNoteList();
+        myNotes = SQLUtils.getNoteList();
         updateAll(myNotes);
         showBlankTip();
     }
 
+    /*
+    * @方法 显示空白提示背景
+    * @描述 显示空白提示背景
+    * @参数 null
+    * @返回值 null
+    */
     public void showBlankTip() {
-        reGetNoteList();
+        myNotes = SQLUtils.getNoteList();
         if (myNotes.size() == 0) {
             llBlankTip.setVisibility(View.VISIBLE);
         } else {
@@ -278,24 +272,19 @@ public class NoteListFragment extends Fragment {
         }
     }
 
-    public void smoothScrollToTop() {
-        rvNoteList.smoothScrollToPosition(0);
-    }
+//    public void smoothScrollToTop() {
+//        rvNoteList.smoothScrollToPosition(0);
+//    }
 
     /* @描述 删除指定pos的item */
     public void deleteItemPos(int pos) {
         //首先获取这个位置的note
-        NoteNew noteDelete = myNotes.get(pos);
+        Note noteDelete = myNotes.get(pos);
         //然后remove这个position的内容
         adapter.remove(pos);
         Log.d("SKKK_____", noteDelete.toString());
         noteDelete.delete();
         showBlankTip();
-    }
-
-    /* @描述 重新获取NoteList */
-    public void reGetNoteList() {
-        myNotes = SQLUtils.getNoteList();
     }
 
 

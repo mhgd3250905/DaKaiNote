@@ -15,7 +15,7 @@ import java.io.Serializable;
 */
 public class Image extends DataSupport implements Serializable {
     private int id;
-    private NoteNew noteNew;
+    private Note note;
     private String imagePath;
     private int num;
 
@@ -43,11 +43,11 @@ public class Image extends DataSupport implements Serializable {
         this.imagePath = imagePath;
     }
 
-    public NoteNew getNoteNew() {
-        return noteNew;
+    public Note getNote() {
+        return note;
     }
 
-    public void setNoteNew(NoteNew noteNew) {
-        this.noteNew = noteNew;
+    public void setNote(Note note) {
+        this.note = note;
     }
 }
