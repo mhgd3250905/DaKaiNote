@@ -1,9 +1,11 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
 import android.animation.ObjectAnimator;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
@@ -60,6 +62,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     boolean change = true;
     private AlertDialog mDialog;
     private InputMethodManager mImm;
+    private Dialog mDialogShare;
 
 
     @Override
@@ -332,27 +335,96 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         //根据菜单判断
         switch (id) {
             case R.id.menu_note_share:
-                // 初始化一个WXTextObject对象
-                WXTextObject textObj = new WXTextObject();
-                textObj.text = "test";
+                /* @描述 只要录音按键出现那么就强制关闭软键盘 */
+                mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mImm.hideSoftInputFromWindow(etFirstSchedule.getWindowToken(), 0); //强制隐藏键盘
 
-                // 用WXTextObject对象初始化一个WXMediaMessage对象
-                WXMediaMessage msg = new WXMediaMessage();
-                msg.mediaObject = textObj;
-                // 发送文本类型的消息时，title字段不起作用
-                // msg.title = "Will be ignored";
-                msg.description = "test";
+                AlertDialog.Builder builder=new AlertDialog.Builder(BottomBarNoteActivity.this);
+                View view= View.inflate(BottomBarNoteActivity.this,R.layout.dialog_share,null);
+                LinearLayout shareWxFriend= (LinearLayout) view.findViewById(R.id.iv_share_wx_friend);
 
-                // 构造一个Req
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = System.currentTimeMillis()+"text"; // transaction字段用于唯一标识一个请求
-                req.message = msg;
-                req.scene = SendMessageToWX.Req.WXSceneTimeline;
+                shareWxFriend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                // 调用api接口发送数据到微信
-                boolean result=myApplication.getApi().sendReq(req);
+                        // 初始化一个WXTextObject对象
+                        WXTextObject textObj = new WXTextObject();
+                        textObj.text = etFirstSchedule.getText().toString();
 
-                Snackbar.make(llNoteDetail,"result= "+result,Snackbar.LENGTH_SHORT).show();
+                        // 用WXTextObject对象初始化一个WXMediaMessage对象
+                        WXMediaMessage msg = new WXMediaMessage();
+                        msg.mediaObject = textObj;
+                        // 发送文本类型的消息时，title字段不起作用
+                        // msg.title = "Will be ignored";
+                        msg.description = etFirstSchedule.getText().toString();
+
+                        // 构造一个Req
+                        SendMessageToWX.Req req = new SendMessageToWX.Req();
+                        req.transaction = System.currentTimeMillis()+"text"; // transaction字段用于唯一标识一个请求
+                        req.message = msg;
+                        req.scene = SendMessageToWX.Req.WXSceneTimeline;
+
+                        // 调用api接口发送数据到微信
+                        boolean result=myApplication.getApi().sendReq(req);
+
+                        mDialogShare.dismiss();
+
+                        Snackbar.make(llNoteDetail,"result= "+result,Snackbar.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                LinearLayout shareWx= (LinearLayout) view.findViewById(R.id.iv_share_wx);
+
+                    shareWx.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // 初始化一个WXTextObject对象
+                            WXTextObject textObj = new WXTextObject();
+                            textObj.text = etFirstSchedule.getText().toString();
+
+                            // 用WXTextObject对象初始化一个WXMediaMessage对象
+                            WXMediaMessage msg = new WXMediaMessage();
+                            msg.mediaObject = textObj;
+                            // 发送文本类型的消息时，title字段不起作用
+                            // msg.title = "Will be ignored";
+                            msg.description = etFirstSchedule.getText().toString();
+
+                            // 构造一个Req
+                            SendMessageToWX.Req req = new SendMessageToWX.Req();
+                            req.transaction = System.currentTimeMillis()+"text"; // transaction字段用于唯一标识一个请求
+                            req.message = msg;
+                            req.scene = SendMessageToWX.Req.WXSceneSession;
+
+                            // 调用api接口发送数据到微信
+                            boolean result=myApplication.getApi().sendReq(req);
+
+                            mDialogShare.dismiss();
+
+                            Snackbar.make(llNoteDetail,"result= "+result,Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+
+                LinearLayout shareQQ= (LinearLayout) view.findViewById(R.id.iv_share_qq);
+
+                shareQQ.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Bitmap bmp=getScreenBitmap();
+//                        WXImageObject imgObj=new WXImageObject(bmp);
+//                        WXMediaMessage msg=new WXMediaMessage();
+//                        msg.mediaObject=imgObj;
+//
+//                        Bitmap thumbBmp=Bitmap.createScaledBitmap(bmp,100,100,true);
+//                        bmp.recycle();
+//                        msg.thumbData=
+                    }
+                });
+
+                LinearLayout shareQQZone= (LinearLayout) view.findViewById(R.id.iv_share_qq_zone);
+
+                builder.setView(view);
+                mDialogShare = builder.show();
 
                 break;
 
@@ -474,6 +546,23 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         super.onDestroy();
     }
 
+
+    public Bitmap getScreenBitmap(){
+            //获取当前屏幕的大小
+            int width = getWindow().getDecorView().getRootView().getWidth();
+            int height = getWindow().getDecorView().getRootView().getHeight();
+            //生成相同大小的图片
+            Bitmap temBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            //找到当前页面的跟布局
+            View view =  getWindow().getDecorView().getRootView();
+            //设置缓存
+            view.setDrawingCacheEnabled(true);
+            view.buildDrawingCache();
+            //从缓存中获取当前屏幕的图片
+            temBitmap = view.getDrawingCache();
+
+        return temBitmap;
+    }
 
 
 

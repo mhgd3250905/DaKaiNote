@@ -1,5 +1,6 @@
 package skkk.gogogo.dakainote.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -45,10 +46,15 @@ public class SettingFragment extends Fragment {
     private TextView tvResetPW;
     private Dialog mDialog;
 
+
+    @SuppressLint("ValidFragment")
     public SettingFragment(NoteListFragment noteListFragment, SharedPreferences sPref, Handler homeHandler) {
         mNoteListFragment = noteListFragment;
         this.homeHandler = homeHandler;
         this.sPref = sPref;
+    }
+
+    public SettingFragment() {
     }
 
     @Nullable

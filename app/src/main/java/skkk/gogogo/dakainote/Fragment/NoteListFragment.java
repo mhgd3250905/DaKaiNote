@@ -1,5 +1,6 @@
 package skkk.gogogo.dakainote.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -84,9 +85,13 @@ public class NoteListFragment extends Fragment {
     }
     
     /* @描述 构造方法 */
+    @SuppressLint("ValidFragment")
     public NoteListFragment(List<Note> myNotes,int layoutFlag) {
         this.layoutFlag = layoutFlag;
         this.myNotes=myNotes;
+    }
+
+    public NoteListFragment() {
     }
 
     @Nullable

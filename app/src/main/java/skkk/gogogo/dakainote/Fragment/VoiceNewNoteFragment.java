@@ -1,5 +1,6 @@
 package skkk.gogogo.dakainote.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
@@ -56,10 +57,13 @@ public class VoiceNewNoteFragment extends Fragment {
         }
     };
 
-
+    @SuppressLint("ValidFragment")
     public VoiceNewNoteFragment(long noteKey,Handler mHandler) {
         this.noteKey = noteKey;
         this.mHandler=mHandler;
+    }
+
+    public VoiceNewNoteFragment() {
     }
 
     @Nullable

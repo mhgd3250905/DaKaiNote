@@ -1,5 +1,6 @@
 package skkk.gogogo.dakainote.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -61,9 +62,13 @@ public class ImageNewNoteFragment extends Fragment {
         }
     };
 
+    @SuppressLint("ValidFragment")
     public ImageNewNoteFragment(long noteKey,Handler mHandler) {
         this.noteKey = noteKey;
         this.mHandler=mHandler;
+    }
+
+    public ImageNewNoteFragment() {
     }
 
     @Nullable

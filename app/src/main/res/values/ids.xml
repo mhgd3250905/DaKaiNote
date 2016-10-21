@@ -126,6 +126,10 @@
     <item name="iv_splash" type="id">iv_splash</item>
     <item name="tv_splash_title" type="id">tv_splash_title</item>
     <item name="menu_note_share" type="id">menu_note_share</item>
+    <item name="iv_share_wx_friend" type="id">iv_share_wx_friend</item>
+    <item name="iv_share_wx" type="id">iv_share_wx</item>
+    <item name="iv_share_qq_zone" type="id">iv_share_qq_zone</item>
+    <item name="iv_share_qq" type="id">iv_share_qq</item>
 
 
 </resources>

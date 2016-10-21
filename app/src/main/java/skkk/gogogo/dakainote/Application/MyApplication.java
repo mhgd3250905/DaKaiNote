@@ -31,7 +31,7 @@ public class MyApplication extends LitePalApplication{
     private List<Note> mNotes =new ArrayList<Note>();
     private SharedPreferences sPref;
 
-    private static final String APP_ID="wxc3806b75429e15e3";
+    private static final String APP_ID="wxc747ef8eb1d7c8df";
     private IWXAPI api;
 
     public IWXAPI getApi() {
