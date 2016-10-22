@@ -26,8 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXTextObject;
 
 import org.litepal.crud.DataSupport;
 
@@ -37,6 +35,7 @@ import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
+import skkk.gogogo.dakainote.MyUtils.WXUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.AutoLinkEditText.LinkTouchMovementMethod;
 
@@ -347,25 +346,10 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                     @Override
                     public void onClick(View v) {
 
-                        // 初始化一个WXTextObject对象
-                        WXTextObject textObj = new WXTextObject();
-                        textObj.text = etFirstSchedule.getText().toString();
-
-                        // 用WXTextObject对象初始化一个WXMediaMessage对象
-                        WXMediaMessage msg = new WXMediaMessage();
-                        msg.mediaObject = textObj;
-                        // 发送文本类型的消息时，title字段不起作用
-                        // msg.title = "Will be ignored";
-                        msg.description = etFirstSchedule.getText().toString();
-
-                        // 构造一个Req
-                        SendMessageToWX.Req req = new SendMessageToWX.Req();
-                        req.transaction = System.currentTimeMillis()+"text"; // transaction字段用于唯一标识一个请求
-                        req.message = msg;
-                        req.scene = SendMessageToWX.Req.WXSceneTimeline;
-
-                        // 调用api接口发送数据到微信
-                        boolean result=myApplication.getApi().sendReq(req);
+                        boolean result= WXUtils.shareTextToWXSceneTimeliness(
+                                etFirstSchedule.getText().toString(),
+                                myApplication.getApi(),
+                                SendMessageToWX.Req.WXSceneTimeline);
 
                         mDialogShare.dismiss();
 
@@ -379,25 +363,11 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                     shareWx.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // 初始化一个WXTextObject对象
-                            WXTextObject textObj = new WXTextObject();
-                            textObj.text = etFirstSchedule.getText().toString();
 
-                            // 用WXTextObject对象初始化一个WXMediaMessage对象
-                            WXMediaMessage msg = new WXMediaMessage();
-                            msg.mediaObject = textObj;
-                            // 发送文本类型的消息时，title字段不起作用
-                            // msg.title = "Will be ignored";
-                            msg.description = etFirstSchedule.getText().toString();
-
-                            // 构造一个Req
-                            SendMessageToWX.Req req = new SendMessageToWX.Req();
-                            req.transaction = System.currentTimeMillis()+"text"; // transaction字段用于唯一标识一个请求
-                            req.message = msg;
-                            req.scene = SendMessageToWX.Req.WXSceneSession;
-
-                            // 调用api接口发送数据到微信
-                            boolean result=myApplication.getApi().sendReq(req);
+                            boolean result=WXUtils.shareTextToWXSceneTimeliness(
+                                    etFirstSchedule.getText().toString(),
+                                    myApplication.getApi(),
+                                    SendMessageToWX.Req.WXSceneSession);
 
                             mDialogShare.dismiss();
 

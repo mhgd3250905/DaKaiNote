@@ -43,8 +43,6 @@ import skkk.gogogo.dakainote.View.RecordButton;
 */
 public class BaseNoteActivity extends AppCompatActivity {
 
-    protected static int REQUEST_NOTE_IMAGE_DELETE = 13;
-
     protected boolean isStore = false;//是否有存储
     protected LinearLayout llNoteDetail;
     protected Toolbar tbNoteDetail;
