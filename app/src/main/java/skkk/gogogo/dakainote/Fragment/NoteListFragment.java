@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
-import Interface.NoteListInterface;
+import skkk.gogogo.dakainote.Interface.NoteListInterface;
 import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
@@ -96,7 +96,7 @@ public class NoteListFragment extends Fragment implements NoteListInterface{
                     /* @描述 打开Note编辑界面 */
                     mNoteListPresenter.startNote(position);
                 } else {
-                //如果是删除编辑状态那么点击为勾选
+                    //如果是删除编辑状态那么点击为勾选
                     /* @描述 选中的Notes */
                     mNoteListPresenter.selectNotes(position);
                 }

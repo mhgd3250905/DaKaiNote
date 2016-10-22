@@ -34,11 +34,19 @@ import skkk.gogogo.dakainote.MyUtils.LogUtils;
 * 作    者：ksheng
 * 时    间：2016/10/20$ 22:40$.
 */
-public class SaveNoteActivity extends BottomBarNoteActivity{
+public class SaveNoteActivity extends BottomBarNoteActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tbNoteDetail.setNavigationOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (isDelete) {
+                    saveAndCallBack();
+                }
+                finish();
+            }
+        });
     }
 
     /*
@@ -49,7 +57,7 @@ public class SaveNoteActivity extends BottomBarNoteActivity{
 
         isStore = false;
         /* @描述 保存对齐方式 */
-        note.setGravity(sPref.getInt("edit_gravity",0));
+        note.setGravity(sPref.getInt("edit_gravity", 0));
 
         /* @描述 保存标题 */
         if (!TextUtils.isEmpty(etNoteDetailTitle.getText().toString())) {
@@ -143,7 +151,7 @@ public class SaveNoteActivity extends BottomBarNoteActivity{
             note.save();
         } else {
             note = null;
-            Snackbar.make(llNoteDetail,"您未保存任何内容",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(llNoteDetail, "您未保存任何内容", Snackbar.LENGTH_SHORT).show();
         }
 
     }

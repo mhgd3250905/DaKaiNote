@@ -1,4 +1,4 @@
-package Interface;
+package skkk.gogogo.dakainote.Interface;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -19,5 +19,4 @@ public interface NoteListInterface {
     int getLayoutFlag();
     RecyclerView getRecyclerView();
     void showBlankTip();
-
 }

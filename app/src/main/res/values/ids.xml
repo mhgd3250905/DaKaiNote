@@ -130,6 +130,7 @@
     <item name="iv_share_wx" type="id">iv_share_wx</item>
     <item name="iv_share_qq_zone" type="id">iv_share_qq_zone</item>
     <item name="iv_share_qq" type="id">iv_share_qq</item>
+    <item name="cl_setting" type="id">cl_setting</item>
 
 
 </resources>

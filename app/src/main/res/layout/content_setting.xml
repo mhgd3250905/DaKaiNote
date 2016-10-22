@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:setting="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="skkk.gogogo.dakainote.Activity.SettingActivity.SettingActivity"
+    android:fitsSystemWindows="true"
+    tools:showIn="@layout/activity_setting">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/mainBackground"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_setting_bg"
+            android:elevation="1dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingTitleStyle"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_title_1"/>
+
+            <skkk.gogogo.dakainote.View.SettingShowView
+                android:id="@id/ssv_setting_note_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                setting:settingShowText="瀑布流"
+                setting:settingTitleText="笔记样式"></skkk.gogogo.dakainote.View.SettingShowView>
+
+            <skkk.gogogo.dakainote.View.SettingCheckView
+                android:id="@id/scv_setting_night"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                setting:checkTitleText="夜间模式"></skkk.gogogo.dakainote.View.SettingCheckView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_setting_bg"
+            android:elevation="1dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingTitleStyle"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_title_3"/>
+
+            <skkk.gogogo.dakainote.View.SettingShowView
+                android:id="@id/ssv_setting_lock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                setting:settingShowText="开启上锁"
+                setting:settingTitleText="上锁"></skkk.gogogo.dakainote.View.SettingShowView>
+
+            <TextView
+                android:id="@+id/tv_setting_reset_pw"
+                style="@style/SettingBodyTitleStyle"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="重置密码"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_setting_bg"
+            android:elevation="1dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingTitleStyle"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/setting_title_2"/>
+
+            <skkk.gogogo.dakainote.View.SettingShowView
+                android:id="@id/ssv_setting_backup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                setting:settingShowText="上一次备份"
+                setting:settingTitleText="备份"
+                ></skkk.gogogo.dakainote.View.SettingShowView>
+
+            <skkk.gogogo.dakainote.View.SettingShowView
+                android:id="@id/ssv_setting_resave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                setting:settingShowText="上一次恢复"
+                setting:settingTitleText="恢复">
+            </skkk.gogogo.dakainote.View.SettingShowView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

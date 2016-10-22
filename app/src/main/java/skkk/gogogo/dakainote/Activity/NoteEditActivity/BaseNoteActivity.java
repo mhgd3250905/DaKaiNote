@@ -112,6 +112,7 @@ public class BaseNoteActivity extends AppCompatActivity {
         setSupportActionBar(tbNoteDetail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         //添加菜单
         tbNoteDetail.inflateMenu(R.menu.note_edit_menu);
         //设置时间提示

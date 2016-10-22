@@ -7,11 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +18,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
+import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.SettingCheckView;
 import skkk.gogogo.dakainote.View.SettingShowView;
@@ -41,17 +40,15 @@ public class SettingFragment extends Fragment {
     private SettingCheckView scvNight;
     private NoteListFragment mNoteListFragment;
     private SharedPreferences sPref;
-    private Handler homeHandler;
+
     protected String noteStyle;
     private TextView tvResetPW;
     private Dialog mDialog;
 
 
     @SuppressLint("ValidFragment")
-    public SettingFragment(NoteListFragment noteListFragment, SharedPreferences sPref, Handler homeHandler) {
+    public SettingFragment(NoteListFragment noteListFragment) {
         mNoteListFragment = noteListFragment;
-        this.homeHandler = homeHandler;
-        this.sPref = sPref;
     }
 
     public SettingFragment() {
@@ -60,6 +57,8 @@ public class SettingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        MyApplication myApplication= (MyApplication) getContext().getApplicationContext();
+        sPref = myApplication.getsPref();
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         initView(view);
         initEvent();
@@ -75,40 +74,40 @@ public class SettingFragment extends Fragment {
         ssvResave= (SettingShowView) view.findViewById(R.id.ssv_setting_resave);
         tvResetPW= (TextView) view.findViewById(R.id.tv_setting_reset_pw);
 
-        noteStyle = "瀑布流";
-        switch (sPref.getInt("note_style", 1)) {
-            case 0:
-                noteStyle = "列表";
-                break;
-            case 1:
-                noteStyle = "瀑布流";
-                break;
-            case 2:
-                noteStyle = "卡片";
-                break;
-        }
-
-
-        ssvNoteStyle.setTvShowText(noteStyle);
-
-        if (sPref.getBoolean("lock_first",true)&&TextUtils.isEmpty(sPref.getString("password",""))){
-            ssvLock.setTvShowText("点击设置密码");
-        }else {
-            //设置上锁文字
-            if (sPref.getBoolean("lock", false)) {
-                ssvLock.setTvShowText("已开启上锁");
-            } else {
-                ssvLock.setTvShowText("已关闭上锁");
-            }
-        }
-
-        if (sPref.getBoolean("night",false)){
-            scvNight.setCheckTitle("夜间模式");
-            scvNight.setChecked(true);
-        }else {
-            scvNight.setCheckTitle("日间模式");
-            scvNight.setChecked(false);
-        }
+//        noteStyle = "瀑布流";
+//        switch (sPref.getInt("note_style", 1)) {
+//            case 0:
+//                noteStyle = "列表";
+//                break;
+//            case 1:
+//                noteStyle = "瀑布流";
+//                break;
+//            case 2:
+//                noteStyle = "卡片";
+//                break;
+//        }
+//
+//
+//        ssvNoteStyle.setTvShowText(noteStyle);
+//
+//        if (sPref.getBoolean("lock_first",true)&&TextUtils.isEmpty(sPref.getString("password",""))){
+//            ssvLock.setTvShowText("点击设置密码");
+//        }else {
+//            //设置上锁文字
+//            if (sPref.getBoolean("lock", false)) {
+//                ssvLock.setTvShowText("已开启上锁");
+//            } else {
+//                ssvLock.setTvShowText("已关闭上锁");
+//            }
+//        }
+//
+//        if (sPref.getBoolean("night",false)){
+//            scvNight.setCheckTitle("夜间模式");
+//            scvNight.setChecked(true);
+//        }else {
+//            scvNight.setCheckTitle("日间模式");
+//            scvNight.setChecked(false);
+//        }
 
     }
 
@@ -249,7 +248,7 @@ public class SettingFragment extends Fragment {
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        startBackup();
+
                     }
                 });
                 builder.setNegativeButton("取消", null);
@@ -258,10 +257,6 @@ public class SettingFragment extends Fragment {
         });
     }
 
-    /* @描述 备份方法 */
-    private void startBackup() {
-
-    }
 
 
 }

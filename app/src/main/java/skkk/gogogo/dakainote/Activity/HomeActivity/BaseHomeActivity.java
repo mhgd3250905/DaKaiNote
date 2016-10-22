@@ -2,9 +2,12 @@ package skkk.gogogo.dakainote.Activity.HomeActivity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import skkk.gogogo.dakainote.Activity.PermissionsActivity.PermissionsActivity;
 import skkk.gogogo.dakainote.MyUtils.PermissionsChecker;
@@ -20,7 +23,7 @@ public class BaseHomeActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_CODE = 0; // 请求码
-    protected SharedPreferences sPref;
+
 
 
     // 所需的全部权限
@@ -39,9 +42,10 @@ public class BaseHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sPref=getSharedPreferences("note",MODE_PRIVATE);
         mPermissionsChecker = new PermissionsChecker(this);
     }
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -61,10 +65,14 @@ public class BaseHomeActivity extends AppCompatActivity {
             startPermissionsActivity();
         }
     }
+    
+
 
     private void startPermissionsActivity() {
         PermissionsActivity.startActivityForResult(this, REQUEST_CODE, PERMISSIONS);
     }
+
+
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -73,6 +81,10 @@ public class BaseHomeActivity extends AppCompatActivity {
             finish();
         }
     }
+
+
+
+
 
 
 

@@ -48,6 +48,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@id/iv_share_qq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,6 +70,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@id/iv_share_qq_zone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

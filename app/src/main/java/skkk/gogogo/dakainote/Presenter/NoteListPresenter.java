@@ -211,7 +211,7 @@ public class NoteListPresenter {
 
     /*
     * @方法 重新获取myNotes
-    * @参数 
+    * @参数
     * @返回值 List<Note>
     */
     public List<Note> reGetMyNotes() {

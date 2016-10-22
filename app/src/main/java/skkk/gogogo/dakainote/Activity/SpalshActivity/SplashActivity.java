@@ -27,7 +27,9 @@ public class SplashActivity extends AppCompatActivity {
             finish();
         }
     };
+
     private List<Note> myNotes = new ArrayList<Note>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
