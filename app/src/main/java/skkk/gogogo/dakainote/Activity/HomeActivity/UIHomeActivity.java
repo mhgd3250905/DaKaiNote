@@ -63,7 +63,7 @@ public class UIHomeActivity extends BaseHomeActivity
         super.onCreate(savedInstanceState);
         //获取Application实例
         mApplication = (MyApplication) getApplicationContext();
-        mUIHomePresenter = new UIHomePresenter(this, mApplication);
+        mUIHomePresenter = new UIHomePresenter(this);
 
         //设置主题
         setMyTheme();
@@ -238,16 +238,9 @@ public class UIHomeActivity extends BaseHomeActivity
             /* @描述 点击切换到设置界面 */
             case R.id.nav_setting:
                  /* @描述 隐藏fab */
-
                 mToolbar.setTitle("设置");
-
-//                mSettingFragment = new SettingFragment(noteListFragment);
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.fl_home, mSettingFragment).commit();
-
                 startActivity(new Intent(UIHomeActivity.this, SettingActivity.class));
                 break;
-
             case R.id.nav_author:
                 /* @描述 隐藏fab */
                 break;

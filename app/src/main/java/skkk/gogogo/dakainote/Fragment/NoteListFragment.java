@@ -13,11 +13,11 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
-import skkk.gogogo.dakainote.Interface.NoteListInterface;
 import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
 import skkk.gogogo.dakainote.DbTable.Note;
+import skkk.gogogo.dakainote.Interface.NoteListInterface;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
 import skkk.gogogo.dakainote.Presenter.NoteListPresenter;
 import skkk.gogogo.dakainote.R;
@@ -119,6 +119,7 @@ public class NoteListFragment extends Fragment implements NoteListInterface{
     public void onResume() {
         super.onResume();
 
+        mNoteListPresenter.setLayoutFlag();
         updateAll(mNoteListPresenter.reGetMyNotes());
         showBlankTip();
 

@@ -1,6 +1,7 @@
 package skkk.gogogo.dakainote.Presenter;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,11 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.SaveNoteActivity;
+import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.View.MyNoteView;
+
+import static cn.bmob.v3.Bmob.getApplicationContext;
 
 /**
  * Created by admin on 2016/10/22.
@@ -36,9 +40,13 @@ public class NoteListPresenter {
     private GridLayoutManager mGridLayoutManager;
     private List<Note> myNotes=new ArrayList<Note>();
     private Note noteShow;
+    private SharedPreferences sPref;
+    private MyApplication mApplication;
 
     public NoteListPresenter(NoteListFragment noteListFragment) {
+        mApplication= (MyApplication) getApplicationContext();
         mNoteListFragment = noteListFragment;
+        sPref=mApplication.getsPref();
     }
 
     /*
@@ -49,7 +57,7 @@ public class NoteListPresenter {
     */
     public void setLayoutFlag() {
         RecyclerView rvNoteList=mNoteListFragment.getRecyclerView();
-        switch (mNoteListFragment.getLayoutFlag()) {
+        switch (sPref.getInt("note_style",1)) {
             case 0:
                 /* @描述 设置布局管理器 */
                 mLinearLayoutManager = new LinearLayoutManager(mNoteListFragment.getContext());

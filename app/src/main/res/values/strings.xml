@@ -52,4 +52,5 @@
     <string name="splash_title">白开水笔记</string>
     <string name="splash_content">2016.10.09</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="setting">设置</string>
 </resources>

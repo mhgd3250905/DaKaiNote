@@ -49,23 +49,9 @@ public class MyApplication extends LitePalApplication{
     @Override
     public void onCreate() {
         super.onCreate();
-        /**
-         * 调用统计SDK
-         *
-         * @param appKey
-         *            Bmob平台的Application ID
-         * @param channel
-         *            当前包所在渠道，可以为空
-         * @return 是否成功，如果失败请看logcat，可能是混淆或so文件未正确配置
-         */
-
-        cn.bmob.statistics.AppStat.i("b0bff13900cd010d5145da59e88f213f","");
         //第一：默认初始化
         Bmob.initialize(this, "b0bff13900cd010d5145da59e88f213f");
-
         regToWx();
-
-
     }
 
     public static int getItemDelFlag() {

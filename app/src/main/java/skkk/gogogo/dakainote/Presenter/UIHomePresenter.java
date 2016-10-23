@@ -33,10 +33,10 @@ public class UIHomePresenter {
     private List<Note> myNotes=new ArrayList<Note>();
 
 
-    public UIHomePresenter(UIHomeActivity UIHomeActivity,MyApplication application) {
-        mApplication = application;
-        mUIHomeActivity = UIHomeActivity;
-        sPref=UIHomeActivity.getSharedPreferences("note", Context.MODE_PRIVATE);
+    public UIHomePresenter(UIHomeActivity uiHomeActivity) {
+        mApplication= (MyApplication) uiHomeActivity.getApplicationContext();
+        mUIHomeActivity = uiHomeActivity;
+        sPref=uiHomeActivity.getSharedPreferences("note", Context.MODE_PRIVATE);
     }
 
     /*

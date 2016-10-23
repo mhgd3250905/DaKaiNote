@@ -87,7 +87,6 @@ public class SettingFragment extends Fragment {
 //                break;
 //        }
 //
-//
 //        ssvNoteStyle.setTvShowText(noteStyle);
 //
 //        if (sPref.getBoolean("lock_first",true)&&TextUtils.isEmpty(sPref.getString("password",""))){

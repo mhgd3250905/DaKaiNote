@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:id="@id/cl_setting"
     tools:context="skkk.gogogo.dakainote.Activity.SettingActivity.SettingActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -16,6 +15,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            app:title="@string/setting"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -24,6 +24,5 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_setting"/>
-
 
 </android.support.design.widget.CoordinatorLayout>
