@@ -29,6 +29,7 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -46,7 +47,6 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateUnspecified|adjustResize"/>
 
-
         <!-- 点击图片显示页面 -->
         <activity android:name=".Activity.TouchDeblockActivity.TouchDeblockActivity">
         </activity>
@@ -61,6 +61,7 @@
             android:label="@string/title_activity_setting"
             android:theme="@style/AppTheme">
         </activity>
+
     </application>
 
 </manifest>

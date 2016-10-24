@@ -3,13 +3,13 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -151,7 +151,7 @@ public class SaveNoteActivity extends BottomBarNoteActivity {
             note.save();
         } else {
             note = null;
-            Snackbar.make(llNoteDetail, "您未保存任何内容", Snackbar.LENGTH_SHORT).show();
+            Toast.makeText(SaveNoteActivity.this, "您未保存任何内容", Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -131,6 +131,8 @@
     <item name="iv_share_qq_zone" type="id">iv_share_qq_zone</item>
     <item name="iv_share_qq" type="id">iv_share_qq</item>
     <item name="cl_setting" type="id">cl_setting</item>
+    <item name="et_widget" type="id">widget中的Editext</item>
+    <item name="iv_widget_add" type="id">iv_widget_add</item>
 
 
 </resources>

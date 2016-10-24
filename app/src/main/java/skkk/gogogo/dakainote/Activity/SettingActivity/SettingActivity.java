@@ -2,7 +2,6 @@ package skkk.gogogo.dakainote.Activity.SettingActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
 import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.Interface.SettingInterface;
 import skkk.gogogo.dakainote.Presenter.SettingPresenter;
@@ -68,8 +66,17 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     /* @描述 初始化UI */
     private void initUI() {
         setContentView(R.layout.activity_setting);
+
         tbSetting = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(tbSetting);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        tbSetting.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         mClSetting = (CoordinatorLayout) findViewById(R.id.cl_setting);
         ssvNoteStyle = (SettingShowView) findViewById(R.id.ssv_setting_note_style);
@@ -160,20 +167,21 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 styleBuilder.setTitle("布局样式");
                 styleBuilder.show();
                 break;
+
             case R.id.scv_setting_night:
                 //夜间模式
-
                 if (mSettingPresenter.isNight()){
                     mSettingPresenter.setSomeThingInsPerf("night",false);
-                    scvNight.setCheckTitle("夜间模式");
-                    scvNight.setChecked(true);
-                }else {
-                    mSettingPresenter.setSomeThingInsPerf("night",true);
                     scvNight.setCheckTitle("日间模式");
                     scvNight.setChecked(false);
+                }else {
+                    mSettingPresenter.setSomeThingInsPerf("night",true);
+                    scvNight.setCheckTitle("夜间模式");
+                    scvNight.setChecked(true);
                 }
-                startActivity(new Intent(SettingActivity.this, UIHomeActivity.class));
-                finish();
+
+                recreate();
+
 
                 break;
 

@@ -26,7 +26,6 @@ import skkk.gogogo.dakainote.Activity.NoteEditActivity.SaveNoteActivity;
 import skkk.gogogo.dakainote.Activity.SettingActivity.SettingActivity;
 import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.Fragment.NoteListFragment;
-import skkk.gogogo.dakainote.Fragment.SettingFragment;
 import skkk.gogogo.dakainote.Interface.UIHomeInterface;
 import skkk.gogogo.dakainote.Presenter.UIHomePresenter;
 import skkk.gogogo.dakainote.R;
@@ -53,9 +52,9 @@ public class UIHomeActivity extends BaseHomeActivity
     private boolean noNeedLock = true;
     private MyApplication mApplication;
     private UIHomePresenter mUIHomePresenter;
-    private SettingFragment mSettingFragment;
     private Dialog mDialog;
     private boolean mResult;
+    private boolean isNight;
 
 
     @Override
@@ -79,7 +78,8 @@ public class UIHomeActivity extends BaseHomeActivity
     */
     public void setMyTheme() {
         //设置主题
-        if (mUIHomePresenter.getThemeNight()) {
+        isNight=mUIHomePresenter.getThemeNight();
+        if (isNight) {
             setTheme(R.style.AppThemeNight);
         } else {
             setTheme(R.style.AppTheme);
@@ -235,12 +235,12 @@ public class UIHomeActivity extends BaseHomeActivity
                             .commit();
                 }
                 break;
+
             /* @描述 点击切换到设置界面 */
             case R.id.nav_setting:
-                 /* @描述 隐藏fab */
-                mToolbar.setTitle("设置");
                 startActivity(new Intent(UIHomeActivity.this, SettingActivity.class));
                 break;
+
             case R.id.nav_author:
                 /* @描述 隐藏fab */
                 break;
@@ -255,6 +255,10 @@ public class UIHomeActivity extends BaseHomeActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (isNight!=mUIHomePresenter.getThemeNight()){
+            recreate();
+        }
 
         /* @描述 如果开启上锁 */
         if (mUIHomePresenter.getLockedFlag() && noNeedLock) {

@@ -53,4 +53,7 @@
     <string name="splash_content">2016.10.09</string>
     <string name="title_activity_setting">SettingActivity</string>
     <string name="setting">设置</string>
+    <string name="widget_Hint_Str">点击输入笔记内容</string>
+    <string name="appwidget_text">Test</string>
+    <string name="add_widget">Add widget</string>
 </resources>

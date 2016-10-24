@@ -6,7 +6,7 @@
 
     <color name="nightColorPrimary">#3b3b3b</color>
     <color name="nightColorPrimaryDark">#383838</color>
-    <color name="nightColorAccent">#a72b55</color>
+    <color name="nightColorAccent">#dc7878</color>
 
     <color name="myTextColor">?attr/styleTextColor</color>
 

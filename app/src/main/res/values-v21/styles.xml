@@ -40,6 +40,7 @@
         <item name="mainBackground">@android:color/white</item>
         <item name="styleTextColor">@android:color/black</item>
         <item name="styleTextColor55">#77000000</item>
+        <item name="styleBackgroundIconColor">@color/colorPrimary</item>
     </style>
 
     <style name="AppThemeNight" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -64,5 +65,6 @@
         <item name="mainBackground">@color/nightColorPrimaryDark</item>
         <item name="styleTextColor">@android:color/white</item>
         <item name="styleTextColor55">#77ffffff</item>
+        <item name="styleBackgroundIconColor">@android:color/white</item>
     </style>
 </resources>

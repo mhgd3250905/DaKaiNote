@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:gravity="center_horizontal|top"
         android:text="@string/blank_tip"
-        android:textColor="@color/colorPrimary"
+        android:textColor="?attr/styleTextColor55"
         android:textSize="20dp" />
 
 </LinearLayout>
