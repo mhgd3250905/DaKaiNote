@@ -1,8 +1,6 @@
 package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,22 +18,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-
 import org.litepal.crud.DataSupport;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.TextNextCache;
 import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
 import skkk.gogogo.dakainote.MyUtils.DateUtils;
+import skkk.gogogo.dakainote.MyUtils.KeyBoardUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
-import skkk.gogogo.dakainote.MyUtils.WXUtils;
 import skkk.gogogo.dakainote.R;
 import skkk.gogogo.dakainote.View.AutoLinkEditText.LinkTouchMovementMethod;
 
@@ -60,8 +57,8 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     protected ImageView ivNoteEditNext;
     boolean change = true;
     private AlertDialog mDialog;
-    private InputMethodManager mImm;
     private Dialog mDialogShare;
+    private AlertDialog mShareTypeDialog;
 
 
     @Override
@@ -70,6 +67,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         initBottomBar();
         initLLEvent();
         initEtEvent();
+        ShareSDK.initSDK(this);
     }
 
     private void initEtEvent() {
@@ -151,11 +149,11 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         ivNoteEditSeparate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isScheduleExist){
-                    Snackbar.make(llNoteAgain,"行事历状态无法插入分隔符",Snackbar.LENGTH_SHORT).show();
+                if (isScheduleExist) {
+                    Snackbar.make(llNoteAgain, "行事历状态无法插入分隔符", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                etFirstSchedule.append("\n"+"----------------------"+"\n");
+                etFirstSchedule.append("\n" + "----------------------" + "\n");
             }
         });
 
@@ -163,18 +161,18 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         ivNoteEditContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isScheduleExist){
-                    Snackbar.make(llNoteAgain,"行事历状态无法调节对齐方式",Snackbar.LENGTH_SHORT).show();
+                if (isScheduleExist) {
+                    Snackbar.make(llNoteAgain, "行事历状态无法调节对齐方式", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                AlertDialog.Builder builder=new AlertDialog.Builder(BottomBarNoteActivity.this);
-                boolean[] gravityCheck=new boolean[]{true,false,false};
+                AlertDialog.Builder builder = new AlertDialog.Builder(BottomBarNoteActivity.this);
+                boolean[] gravityCheck = new boolean[]{true, false, false};
                 int gravityIndex = sPref.getInt("edit_gravity", 0);
                 for (int i = 0; i < 3; i++) {
-                    if (i==gravityIndex){
-                        gravityCheck[i]=true;
-                    }else {
-                        gravityCheck[i]=false;
+                    if (i == gravityIndex) {
+                        gravityCheck[i] = true;
+                    } else {
+                        gravityCheck[i] = false;
                     }
                 }
                 builder.setMultiChoiceItems(new String[]{"左对齐", "居中", "右对齐"},
@@ -185,17 +183,17 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                                 switch (which) {
                                     case 0:
                                         etFirstSchedule.setGravity(Gravity.LEFT | Gravity.TOP);
-                                        sPref.edit().putInt("edit_gravity",0).commit();
+                                        sPref.edit().putInt("edit_gravity", 0).commit();
                                         dialog.dismiss();
                                         break;
                                     case 1:
                                         etFirstSchedule.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
-                                        sPref.edit().putInt("edit_gravity",1).commit();
+                                        sPref.edit().putInt("edit_gravity", 1).commit();
                                         dialog.dismiss();
                                         break;
                                     case 2:
                                         etFirstSchedule.setGravity(Gravity.RIGHT | Gravity.TOP);
-                                        sPref.edit().putInt("edit_gravity",2).commit();
+                                        sPref.edit().putInt("edit_gravity", 2).commit();
                                         dialog.dismiss();
                                         break;
                                 }
@@ -211,8 +209,8 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         ivNoteEditTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isScheduleExist){
-                    Snackbar.make(llNoteAgain,"行事历状态无法插入时间",Snackbar.LENGTH_SHORT).show();
+                if (isScheduleExist) {
+                    Snackbar.make(llNoteAgain, "行事历状态无法插入时间", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 MyViewUtils.getFoucs(etFirstSchedule);
@@ -220,9 +218,9 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 String time = DateUtils.getTime();
                 if (etFirstSchedule.getLineCount() == 1 &&
                         TextUtils.isEmpty(etFirstSchedule.getText().toString())) {
-                    etFirstSchedule.append(time+"\n");
+                    etFirstSchedule.append(time + "\n");
                 } else {
-                    etFirstSchedule.append("\n"+time+"\n");
+                    etFirstSchedule.append("\n" + time + "\n");
                 }
 
             }
@@ -250,7 +248,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
             @Override
             public void onClick(View v) {
                 int count = DataSupport.count(TextPeriousCache.class);
-                if (count>0) {
+                if (count > 0) {
                     change = false;
 
                     TextPeriousCache last = DataSupport.findLast(TextPeriousCache.class);
@@ -258,14 +256,14 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                     textNextCache.setView_name(last.getView_name());
                     textNextCache.setContent(last.getContent());
                     textNextCache.save();
-                    LogUtils.Log("转存内容 "+last.getContent());
+                    LogUtils.Log("转存内容 " + last.getContent());
 
                     last.delete();
 
-                    if (count==1){
+                    if (count == 1) {
                         etFirstSchedule.setText("");
                         change = true;
-                    }else {
+                    } else {
                         String content = DataSupport.findLast(TextPeriousCache.class).getContent();
                         etFirstSchedule.setText(content);
                         etFirstSchedule.setSelection(content.length());
@@ -280,7 +278,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
             @Override
             public void onClick(View v) {
                 int count = DataSupport.count(TextNextCache.class);
-                if (count>0) {
+                if (count > 0) {
                     change = false;
 
                     TextNextCache last = DataSupport.findLast(TextNextCache.class);
@@ -331,70 +329,42 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         //获取菜单item_id
         int id = item.getItemId();
+
         //根据菜单判断
         switch (id) {
             case R.id.menu_note_share:
-                /* @描述 只要录音按键出现那么就强制关闭软键盘 */
-                mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mImm.hideSoftInputFromWindow(etFirstSchedule.getWindowToken(), 0); //强制隐藏键盘
 
-                AlertDialog.Builder builder=new AlertDialog.Builder(BottomBarNoteActivity.this);
-                View view= View.inflate(BottomBarNoteActivity.this,R.layout.dialog_share,null);
-                LinearLayout shareWxFriend= (LinearLayout) view.findViewById(R.id.iv_share_wx_friend);
+                KeyBoardUtils.hidekeyBoard(this,etFirstSchedule);
 
-                shareWxFriend.setOnClickListener(new View.OnClickListener() {
+
+
+                View shareView=View.inflate(this,R.layout.dialog_share_type,null);
+                TextView tvShareText=
+                        (TextView) shareView.findViewById(R.id.tv_dialog_share_type_text);
+                TextView tvShareBKS=
+                        (TextView) shareView.findViewById(R.id.tv_dialog_share_type_BKS);
+                /* @描述 文本分享方式 */
+                tvShareText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        showShare();
+                        mShareTypeDialog.dismiss();
+                    }
+                });
 
-                        boolean result= WXUtils.shareTextToWXSceneTimeliness(
-                                etFirstSchedule.getText().toString(),
-                                myApplication.getApi(),
-                                SendMessageToWX.Req.WXSceneTimeline);
-
+                tvShareBKS.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         mDialogShare.dismiss();
-
-                        Snackbar.make(llNoteDetail,"result= "+result,Snackbar.LENGTH_SHORT).show();
-
                     }
                 });
 
-                LinearLayout shareWx= (LinearLayout) view.findViewById(R.id.iv_share_wx);
-
-                    shareWx.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            boolean result=WXUtils.shareTextToWXSceneTimeliness(
-                                    etFirstSchedule.getText().toString(),
-                                    myApplication.getApi(),
-                                    SendMessageToWX.Req.WXSceneSession);
-
-                            mDialogShare.dismiss();
-
-                            Snackbar.make(llNoteDetail,"result= "+result,Snackbar.LENGTH_SHORT).show();
-                        }
-                    });
-
-                LinearLayout shareQQ= (LinearLayout) view.findViewById(R.id.iv_share_qq);
-
-                shareQQ.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Bitmap bmp=getScreenBitmap();
-//                        WXImageObject imgObj=new WXImageObject(bmp);
-//                        WXMediaMessage msg=new WXMediaMessage();
-//                        msg.mediaObject=imgObj;
-//
-//                        Bitmap thumbBmp=Bitmap.createScaledBitmap(bmp,100,100,true);
-//                        bmp.recycle();
-//                        msg.thumbData=
-                    }
-                });
-
-                LinearLayout shareQQZone= (LinearLayout) view.findViewById(R.id.iv_share_qq_zone);
-
-                builder.setView(view);
-                mDialogShare = builder.show();
+                mShareTypeDialog = new AlertDialog.Builder(BottomBarNoteActivity.this)
+                        .setView(shareView).create();
+                Window windowShareType = mShareTypeDialog.getWindow();
+                windowShareType.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+                windowShareType.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                mShareTypeDialog.show();
 
                 break;
 
@@ -402,8 +372,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
             case R.id.menu_note_edit_image:
 
                  /* @描述 只要录音按键出现那么就强制关闭软键盘 */
-                mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mImm.hideSoftInputFromWindow(etFirstSchedule.getWindowToken(), 0); //强制隐藏键盘
+                KeyBoardUtils.hidekeyBoard(this,etFirstSchedule);
 
                 /* @描述 设置dialogView */
                 final View dialogView = View.inflate(BottomBarNoteActivity.this,
@@ -412,11 +381,6 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                         (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
                 TextView tvFromAlbum =
                         (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_album);
-                ObjectAnimator objectAnimator1, objectAnimator2;
-                objectAnimator1 = ObjectAnimator.ofFloat(dialogView, "scaleX", 0, 1).setDuration(1000);
-                objectAnimator2 = ObjectAnimator.ofFloat(dialogView, "scaleY", 0, 1).setDuration(1000);
-                objectAnimator1.start();
-                objectAnimator2.start();
 
 
                 /* @描述 设置item点击事件 */
@@ -450,9 +414,9 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
 
                 imageDialog = new AlertDialog.Builder(BottomBarNoteActivity.this)
                         .setView(dialogView).create();
-                Window window = imageDialog.getWindow();
-                window.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
-                window.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                Window windowImage = imageDialog.getWindow();
+                windowImage.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+                windowImage.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
                 imageDialog.show();
 
                 break;
@@ -465,8 +429,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 } else {
                     rbVoice.setVisibility(View.VISIBLE);
                     /* @描述 只要录音按键出现那么就强制关闭软键盘 */
-                    mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    mImm.hideSoftInputFromWindow(etFirstSchedule.getWindowToken(), 0); //强制隐藏键盘
+                   KeyBoardUtils.hidekeyBoard(this,etFirstSchedule);
                 }
                 break;
             /* @描述 点击Schedule按钮 */
@@ -504,7 +467,36 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void showShare() {
+        ShareSDK.initSDK(this);
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        //oks.setTitle("标题");
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        //oks.setTitleUrl("http://sharesdk.cn");
 
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(etFirstSchedule.getText().toString());
+        ImageCache first = DataSupport.findFirst(ImageCache.class);
+        if (first!=null) {
+            oks.setImagePath(first.getImagePath());
+        }
+        //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
+        //oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+
+        // url仅在微信（包括好友和朋友圈）中使用
+        //oks.setUrl("www.baidu.com");
+
+        // 启动分享GUI
+        oks.show(this);
+    }
 
 
     @Override
@@ -517,23 +509,22 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     }
 
 
-    public Bitmap getScreenBitmap(){
-            //获取当前屏幕的大小
-            int width = getWindow().getDecorView().getRootView().getWidth();
-            int height = getWindow().getDecorView().getRootView().getHeight();
-            //生成相同大小的图片
-            Bitmap temBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            //找到当前页面的跟布局
-            View view =  getWindow().getDecorView().getRootView();
-            //设置缓存
-            view.setDrawingCacheEnabled(true);
-            view.buildDrawingCache();
-            //从缓存中获取当前屏幕的图片
-            temBitmap = view.getDrawingCache();
+    public Bitmap getScreenBitmap() {
+        //获取当前屏幕的大小
+        int width = getWindow().getDecorView().getRootView().getWidth();
+        int height = getWindow().getDecorView().getRootView().getHeight();
+        //生成相同大小的图片
+        Bitmap temBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        //找到当前页面的跟布局
+        View view = getWindow().getDecorView().getRootView();
+        //设置缓存
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        //从缓存中获取当前屏幕的图片
+        temBitmap = view.getDrawingCache();
 
         return temBitmap;
     }
-
 
 
 }

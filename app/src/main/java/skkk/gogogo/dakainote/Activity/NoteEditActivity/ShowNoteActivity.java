@@ -59,6 +59,7 @@ public class ShowNoteActivity extends ScheduleNoteActivity {
             switch (msg.what) {
                 case MESSAGE_LAYOUT_KEYBOARD_SHOW:
                     showOrHideFl(View.GONE);
+
                     break;
                 case MESSAGE_LAYOUT_KEYBOARD_HIDE:
                     showOrHideFl(View.VISIBLE);
@@ -110,6 +111,9 @@ public class ShowNoteActivity extends ScheduleNoteActivity {
             if (inetntNote.isImageIsExist() || isImageExist) {
                 fl_note_iamge.setVisibility(visibility);
             }
+
+            //当软键盘显示的时候就把录音按钮隐藏起来~
+            rbVoice.setVisibility(View.GONE);
         } else {
             /* @描述 如果是编辑状态 */
             if (isVoiceExist) {

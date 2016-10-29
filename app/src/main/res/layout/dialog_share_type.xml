@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+	android:background="?attr/mainBackground">
+
+	<TextView
+		android:id="@id/tv_dialog_share_type_text"
+		android:padding="10dp"
+		android:textSize="15sp"
+		android:textColor="?attr/styleTextColor"
+		android:text="以文字形式分享"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		/>
+
+	<TextView
+		android:id="@id/tv_dialog_share_type_BKS"
+		android:padding="10dp"
+		android:textSize="15sp"
+		android:textColor="?attr/styleTextColor"
+		android:text="以图片形式分享"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		/>
+
+</LinearLayout>

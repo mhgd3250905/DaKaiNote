@@ -133,6 +133,9 @@
     <item name="cl_setting" type="id">cl_setting</item>
     <item name="et_widget" type="id">widget中的Editext</item>
     <item name="iv_widget_add" type="id">iv_widget_add</item>
+    <item name="lv_dialog_share_type" type="id">lv_dialog_share_type</item>
+    <item name="tv_dialog_share_type_text" type="id">tv_dialog_share_type_text</item>
+    <item name="tv_dialog_share_type_BKS" type="id">tv_dialog_share_type_BKS</item>
 
 
 </resources>
