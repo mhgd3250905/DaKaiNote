@@ -8,7 +8,6 @@
     android:background="?attr/mainBackground"
     android:fitsSystemWindows="true">
 
-
     <LinearLayout
         android:id="@id/ll_note_detail"
         android:layout_width="match_parent"
@@ -23,7 +22,6 @@
                 android:id="@id/tb_note_new_detail"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:elevation="10dp"
                 app:navigationIcon="@drawable/vector_drawable_back"
                 app:title="大开笔记"
                 app:titleTextColor="@color/colorWhite">

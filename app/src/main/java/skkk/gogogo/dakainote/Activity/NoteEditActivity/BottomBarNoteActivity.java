@@ -376,7 +376,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
 
                 /* @描述 设置dialogView */
                 final View dialogView = View.inflate(BottomBarNoteActivity.this,
-                        R.layout.item_dialog_image, null);
+                        R.layout.dialog_image, null);
                 TextView tvFromCamera =
                         (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
                 TextView tvFromAlbum =
