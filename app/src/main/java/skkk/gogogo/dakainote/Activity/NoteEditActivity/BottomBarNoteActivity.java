@@ -4,7 +4,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -24,8 +27,12 @@ import android.widget.TextView;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import skkk.gogogo.dakainote.Bean.TextProperty;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.TextNextCache;
 import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
@@ -336,8 +343,6 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
 
                 KeyBoardUtils.hidekeyBoard(this,etFirstSchedule);
 
-
-
                 View shareView=View.inflate(this,R.layout.dialog_share_type,null);
                 TextView tvShareText=
                         (TextView) shareView.findViewById(R.id.tv_dialog_share_type_text);
@@ -355,6 +360,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 tvShareBKS.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        compressImage(etFirstSchedule.getText().toString());
                         mDialogShare.dismiss();
                     }
                 });
@@ -466,6 +472,44 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /*
+    * @方法 将笔记内容生成为图片
+    * @参数 文本内容 String 笔记内图片 imagePath
+    * @返回值 image
+    */
+    private Bitmap compressImage(String content) {
+        int x=5,y=10;
+        int WORDNUM = 35;  //转化成图片时  每行显示的字数
+        int WIDTH = 450;   //设置图片的宽度
+        try {
+            TextProperty tp = new TextProperty(WORDNUM, content);
+            Bitmap bitmap = Bitmap.createBitmap(WIDTH, 20*tp.getHeigt(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            Paint paint = new Paint();
+            String [] ss = tp.getContext();
+            for(int i=0;i<tp.getHeigt();i++){
+                canvas.drawText(ss[i], x, y, paint);
+                y=y+20;
+            }
+
+            canvas.save(Canvas.ALL_SAVE_FLAG);
+            canvas.restore();
+            String path = Environment.getExternalStorageDirectory() + "/image.png";
+            System.out.println(path);
+            FileOutputStream os = new FileOutputStream(new File(path));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+            os.flush();
+            os.close();
+            return bitmap;
+        }
+        catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     private void showShare() {
         ShareSDK.initSDK(this);

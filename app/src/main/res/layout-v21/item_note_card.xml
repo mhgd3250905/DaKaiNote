@@ -9,9 +9,9 @@
     android:layout_marginRight="5dp"
     android:layout_marginTop="5dp"
     android:clickable="true"
-    android:background="?attr/mainBackground"
+    android:background="?attr/styleCardBackground"
     android:stateListAnimator="@anim/card_anim"
-    card_view:cardCornerRadius="3dp">
+    card_view:cardCornerRadius="5dp">
 
     <skkk.gogogo.dakainote.View.MyNoteView
         android:id="@id/my_note_view"

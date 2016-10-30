@@ -3,13 +3,14 @@
     <color name="colorPrimary">#2F748E</color>
     <color name="colorPrimaryDark">#2F748E</color>
     <color name="colorAccent">#dc7878</color>
+    <color name="colorCardBackground">#FFFFFF</color>
 
     <color name="nightColorPrimary">#383838</color>
     <color name="nightColorPrimaryDark">#383838</color>
     <color name="nightColorAccent">#dc7878</color>
+    <color name="nightColorCardBackground">#454545</color>
 
     <color name="myTextColor">?attr/styleTextColor</color>
-
 
     <color name="colorLightBlue">#3ffffF</color>
     <color name="colorBlackBody">#cc000000</color>
