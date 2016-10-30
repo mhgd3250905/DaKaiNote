@@ -136,6 +136,7 @@
     <item name="lv_dialog_share_type" type="id">lv_dialog_share_type</item>
     <item name="tv_dialog_share_type_text" type="id">tv_dialog_share_type_text</item>
     <item name="tv_dialog_share_type_BKS" type="id">tv_dialog_share_type_BKS</item>
+    <item name="iv_test" type="id">iv_test</item>
 
 
 </resources>

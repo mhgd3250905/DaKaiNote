@@ -18,19 +18,18 @@ public class TextProperty {
      * 构造函数将文本读入，将每行字符串切割成小于等于35个字符的字符串  存入字符数组
      *
      */
-    public TextProperty(int wordNum,String content) throws Exception {
+    public TextProperty(int wordNum, String content) throws Exception {
         int i = 0;
-
-            if (content.length() > wordNum) {
-                int k = 0;
-                while (k + wordNum <= content.length()) {
-                    context[i++] = content.substring(k, k + wordNum);
-                    k = k + wordNum;
-                }
-                context[i++] = content.substring(k, content.length());
-            } else {
-                context[i++] = content;
+        if (content.length() > wordNum) {
+            int k = 0;
+            while (k + wordNum <= content.length()) {
+                context[i++] = content.substring(k, k + wordNum);
+                k = k + wordNum;
             }
+            context[i++] = content.substring(k, content.length());
+        } else {
+            context[i++] = content;
+        }
 
         this.heigt = i;
     }

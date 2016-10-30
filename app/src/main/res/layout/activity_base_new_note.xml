@@ -129,8 +129,8 @@
                         android:inputType="textMultiLine"
                         android:textColorHint="@color/colorWhite55"
                         android:textSize="17sp"/>
-
                 </LinearLayout>
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
