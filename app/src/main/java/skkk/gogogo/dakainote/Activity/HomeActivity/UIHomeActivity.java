@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import skkk.gogogo.dakainote.Activity.AuthorActivity.AuthorActivity;
 import skkk.gogogo.dakainote.Activity.NoteEditActivity.SaveNoteActivity;
 import skkk.gogogo.dakainote.Activity.SettingActivity.SettingActivity;
 import skkk.gogogo.dakainote.Application.MyApplication;
@@ -263,6 +264,7 @@ public class UIHomeActivity extends BaseHomeActivity
 
             case R.id.nav_author:
                 /* @描述 隐藏fab */
+                startActivity(new Intent(UIHomeActivity.this, AuthorActivity.class));
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -30,7 +30,7 @@
 	<string name="note_image_save">保存</string>
 	<string name="note_image_delete">删除</string>
 	<string name="blank_tip">点击新增笔记</string>
-	<string name="dialog_image_from_camera">拍照</string>
+	<string name="dialog_image_from_camera">来自拍照</string>
 	<string name="dialog_image_from_album">来自相册</string>
 	<string name="notelist_tb_check">全选</string>
 	<string name="note_edit_hint">点击输入内容</string>

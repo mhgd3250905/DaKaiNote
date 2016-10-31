@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+	android:background="?attr/mainBackground">
+
+	<TextView
+		android:drawableLeft="@drawable/vector_drawable_image_bottom"
+		android:id="@id/tv_dialog_insert_image"
+		android:padding="10dp"
+		android:textSize="15sp"
+		android:textColor="?attr/styleTextColor"
+		android:text="插入图片"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		/>
+
+	<TextView
+		android:drawableLeft="@drawable/vector_drawable_voice_bottom"
+		android:id="@id/tv_dialog_insert_voice"
+		android:padding="10dp"
+		android:textSize="15sp"
+		android:textColor="?attr/styleTextColor"
+		android:text="插入录音"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		/>
+
+</LinearLayout>

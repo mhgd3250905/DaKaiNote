@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,7 +28,6 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.TextNextCache;
 import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
-import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.KeyBoardUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
@@ -55,6 +53,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     protected ImageView ivNoteEditTime;
     protected ImageView ivNoteEditPin;
     protected ImageView ivNoteEditNext;
+    protected ImageView ivNoteEditSchedule;
     boolean change = true;
     private AlertDialog mDialog;
     private Dialog mDialogShare;
@@ -132,6 +131,8 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         ivNoteEditTime = (ImageView) findViewById(R.id.bottom_bar_time);
         ivNoteEditPin = (ImageView) findViewById(R.id.bottom_bar_pin);
         ivNoteEditNext = (ImageView) findViewById(R.id.bottom_bar_next);
+        ivNoteEditSchedule= (ImageView) findViewById(R.id.bottom_bar_check);
+
         ivNoteEditPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +146,40 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 }
             }
         });
+
+        ivNoteEditSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isScheduleExist) {
+                    cbfirstSchedule.setVisibility(View.VISIBLE);
+                    isScheduleExist = true;
+                    nsvEditAgain.setFillViewport(false);
+
+                    LinearLayout.LayoutParams paramsCb =
+                            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT);
+                    paramsCb.gravity = Gravity.CENTER;
+                    cbfirstSchedule.setLayoutParams(paramsCb);
+                    cbfirstSchedule.setPadding(0, 0, 0, 0);
+                    cbfirstSchedule.setGravity(Gravity.CENTER);
+                    cbfirstSchedule.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
+
+                    LinearLayout.LayoutParams paramsEt = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    etFirstSchedule.setLayoutParams(paramsEt);
+
+                    etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
+                    etFirstSchedule.setPadding(0, 0, 0, 0);
+                    etFirstSchedule.setBackground(null);
+                    etFirstSchedule.setTextSize(17);
+                    etFirstSchedule.setSingleLine(true);
+                    MyViewUtils.getFoucs(etFirstSchedule);
+                }
+            }
+        });
+
+
         /* @描述 加入分隔符 */
         ivNoteEditSeparate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,7 +240,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 builder.show();
             }
         });
-        /* @描述 点击加入时间 */
+        /* @描述 点击加入图片或者录音 */
         ivNoteEditTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,16 +248,87 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                     Snackbar.make(llNoteAgain, "行事历状态无法插入时间", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                MyViewUtils.getFoucs(etFirstSchedule);
+                View insertView = View.inflate(BottomBarNoteActivity.this, R.layout.dialog_insert, null);
+                TextView tvInsertImage = (TextView) insertView.findViewById(R.id.tv_dialog_insert_image);
+                TextView tvInsertVoice = (TextView) insertView.findViewById(R.id.tv_dialog_insert_voice);
+                /* @描述 点击插入图片 */
+                tvInsertImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                String time = DateUtils.getTime();
-                if (etFirstSchedule.getLineCount() == 1 &&
-                        TextUtils.isEmpty(etFirstSchedule.getText().toString())) {
-                    etFirstSchedule.append(time + "\n");
-                } else {
-                    etFirstSchedule.append("\n" + time + "\n");
-                }
+                         /* @描述 只要录音按键出现那么就强制关闭软键盘 */
+                        KeyBoardUtils.hidekeyBoard(BottomBarNoteActivity.this, etFirstSchedule);
 
+                        /* @描述 设置dialogView */
+                        final View dialogView = View.inflate(BottomBarNoteActivity.this,
+                                R.layout.dialog_image, null);
+                        TextView tvFromCamera =
+                                (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
+                        TextView tvFromAlbum =
+                                (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_album);
+
+
+                         /* @描述 设置item点击事件 */
+
+                        /* @描述 相机拍照 */
+                        tvFromCamera.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                /*
+                                 * @方法 点击调用相机拍照
+                                 *
+                                 */
+                                takePicture(BottomBarNoteActivity.this);
+                                isDelete = false;
+                                imageDialog.dismiss();
+                            }
+                        });
+
+                        /* @描述 来自相册 */
+                        tvFromAlbum.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // 激活系统图库，选择一张图片
+                                Intent intent = new Intent(Intent.ACTION_PICK);
+                                intent.setType("image/*");
+                                // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
+                                startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
+                                imageDialog.dismiss();
+                            }
+                        });
+
+                        imageDialog = new AlertDialog.Builder(BottomBarNoteActivity.this)
+                                .setView(dialogView).create();
+                        Window windowImage = imageDialog.getWindow();
+                        windowImage.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+                        windowImage.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                        imageDialog.show();
+
+                        mShareTypeDialog.dismiss();
+                    }
+                });
+                /* @描述 点击插入录音 */
+                tvInsertVoice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (rbVoice.getVisibility() == View.VISIBLE) {
+                            rbVoice.setVisibility(View.GONE);
+                        } else {
+                            rbVoice.setVisibility(View.VISIBLE);
+                         /* @描述 只要录音按键出现那么就强制关闭软键盘 */
+                            KeyBoardUtils.hidekeyBoard(BottomBarNoteActivity.this, etFirstSchedule);
+                        }
+
+                        mShareTypeDialog.dismiss();
+                    }
+                });
+                mShareTypeDialog = new AlertDialog.Builder(BottomBarNoteActivity.this)
+                        .setView(insertView).create();
+                Window windowShareType = mShareTypeDialog.getWindow();
+                windowShareType.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+                windowShareType.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                mShareTypeDialog.show();
             }
         });
 
@@ -336,137 +442,12 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
 
                 KeyBoardUtils.hidekeyBoard(this, etFirstSchedule);
                 showShare();
-//                View shareView = View.inflate(this, R.layout.dialog_share_type, null);
-//                TextView tvShareText =
-//                        (TextView) shareView.findViewById(R.id.tv_dialog_share_type_text);
-//                TextView tvShareBKS =
-//                        (TextView) shareView.findViewById(R.id.tv_dialog_share_type_BKS);
-//                /* @描述 文本分享方式 */
-//                tvShareText.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        showShare();
-//                        mShareTypeDialog.dismiss();
-//                    }
-//                });
-//
-//                tvShareBKS.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                        mShareTypeDialog.dismiss();
-//                    }
-//                });
-//
-//                mShareTypeDialog = new AlertDialog.Builder(BottomBarNoteActivity.this)
-//                        .setView(shareView).create();
-//                Window windowShareType = mShareTypeDialog.getWindow();
-//                windowShareType.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
-//                windowShareType.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
-//                mShareTypeDialog.show();
-
-                break;
-
-            /* @描述 点击图片按钮 */
-            case R.id.menu_note_edit_image:
-
-                 /* @描述 只要录音按键出现那么就强制关闭软键盘 */
-                KeyBoardUtils.hidekeyBoard(this, etFirstSchedule);
-
-                /* @描述 设置dialogView */
-                final View dialogView = View.inflate(BottomBarNoteActivity.this,
-                        R.layout.dialog_image, null);
-                TextView tvFromCamera =
-                        (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_camera);
-                TextView tvFromAlbum =
-                        (TextView) dialogView.findViewById(R.id.tv_dialog_image_from_album);
-
-
-                /* @描述 设置item点击事件 */
-
-                /* @描述 相机拍照 */
-                tvFromCamera.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    /*
-                     * @方法 点击调用相机拍照
-                     *
-                     */
-                        takePicture(BottomBarNoteActivity.this);
-                        isDelete = false;
-                        imageDialog.dismiss();
-                    }
-                });
-
-                /* @描述 来自相册 */
-                tvFromAlbum.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // 激活系统图库，选择一张图片
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType("image/*");
-                        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
-                        startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
-                        imageDialog.dismiss();
-                    }
-                });
-
-                imageDialog = new AlertDialog.Builder(BottomBarNoteActivity.this)
-                        .setView(dialogView).create();
-                Window windowImage = imageDialog.getWindow();
-                windowImage.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
-                windowImage.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
-                imageDialog.show();
-
-                break;
-
-            /* @描述 点击录音按钮 */
-            case R.id.menu_note_edit_voice:
-
-                if (rbVoice.getVisibility() == View.VISIBLE) {
-                    rbVoice.setVisibility(View.GONE);
-                } else {
-                    rbVoice.setVisibility(View.VISIBLE);
-                    /* @描述 只要录音按键出现那么就强制关闭软键盘 */
-                    KeyBoardUtils.hidekeyBoard(this, etFirstSchedule);
-                }
-                break;
-            /* @描述 点击Schedule按钮 */
-            case R.id.menu_note_edit_schedule:
-
-                if (!isScheduleExist) {
-                    cbfirstSchedule.setVisibility(View.VISIBLE);
-                    isScheduleExist = true;
-                    nsvEditAgain.setFillViewport(false);
-
-                    LinearLayout.LayoutParams paramsCb = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                    paramsCb.gravity = Gravity.CENTER;
-                    cbfirstSchedule.setLayoutParams(paramsCb);
-                    cbfirstSchedule.setPadding(0, 0, 0, 0);
-                    cbfirstSchedule.setGravity(Gravity.CENTER);
-                    cbfirstSchedule.setButtonDrawable(R.drawable.select_checkbox_for_item_delete);
-
-                    LinearLayout.LayoutParams paramsEt = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                    etFirstSchedule.setLayoutParams(paramsEt);
-
-                    etFirstSchedule.setGravity(Gravity.CENTER_VERTICAL);
-                    etFirstSchedule.setPadding(0, 0, 0, 0);
-                    etFirstSchedule.setBackground(null);
-                    etFirstSchedule.setTextSize(17);
-                    etFirstSchedule.setSingleLine(true);
-                    MyViewUtils.getFoucs(etFirstSchedule);
-                }
 
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
     private void showShare() {

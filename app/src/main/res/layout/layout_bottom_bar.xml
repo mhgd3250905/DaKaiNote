@@ -6,15 +6,22 @@
               android:orientation="horizontal">
 
 
+
+
     <ImageView
         android:id="@id/bottom_bar_contack"
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_gravity_left"/>
 
     <ImageView
+        android:id="@id/bottom_bar_check"
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_check_bottom"/>
+
+    <ImageView
         android:id="@id/bottom_bar_time"
         style="@style/BottomBarStyle"
-        android:src="@drawable/vector_drawable_bottom_time"/>
+        android:src="@drawable/vector_drawable_enclosure"/>
 
     <ImageView
         android:id="@id/bottom_bar_separate"

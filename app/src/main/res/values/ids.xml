@@ -137,6 +137,16 @@
     <item name="tv_dialog_share_type_text" type="id">tv_dialog_share_type_text</item>
     <item name="tv_dialog_share_type_BKS" type="id">tv_dialog_share_type_BKS</item>
     <item name="iv_test" type="id">iv_test</item>
+    <item name="tv_dialog_insert_image" type="id">tv_dialog_insert_image</item>
+    <item name="tv_dialog_insert_voice" type="id">tv_dialog_insert_voice</item>
+    <item name="tv_dialog_insert_schedule" type="id">tv_dialog_insert_schedule</item>
+    <item name="bottom_bar_check" type="id">bottom_bar_check</item>
+    <item name="btn_author_send" type="id">btn_author_send</item>
+    <item name="et_author_content" type="id">et_author_content</item>
+    <item name="rv_author_content" type="id">rv_author_content</item>
+    <item name="tv_item_author_content" type="id">tv_item_author_content</item>
+    <item name="tv_item_author_time" type="id">tv_item_author_time</item>
+    <item name="tb_author" type="id">tb_author</item>
 
 
 </resources>

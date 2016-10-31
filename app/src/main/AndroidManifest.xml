@@ -2,106 +2,108 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="skkk.gogogo.dakainote">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <!-- 蓝牙分享所需的权限 -->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+	<uses-permission android:name="android.permission.CAMERA"/>
+	<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.READ_CONTACTS"/>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+	<uses-permission android:name="android.permission.CALL_PHONE"/>
+	<!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+	<uses-permission android:name="android.permission.WAKE_LOCK"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.GET_TASKS"/>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+	<!-- 蓝牙分享所需的权限 -->
+	<uses-permission android:name="android.permission.BLUETOOTH"/>
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
-    <application
-        android:name=".Application.MyApplication"
-        android:icon="@drawable/item_edit"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+	<application
+		android:name=".Application.MyApplication"
+		android:icon="@drawable/item_edit"
+		android:label="@string/app_name"
+		android:theme="@style/AppTheme">
 
-        <!-- 主 界 面 -->
-        <activity
-            android:name=".Activity.SpalshActivity.SplashActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+		<!-- 主 界 面 -->
+		<activity
+			android:name=".Activity.SpalshActivity.SplashActivity"
+			android:label="@string/title_activity_main"
+			android:theme="@style/AppTheme">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
 
-        <!-- 权限请求获取页面 -->
-        <activity
-            android:name=".Activity.PermissionsActivity.PermissionsActivity"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".Activity.MyTestActivity"/>
+		<!-- 权限请求获取页面 -->
+		<activity
+			android:name=".Activity.PermissionsActivity.PermissionsActivity"
+			android:theme="@style/AppTheme"/>
+		<activity android:name=".Activity.MyTestActivity"/>
 
-        <!-- note details 编辑界面 -->
-        <!-- note details 展示界面 -->
-        <activity
-            android:name=".Activity.NoteEditActivity.SaveNoteActivity"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateUnspecified|adjustResize"/>
+		<!-- note details 编辑界面 -->
+		<!-- note details 展示界面 -->
+		<activity
+			android:name=".Activity.NoteEditActivity.SaveNoteActivity"
+			android:theme="@style/AppTheme"
+			android:windowSoftInputMode="stateUnspecified|adjustResize"/>
 
-        <!-- 点击图片显示页面 -->
-        <activity android:name=".Activity.TouchDeblockActivity.TouchDeblockActivity">
-        </activity>
-        <activity android:name=".Activity.TouchDeblockActivity.LockActivity">
-        </activity>
-        <activity
-            android:name=".Activity.HomeActivity.UIHomeActivity"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".Activity.SettingActivity.SettingActivity"
-            android:label="@string/title_activity_setting"
-            android:theme="@style/AppTheme">
-        </activity>
+		<!-- 点击图片显示页面 -->
+		<activity android:name=".Activity.TouchDeblockActivity.TouchDeblockActivity">
+		</activity>
+		<activity android:name=".Activity.TouchDeblockActivity.LockActivity">
+		</activity>
+		<activity
+			android:name=".Activity.HomeActivity.UIHomeActivity"
+			android:theme="@style/AppTheme">
+		</activity>
+		<activity
+			android:name=".Activity.SettingActivity.SettingActivity"
+			android:label="@string/title_activity_setting"
+			android:theme="@style/AppTheme">
+		</activity>
 
-        <!-- shareSDK -->
-        <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+		<!-- shareSDK -->
+		<activity
+			android:name="com.mob.tools.MobUIShell"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:windowSoftInputMode="stateHidden|adjustResize">
 
-            <!-- QQ和QQ空间分享 QQ登录的回调必须要配置的 -->
-            <intent-filter>
-                <data android:scheme="tencent1105699541"/>
+			<!-- QQ和QQ空间分享 QQ登录的回调必须要配置的 -->
+			<intent-filter>
+				<data android:scheme="tencent1105699541"/>
 
-                <action android:name="android.intent.action.VIEW"/>
+				<action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
+				<category android:name="android.intent.category.BROWSABLE"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
 
-            <!-- 新浪微博客户端分享回调必须配置 -->
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+			<!-- 新浪微博客户端分享回调必须配置 -->
+			<intent-filter>
+				<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
 
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
+				<category android:name="android.intent.category.DEFAULT"/>
+			</intent-filter>
+		</activity>
 
-        <!-- 微信分享回调 -->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-    </application>
+		<!-- 微信分享回调 -->
+		<activity
+			android:name=".wxapi.WXEntryActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:exported="true"
+			android:screenOrientation="portrait"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+		<activity android:name=".Activity.AuthorActivity.AuthorActivity">
+		</activity>
+	</application>
 
 </manifest>
