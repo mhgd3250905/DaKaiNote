@@ -52,6 +52,8 @@ public class MyApplication extends LitePalApplication{
         //第一：默认初始化
         Bmob.initialize(this, "b0bff13900cd010d5145da59e88f213f");
 
+
+
         regToWx();
     }
 

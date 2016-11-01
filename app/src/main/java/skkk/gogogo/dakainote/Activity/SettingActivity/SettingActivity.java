@@ -14,10 +14,16 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 import skkk.gogogo.dakainote.Application.MyApplication;
+import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Interface.SettingInterface;
 import skkk.gogogo.dakainote.Presenter.SettingPresenter;
 import skkk.gogogo.dakainote.R;
@@ -260,6 +266,30 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        List<Note> all = DataSupport.findAll(Note.class);
+
+                        for (int i = 0; i < all.size(); i++) {
+                            skkk.gogogo.dakainote.Bean.Note backupNote=new skkk.gogogo.dakainote.Bean.Note();
+                            backupNote.setTime(all.get(i).getTime());
+                            backupNote.setContent(all.get(i).getContent());
+                            backupNote.setGravity(all.get(i).getGravity());
+                            backupNote.setImageisexist(all.get(i).isImageIsExist());
+                            backupNote.setPinisexist(all.get(i).isPinIsExist());
+                            backupNote.setVoiceexist(all.get(i).isVoiceExist());
+                            backupNote.setKeynum(all.get(i).getKeyNum());
+                            backupNote.setTitle(all.get(i).getTitle());
+                            backupNote.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if(e==null){
+
+                                    }else{
+                                        Toast.makeText(mApplication, "重复备份", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+
 
                     }
                 });

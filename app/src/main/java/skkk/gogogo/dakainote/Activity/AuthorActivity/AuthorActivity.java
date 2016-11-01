@@ -77,7 +77,7 @@ public class AuthorActivity extends AppCompatActivity {
         BmobQuery<Communication> query = new BmobQuery<Communication>();
         //查询playerName叫“比目”的数据
         //返回50条数据，如果不加上这条语句，默认返回10条数据
-        //query.setLimit(50);
+        query.setLimit(10);
         //执行查询方法
         query.findObjects(new FindListener<Communication>() {
             @Override
