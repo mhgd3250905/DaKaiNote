@@ -138,6 +138,7 @@ public class ShowNoteActivity extends ScheduleNoteActivity {
         }
 
         note = new Note();//这里必须要初始化note
+
         /* @描述 如果是展示页面 */
         if (isShow) {
             noteKey=inetntNote.getKeyNum();

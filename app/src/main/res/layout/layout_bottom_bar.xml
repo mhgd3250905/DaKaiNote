@@ -5,13 +5,15 @@
               android:background="?attr/mainBackground"
               android:orientation="horizontal">
 
-
-
-
     <ImageView
         android:id="@id/bottom_bar_contack"
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_gravity_left"/>
+
+    <ImageView
+        android:id="@id/bottom_bar_bold"
+        style="@style/BottomBarStyle"
+        android:src="@drawable/vector_drawable_bottom_bold_unchecked"/>
 
     <ImageView
         android:id="@id/bottom_bar_check"

@@ -39,6 +39,7 @@ public class SaveNoteActivity extends BottomBarNoteActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         tbNoteDetail.setNavigationOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (isDelete) {
@@ -54,7 +55,6 @@ public class SaveNoteActivity extends BottomBarNoteActivity {
     *
     */
     private void saveNoteData() {
-
         isStore = false;
         /* @描述 保存对齐方式 */
         note.setGravity(sPref.getInt("edit_gravity", 0));
@@ -72,7 +72,9 @@ public class SaveNoteActivity extends BottomBarNoteActivity {
             /* @描述 如果不存在schedule而且et内容不为空 */
             note.setContent(etFirstSchedule.getText().toString());
             isStore = true;
-        } else if (isScheduleExist) {
+        }
+
+        if (isScheduleExist) {
             /* @描述 如果存在schedule */
             /* @描述 设置内容 */
             note.setContent(etFirstSchedule.getText().toString());
@@ -91,8 +93,8 @@ public class SaveNoteActivity extends BottomBarNoteActivity {
                 schedule.save();
                 note.getScheduleList().add(schedule);
                 note.setScheduleIsExist(true);
-                isStore = true;
             }
+            isStore = true;
         }
 
         /* @描述 保存时间 */
@@ -146,6 +148,7 @@ public class SaveNoteActivity extends BottomBarNoteActivity {
             }
         }
 
+        LogUtils.Log("isStore");
         /* @描述 保存note */
         if (isStore) {
             note.save();

@@ -1,8 +1,6 @@
-package skkk.gogogo.dakainote.DbTable;
+package skkk.gogogo.dakainote.Bean;
 
-import org.litepal.crud.DataSupport;
-
-import java.io.Serializable;
+import cn.bmob.v3.BmobObject;
 
 /**
  * Created by admin on 2016/8/27.
@@ -13,26 +11,17 @@ import java.io.Serializable;
 * 作    者：ksheng
 * 时    间：2016/8/27$ 13:56$.
 */
-public class Schedule extends DataSupport implements Serializable {
-    private int id;
-    private Note note;
+public class Schedule extends BmobObject {
     private boolean scheduleChecked;
     private String scheduleContent;
+    private int note_id;
 
-    public int getId() {
-        return id;
+    public int getNote_id() {
+        return note_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Note getNote() {
-        return note;
-    }
-
-    public void setNote(Note note) {
-        this.note = note;
+    public void setNote_id(int note_id) {
+        this.note_id = note_id;
     }
 
     public boolean isScheduleChecked() {

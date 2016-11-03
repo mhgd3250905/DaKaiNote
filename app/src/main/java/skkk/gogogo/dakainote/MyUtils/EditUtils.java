@@ -3,6 +3,9 @@ package skkk.gogogo.dakainote.MyUtils;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
@@ -73,12 +76,22 @@ public class EditUtils {
 
 
     /**
-     * 粗体，斜体
+     * 粗体
      */
-    public static void addStyleSpan(EditText tv) {
-        SpannableString spanString = new SpannableString("BIBI");
-        StyleSpan span = new StyleSpan(Typeface.BOLD_ITALIC);
-        spanString.setSpan(span, 0, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    public static void addStyleBoldSpan(EditText tv) {
+        SpannableString spanString = new SpannableString("[sk_bold_sk]");
+        StyleSpan span = new StyleSpan(Typeface.BOLD);
+        spanString.setSpan(span, 0,spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.append(spanString);
+    }
+
+    /**
+     * 粗体
+     */
+    public static void addStyleItalicSpan(EditText tv) {
+        SpannableString spanString = new SpannableString("[sk_italic_sk]");
+        StyleSpan span = new StyleSpan(Typeface.ITALIC);
+        spanString.setSpan(span, 0,spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.append(spanString);
     }
 
@@ -106,12 +119,13 @@ public class EditUtils {
     /**
      * 图片
      */
-    public static void addImageSpan(Context context,EditText tv) {
-        SpannableString ss = new SpannableString("line");
-        //用这个drawable对象代替字符串easy
-        ImageSpan span = new ImageSpan(context,R.drawable.line);
-        //包括0但是不包括"easy".length()即：4。[0,4)。值得注意的是当我们复制这个图片的时候，实际是复制了"easy"这个字符串。
-        ss.setSpan(span,0,"line".length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        tv.append(ss);
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void addImageSpan(Context context, EditText tv) {
+        SpannableString spanString = new SpannableString("[sk_line_sk]");
+        Drawable d = context.getDrawable(R.drawable.line);
+        d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
+        ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
+        spanString.setSpan(span, 0,spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.append(spanString);
     }
 }

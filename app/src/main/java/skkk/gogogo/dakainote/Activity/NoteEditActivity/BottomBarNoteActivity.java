@@ -4,14 +4,15 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.text.method.LinkMovementMethod;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -28,11 +30,12 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.TextNextCache;
 import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
+import skkk.gogogo.dakainote.DbTable.VoiceCache;
+import skkk.gogogo.dakainote.MyUtils.EditUtils;
 import skkk.gogogo.dakainote.MyUtils.KeyBoardUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
-import skkk.gogogo.dakainote.View.AutoLinkEditText.LinkTouchMovementMethod;
 
 /**
  * Created by admin on 2016/8/26.
@@ -54,10 +57,12 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     protected ImageView ivNoteEditPin;
     protected ImageView ivNoteEditNext;
     protected ImageView ivNoteEditSchedule;
+    protected ImageView ivNoteEditBold;
     boolean change = true;
     private AlertDialog mDialog;
     private Dialog mDialogShare;
     private AlertDialog mShareTypeDialog;
+    protected boolean boldFlag = false;
 
 
     @Override
@@ -79,12 +84,18 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+//                if (change) {
+//                    if (boldFlag) {
+//                        change=false;
+//                        etFirstSchedule.append(Html.fromHtml("<big>"+s.toString()+"</big>"));
+//                        change=true;
+//                    }
+//                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!isScheduleExist) {
+                if (!isScheduleExist && !boldFlag) {
                     if (change) {
                     /* @描述 如果不是schedule那么就进行上一步缓存处理 */
                         TextPeriousCache textPeriousCache = new TextPeriousCache();
@@ -95,26 +106,26 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                     }
                 }
 
-                if (!checkString.equals(etFirstSchedule.getText().toString())) {
-                    checkString = etFirstSchedule.getText().toString();
-                    SpannableString spannableString = etFirstSchedule.makeSpannableString(s.toString());
-                    int start = etFirstSchedule.getSelectionStart();
-
-                    if (change) {
-                        change = false;
-                    }
-
-                    etFirstSchedule.setText(spannableString);
-
-                    if (!change) {
-                        change = true;
-                    }
-
-                    etFirstSchedule.setMovementMethod(new LinkTouchMovementMethod());
-                    Log.d("skkk", "检查了一遍~");
-                    etFirstSchedule.setSelection(start);
-                    checkFlag = false;
-                }
+//                if (!checkString.equals(etFirstSchedule.getText().toString())) {
+//                    checkString = etFirstSchedule.getText().toString();
+//                    SpannableString spannableString = etFirstSchedule.makeSpannableString(s.toString());
+//                    int start = etFirstSchedule.getSelectionStart();
+//
+//                    if (change) {
+//                        change = false;
+//                    }
+//
+//                    etFirstSchedule.setText(spannableString);
+//
+//                    if (!change) {
+//                        change = true;
+//                    }
+//
+//                    etFirstSchedule.setMovementMethod(new LinkTouchMovementMethod());
+//                    Log.d("skkk", "检查了一遍~");
+//                    etFirstSchedule.setSelection(start);
+//                    checkFlag = false;
+//                }
             }
         });
     }
@@ -126,13 +137,34 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     */
     private void initBottomBar() {
         ivNoteEditSeparate = (ImageView) findViewById(R.id.bottom_bar_separate);
+        ivNoteEditBold = (ImageView) findViewById(R.id.bottom_bar_bold);
         ivNoteEditBack = (ImageView) findViewById(R.id.bottom_bar_back);
         ivNoteEditContact = (ImageView) findViewById(R.id.bottom_bar_contack);
         ivNoteEditTime = (ImageView) findViewById(R.id.bottom_bar_time);
         ivNoteEditPin = (ImageView) findViewById(R.id.bottom_bar_pin);
         ivNoteEditNext = (ImageView) findViewById(R.id.bottom_bar_next);
-        ivNoteEditSchedule= (ImageView) findViewById(R.id.bottom_bar_check);
+        ivNoteEditSchedule = (ImageView) findViewById(R.id.bottom_bar_check);
 
+
+        /* @描述 字体Bold */
+        ivNoteEditBold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (boldFlag) {
+                    boldFlag = false;
+                    Toast.makeText(myApplication, "Fail", Toast.LENGTH_SHORT).show();
+                } else {
+                    etFirstSchedule.setMovementMethod(ScrollingMovementMethod.getInstance());// 设置可滚动
+                    etFirstSchedule.setMovementMethod(LinkMovementMethod.getInstance());//设置超链接可以打开网页
+
+                    boldFlag = true;
+                    Toast.makeText(myApplication, "OK", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        /* @描述 pin标记 */
         ivNoteEditPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,6 +179,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
             }
         });
 
+        /* @描述 Schedule模式 */
         ivNoteEditSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,7 +221,13 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                     Snackbar.make(llNoteAgain, "行事历状态无法插入分隔符", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                etFirstSchedule.append("\n" + "----------------------" + "\n");
+
+                etFirstSchedule.append("\n");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    EditUtils.addImageSpan(BottomBarNoteActivity.this,etFirstSchedule);
+                }
+                etFirstSchedule.append("\n");
+
             }
         });
 
@@ -486,6 +525,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     protected void onDestroy() {
         /* @描述 删除缓存中的图片内容 */
         DataSupport.deleteAll(ImageCache.class);
+        DataSupport.deleteAll(VoiceCache.class);
         DataSupport.deleteAll(TextPeriousCache.class);
         DataSupport.deleteAll(TextNextCache.class);
         super.onDestroy();

@@ -82,7 +82,9 @@ public class AuthorActivity extends AppCompatActivity {
         query.findObjects(new FindListener<Communication>() {
             @Override
             public void done(List<Communication> list, BmobException e) {
-
+                if (list.size()==0){
+                    return;
+                }
                 for (int i = 0; i < list.size(); i++) {
                     LogUtils.Log("查询Contnet： "+list.get(i).getContent());
                     LogUtils.Log("查询Time： "+list.get(i).getTime());

@@ -7,15 +7,6 @@
     android:background="#28788c"
     tools:context="skkk.gogogo.dakainote.Activity.SpalshActivity.SplashActivity">
 
-    <ImageView
-        android:id="@id/iv_splash"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="220dp"
-        android:src="@drawable/item_edit"/>
-
     <TextView
         android:id="@id/tv_splash_title"
         android:layout_width="wrap_content"
@@ -25,5 +16,11 @@
         android:text="@string/splash_title"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"/>
+    <ImageView
+        android:id="@id/iv_splash"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/item_edit" android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

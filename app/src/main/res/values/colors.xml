@@ -31,4 +31,9 @@
     <color name="theme_color_primary">#fb7299</color>
     <color name="theme_color_primary_dark">#b85671</color>
     <color name="theme_color_primary_trans">#99f0486c</color>
+
+    <color name="card_color_voice">#8c8c8c</color>
+    <color name="card_color_image">#a06450</color>
+    <color name="card_color_pin">#2864a0</color>
+    <color name="card_color_schedule">#645078</color>
 </resources>

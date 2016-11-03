@@ -23,7 +23,10 @@ import java.util.List;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import skkk.gogogo.dakainote.Application.MyApplication;
+import skkk.gogogo.dakainote.DbTable.Image;
 import skkk.gogogo.dakainote.DbTable.Note;
+import skkk.gogogo.dakainote.DbTable.Schedule;
+import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.Interface.SettingInterface;
 import skkk.gogogo.dakainote.Presenter.SettingPresenter;
 import skkk.gogogo.dakainote.R;
@@ -48,12 +51,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private SettingPresenter mSettingPresenter;
     private String noteStyle;
     private AlertDialog mDialog;
+    private boolean mBackupFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApplication = (MyApplication) getApplicationContext();
-        mSettingPresenter=new SettingPresenter(this);
+        mSettingPresenter = new SettingPresenter(this);
 
         setMyTheme();
         initUI();
@@ -76,7 +80,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     /* @描述 初始化UI */
     private void initUI() {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -143,9 +147,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
 
         if (mSettingPresenter.isNight()) {
-            setNight(true,"夜间模式");
+            setNight(true, "夜间模式");
         } else {
-            setNight(false,"日间模式");
+            setNight(false, "日间模式");
         }
 
 
@@ -193,12 +197,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.scv_setting_night:
                 //夜间模式
-                if (mSettingPresenter.isNight()){
-                    mSettingPresenter.setSomeThingInsPerf("night",false);
+                if (mSettingPresenter.isNight()) {
+                    mSettingPresenter.setSomeThingInsPerf("night", false);
                     scvNight.setCheckTitle("日间模式");
                     scvNight.setChecked(false);
-                }else {
-                    mSettingPresenter.setSomeThingInsPerf("night",true);
+                } else {
+                    mSettingPresenter.setSomeThingInsPerf("night", true);
                     scvNight.setCheckTitle("夜间模式");
                     scvNight.setChecked(true);
                 }
@@ -210,19 +214,19 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.ssv_setting_lock:
                 //上锁
-                if (mSettingPresenter.isLocked()){
+                if (mSettingPresenter.isLocked()) {
                     //如果有设置上锁,就关闭上锁
-                    mSettingPresenter.setSomeThingInsPerf("lock",false);
+                    mSettingPresenter.setSomeThingInsPerf("lock", false);
                     ssvLock.setTvShowText("已关闭上锁");
-                }else {
+                } else {
                     //如果没有设置上锁
-                    if (!mSettingPresenter.isFirstLock()){
+                    if (!mSettingPresenter.isFirstLock()) {
                         //如果不是第一次点击
                         //打开上锁
-                        mSettingPresenter.setSomeThingInsPerf("lock",true);
+                        mSettingPresenter.setSomeThingInsPerf("lock", true);
                         ssvLock.setTvShowText("已开启上锁");
 
-                    }else {
+                    } else {
                         //如果是第一次点击
                         final AlertDialog.Builder lockBuilder = new AlertDialog.Builder(this);
                         final TouchDeblockingView tdvLock = new TouchDeblockingView(this);
@@ -233,11 +237,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                             tdvLock.setOnDrawFinishedListener(new TouchDeblockingView.OnDrawFinishListener() {
                                 @Override
                                 public boolean OnDrawFinished(List<Integer> passList) {
-                                    if (!mSettingPresenter.deblocking(passList)){
+                                    if (!mSettingPresenter.deblocking(passList)) {
                                         Snackbar.make(tdvLock, "密码过短，请重新输入", Snackbar.LENGTH_SHORT).show();
                                         tdvLock.resetPoints();
                                         return false;
-                                    }else {
+                                    } else {
                                         ssvLock.setTvShowText("已开启上锁");
                                         mDialog.dismiss();
                                         return true;
@@ -255,10 +259,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 //重置上锁密码
                 mSettingPresenter.resetPassword();
                 ssvLock.setTvShowText("点击设置密码");
-                Snackbar.make(mClSetting,"密码已清除，请点击上锁重新设置。",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mClSetting, "密码已清除，请点击上锁重新设置。", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.ssv_setting_backup:
                 //备份
+                mBackupFlag = true;
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setIcon(R.drawable.item_save);
                 builder.setTitle("备份提醒");
@@ -266,31 +271,95 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        List<Note> all = DataSupport.findAll(Note.class);
-
-                        for (int i = 0; i < all.size(); i++) {
-                            skkk.gogogo.dakainote.Bean.Note backupNote=new skkk.gogogo.dakainote.Bean.Note();
-                            backupNote.setTime(all.get(i).getTime());
-                            backupNote.setContent(all.get(i).getContent());
-                            backupNote.setGravity(all.get(i).getGravity());
-                            backupNote.setImageisexist(all.get(i).isImageIsExist());
-                            backupNote.setPinisexist(all.get(i).isPinIsExist());
-                            backupNote.setVoiceexist(all.get(i).isVoiceExist());
-                            backupNote.setKeynum(all.get(i).getKeyNum());
-                            backupNote.setTitle(all.get(i).getTitle());
+                        List<Note> allNote = DataSupport.findAll(Note.class);
+                        List<Image> allImage = DataSupport.findAll(Image.class);
+                        List<Voice> allVoice = DataSupport.findAll(Voice.class);
+                        List<Schedule> allSchedule = DataSupport.findAll(Schedule.class);
+                        /* @描述 备份note */
+                        for (int i = 0; i < allNote.size(); i++) {
+                            mBackupFlag = false;
+                            skkk.gogogo.dakainote.Bean.Note backupNote = new skkk.gogogo.dakainote.Bean.Note();
+                            backupNote.setTime(allNote.get(i).getTime());
+                            backupNote.setContent(allNote.get(i).getContent());
+                            backupNote.setGravity(allNote.get(i).getGravity());
+                            backupNote.setImageisexist(allNote.get(i).isImageIsExist());
+                            backupNote.setPinisexist(allNote.get(i).isPinIsExist());
+                            backupNote.setVoiceexist(allNote.get(i).isVoiceExist());
+                            backupNote.setKeynum(allNote.get(i).getKeyNum());
+                            backupNote.setTitle(allNote.get(i).getTitle());
                             backupNote.save(new SaveListener<String>() {
                                 @Override
                                 public void done(String s, BmobException e) {
-                                    if(e==null){
-
-                                    }else{
-                                        Toast.makeText(mApplication, "重复备份", Toast.LENGTH_SHORT).show();
+                                    if (e == null) {
+                                        mBackupFlag = true;
+                                    } else {
+                                        mBackupFlag = false;
                                     }
                                 }
                             });
                         }
-
-
+                        /* @描述 备份image */
+                        if (allImage.size()>0) {
+                            for (int i = 0; i < allImage.size(); i++) {
+                                mBackupFlag = false;
+                                skkk.gogogo.dakainote.Bean.Image backupImage = new skkk.gogogo.dakainote.Bean.Image();
+                                backupImage.setNum(allImage.get(i).getNum());
+                                backupImage.setImagePath(allImage.get(i).getImagePath());
+                                backupImage.save(new SaveListener<String>() {
+                                    @Override
+                                    public void done(String s, BmobException e) {
+                                        if (e == null) {
+                                            mBackupFlag = true;
+                                        } else {
+                                            mBackupFlag = false;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        /* @描述 备份Voice */
+                        if (allVoice.size()>0) {
+                            for (int i = 0; i < allVoice.size(); i++) {
+                                mBackupFlag = false;
+                                skkk.gogogo.dakainote.Bean.Voice backVoice = new skkk.gogogo.dakainote.Bean.Voice();
+                                backVoice.setNum(allVoice.get(i).getNum());
+                                backVoice.setVoicePath(allVoice.get(i).getVoicePath());
+                                backVoice.save(new SaveListener<String>() {
+                                    @Override
+                                    public void done(String s, BmobException e) {
+                                        if (e == null) {
+                                            mBackupFlag = true;
+                                        } else {
+                                            mBackupFlag = false;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        if (allSchedule.size()>0) {
+                        /* @描述 备份Schedule */
+                            for (int i = 0; i < allSchedule.size(); i++) {
+                                mBackupFlag = false;
+                                skkk.gogogo.dakainote.Bean.Schedule backupSchedule = new skkk.gogogo.dakainote.Bean.Schedule();
+                                backupSchedule.setScheduleChecked(allSchedule.get(i).isScheduleChecked());
+                                backupSchedule.setScheduleContent(allSchedule.get(i).getScheduleContent());
+                                backupSchedule.save(new SaveListener<String>() {
+                                    @Override
+                                    public void done(String s, BmobException e) {
+                                        if (e == null) {
+                                            mBackupFlag = true;
+                                        } else {
+                                            mBackupFlag = false;
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        if (mBackupFlag) {
+                            Toast.makeText(SettingActivity.this,"OK",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(SettingActivity.this,"FAIL",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 builder.setNegativeButton("取消", null);

@@ -147,6 +147,7 @@
     <item name="tv_item_author_content" type="id">tv_item_author_content</item>
     <item name="tv_item_author_time" type="id">tv_item_author_time</item>
     <item name="tb_author" type="id">tb_author</item>
+    <item name="bottom_bar_bold" type="id">bottom_bar_bold</item>
 
 
 </resources>
