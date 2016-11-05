@@ -56,7 +56,7 @@ public class ScheduleNoteActivity extends BaseNoteActivity {
                         } else if (keyCode == KeyEvent.KEYCODE_DEL && isScheduleExist &&
                                 TextUtils.isEmpty(etFirstSchedule.getText().toString())) {
                             /* @描述 软件盘Del事件 */
-                            if (count == 1&& llNoteAgain.getChildCount()==1) {//说明只有一个基础的item，那么删除iv
+                            if (llNoteAgain.getChildCount()==1) {//说明只有一个基础的item，那么删除iv
                                 cbfirstSchedule.setVisibility(View.GONE);
                                 isScheduleExist = false;
                                 nsvEditAgain.setFillViewport(true);

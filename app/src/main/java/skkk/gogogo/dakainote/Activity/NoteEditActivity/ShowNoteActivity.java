@@ -193,7 +193,8 @@ public class ShowNoteActivity extends ScheduleNoteActivity {
             ivPin.setVisibility(View.INVISIBLE);
         }
         /* @描述 设置内容 */
-        etFirstSchedule.setAutoLinkText(inetntNote.getContent());
+        String content=inetntNote.getContent();
+        etFirstSchedule.setAutoLinkText(content);
 
         //在展示界面记录下第一步
         TextPeriousCache textPeriousCacheBase = new TextPeriousCache();

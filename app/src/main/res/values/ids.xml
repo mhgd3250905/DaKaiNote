@@ -148,6 +148,10 @@
     <item name="tv_item_author_time" type="id">tv_item_author_time</item>
     <item name="tb_author" type="id">tb_author</item>
     <item name="bottom_bar_bold" type="id">bottom_bar_bold</item>
+    <item name="test" type="id">test</item>
+    <item name="iv_share" type="id">iv_share</item>
+    <item name="tb_share" type="id">tb_share</item>
+    <item name="btn_share" type="id">btn_share</item>
 
 
 </resources>

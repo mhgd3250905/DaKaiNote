@@ -24,12 +24,24 @@ public class Note extends DataSupport implements Serializable {
     private boolean pinIsExist;
     private boolean voiceExist;
     private boolean scheduleIsExist;
+    private boolean specialisexist;
     private long keyNum;
     private int gravity;
 
     private List<Image> imageList = new ArrayList<Image>();
     private List<Voice> voiceList = new ArrayList<Voice>();
     private List<Schedule> scheduleList = new ArrayList<Schedule>();
+
+
+    public boolean isSpecialisexist() {
+        return specialisexist;
+    }
+
+    public void setSpecialisexist(boolean specialisexist) {
+        this.specialisexist = specialisexist;
+    }
+
+
 
     /*
      *
@@ -73,6 +85,7 @@ public class Note extends DataSupport implements Serializable {
     public List<Image> getMyImageList() {
         return DataSupport.where("note_id = ?", String.valueOf(id)).find(Image.class);
     }
+
     public List<Image> getImageList() {
         return imageList;
     }
@@ -80,8 +93,6 @@ public class Note extends DataSupport implements Serializable {
     public void setImageList(List<Image> imageList) {
         this.imageList = imageList;
     }
-
-
 
 
     public boolean isScheduleIsExist() {

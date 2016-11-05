@@ -131,6 +131,9 @@ public class SaveNoteActivity extends BottomBarNoteActivity {
         }
 
 
+
+
+
         /* @描述 保存录音 */
         //获取到缓存中的图片
         List<VoiceCache> voiceCaches = DataSupport

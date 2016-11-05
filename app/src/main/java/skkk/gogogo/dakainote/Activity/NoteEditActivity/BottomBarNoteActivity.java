@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
@@ -27,11 +26,11 @@ import org.litepal.crud.DataSupport;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import skkk.gogogo.dakainote.Activity.ShareActivity.ShareActivity;
 import skkk.gogogo.dakainote.DbTable.ImageCache;
 import skkk.gogogo.dakainote.DbTable.TextNextCache;
 import skkk.gogogo.dakainote.DbTable.TextPeriousCache;
 import skkk.gogogo.dakainote.DbTable.VoiceCache;
-import skkk.gogogo.dakainote.MyUtils.EditUtils;
 import skkk.gogogo.dakainote.MyUtils.KeyBoardUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
@@ -63,6 +62,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     private Dialog mDialogShare;
     private AlertDialog mShareTypeDialog;
     protected boolean boldFlag = false;
+    private Dialog mShareTypeDialogBKS;
 
 
     @Override
@@ -208,6 +208,18 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                     etFirstSchedule.setTextSize(17);
                     etFirstSchedule.setSingleLine(true);
                     MyViewUtils.getFoucs(etFirstSchedule);
+                } else {
+                    if (llNoteAgain.getChildCount() == 1) {//说明只有一个基础的item，那么删除iv
+                        cbfirstSchedule.setVisibility(View.GONE);
+                        isScheduleExist = false;
+                        nsvEditAgain.setFillViewport(true);
+                        LinearLayout.LayoutParams paramsEt = new LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT);
+                        etFirstSchedule.setLayoutParams(paramsEt);
+                        etFirstSchedule.setGravity(Gravity.TOP | Gravity.LEFT);
+                        etFirstSchedule.setSingleLine(false);
+                    }
                 }
             }
         });
@@ -223,9 +235,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 }
 
                 etFirstSchedule.append("\n");
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    EditUtils.addImageSpan(BottomBarNoteActivity.this,etFirstSchedule);
-                }
+                etFirstSchedule.append("-------------------------");
                 etFirstSchedule.append("\n");
 
             }
@@ -346,6 +356,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                         mShareTypeDialog.dismiss();
                     }
                 });
+
                 /* @描述 点击插入录音 */
                 tvInsertVoice.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -478,9 +489,40 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         //根据菜单判断
         switch (id) {
             case R.id.menu_note_share:
-
                 KeyBoardUtils.hidekeyBoard(this, etFirstSchedule);
-                showShare();
+
+                View shareView = View.inflate(this, R.layout.dialog_share_type, null);
+                TextView tvShareText =
+                        (TextView) shareView.findViewById(R.id.tv_dialog_share_type_text);
+                TextView tvShareBKS =
+                        (TextView) shareView.findViewById(R.id.tv_dialog_share_type_BKS);
+                tvShareText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showShare();
+                        mShareTypeDialogBKS.dismiss();
+                    }
+                });
+                tvShareBKS.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(BottomBarNoteActivity.this, ShareActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("content", etFirstSchedule.getText().toString());
+                        bundle.putString("title", etNoteDetailTitle.getText().toString());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        mShareTypeDialogBKS.dismiss();
+                    }
+                });
+
+                mShareTypeDialogBKS = new AlertDialog.Builder(this).setView(shareView).create();
+
+                Window windowShareType = mShareTypeDialogBKS.getWindow();
+                windowShareType.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+                windowShareType.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                mShareTypeDialogBKS.show();
 
                 break;
         }
@@ -494,28 +536,12 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
-        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        //oks.setTitle("标题");
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        //oks.setTitleUrl("http://sharesdk.cn");
-
-        // text是分享文本，所有平台都需要这个字段
         oks.setText(etFirstSchedule.getText().toString());
+        /* @描述 分享第一张图片 */
         ImageCache first = DataSupport.findFirst(ImageCache.class);
         if (first != null) {
             oks.setImagePath(first.getImagePath());
         }
-        //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
-        //oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
-
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
-
-        // url仅在微信（包括好友和朋友圈）中使用
-        //oks.setUrl("www.baidu.com");
-
         // 启动分享GUI
         oks.show(this);
     }

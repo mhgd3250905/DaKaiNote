@@ -19,10 +19,17 @@ public class Note extends BmobObject {
     private boolean pinisexist;
     private boolean voiceexist;
     private boolean scheduleisexist;
+    private boolean specialisexist;
     private long keynum;
     private int gravity;
 
+    public boolean isSpecialisexist() {
+        return specialisexist;
+    }
 
+    public void setSpecialisexist(boolean specialisexist) {
+        this.specialisexist = specialisexist;
+    }
 
     public String getContent() {
         return content;

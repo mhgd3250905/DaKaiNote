@@ -120,12 +120,13 @@ public class EditUtils {
      * 图片
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void addImageSpan(Context context, EditText tv) {
-        SpannableString spanString = new SpannableString("[sk_line_sk]");
+    public static void addImageSpan(Context context, EditText tv){
+        SpannableString spanString = new SpannableString("[---]");
         Drawable d = context.getDrawable(R.drawable.line);
         d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
         ImageSpan span = new ImageSpan(d, ImageSpan.ALIGN_BASELINE);
-        spanString.setSpan(span, 0,spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanString.setSpan(span, 0,5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.append(spanString);
+
     }
 }
