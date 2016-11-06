@@ -1,0 +1,173 @@
+RAX=0x00000000022d9f70, RBX=0x0000000000000006, RCX=0x0000000000005000, RDX=0x0000000000000004
+RSP=0x00000000022def70, RBP=0x0000000000000000, RSI=0x00000000022def70, RDI=0x0000000000000006
+R8 =0x0000000000000004, R9 =0x00000000000f7c20, R10=0x0000000054440ca8, R11=0x00000000021ea138
+R12=0x00000000000f7c20, R13=0x00000000000fe800, R14=0x00000000022df0a0, R15=0x0000000054440ca8
+RIP=0x000000005eb5aeb7, EFLAGS=0x0000000000010202
+
+Top of Stack: (sp=0x00000000022def70)
+0x00000000022def70:   0000000000000000 000000005e020000
+0x00000000022def80:   00000000000fe800 00000000000f7c20
+0x00000000022def90:   00000000ffffffff 000000005eb5bde7
+0x00000000022defa0:   00000000022df0a0 0000000054440ca8
+0x00000000022defb0:   00000000000fe800 0000000000000000
+0x00000000022defc0:   0000000014451080 0000000000000000
+0x00000000022defd0:   0000000000000000 000000005eb5e501
+0x00000000022defe0:   0000000054440ca8 00000000000fe800
+0x00000000022deff0:   00000000022f0e00 0000000000000000
+0x00000000022df000:   0000000054d0a801 0000000000000000
+0x00000000022df010:   0000000000000000 00000000000fd820
+0x00000000022df020:   0000648f64136443 0000000054440ca8
+0x00000000022df030:   00000000000fe800 000000005ea40c0b
+0x00000000022df040:   00000000000ff2b8 00000000000ff2b8
+0x00000000022df050:   00000000022df1e8 000000005e97ad15
+0x00000000022df060:   0000000054447918 000000005ea566c8 
+
+Instructions: (pc=0x000000005eb5aeb7)
+0x000000005eb5ae97:   48 89 6c 24 30 33 ed 66 90 e8 4b b8 07 00 ff c3
+0x000000005eb5aea7:   48 63 c8 48 8b c6 48 0f af cf 48 ff c7 48 2b c1
+0x000000005eb5aeb7:   89 28 48 63 c3 48 3b 05 cd d6 56 00 7e db 48 8b
+0x000000005eb5aec7:   6c 24 30 48 8b 5c 24 38 48 8b 74 24 40 48 83 c4 
+
+
+Register to memory mapping:
+
+RAX=0x00000000022d9f70 is pointing into the stack for thread: 0x00000000000fe800
+RBX=0x0000000000000006 is an unknown value
+RCX=0x0000000000005000 is an unknown value
+RDX=0x0000000000000004 is an unknown value
+RSP=0x00000000022def70 is pointing into the stack for thread: 0x00000000000fe800
+RBP=0x0000000000000000 is an unknown value
+RSI=0x00000000022def70 is pointing into the stack for thread: 0x00000000000fe800
+RDI=0x0000000000000006 is an unknown value
+R8 =0x0000000000000004 is an unknown value
+R9 =0x00000000000f7c20 is an unknown value
+R10={method} {0x0000000054440cb0} '<clinit>' '()V' in 'java/lang/Object'
+R11=0x00000000021ea138 is pointing into the stack for thread: 0x00000000000fe800
+R12=0x00000000000f7c20 is an unknown value
+R13=0x00000000000fe800 is a thread
+R14=0x00000000022df0a0 is pointing into the stack for thread: 0x00000000000fe800
+R15={method} {0x0000000054440cb0} '<clinit>' '()V' in 'java/lang/Object'
+
+
+Stack: [0x00000000021e0000,0x00000000022e0000],  sp=0x00000000022def70,  free space=1019k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+=>0x00000000000fe800 JavaThread "Unknown thread" [_thread_in_vm, id=9780, stack(0x00000000021e0000,0x00000000022e0000)]
+
+Other Threads:
+  0x0000000054dc8800 VMThread [stack: 0x0000000055bf0000,0x0000000055cf0000] [id=9860]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap:
+ PSYoungGen      total 38400K, used 665K [0x00000000eab00000, 0x00000000ed580000, 0x0000000100000000)
+  eden space 33280K, 2% used [0x00000000eab00000,0x00000000eaba6670,0x00000000ecb80000)
+  from space 5120K, 0% used [0x00000000ed080000,0x00000000ed080000,0x00000000ed580000)
+  to   space 5120K, 0% used [0x00000000ecb80000,0x00000000ecb80000,0x00000000ed080000)
+ ParOldGen       total 87552K, used 0K [0x00000000c0000000, 0x00000000c5580000, 0x00000000eab00000)
+  object space 87552K, 0% used [0x00000000c0000000,0x00000000c0000000,0x00000000c5580000)
+ Metaspace       used 775K, capacity 4480K, committed 4480K, reserved 1056768K
+  class space    used 73K, capacity 384K, committed 384K, reserved 1048576K
+
+Card table byte_map: [0x00000000116a0000,0x00000000118b0000] byte_map_base: 0x00000000110a0000
+
+Marking Bits: (ParMarkBitMap*) 0x000000005f129d00
+ Begin Bits: [0x0000000012240000, 0x0000000013240000)
+ End Bits:   [0x0000000013240000, 0x0000000014240000)
+
+Polling page: 0x00000000005b0000
+
+CodeCache: size=245760Kb used=355Kb max_used=355Kb free=245404Kb
+ bounds [0x00000000022e0000, 0x0000000002550000, 0x00000000112e0000]
+ total_blobs=71 nmethods=0 adapters=48
+ compilation: enabled
+
+Compilation events (0 events):
+No events
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (10 events):
+Event: 0.027 loading class java/lang/Short done
+Event: 0.027 loading class java/lang/Integer
+Event: 0.027 loading class java/lang/Integer done
+Event: 0.027 loading class java/lang/Long
+Event: 0.027 loading class java/lang/Long done
+Event: 0.027 loading class java/lang/NullPointerException
+Event: 0.027 loading class java/lang/NullPointerException done
+Event: 0.027 loading class java/lang/ArithmeticException
+Event: 0.027 loading class java/lang/ArithmeticException done
+Event: 0.028 Thread 0x00000000000fe800 Thread added: 0x00000000000fe800
+
+
+Dynamic libraries:
+0x000000013f220000 - 0x000000013f251000 	C:\Program Files\Android\Android Studio\jre\bin\java.exe
+0x0000000076f60000 - 0x000000007710a000 	C:\Windows\SYSTEM32\ntdll.dll
+0x0000000076e40000 - 0x0000000076f5f000 	C:\Windows\system32\kernel32.dll
+0x000007fefcf30000 - 0x000007fefcf9a000 	C:\Windows\system32\KERNELBASE.dll
+0x000007fefd270000 - 0x000007fefd34b000 	C:\Windows\system32\ADVAPI32.dll
+0x000007fefea40000 - 0x000007fefeadf000 	C:\Windows\system32\msvcrt.dll
+0x000007fefed30000 - 0x000007fefed4f000 	C:\Windows\SYSTEM32\sechost.dll
+0x000007feff140000 - 0x000007feff26d000 	C:\Windows\system32\RPCRT4.dll
+0x0000000076d40000 - 0x0000000076e3a000 	C:\Windows\system32\USER32.dll
+0x000007fefd940000 - 0x000007fefd9a7000 	C:\Windows\system32\GDI32.dll
+0x000007fefdae0000 - 0x000007fefdaee000 	C:\Windows\system32\LPK.dll
+0x000007fefd9b0000 - 0x000007fefda7a000 	C:\Windows\system32\USP10.dll
+0x000007fefb830000 - 0x000007fefba24000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.18837_none_fa3b1e3d17594757\COMCTL32.dll
+0x000007feff090000 - 0x000007feff101000 	C:\Windows\system32\SHLWAPI.dll
+0x000007fefdaf0000 - 0x000007fefdb1e000 	C:\Windows\system32\IMM32.DLL
+0x000007fefed50000 - 0x000007fefee59000 	C:\Windows\system32\MSCTF.dll
+0x00000000706d0000 - 0x00000000707a2000 	C:\Program Files\Android\Android Studio\jre\jre\bin\msvcr100.dll
+0x000000005e970000 - 0x000000005f1a4000 	C:\Program Files\Android\Android Studio\jre\jre\bin\server\jvm.dll
+0x000007fef8fe0000 - 0x000007fef8fe9000 	C:\Windows\system32\WSOCK32.dll
+0x000007fefee60000 - 0x000007fefeead000 	C:\Windows\system32\WS2_32.dll
+0x000007feff130000 - 0x000007feff138000 	C:\Windows\system32\NSI.dll
+0x000007fefa530000 - 0x000007fefa56b000 	C:\Windows\system32\WINMM.dll
+0x000007fefbfa0000 - 0x000007fefbfac000 	C:\Windows\system32\VERSION.dll
+0x0000000077120000 - 0x0000000077127000 	C:\Windows\system32\PSAPI.DLL
+0x000007fef53c0000 - 0x000007fef53cf000 	C:\Program Files\Android\Android Studio\jre\jre\bin\verify.dll
+0x000007fef5390000 - 0x000007fef53b9000 	C:\Program Files\Android\Android Studio\jre\jre\bin\java.dll
+0x000007fef5370000 - 0x000007fef5386000 	C:\Program Files\Android\Android Studio\jre\jre\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Djava.awt.headless=true -Xmx1024M -Dfile.encoding=GBK -Duser.country=CN -Duser.language=zh -Duser.variant 
+java_command: com.android.dx.command.Main --dex --force-jumbo --num-threads=4 --multi-dex --output G:\GIT\DakaiNote_Source\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9 G:\GIT\DakaiNote_Source\app\build\intermediates\transforms\instantRunSlicer\debug\folders\1\5\slice_9
+java_class_path (initial): E:\SDK\build-tools\23.0.2\lib\dx.jar
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.8.0_73
+CLASSPATH=.;C:\Program Files\Java\jdk1.8.0_73\lib;C:\Program Files\Java\jdk1.8.0_73\lib\tools.jar
+PATH=D:\MyPython\;D:\MyPython\Scripts;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Common Files\microsoft shared\TigerKin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Common Files\microsoft shared\TigerKin;C:\Program Files\Java\jdk1.8.0_73\bin;C:\Program Files\Java\jdk1.8.0_73\jre\bin;C:\Users\admin\AppData\Local\Android\sdk\platform-tools;C:\Users\admin\AppData\Local\Programs\Python\Python35\Scripts\;C:\Users\admin\AppData\Local\Programs\Python\Python35\
+USERNAME=admin
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 , 64 bit Build 7601 (6.1.7601.23543)
+
+CPU:total 4 (4 cores per cpu, 1 threads per core) family 6 model 60 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, rtm, lzcnt, tsc, tscinvbit, bmi1, bmi2
+
+Memory: 4k page, physical 8353940k(1238088k free), swap 9400656k(4368k free)
+
+vm_info: OpenJDK 64-Bit Server VM (25.76-b03) for windows-amd64 JRE (1.8.0_76-release-b03), built on Jun 29 2016 19:09:20 by "ralucas" with MS VC++ 10.0 (VS2010)
+
+time: Sun Nov 06 23:07:41 2016
+elapsed time: 0 seconds (0d 0h 0m 0s)
+

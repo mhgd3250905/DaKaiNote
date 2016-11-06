@@ -24,7 +24,6 @@ public class Note extends DataSupport implements Serializable {
     private boolean pinIsExist;
     private boolean voiceExist;
     private boolean scheduleIsExist;
-    private boolean specialisexist;
     private long keyNum;
     private int gravity;
 
@@ -33,13 +32,7 @@ public class Note extends DataSupport implements Serializable {
     private List<Schedule> scheduleList = new ArrayList<Schedule>();
 
 
-    public boolean isSpecialisexist() {
-        return specialisexist;
-    }
 
-    public void setSpecialisexist(boolean specialisexist) {
-        this.specialisexist = specialisexist;
-    }
 
 
 
@@ -56,9 +49,6 @@ public class Note extends DataSupport implements Serializable {
         return scheduleList;
     }
 
-    public void setScheduleList(List<Schedule> scheduleList) {
-        this.scheduleList = scheduleList;
-    }
 
     /*
     *

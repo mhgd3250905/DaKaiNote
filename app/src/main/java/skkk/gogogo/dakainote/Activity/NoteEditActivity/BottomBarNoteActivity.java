@@ -510,7 +510,8 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                         intent.setClass(BottomBarNoteActivity.this, ShareActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("content", etFirstSchedule.getText().toString());
-                        bundle.putString("title", etNoteDetailTitle.getText().toString());
+                        bundle.putInt("line", etFirstSchedule.getLineCount());
+
                         intent.putExtras(bundle);
                         startActivity(intent);
                         mShareTypeDialogBKS.dismiss();
