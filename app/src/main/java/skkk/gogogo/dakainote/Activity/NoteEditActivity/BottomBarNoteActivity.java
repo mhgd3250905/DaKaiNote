@@ -9,9 +9,11 @@ import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +37,7 @@ import skkk.gogogo.dakainote.MyUtils.KeyBoardUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.MyViewUtils;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.View.AutoLinkEditText.LinkTouchMovementMethod;
 
 /**
  * Created by admin on 2016/8/26.
@@ -106,26 +109,26 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                     }
                 }
 
-//                if (!checkString.equals(etFirstSchedule.getText().toString())) {
-//                    checkString = etFirstSchedule.getText().toString();
-//                    SpannableString spannableString = etFirstSchedule.makeSpannableString(s.toString());
-//                    int start = etFirstSchedule.getSelectionStart();
-//
-//                    if (change) {
-//                        change = false;
-//                    }
-//
-//                    etFirstSchedule.setText(spannableString);
-//
-//                    if (!change) {
-//                        change = true;
-//                    }
-//
-//                    etFirstSchedule.setMovementMethod(new LinkTouchMovementMethod());
-//                    Log.d("skkk", "检查了一遍~");
-//                    etFirstSchedule.setSelection(start);
-//                    checkFlag = false;
-//                }
+                if (!checkString.equals(etFirstSchedule.getText().toString())) {
+                    checkString = etFirstSchedule.getText().toString();
+                    SpannableString spannableString = etFirstSchedule.makeSpannableString(s.toString());
+                    int start = etFirstSchedule.getSelectionStart();
+
+                    if (change) {
+                        change = false;
+                    }
+
+                    etFirstSchedule.setText(spannableString);
+
+                    if (!change) {
+                        change = true;
+                    }
+
+                    etFirstSchedule.setMovementMethod(new LinkTouchMovementMethod());
+                    Log.d("skkk", "检查了一遍~");
+                    etFirstSchedule.setSelection(start);
+                    checkFlag = false;
+                }
             }
         });
     }
@@ -145,7 +148,6 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         ivNoteEditNext = (ImageView) findViewById(R.id.bottom_bar_next);
         ivNoteEditSchedule = (ImageView) findViewById(R.id.bottom_bar_check);
 
-
         /* @描述 字体Bold */
         ivNoteEditBold.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +164,6 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 }
             }
         });
-
 
         /* @描述 pin标记 */
         ivNoteEditPin.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +224,6 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 }
             }
         });
-
 
         /* @描述 加入分隔符 */
         ivNoteEditSeparate.setOnClickListener(new View.OnClickListener() {

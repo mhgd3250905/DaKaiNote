@@ -152,6 +152,7 @@
     <item name="iv_share" type="id">iv_share</item>
     <item name="tb_share" type="id">tb_share</item>
     <item name="btn_share" type="id">btn_share</item>
+    <item name="scv_setting_notify" type="id">scv_setting_notify</item>
 
 
 </resources>

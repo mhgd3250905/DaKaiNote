@@ -1,5 +1,6 @@
 package skkk.gogogo.dakainote.Activity.AuthorActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -20,14 +20,13 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobRealTimeData;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.ValueEventListener;
 import skkk.gogogo.dakainote.Adapter.AuthorContentAdapter;
 import skkk.gogogo.dakainote.Bean.Communication;
-import skkk.gogogo.dakainote.MyUtils.DateUtils;
 import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.Presenter.AuthorPresenter;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.Service.CopyService;
 
 public class AuthorActivity extends AppCompatActivity {
     private AuthorPresenter authorPresenter;
@@ -46,7 +45,7 @@ public class AuthorActivity extends AppCompatActivity {
 
         authorPresenter=new AuthorPresenter(this);
         rtd = new BmobRealTimeData();
-        initBmob();
+        //initBmob();
 
         setMyTheme();
         initUI();
@@ -148,19 +147,20 @@ public class AuthorActivity extends AppCompatActivity {
         btnAuthorSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Communication comm = new Communication();
-                comm.setContent(etAuthorContnet.getText().toString());
-                comm.setTime(DateUtils.getTime());
-                comm.save(new SaveListener<String>() {
-                    @Override
-                    public void done(String objectId,BmobException e) {
-                        if(e==null){
-                            //Toast.makeText(AuthorActivity.this, "添加数据成功", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(AuthorActivity.this, "添加数据失败", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+//                Communication comm = new Communication();
+//                comm.setContent(etAuthorContnet.getText().toString());
+//                comm.setTime(DateUtils.getTime());
+//                comm.save(new SaveListener<String>() {
+//                    @Override
+//                    public void done(String objectId,BmobException e) {
+//                        if(e==null){
+//                            //Toast.makeText(AuthorActivity.this, "添加数据成功", Toast.LENGTH_SHORT).show();
+//                        }else{
+//                            Toast.makeText(AuthorActivity.this, "添加数据失败", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+                startService(new Intent(AuthorActivity.this, CopyService.class));
             }
         });
     }
@@ -207,6 +207,6 @@ public class AuthorActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        rtd.unsubTableUpdate("Communication");
+        //rtd.unsubTableUpdate("Communication");
     }
 }

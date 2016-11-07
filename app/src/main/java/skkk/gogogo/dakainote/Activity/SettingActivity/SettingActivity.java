@@ -2,6 +2,7 @@ package skkk.gogogo.dakainote.Activity.SettingActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.Interface.SettingInterface;
 import skkk.gogogo.dakainote.Presenter.SettingPresenter;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.Service.CopyService;
 import skkk.gogogo.dakainote.View.SettingCheckView;
 import skkk.gogogo.dakainote.View.SettingShowView;
 import skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView;
@@ -44,6 +46,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private TextView tvResetPassword;
     private SettingShowView ssvBackup;
     private SettingShowView ssvResave;
+    private SettingCheckView scvNotify;
 
     private MyApplication mApplication;
     private Toolbar tbSetting;
@@ -112,6 +115,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         tvResetPassword = (TextView) findViewById(R.id.tv_setting_reset_pw);
         ssvBackup = (SettingShowView) findViewById(R.id.ssv_setting_backup);
         ssvResave = (SettingShowView) findViewById(R.id.ssv_setting_resave);
+        scvNotify= (SettingCheckView) findViewById(R.id.scv_setting_notify);
 
         ssvNoteStyle.setOnClickListener(this);
         scvNight.setOnClickListener(this);
@@ -119,6 +123,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         tvResetPassword.setOnClickListener(this);
         ssvBackup.setOnClickListener(this);
         ssvResave.setOnClickListener(this);
+        scvNotify.setOnClickListener(this);
 
         noteStyle = "瀑布流";
         switch (mSettingPresenter.getNoteStyle()) {
@@ -150,6 +155,15 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             setNight(true, "夜间模式");
         } else {
             setNight(false, "日间模式");
+        }
+
+
+        if (mSettingPresenter.isServiceWork(this,".Service.CopyService")){
+            scvNotify.setCheckTitle("剪切板监听功能已关闭");
+            scvNotify.setChecked(false);
+        }else {
+            scvNotify.setCheckTitle("剪切板监听功能已开启");
+            scvNotify.setChecked(true);
         }
 
 
@@ -196,6 +210,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.scv_setting_night:
+
                 //夜间模式
                 if (mSettingPresenter.isNight()) {
                     mSettingPresenter.setSomeThingInsPerf("night", false);
@@ -206,9 +221,22 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                     scvNight.setCheckTitle("夜间模式");
                     scvNight.setChecked(true);
                 }
-
                 recreate();
+                break;
 
+            case R.id.scv_setting_notify:
+
+                if (mSettingPresenter.isServiceWork(this,".Service.CopyService")){
+                    scvNotify.setCheckTitle("剪切板监听功能已关闭");
+                    scvNotify.setChecked(false);
+                    stopService(new Intent(this, CopyService.class));
+
+                }else {
+
+                    scvNotify.setCheckTitle("剪切板监听功能已开启");
+                    scvNotify.setChecked(true);
+                    startService(new Intent(this,CopyService.class));
+                }
 
                 break;
 

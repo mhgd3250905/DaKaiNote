@@ -109,6 +109,12 @@
         </activity>
         <activity android:name=".Activity.ShareActivity.ShareActivity">
         </activity>
+
+        <service
+            android:name=".Service.CopyService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

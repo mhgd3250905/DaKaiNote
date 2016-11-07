@@ -61,6 +61,30 @@
                 style="@style/SettingTitleStyle"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:text="@string/setting_title_4"/>
+
+            <skkk.gogogo.dakainote.View.SettingCheckView
+                android:id="@id/scv_setting_notify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                setting:checkTitleText="开启剪切板监听"></skkk.gogogo.dakainote.View.SettingCheckView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/shape_setting_bg"
+            android:elevation="1dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SettingTitleStyle"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/setting_title_3"/>
 
             <skkk.gogogo.dakainote.View.SettingShowView
