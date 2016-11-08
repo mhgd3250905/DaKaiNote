@@ -8,7 +8,7 @@
         android:layout_weight="1"
         android:id="@id/tv_setting_title"
         android:text="title"
-       style="@style/SettingBodyTitleStyle"/>
+         style="@style/SettingBodyTitleStyle"/>
 
     <CheckBox
         android:focusableInTouchMode="false"

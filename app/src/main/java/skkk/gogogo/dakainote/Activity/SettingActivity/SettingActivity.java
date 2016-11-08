@@ -158,12 +158,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-        if (mSettingPresenter.isServiceWork(this,".Service.CopyService")){
-            scvNotify.setCheckTitle("剪切板监听功能已关闭");
-            scvNotify.setChecked(false);
+        /* @描述 显示服务开关 */
+        if (mSettingPresenter.isMyServiceRunning()){
+            setCopy(true,"剪切板监听功能已开启");
         }else {
-            scvNotify.setCheckTitle("剪切板监听功能已开启");
-            scvNotify.setChecked(true);
+            setCopy(false,"剪切板监听功能已关闭");
         }
 
 
@@ -214,28 +213,24 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 //夜间模式
                 if (mSettingPresenter.isNight()) {
                     mSettingPresenter.setSomeThingInsPerf("night", false);
-                    scvNight.setCheckTitle("日间模式");
-                    scvNight.setChecked(false);
+                    setNight(false,"日间模式");
                 } else {
                     mSettingPresenter.setSomeThingInsPerf("night", true);
-                    scvNight.setCheckTitle("夜间模式");
-                    scvNight.setChecked(true);
+                    setNight(true,"夜间模式");
                 }
                 recreate();
                 break;
 
             case R.id.scv_setting_notify:
 
-                if (mSettingPresenter.isServiceWork(this,".Service.CopyService")){
-                    scvNotify.setCheckTitle("剪切板监听功能已关闭");
-                    scvNotify.setChecked(false);
+                if (mSettingPresenter.isMyServiceRunning()){
+                    setCopy(false,"剪切板监听功能已关闭");
                     stopService(new Intent(this, CopyService.class));
-
+                    Snackbar.make(mClSetting,"剪切板监听功能已关闭",Snackbar.LENGTH_SHORT).show();
                 }else {
-
-                    scvNotify.setCheckTitle("剪切板监听功能已开启");
-                    scvNotify.setChecked(true);
-                    startService(new Intent(this,CopyService.class));
+                    setCopy(true,"剪切板监听功能已开启");
+                    startService(new Intent(SettingActivity.this, CopyService.class));
+                    Snackbar.make(mClSetting,"剪切板监听功能已开启",Snackbar.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -411,10 +406,16 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         ssvLock.setTvShowText(s);
     }
 
-    @Override
+    /* @描述 设置夜间模式按钮 */
     public void setNight(boolean isNight, String title) {
         scvNight.setChecked(isNight);
         scvNight.setCheckTitle(title);
+    }
+
+    /* @描述 设置剪切板监听按钮 */
+    public void setCopy(boolean isCopy, String title) {
+        scvNotify.setChecked(isCopy);
+        scvNotify.setCheckTitle(title);
     }
 
     @Override

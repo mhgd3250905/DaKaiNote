@@ -8,6 +8,7 @@ import java.util.List;
 
 import skkk.gogogo.dakainote.Activity.SettingActivity.SettingActivity;
 import skkk.gogogo.dakainote.Application.MyApplication;
+import skkk.gogogo.dakainote.MyUtils.LogUtils;
 
 /**
  * Created by admin on 2016/10/23.
@@ -134,34 +135,18 @@ public class SettingPresenter {
     }
 
 
-    private boolean isCopyServiceRun(){
-        return isServiceWork(mSettingActivity.getApplicationContext(),"CopyService");
-    }
 
-    /**
-     * 判断某个服务是否正在运行的方法
-     *
-     * @param mContext
-     * @param serviceName
-     *            是包名+服务的类名（例如：net.loonggg.testbackstage.TestService）
-     * @return true代表正在运行，false代表服务没有正在运行
-     */
-    public boolean isServiceWork(Context mContext, String serviceName) {
-        boolean isWork = false;
-        ActivityManager myAM = (ActivityManager) mContext
-                .getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(40);
-        if (myList.size() <= 0) {
-            return false;
-        }
-        for (int i = 0; i < myList.size(); i++) {
-            String mName = myList.get(i).service.getClassName().toString();
-            if (mName.equals(serviceName)) {
-                isWork = true;
-                break;
+
+
+    public boolean isMyServiceRunning() {
+        ActivityManager manager = (ActivityManager) mSettingActivity.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            LogUtils.Log(service.service.getClassName().toString());
+            if ("skkk.gogogo.dakainote.Service.CopyService".equals(service.service.getClassName())) {
+                return true;
             }
         }
-        return isWork;
+        return false;
     }
 
 }
