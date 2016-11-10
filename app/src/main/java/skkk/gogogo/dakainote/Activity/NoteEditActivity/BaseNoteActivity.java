@@ -90,7 +90,7 @@ public class BaseNoteActivity extends AppCompatActivity {
         //获取Application实例
         myApplication= (MyApplication) getApplicationContext();
         //获取缓存sPerf
-        sPref=myApplication.getsPref();
+        sPref=getSharedPreferences("note",MODE_PRIVATE);
         isNight=sPref.getBoolean("night",false);
         //设置主题
         if (isNight){

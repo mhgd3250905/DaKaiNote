@@ -3,7 +3,6 @@ package skkk.gogogo.dakainote.Activity.NoteEditActivity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
@@ -11,8 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -22,7 +19,6 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
 
@@ -59,7 +55,6 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     protected ImageView ivNoteEditPin;
     protected ImageView ivNoteEditNext;
     protected ImageView ivNoteEditSchedule;
-    protected ImageView ivNoteEditBold;
     boolean change = true;
     private AlertDialog mDialog;
     private Dialog mDialogShare;
@@ -140,7 +135,6 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     */
     private void initBottomBar() {
         ivNoteEditSeparate = (ImageView) findViewById(R.id.bottom_bar_separate);
-        ivNoteEditBold = (ImageView) findViewById(R.id.bottom_bar_bold);
         ivNoteEditBack = (ImageView) findViewById(R.id.bottom_bar_back);
         ivNoteEditContact = (ImageView) findViewById(R.id.bottom_bar_contack);
         ivNoteEditTime = (ImageView) findViewById(R.id.bottom_bar_time);
@@ -148,22 +142,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
         ivNoteEditNext = (ImageView) findViewById(R.id.bottom_bar_next);
         ivNoteEditSchedule = (ImageView) findViewById(R.id.bottom_bar_check);
 
-        /* @描述 字体Bold */
-        ivNoteEditBold.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (boldFlag) {
-                    boldFlag = false;
-                    Toast.makeText(myApplication, "Fail", Toast.LENGTH_SHORT).show();
-                } else {
-                    etFirstSchedule.setMovementMethod(ScrollingMovementMethod.getInstance());// 设置可滚动
-                    etFirstSchedule.setMovementMethod(LinkMovementMethod.getInstance());//设置超链接可以打开网页
 
-                    boldFlag = true;
-                    Toast.makeText(myApplication, "OK", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         /* @描述 pin标记 */
         ivNoteEditPin.setOnClickListener(new View.OnClickListener() {
@@ -286,7 +265,8 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 );
                 builder.setTitle("请选择文字对齐方式");
                 mDialog = builder.create();
-                builder.show();
+                setDialogToastType(mDialog);
+                mDialog.show();
             }
         });
         /* @描述 点击加入图片或者录音 */
@@ -375,9 +355,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 });
                 mShareTypeDialog = new AlertDialog.Builder(BottomBarNoteActivity.this)
                         .setView(insertView).create();
-                Window windowShareType = mShareTypeDialog.getWindow();
-                windowShareType.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
-                windowShareType.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                setDialogToastType(mShareTypeDialog);
                 mShareTypeDialog.show();
             }
         });
@@ -519,10 +497,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
                 });
 
                 mShareTypeDialogBKS = new AlertDialog.Builder(this).setView(shareView).create();
-
-                Window windowShareType = mShareTypeDialogBKS.getWindow();
-                windowShareType.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
-                windowShareType.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+                setDialogToastType(mShareTypeDialogBKS);
                 mShareTypeDialogBKS.show();
 
                 break;
@@ -559,21 +534,12 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
     }
 
 
-    public Bitmap getScreenBitmap() {
-        //获取当前屏幕的大小
-        int width = getWindow().getDecorView().getRootView().getWidth();
-        int height = getWindow().getDecorView().getRootView().getHeight();
-        //生成相同大小的图片
-        Bitmap temBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        //找到当前页面的跟布局
-        View view = getWindow().getDecorView().getRootView();
-        //设置缓存
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();
-        //从缓存中获取当前屏幕的图片
-        temBitmap = view.getDrawingCache();
 
-        return temBitmap;
+
+    public void setDialogToastType(Dialog dialog){
+        Window windowShareType = dialog.getWindow();
+        windowShareType.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+        windowShareType.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
     }
 
 

@@ -39,6 +39,10 @@ public class UIHomePresenter {
         sPref=uiHomeActivity.getSharedPreferences("note", Context.MODE_PRIVATE);
     }
 
+    public boolean isServiceNeedOpen(){
+        return sPref.getBoolean("notify",true);
+    }
+
     /*
     * @方法 获取夜间模式判定
     * @参数 null

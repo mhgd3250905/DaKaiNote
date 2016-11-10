@@ -11,11 +11,6 @@
         android:src="@drawable/vector_drawable_gravity_left"/>
 
     <ImageView
-        android:id="@id/bottom_bar_bold"
-        style="@style/BottomBarStyle"
-        android:src="@drawable/vector_drawable_bottom_bold_unchecked"/>
-
-    <ImageView
         android:id="@id/bottom_bar_check"
         style="@style/BottomBarStyle"
         android:src="@drawable/vector_drawable_check_bottom"/>

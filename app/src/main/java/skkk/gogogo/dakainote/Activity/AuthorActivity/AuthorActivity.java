@@ -1,42 +1,19 @@
 package skkk.gogogo.dakainote.Activity.AuthorActivity;
 
-import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.Window;
+import android.view.WindowManager;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobRealTimeData;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.ValueEventListener;
-import skkk.gogogo.dakainote.Adapter.AuthorContentAdapter;
-import skkk.gogogo.dakainote.Bean.Communication;
-import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.Presenter.AuthorPresenter;
 import skkk.gogogo.dakainote.R;
-import skkk.gogogo.dakainote.Service.CopyService;
 
 public class AuthorActivity extends AppCompatActivity {
     private AuthorPresenter authorPresenter;
-    private BmobRealTimeData rtd;
-    private EditText etAuthorContnet;
-    private Button btnAuthorSend;
-    private RecyclerView rvContent;
-    private AuthorContentAdapter adapter;
-    private List<Communication> communicationsList=new ArrayList<Communication>();
-    private LinearLayoutManager mLinearLayoutManager;
     private Toolbar tbAuthor;
 
     @Override
@@ -44,12 +21,11 @@ public class AuthorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         authorPresenter=new AuthorPresenter(this);
-        rtd = new BmobRealTimeData();
-        //initBmob();
+
 
         setMyTheme();
         initUI();
-        initEvent();
+
 
     }
 
@@ -67,34 +43,6 @@ public class AuthorActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    * @方法 获取data
-    * @参数
-    * @返回值
-    */
-    private void initData() {
-        BmobQuery<Communication> query = new BmobQuery<Communication>();
-        //查询playerName叫“比目”的数据
-        //返回50条数据，如果不加上这条语句，默认返回10条数据
-        query.setLimit(10);
-        //执行查询方法
-        query.findObjects(new FindListener<Communication>() {
-            @Override
-            public void done(List<Communication> list, BmobException e) {
-                if (list.size()==0){
-                    return;
-                }
-                for (int i = 0; i < list.size(); i++) {
-                    LogUtils.Log("查询Contnet： "+list.get(i).getContent());
-                    LogUtils.Log("查询Time： "+list.get(i).getTime());
-                }
-                communicationsList=list;
-                adapter.setItemDataList(communicationsList);
-                adapter.notifyDataSetChanged();
-                rvContent.smoothScrollToPosition(communicationsList.size()-1);
-            }
-        });
-    }
 
 
     /*
@@ -103,10 +51,20 @@ public class AuthorActivity extends AppCompatActivity {
     * @返回值
     */
     private void initUI() {
-        setContentView(R.layout.activity_author);
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            //window.setNavigationBarColor(Color.TRANSPARENT);
+        }
 
-        etAuthorContnet= (EditText) findViewById(R.id.et_author_content);
-        btnAuthorSend= (Button) findViewById(R.id.btn_author_send);
+        setContentView(R.layout.activity_author);
 
         tbAuthor = (Toolbar) findViewById(R.id.tb_author);
         setSupportActionBar(tbAuthor);
@@ -120,93 +78,11 @@ public class AuthorActivity extends AppCompatActivity {
         });
 
 
-        /* @描述 获取RecyclerView实例 */
-        rvContent = (RecyclerView)findViewById(R.id.rv_author_content);
-
-        //LogUtils.Log("此时此刻++++"+communicationsList.toString());
-
-        /* @描述 设置Adapter */
-        adapter = new AuthorContentAdapter(this,communicationsList);
-        /* @描述 布局 */
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        rvContent.setLayoutManager(mLinearLayoutManager);
-        /* @描述 设置基本动画 */
-        rvContent.setItemAnimator(new DefaultItemAnimator());
-        /* @描述 rvNoteList */
-        rvContent.setAdapter(adapter);
     }
 
-    /*
-    * @方法 监听事件
-    * @参数
-    * @返回值
-    */
-    private void initEvent() {
-        btnAuthorSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Communication comm = new Communication();
-//                comm.setContent(etAuthorContnet.getText().toString());
-//                comm.setTime(DateUtils.getTime());
-//                comm.save(new SaveListener<String>() {
-//                    @Override
-//                    public void done(String objectId,BmobException e) {
-//                        if(e==null){
-//                            //Toast.makeText(AuthorActivity.this, "添加数据成功", Toast.LENGTH_SHORT).show();
-//                        }else{
-//                            Toast.makeText(AuthorActivity.this, "添加数据失败", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-                startService(new Intent(AuthorActivity.this, CopyService.class));
-            }
-        });
-    }
-
-    /*
-    * @方法 初始化Bmob实时数据
-    * @参数
-    * @返回值
-    */
-    private void initBmob() {
-        rtd.start(new ValueEventListener() {
-            @Override
-            public void onDataChange(final JSONObject arg0) {
-               LogUtils.Log(arg0.toString());
-                if(BmobRealTimeData.ACTION_UPDATETABLE.equals(arg0.optString("action"))){
-                    final JSONObject data = arg0.optJSONObject("data");
-                    Communication commNew=new Communication();
-                    commNew.setContent(data.optString("content"));
-                    commNew.setTime(data.optString("time"));
-                    communicationsList.add(commNew);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.setItemDataList(communicationsList);
-                            adapter.notifyDataSetChanged();
-                            rvContent.smoothScrollToPosition(communicationsList.size()-1);
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onConnectCompleted(Exception ex) {
-                LogUtils.Log("连接成功:"+rtd.isConnected());
-                if(rtd.isConnected()){
-                    // 监听表更新
-                    rtd.subTableUpdate("Communication");
-                    initData();
-                }
-            }
-        });
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //rtd.unsubTableUpdate("Communication");
     }
 }

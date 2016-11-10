@@ -16,6 +16,7 @@ import java.util.List;
 import skkk.gogogo.dakainote.Activity.HomeActivity.UIHomeActivity;
 import skkk.gogogo.dakainote.Adapter.NoteListAdapter;
 import skkk.gogogo.dakainote.Adapter.RecyclerViewBaseAdapter;
+import skkk.gogogo.dakainote.Application.MyApplication;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.Interface.NoteListInterface;
 import skkk.gogogo.dakainote.MyUtils.SpacesItemDecoration;
@@ -34,17 +35,21 @@ public class NoteListFragment extends Fragment implements NoteListInterface{
     protected RecyclerView rvNoteList;
     protected LinearLayout llBlankTip;
     protected UIHomeActivity mUiHomeActivity;
-    private NoteListPresenter mNoteListPresenter=new NoteListPresenter(this);
+    private NoteListPresenter mNoteListPresenter;
     private SpacesItemDecoration mDecoration;
+    private MyApplication myApplication;
     private int layoutFlag=1;//0就是瀑布流 1就是list布局 2就是标准卡片布局
 
 
 
     /* @描述 构造方法 */
     @SuppressLint("ValidFragment")
-    public NoteListFragment(List<Note> myNotes,int layoutFlag) {
+    public NoteListFragment(List<Note> myNotes, int layoutFlag, MyApplication myApplication) {
         this.layoutFlag = layoutFlag;
+        this.myApplication=myApplication;
+        mNoteListPresenter=new NoteListPresenter(this,myApplication);
         mNoteListPresenter.setMyNotes(myNotes);
+
     }
 
     public NoteListFragment() {
@@ -54,6 +59,7 @@ public class NoteListFragment extends Fragment implements NoteListInterface{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_note_list, container, false);
         initUI(view);
         initEvent();

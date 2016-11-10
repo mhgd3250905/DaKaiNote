@@ -34,6 +34,7 @@ import skkk.gogogo.dakainote.Fragment.NoteListFragment;
 import skkk.gogogo.dakainote.Interface.UIHomeInterface;
 import skkk.gogogo.dakainote.Presenter.UIHomePresenter;
 import skkk.gogogo.dakainote.R;
+import skkk.gogogo.dakainote.Service.CopyService;
 import skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView;
 
 /*
@@ -73,8 +74,11 @@ public class UIHomeActivity extends BaseHomeActivity
         setMyTheme();
         initUI();
         initEvent();
+        setService();
 
     }
+
+
 
     /*
     * @方法 设置主题
@@ -110,7 +114,7 @@ public class UIHomeActivity extends BaseHomeActivity
         setContentView(R.layout.activity_main);
 
         //加入默认的Fragment界面
-        noteListFragment = new NoteListFragment(mUIHomePresenter.getNoteList(), mUIHomePresenter.getNoteStyle());
+        noteListFragment = new NoteListFragment(mUIHomePresenter.getNoteList(), mUIHomePresenter.getNoteStyle(),mApplication);
 
         getSupportFragmentManager().beginTransaction().
                 add(R.id.fl_home, noteListFragment).commit();
@@ -173,6 +177,17 @@ public class UIHomeActivity extends BaseHomeActivity
                 }
             }
         });
+    }
+
+    /*
+    * @方法 设置Notify服务
+    * @参数 null
+    * @返回值 null
+    */
+    private void setService() {
+        if (mUIHomePresenter.isServiceNeedOpen()){
+            startService(new Intent(this, CopyService.class));
+        }
     }
 
     /*

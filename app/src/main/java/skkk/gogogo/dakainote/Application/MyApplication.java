@@ -11,7 +11,6 @@ import org.litepal.LitePalApplication;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
 import skkk.gogogo.dakainote.DbTable.Note;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 
@@ -49,11 +48,6 @@ public class MyApplication extends LitePalApplication{
     @Override
     public void onCreate() {
         super.onCreate();
-        //第一：默认初始化
-        Bmob.initialize(this, "b0bff13900cd010d5145da59e88f213f");
-
-
-
         regToWx();
     }
 

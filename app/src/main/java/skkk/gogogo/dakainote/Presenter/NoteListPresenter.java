@@ -21,7 +21,6 @@ import skkk.gogogo.dakainote.MyUtils.LogUtils;
 import skkk.gogogo.dakainote.MyUtils.SQLUtils;
 import skkk.gogogo.dakainote.View.MyNoteView;
 
-import static cn.bmob.v3.Bmob.getApplicationContext;
 
 /**
  * Created by admin on 2016/10/22.
@@ -41,20 +40,22 @@ public class NoteListPresenter {
     private List<Note> myNotes=new ArrayList<Note>();
     private Note noteShow;
     private SharedPreferences sPref;
-    private MyApplication mApplication;
 
-    public NoteListPresenter(NoteListFragment noteListFragment) {
-        mApplication= (MyApplication) getApplicationContext();
+
+    public NoteListPresenter(NoteListFragment noteListFragment, MyApplication myApplication) {
         mNoteListFragment = noteListFragment;
-        sPref=mApplication.getsPref();
+        sPref=myApplication.getsPref();
+    }
+
+    public NoteListPresenter() {
     }
 
     /*
-    * @方法 设置布局
-    * @描述 通过修改布局管理器来修改布局样式
-    * @参数 布局参数 int
-    * @返回值 null
-    */
+        * @方法 设置布局
+        * @描述 通过修改布局管理器来修改布局样式
+        * @参数 布局参数 int
+        * @返回值 null
+        */
     public void setLayoutFlag() {
         RecyclerView rvNoteList=mNoteListFragment.getRecyclerView();
         switch (sPref.getInt("note_style",1)) {

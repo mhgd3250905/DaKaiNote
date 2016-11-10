@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+
+              android:orientation="vertical">
+    <EditText
+        android:background="@color/colorPrimary"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:hint="标题"/>
+    <EditText
+        android:gravity="top|left"
+        android:background="@color/colorWhite"
+        android:layout_weight="6"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:hint="请输入内容"/>
+    <RelativeLayout
+        android:background="@color/colorWhite"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <Button
+            android:text="保存"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:id="@id/btn_float_save" />
+        <Button
+            android:text="取消"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/btn_float_save"
+            android:layout_alignBottom="@id/btn_float_save"
+            android:layout_toStartOf="@id/btn_float_save"
+            android:id="@id/btn_float_cancel"/>
+    </RelativeLayout>
+
+</LinearLayout>

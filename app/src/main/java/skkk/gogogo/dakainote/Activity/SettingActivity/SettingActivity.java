@@ -1,33 +1,28 @@
 package skkk.gogogo.dakainote.Activity.SettingActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 import skkk.gogogo.dakainote.Application.MyApplication;
-import skkk.gogogo.dakainote.DbTable.Image;
-import skkk.gogogo.dakainote.DbTable.Note;
-import skkk.gogogo.dakainote.DbTable.Schedule;
-import skkk.gogogo.dakainote.DbTable.Voice;
 import skkk.gogogo.dakainote.Interface.SettingInterface;
 import skkk.gogogo.dakainote.Presenter.SettingPresenter;
 import skkk.gogogo.dakainote.R;
@@ -40,6 +35,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private CoordinatorLayout mClSetting;
+    private NestedScrollView nsvSetting;
     private SettingShowView ssvNoteStyle;
     private SettingCheckView scvNight;
     private SettingShowView ssvLock;
@@ -50,6 +46,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private MyApplication mApplication;
     private Toolbar tbSetting;
+    private SharedPreferences sPref;
 
     private SettingPresenter mSettingPresenter;
     private String noteStyle;
@@ -61,7 +58,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         mApplication = (MyApplication) getApplicationContext();
         mSettingPresenter = new SettingPresenter(this);
-
+        sPref=mApplication.getsPref();
         setMyTheme();
         initUI();
     }
@@ -109,6 +106,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         mClSetting = (CoordinatorLayout) findViewById(R.id.cl_setting);
+        nsvSetting= (NestedScrollView) findViewById(R.id.nsv_setting);
         ssvNoteStyle = (SettingShowView) findViewById(R.id.ssv_setting_note_style);
         scvNight = (SettingCheckView) findViewById(R.id.scv_setting_night);
         ssvLock = (SettingShowView) findViewById(R.id.ssv_setting_lock);
@@ -160,9 +158,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
         /* @描述 显示服务开关 */
         if (mSettingPresenter.isMyServiceRunning()){
-            setCopy(true,"剪切板监听功能已开启");
+            setCopy(true,"状态栏便捷入口已开启");
         }else {
-            setCopy(false,"剪切板监听功能已关闭");
+            setCopy(false,"状态栏便捷入口已关闭");
         }
 
 
@@ -186,26 +184,29 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                                         ssvNoteStyle.setTvShowText("列表");
                                         mSettingPresenter.setCheckStyle(which);
                                         dialog.dismiss();
-                                        Snackbar.make(mClSetting, "您选择了列表", Snackbar.LENGTH_SHORT).show();
+                                        //Snackbar.make(nsvSetting, "您选择了列表", Snackbar.LENGTH_SHORT).show();
                                         break;
                                     case 1:
                                         ssvNoteStyle.setTvShowText("瀑布流");
                                         mSettingPresenter.setCheckStyle(which);
                                         dialog.dismiss();
-                                        Snackbar.make(mClSetting, "您选择了瀑布流", Snackbar.LENGTH_SHORT).show();
+                                        //Snackbar.make(nsvSetting, "您选择了瀑布流", Snackbar.LENGTH_SHORT).show();
                                         break;
                                     case 2:
                                         ssvNoteStyle.setTvShowText("卡片");
                                         mSettingPresenter.setCheckStyle(which);
                                         dialog.dismiss();
-                                        Snackbar.make(mClSetting, "您选择了卡片", Snackbar.LENGTH_SHORT).show();
+                                        //Snackbar.make(nsvSetting, "您选择了卡片", Snackbar.LENGTH_SHORT).show();
                                         break;
                                 }
                             }
                         });
                 styleBuilder.setIcon(R.drawable.item_edit);
                 styleBuilder.setTitle("布局样式");
-                styleBuilder.show();
+
+                Dialog styleDialog=styleBuilder.create();
+                setDialogToastType(styleDialog);
+                styleDialog.show();
                 break;
 
             case R.id.scv_setting_night:
@@ -224,13 +225,15 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.scv_setting_notify:
 
                 if (mSettingPresenter.isMyServiceRunning()){
-                    setCopy(false,"剪切板监听功能已关闭");
+                    setCopy(false,"状态栏便捷入口已关闭");
                     stopService(new Intent(this, CopyService.class));
-                    Snackbar.make(mClSetting,"剪切板监听功能已关闭",Snackbar.LENGTH_SHORT).show();
+                    sPref.edit().putBoolean("notify",false).commit();
+                    Snackbar.make(nsvSetting,"状态栏便捷入口已关闭",Snackbar.LENGTH_SHORT).show();
                 }else {
-                    setCopy(true,"剪切板监听功能已开启");
+                    setCopy(true,"状态栏便捷入口已开启");
                     startService(new Intent(SettingActivity.this, CopyService.class));
-                    Snackbar.make(mClSetting,"剪切板监听功能已开启",Snackbar.LENGTH_SHORT).show();
+                    sPref.edit().putBoolean("notify",true).commit();
+                    Snackbar.make(nsvSetting,"状态栏便捷入口已开启",Snackbar.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -282,111 +285,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 //重置上锁密码
                 mSettingPresenter.resetPassword();
                 ssvLock.setTvShowText("点击设置密码");
-                Snackbar.make(mClSetting, "密码已清除，请点击上锁重新设置。", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(nsvSetting, "密码已清除，请点击上锁重新设置。", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.ssv_setting_backup:
-                //备份
-                mBackupFlag = true;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setIcon(R.drawable.item_save);
-                builder.setTitle("备份提醒");
-                builder.setMessage("点击确认进行备份操作...");
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        List<Note> allNote = DataSupport.findAll(Note.class);
-                        List<Image> allImage = DataSupport.findAll(Image.class);
-                        List<Voice> allVoice = DataSupport.findAll(Voice.class);
-                        List<Schedule> allSchedule = DataSupport.findAll(Schedule.class);
-                        /* @描述 备份note */
-                        for (int i = 0; i < allNote.size(); i++) {
-                            mBackupFlag = false;
-                            skkk.gogogo.dakainote.Bean.Note backupNote = new skkk.gogogo.dakainote.Bean.Note();
-                            backupNote.setTime(allNote.get(i).getTime());
-                            backupNote.setContent(allNote.get(i).getContent());
-                            backupNote.setGravity(allNote.get(i).getGravity());
-                            backupNote.setImageisexist(allNote.get(i).isImageIsExist());
-                            backupNote.setPinisexist(allNote.get(i).isPinIsExist());
-                            backupNote.setVoiceexist(allNote.get(i).isVoiceExist());
-                            backupNote.setKeynum(allNote.get(i).getKeyNum());
-                            backupNote.setTitle(allNote.get(i).getTitle());
-                            backupNote.save(new SaveListener<String>() {
-                                @Override
-                                public void done(String s, BmobException e) {
-                                    if (e == null) {
-                                        mBackupFlag = true;
-                                    } else {
-                                        mBackupFlag = false;
-                                    }
-                                }
-                            });
-                        }
-                        /* @描述 备份image */
-                        if (allImage.size()>0) {
-                            for (int i = 0; i < allImage.size(); i++) {
-                                mBackupFlag = false;
-                                skkk.gogogo.dakainote.Bean.Image backupImage = new skkk.gogogo.dakainote.Bean.Image();
-                                backupImage.setNum(allImage.get(i).getNum());
-                                backupImage.setImagePath(allImage.get(i).getImagePath());
-                                backupImage.save(new SaveListener<String>() {
-                                    @Override
-                                    public void done(String s, BmobException e) {
-                                        if (e == null) {
-                                            mBackupFlag = true;
-                                        } else {
-                                            mBackupFlag = false;
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                        /* @描述 备份Voice */
-                        if (allVoice.size()>0) {
-                            for (int i = 0; i < allVoice.size(); i++) {
-                                mBackupFlag = false;
-                                skkk.gogogo.dakainote.Bean.Voice backVoice = new skkk.gogogo.dakainote.Bean.Voice();
-                                backVoice.setNum(allVoice.get(i).getNum());
-                                backVoice.setVoicePath(allVoice.get(i).getVoicePath());
-                                backVoice.save(new SaveListener<String>() {
-                                    @Override
-                                    public void done(String s, BmobException e) {
-                                        if (e == null) {
-                                            mBackupFlag = true;
-                                        } else {
-                                            mBackupFlag = false;
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                        if (allSchedule.size()>0) {
-                        /* @描述 备份Schedule */
-                            for (int i = 0; i < allSchedule.size(); i++) {
-                                mBackupFlag = false;
-                                skkk.gogogo.dakainote.Bean.Schedule backupSchedule = new skkk.gogogo.dakainote.Bean.Schedule();
-                                backupSchedule.setScheduleChecked(allSchedule.get(i).isScheduleChecked());
-                                backupSchedule.setScheduleContent(allSchedule.get(i).getScheduleContent());
-                                backupSchedule.save(new SaveListener<String>() {
-                                    @Override
-                                    public void done(String s, BmobException e) {
-                                        if (e == null) {
-                                            mBackupFlag = true;
-                                        } else {
-                                            mBackupFlag = false;
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                        if (mBackupFlag) {
-                            Toast.makeText(SettingActivity.this,"OK",Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(SettingActivity.this,"FAIL",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                builder.setNegativeButton("取消", null);
-                builder.show();
 
                 break;
             case R.id.ssv_setting_resave:
@@ -427,4 +328,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     public void setResaveTime(String s) {
         ssvResave.setTvShowText(s);
     }
+
+    /* @描述 设置Dialog弹出方式 */
+    public void setDialogToastType(Dialog dialog){
+        Window windowShareType = dialog.getWindow();
+        windowShareType.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+        windowShareType.setWindowAnimations(R.style.MyDialogBottomStyle);  //添加动画
+    }
+
 }

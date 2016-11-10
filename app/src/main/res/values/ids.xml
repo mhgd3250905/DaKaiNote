@@ -153,6 +153,10 @@
     <item name="tb_share" type="id">tb_share</item>
     <item name="btn_share" type="id">btn_share</item>
     <item name="scv_setting_notify" type="id">scv_setting_notify</item>
+    <item name="iv_float" type="id">iv_float</item>
+    <item name="btn_float_save" type="id">btn_float_save</item>
+    <item name="btn_float_cancel" type="id">btn_float_cancel</item>
+    <item name="nsv_setting" type="id">nsv_setting</item>
 
 
 </resources>
