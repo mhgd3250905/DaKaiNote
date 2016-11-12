@@ -1,6 +1,9 @@
 package skkk.gogogo.dakainote.Activity.AuthorActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import skkk.gogogo.dakainote.Presenter.AuthorPresenter;
 import skkk.gogogo.dakainote.R;
@@ -20,7 +24,7 @@ public class AuthorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        authorPresenter=new AuthorPresenter(this);
+        authorPresenter = new AuthorPresenter(this);
 
 
         setMyTheme();
@@ -44,7 +48,6 @@ public class AuthorActivity extends AppCompatActivity {
     }
 
 
-
     /*
     * @方法 初始化UI
     * @参数
@@ -52,7 +55,7 @@ public class AuthorActivity extends AppCompatActivity {
     */
     private void initUI() {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -78,6 +81,27 @@ public class AuthorActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void github(View view) {
+        Uri uri = Uri.parse ("https://github.com/mhgd3250905/DaKaiNote");
+        Intent intent = new Intent (Intent.ACTION_VIEW, uri);
+        this.startActivity(intent);
+    }
+
+    public void mail(View view) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("plain/text");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"294851575@qq.com"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "白开水笔记反馈");
+        try {
+            if (!(this instanceof Activity)) {
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+            this.startActivity(intent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "未安装邮箱应用！", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

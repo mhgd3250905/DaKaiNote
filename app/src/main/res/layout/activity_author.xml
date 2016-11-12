@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/mainBackground"
     android:fitsSystemWindows="true"
     tools:context="skkk.gogogo.dakainote.Activity.SettingActivity.SettingActivity">
@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,12 +24,88 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@string/author"/>
-
+                app:title="@string/author" />
         </android.support.design.widget.AppBarLayout>
 
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/item_edit" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+
+                    android:text="作者：S大开"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:text="简介：一个BBoy"
+                    android:textSize="20dp" />
 
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#607d8b" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="10dp"
+                    android:paddingLeft="10dp"
+
+                    android:text="我清晨乘坐上海拥挤的地铁去上班\n下班回到宿舍已经是黑夜\n抽出空来学习并制作了白开水笔记\n如果你有任何建议\n点击下面的图标\n通过邮件的形式告诉我吧\n当然，还有我的github，别忘了关注哟...\n"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="160dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:onClick="mail"
+                        android:src="@drawable/email" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="160dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:onClick="github"
+                        android:src="@drawable/github" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
 

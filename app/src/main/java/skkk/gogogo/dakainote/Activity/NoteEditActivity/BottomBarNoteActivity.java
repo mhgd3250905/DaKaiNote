@@ -82,13 +82,7 @@ public class BottomBarNoteActivity extends VoiceNoteActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (change) {
-//                    if (boldFlag) {
-//                        change=false;
-//                        etFirstSchedule.append(Html.fromHtml("<big>"+s.toString()+"</big>"));
-//                        change=true;
-//                    }
-//                }
+
             }
 
             @Override

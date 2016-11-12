@@ -34,7 +34,6 @@ public class ShareActivity extends AppCompatActivity {
         initUI();
     }
 
-
     /* @描述 获得传入data */
     private void initData() {
         Intent intent = getIntent();
@@ -78,23 +77,21 @@ public class ShareActivity extends AppCompatActivity {
     /* @描述 绘制分享图片 */
     private Bitmap drawShareBitmap() {
         int height=0;
+        int textHeight=0;
         TextPaint textPaint = new TextPaint();
         textPaint.setARGB(255, 81, 80, 80);
         textPaint.setTextSize(30);
         textPaint.setAntiAlias(true);
         StaticLayout currentLayout = new StaticLayout(mContent, textPaint, 700,
                 Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, false);
-        height=currentLayout.getHeight()+400;
-
+        height=currentLayout.getHeight()+1000;
+        textHeight=currentLayout.getHeight()/10;
         Bitmap bitmapBG =  CameraImageUtils.resizeImage(
-                BitmapFactory.decodeResource(getResources(), R.drawable.share_bg)
+                BitmapFactory.decodeResource(getResources(), R.drawable.share_paper)
                         .copy(Bitmap.Config.ARGB_8888, true),800,height);
         Canvas canvas = new Canvas(bitmapBG);
-
-        canvas.drawText("分享来自白开水笔记",520,height-20,textPaint);
-
-        canvas.translate(50, 50);
-
+        canvas.drawText("分享来自白开水笔记",490,height-40-textHeight,textPaint);
+        canvas.translate(100, 150+textHeight);
         currentLayout.draw(canvas);
         return bitmapBG;
     }

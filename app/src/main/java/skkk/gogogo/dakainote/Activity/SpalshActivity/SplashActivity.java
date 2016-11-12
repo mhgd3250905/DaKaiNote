@@ -11,10 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +24,6 @@ import skkk.gogogo.dakainote.R;
 public class SplashActivity extends AppCompatActivity {
     private MyApplication mApplication;
     private SharedPreferences sPref;
-    private TextView tvSplash;
-    private ImageView ivSplash;
 
     private Handler splashHandler = new Handler() {
         @Override
@@ -61,14 +55,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mApplication = (MyApplication) getApplicationContext();
         setContentView(R.layout.activity_splash);
-        tvSplash= (TextView) findViewById(R.id.tv_splash_title);
-        ivSplash= (ImageView) findViewById(R.id.iv_splash);
-
-        ScaleAnimation scaleAnimation = new ScaleAnimation(0f,1f,0f,1f,
-                Animation.RELATIVE_TO_SELF,0.5f,
-                Animation.RELATIVE_TO_SELF,0.5f);
-        scaleAnimation.setDuration(500);
-        ivSplash.setAnimation(scaleAnimation);
 
         new Thread(new Runnable() {
             @Override

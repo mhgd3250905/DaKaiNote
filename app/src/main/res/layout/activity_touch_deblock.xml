@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?attr/mainBackground"
     tools:context="skkk.gogogo.dakainote.Activity.TouchDeblockActivity.TouchDeblockActivity">
 
     <skkk.gogogo.dakainote.View.TouchDeblockView.TouchDeblockingView
@@ -13,14 +14,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
 
-    <Button
-        android:onClick="settingPW"
-        android:text="设置密码"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:onClick="savePW"
-        android:text="保存密码"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
 </LinearLayout>
